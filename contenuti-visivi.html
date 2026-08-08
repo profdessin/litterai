@@ -321,6 +321,67 @@
     border-color: var(--color-secondary);
   }
 
+  /* ---------- MATERIALI SCARICABILI ---------- */
+  .download-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+  }
+
+  .download-card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 16px 18px;
+    transition: all 0.25s ease;
+  }
+  .download-card:hover {
+    border-color: var(--color-accent);
+    box-shadow: var(--shadow-soft);
+    transform: translateY(-2px);
+  }
+
+  .download-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .download-icon svg { width: 20px; height: 20px; }
+  .download-icon.icon-pdf { background: #FBE7E7; color: #B91C1C; }
+  .download-icon.icon-ppt { background: #FDECD8; color: #C2680C; }
+
+  .download-info {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+  .download-title {
+    font-weight: 600;
+    color: var(--color-primary);
+    font-size: 0.93rem;
+    line-height: 1.35;
+  }
+
+  .file-badge {
+    flex-shrink: 0;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    padding: 4px 10px;
+    border-radius: 20px;
+  }
+  .file-badge.badge-pdf { background: #B91C1C; color: #ffffff; }
+  .file-badge.badge-ppt { background: #C2680C; color: #ffffff; }
+
   /* ---------- CITAZIONE FINALE ---------- */
   .final-quote {
     text-align: center;
@@ -412,6 +473,13 @@
 </head>
 <body>
 
+  <!-- ==================== SPRITE ICONE ==================== -->
+  <svg width="0" height="0" style="position:absolute; overflow:hidden" aria-hidden="true">
+    <symbol id="icon-doc" viewBox="0 0 24 24">
+      <path fill="currentColor" d="M6 2a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6H6zm7 1.5L18.5 9H14a1 1 0 0 1-1-1V3.5zM8 13h8v1.5H8V13zm0 3.5h8V19H8v-1.5zm0-7h4V11H8V9.5z"/>
+    </symbol>
+  </svg>
+
   <header class="navbar" id="navbar">
     <div class="nav-inner">
       <a href="index.html" class="nav-brand">
@@ -434,7 +502,7 @@
 
  <div class="page-header" id="page-top">
 <div class="container">
-<h1>Lezione 06 — Dai contenuti alla rappresentazione visiva</h1>
+<h1>Dai contenuti alla rappresentazione visiva</h1>
 <p>Oltre le mappe: come individuare la struttura profonda di un contenuto e trasformarla nella forma grafica più efficace</p>
 </div>
 </div>
@@ -443,8 +511,8 @@
 <!-- ==================== NAV RAPIDA TRA LE PARTI ==================== -->
 <div class="part-nav">
 <a href="#parte1">Teoria e metodologia</a>
-<a href="#parte2">Laboratorio pratico</a>
-<a href="#parte3">Materiali</a>
+<a href="#parte2">Esercizi e laboratorio</a>
+<a href="#downloads">Materiali scaricabili</a>
 </div>
 <!-- ==================== PARTE 1 ==================== -->
 <section class="section-block" id="parte1">
@@ -565,10 +633,9 @@
 <li><strong>Confrontare due rappresentazioni:</strong> mostra alla classe lo stesso argomento rappresentato sia come mappa concettuale sia come tabella comparativa, analizzando insieme punti di forza e limiti di ciascuna forma.</li>
 <li><strong>Individuare le informazioni mancanti:</strong> chiedi agli studenti di analizzare un'infografica generata dall'IA e individuare quali concetti importanti del libro di testo sono stati omessi nella sintesi visiva.</li>
 </ol>
-  
 </div>
 
-  <p class="final-quote">"Una rappresentazione visiva non è efficace perché è bella: è efficace quando rende più comprensibile la struttura del contenuto."</p>
+<p class="final-quote">"Una rappresentazione visiva non è efficace perché è bella: è efficace quando rende più comprensibile la struttura del contenuto."</p>
 
 <div class="back-to-top-wrap">
 <a class="back-to-top" href="#page-top">↑ Torna all'inizio</a>
@@ -578,7 +645,7 @@
 <section class="section-block" id="parte2">
 <span class="section-tag-header lab">Laboratorio pratico</span>
 <h2 class="section-title">Esercizi e laboratorio pratico</h2>
-<p>Schede applicative e laboratorio autonomo per mettere in pratica le competenze.</p>
+<p>Esercizi applicativi e laboratorio autonomo per mettere in pratica le competenze.</p>
 
 <div class="exercise-card">
 <h4 class="exercise-title">Esercizio 1 — Analisi del contenuto e scelta della forma</h4>
@@ -608,59 +675,55 @@
 <p>Fai generare al tuo chatbot una tabella o una timeline su un argomento di studio. Chiedi poi all'IA di trasformarla in una scheda di esercitazione con il 30% delle informazioni rimosse, per la valutazione formativa in classe.</p>
 </div>
 
-
 <div class="back-to-top-wrap">
 <a class="back-to-top" href="#page-top">↑ Torna all'inizio</a>
 </div>
 </section>
 
-        <!-- ==================== MATERIALI SCARICABILI ==================== -->
-      <section class="section-block" id="downloads">
-        <span class="section-tag-header">Risorse e Download</span>
-
-        <div class="download-grid">
-          <a href="download/prompting.pdf" class="download-card" target="_blank" rel="noopener noreferrer">
-            <span class="download-icon icon-pdf" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#icon-doc"></use></svg></span>
-            <span class="download-info">
-              <span class="download-title">Foglio di riepilogo stampabile sul prompting (Sezione 1)</span>
-            </span>
-            <span class="file-badge badge-pdf">PDF</span>
-          </a>
-
-          <a href="download/esercizi-prompting.pdf" class="download-card" target="_blank" rel="noopener noreferrer">
-            <span class="download-icon icon-pdf" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#icon-doc"></use></svg></span>
-            <span class="download-info">
-              <span class="download-title">Foglio di riepilogo stampabile sugli esercizi (Sezione 2)</span>
-            </span>
-            <span class="file-badge badge-pdf">PDF</span>
-          </a>
-
-          <a href="download/presentazione-prompting.pdf" class="download-card" target="_blank" rel="noopener noreferrer">
-            <span class="download-icon icon-ppt" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#icon-doc"></use></svg></span>
-            <span class="download-info">
-              <span class="download-title">Presentazione sul prompting (Sezione 1)</span>
-            </span>
-            <span class="file-badge badge-ppt">PPT</span>
-          </a>
-
-          <a href="download/presentazione-esercizi-prompting.pdf" class="download-card" target="_blank" rel="noopener noreferrer">
-            <span class="download-icon icon-ppt" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#icon-doc"></use></svg></span>
-            <span class="download-info">
-              <span class="download-title">Presentazione sugli esercizi (Sezione 2)</span>
-            </span>
-            <span class="file-badge badge-ppt">PPT</span>
-          </a>
-        </div>
-
-        <div class="back-to-top-wrap">
-          <a href="#page-top" class="back-to-top">↑ Torna all'inizio</a>
-        </div>
-      </section>
+<!-- ==================== RISORSE E DOWNLOAD ==================== -->
+<section class="section-block" id="downloads">
+<span class="section-tag-header">Risorse e Download</span>
+<h2 class="section-title">Materiali della lezione</h2>
+<p>Scarica le schede riassuntive e i materiali operativi da utilizzare in classe o come riferimento personale.</p>
+<div class="download-grid">
+<a class="download-card" href="download/lezione-06-guida-forme-visive.pdf" rel="noopener noreferrer" target="_blank">
+<span aria-hidden="true" class="download-icon icon-pdf"><svg viewBox="0 0 24 24"><use href="#icon-doc"></use></svg></span>
+<span class="download-info">
+<span class="download-title">Guida alle sette forme visive</span>
+</span>
+<span class="file-badge badge-pdf">PDF</span>
+</a>
+<a class="download-card" href="download/lezione-06-prompt-guidati.pdf" rel="noopener noreferrer" target="_blank">
+<span aria-hidden="true" class="download-icon icon-pdf"><svg viewBox="0 0 24 24"><use href="#icon-doc"></use></svg></span>
+<span class="download-info">
+<span class="download-title">Prompt guidati per tabelle, timeline e diagrammi</span>
+</span>
+<span class="file-badge badge-pdf">PDF</span>
+</a>
+<a class="download-card" href="download/lezione-06-esercizi-laboratorio.pdf" rel="noopener noreferrer" target="_blank">
+<span aria-hidden="true" class="download-icon icon-pdf"><svg viewBox="0 0 24 24"><use href="#icon-doc"></use></svg></span>
+<span class="download-info">
+<span class="download-title">Schede esercizi del laboratorio</span>
+</span>
+<span class="file-badge badge-pdf">PDF</span>
+</a>
+<a class="download-card" href="download/lezione-06-slide.pptx" rel="noopener noreferrer" target="_blank">
+<span aria-hidden="true" class="download-icon icon-ppt"><svg viewBox="0 0 24 24"><use href="#icon-doc"></use></svg></span>
+<span class="download-info">
+<span class="download-title">Slide della lezione</span>
+</span>
+<span class="file-badge badge-ppt">PPT</span>
+</a>
+</div>
+<div class="back-to-top-wrap">
+<a class="back-to-top" href="#page-top">↑ Torna all'inizio</a>
+</div>
+</section>
 
 <!-- ==================== BOTTONI DI NAVIGAZIONE ==================== -->
 <div class="navigation-buttons">
-<a class="btn btn-secondary" href="lezione-05.html">← Lezione precedente: Mappe concettuali</a>
-<a class="btn btn-primary" href="lezione-07.html">Lezione successiva →</a>
+<a href="mappe.html" class="btn btn-secondary">← Lezione precedente: La creazione di mappe concettuali</a>
+<a href="audio.html" class="btn btn-primary">Lezione successiva: La creazione di audio e podcast →</a>
 </div>
 </div>
 </div>
