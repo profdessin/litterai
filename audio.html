@@ -1,1 +1,904 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La voce dell'IA: audio, podcast e musica — LitterAI</title>
+<link rel="icon" type="image/png" href="image/logo-sfondo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,500;0,600;0,700;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --color-primary: #0E3A52;   /* Blu Petrolio Scuro: Navbar, Footer, Intestazioni */
+    --color-accent: #19B5E8;    /* Ciano / Blu AI: Dettagli, Link, Pulsanti */
+    --color-secondary: #126A8A; /* Blu Intermedio: Sottotitoli */
+    --color-header: #BEE6F5;    /* Celeste intermedio */
+    --color-bg: #E9F4FA;        /* Sfondo pagina */
+    --color-surface: #F4FAFD;   /* Sfondo dei contenitori */
+    --color-text: #1E293B;      /* Grigio scuro/blu per testi */
+    --color-border: #E2E8F0;    /* Grigio leggero per linee */
+    --radius: 14px;
+    --shadow-soft: 0 8px 24px rgba(14, 58, 82, 0.08);
+  }
 
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+  
+  h1, h2, h3, h4, h5, .logo-text { 
+    font-family: 'Fraunces', serif; 
+    color: var(--color-primary); 
+  }
+  
+  a { text-decoration: none; color: inherit; }
+  ul, ol { margin-bottom: 20px; padding-left: 24px; }
+  li { margin-bottom: 8px; }
+  p { margin-bottom: 16px; }
+
+  .container { 
+    max-width: 960px; 
+    margin: 0 auto; 
+    padding: 0 24px; 
+  }
+
+  /* ---------- NAVBAR ---------- */
+  .navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background: var(--color-primary);
+    border-bottom: 1px solid var(--color-secondary);
+    transition: box-shadow 0.3s ease;
+  }
+  .navbar.scrolled { box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); }
+  
+  .nav-inner { 
+    display: flex; 
+    align-items: center; 
+    justify-content: space-between; 
+    padding: 12px 24px; 
+    max-width: 1150px; 
+    margin: 0 auto; 
+  }
+  
+  .nav-brand img { 
+    height: 40px; 
+    width: auto; 
+    display: block; 
+    filter: brightness(0) invert(1); 
+  }
+  
+  .nav-links { display: flex; gap: 2.2rem; }
+  .nav-links a { 
+    font-size: 0.95rem; 
+    font-weight: 500; 
+    color: #E8F3F8; 
+    position: relative; 
+    padding: 4px 0; 
+    transition: color 0.25s ease; 
+  }
+  .nav-links a::after { 
+    content: ""; 
+    position: absolute; 
+    bottom: -2px; 
+    left: 0; 
+    width: 0; 
+    height: 2px; 
+    background: var(--color-accent); 
+    transition: width 0.3s ease; 
+  }
+  .nav-links a:hover { color: var(--color-accent); }
+  .nav-links a:hover::after { width: 100%; }
+  
+  .nav-toggle { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; z-index: 1001; }
+  .nav-toggle span { width: 26px; height: 2.5px; background: #E8F3F8; border-radius: 2px; transition: all 0.3s ease; }
+
+  /* ---------- PAGE HEADER ---------- */
+  .page-header { 
+    padding: 140px 24px 60px; 
+    background: var(--color-header); 
+    text-align: center; 
+    border-bottom: 1px solid var(--color-border); 
+    scroll-margin-top: 90px;
+  }
+  .page-header h1 { font-size: clamp(2.2rem, 4.5vw, 3.2rem); margin-bottom: 12px; }
+  .page-header p { font-size: 1.15rem; color: var(--color-secondary); font-weight: 500; max-width: 750px; margin: 0 auto; }
+  
+  /* ---------- STILI SEZIONI DIDATTICHE ---------- */
+  .main-wrapper { padding: 60px 0; }
+  
+  .section-block {
+    background: #ffffff;
+    border-radius: var(--radius);
+    padding: 45px;
+    margin-bottom: 50px;
+    box-shadow: var(--shadow-soft);
+    border: 1px solid var(--color-border);
+    scroll-margin-top: 90px;
+  }
+
+  .section-tag-header {
+    display: inline-block;
+    background: var(--color-primary);
+    color: #ffffff;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    padding: 6px 16px;
+    border-radius: 50px;
+    margin-bottom: 25px;
+  }
+
+  .section-tag-header.lab {
+    background: var(--color-secondary);
+  }
+
+  h2.section-title {
+    font-size: 2.1rem;
+    margin-bottom: 25px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--color-bg);
+  }
+
+  h3.phase-title {
+    font-size: 1.5rem;
+    margin: 40px 0 15px;
+    color: var(--color-secondary);
+  }
+
+  h4.sub-phase-title {
+    font-size: 1.2rem;
+    margin: 25px 0 10px;
+    color: var(--color-primary);
+  }
+
+  h4.exercise-title {
+    font-size: 1.1rem;
+    margin: 20px 0 8px;
+    color: var(--color-primary);
+  }
+
+  blockquote.prompt-box {
+    background-color: var(--color-surface);
+    border-left: 4px solid var(--color-accent);
+    padding: 18px 22px;
+    margin: 12px 0 20px;
+    border-radius: 0 var(--radius) var(--radius) 0;
+    font-size: 0.96rem;
+    color: var(--color-text);
+  }
+  blockquote.prompt-box strong { color: var(--color-primary); }
+
+  .note-box {
+    background-color: #EBF8FF;
+    border-left: 4px solid var(--color-accent);
+    padding: 12px 16px;
+    margin: 15px 0 20px;
+    font-size: 0.9rem;
+    color: var(--color-primary);
+    border-radius: 0 8px 8px 0;
+  }
+
+  .rcif-list {
+    background: var(--color-bg);
+    padding: 20px 25px;
+    border-radius: 10px;
+    margin: 15px 0 25px;
+  }
+  .rcif-list ul, .rcif-list ol { margin-bottom: 0; }
+  .rcif-list li:last-child { margin-bottom: 0; }
+
+  .exercise-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 25px;
+    margin: 25px 0;
+  }
+
+  /* ---------- TABELLE COMPARATIVE ---------- */
+  .table-responsive {
+    overflow-x: auto;
+    margin: 20px 0 25px;
+  }
+
+  .summary-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+    text-align: left;
+  }
+
+  .summary-table th {
+    background-color: var(--color-primary);
+    color: #ffffff;
+    padding: 12px 14px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .summary-table td {
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--color-border);
+    vertical-align: top;
+  }
+
+  .summary-table tr:nth-child(even) {
+    background-color: var(--color-surface);
+  }
+
+  .summary-table td ul {
+    margin: 0;
+    padding-left: 16px;
+    font-size: 0.86rem;
+  }
+  .summary-table td ul li { margin-bottom: 4px; }
+  .summary-table td ul li:last-child { margin-bottom: 0; }
+
+  .summary-table strong.tool-name {
+    color: var(--color-primary);
+  }
+
+  .tool-cell {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    min-width: 120px;
+  }
+
+  .tag-category {
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    padding: 3px 9px;
+    border-radius: 20px;
+    background: var(--color-bg);
+    color: var(--color-secondary);
+    border: 1px solid var(--color-border);
+  }
+
+  /* ---------- FLUSSO / SCHEMA ---------- */
+  .flow-diagram {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: var(--color-bg);
+    border-radius: 10px;
+    padding: 22px;
+    margin: 15px 0 25px;
+  }
+  .flow-step {
+    background: #ffffff;
+    border: 1px solid var(--color-border);
+    color: var(--color-primary);
+    font-weight: 600;
+    font-size: 0.92rem;
+    padding: 10px 18px;
+    border-radius: 8px;
+    box-shadow: var(--shadow-soft);
+  }
+  .flow-arrow {
+    color: var(--color-accent);
+    font-weight: 700;
+    font-size: 1.1rem;
+  }
+
+  /* ---------- NAV RAPIDA TRA LE PARTI ---------- */
+  .part-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 40px;
+  }
+  .part-nav a {
+    background: var(--color-primary);
+    color: #ffffff;
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 10px 20px;
+    border-radius: 50px;
+    box-shadow: 0 4px 14px rgba(14, 58, 82, 0.15);
+    transition: all 0.25s ease;
+  }
+  .part-nav a:hover {
+    background: var(--color-secondary);
+    transform: translateY(-2px);
+  }
+
+  .back-to-top-wrap {
+    text-align: right;
+    margin-top: 35px;
+  }
+  .back-to-top {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-secondary);
+    border: 1px solid var(--color-border);
+    padding: 8px 16px;
+    border-radius: 50px;
+    transition: all 0.25s ease;
+  }
+  .back-to-top:hover {
+    background: var(--color-bg);
+    color: var(--color-primary);
+    border-color: var(--color-secondary);
+  }
+
+  /* ---------- MATERIALI SCARICABILI ---------- */
+  .download-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+  }
+
+  .download-card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 16px 18px;
+    transition: all 0.25s ease;
+  }
+  .download-card:hover {
+    border-color: var(--color-accent);
+    box-shadow: var(--shadow-soft);
+    transform: translateY(-2px);
+  }
+
+  .download-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .download-icon svg { width: 20px; height: 20px; }
+  .download-icon.icon-pdf { background: #FBE7E7; color: #B91C1C; }
+  .download-icon.icon-ppt { background: #FDECD8; color: #C2680C; }
+
+  .download-info {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+  .download-title {
+    font-weight: 600;
+    color: var(--color-primary);
+    font-size: 0.93rem;
+    line-height: 1.35;
+  }
+
+  .file-badge {
+    flex-shrink: 0;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    padding: 4px 10px;
+    border-radius: 20px;
+  }
+  .file-badge.badge-pdf { background: #B91C1C; color: #ffffff; }
+  .file-badge.badge-ppt { background: #C2680C; color: #ffffff; }
+
+  /* ---------- CITAZIONE FINALE ---------- */
+  .final-quote {
+    text-align: center;
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 1.25rem;
+    color: var(--color-primary);
+    max-width: 700px;
+    margin: 10px auto 5px;
+    line-height: 1.5;
+  }
+
+  /* ---------- PULSANTI FINALI DI NAVIGAZIONE ---------- */
+  .navigation-buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    margin-top: 40px;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px 28px;
+    font-weight: 600;
+    font-size: 1rem;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    text-align: center;
+  }
+
+  .btn-secondary {
+    background: #ffffff;
+    color: var(--color-primary);
+    border: 2px solid var(--color-primary);
+  }
+  .btn-secondary:hover {
+    background: var(--color-bg);
+    transform: translateY(-2px);
+  }
+
+  .btn-primary {
+    background: var(--color-primary);
+    color: #ffffff;
+    border: 2px solid var(--color-primary);
+    box-shadow: 0 4px 14px rgba(14, 58, 82, 0.2);
+  }
+  .btn-primary:hover {
+    background: var(--color-secondary);
+    border-color: var(--color-secondary);
+    transform: translateY(-2px);
+  }
+
+  /* ---------- FOOTER ---------- */
+  footer { 
+    background: var(--color-primary); 
+    color: #E8F3F8; 
+    text-align: center; 
+    padding: 34px 24px; 
+    border-top: 1px solid var(--color-secondary); 
+  }
+  footer p { font-size: 0.92rem; color: #BFE3F0; letter-spacing: 0.3px; }
+  footer .footer-logo { font-family: 'Fraunces', serif; font-weight: 700; color: var(--color-accent); }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width: 768px) {
+    .nav-links { 
+      position: fixed; top: 0; right: -100%; width: 70%; max-width: 320px; height: 100vh; 
+      background: var(--color-primary); 
+      flex-direction: column; justify-content: center; align-items: center; gap: 2.2rem; 
+      transition: right 0.4s ease; box-shadow: -8px 0 30px rgba(0,0,0,0.25); 
+    }
+    .nav-links.active { right: 0; }
+    .nav-toggle { display: flex; }
+    .nav-toggle.active span:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
+    .nav-toggle.active span:nth-child(2) { opacity: 0; }
+    .nav-toggle.active span:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
+    
+    .section-block { padding: 25px; }
+    .navigation-buttons { flex-direction: column; }
+    .btn { width: 100%; }
+    .back-to-top-wrap { text-align: left; }
+    .flow-diagram { flex-direction: column; }
+    .flow-arrow { transform: rotate(90deg); }
+  }
+</style>
+</head>
+<body>
+
+  <!-- ==================== SPRITE ICONE ==================== -->
+  <svg width="0" height="0" style="position:absolute; overflow:hidden" aria-hidden="true">
+    <symbol id="icon-doc" viewBox="0 0 24 24">
+      <path fill="currentColor" d="M6 2a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6H6zm7 1.5L18.5 9H14a1 1 0 0 1-1-1V3.5zM8 13h8v1.5H8V13zm0 3.5h8V19H8v-1.5zm0-7h4V11H8V9.5z"/>
+    </symbol>
+  </svg>
+
+  <header class="navbar" id="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-brand">
+        <img src="image/logo.png" alt="LitterAI">
+      </a>
+      <nav>
+        <ul class="nav-links" id="navLinks">
+          <li><a href="index.html#home" class="nav-link-item">Home</a></li>
+          <li><a href="index.html#lezioni" class="nav-link-item">Lezioni</a></li>
+          <li><a href="#footer-info" class="nav-link-item">Info</a></li>
+        </ul>
+      </nav>
+      <button class="nav-toggle" id="navToggle" aria-label="Apri menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+ <div class="page-header" id="page-top">
+<div class="container">
+<h1>La creazione di audio, podcast e musica</h1>
+<p>La voce dell'IA dalla sintesi vocale alla composizione musicale: strumenti e strategie di prompting per creare contenuti sonori a supporto della didattica</p>
+</div>
+</div>
+<div class="main-wrapper">
+<div class="container">
+<!-- ==================== NAV RAPIDA TRA LE PARTI ==================== -->
+<div class="part-nav">
+<a href="#parte1">Il prompting audio</a>
+<a href="#parte2">I tre pilastri</a>
+<a href="#parte3">Confronto tool</a>
+<a href="#parte4">Applicazioni ed etica</a>
+<a href="#parte5">Prompt cookbook</a>
+<a href="#parte6">Laboratorio pratico</a>
+<a href="#downloads">Risorse e Download</a>
+</div>
+
+<!-- ==================== PARTE 1 ==================== -->
+<section class="section-block" id="parte1">
+<span class="section-tag-header">Teoria e metodologia</span>
+<h2 class="section-title">Il prompting per l'audio e la musica</h2>
+<p>Prima di generare audio o musica, occorre comprendere che i modelli sonori rispondono a parametri differenti rispetto a quelli puramente testuali. Se nella scrittura il prompt costruisce frasi e argomentazioni, e nella creazione di immagini definisce soggetto, stile e composizione, in ambito audio il prompt deve guidare elementi come tono, ritmo, genere musicale e strumentazione: dimensioni che non hanno un vero equivalente nel testo scritto.</p>
+
+<h3 class="phase-title">Modulo 1.1: Guidare la voce e il parlato</h3>
+<p>Quando l'obiettivo è generare una voce narrante o una lettura espressiva, l'IA ha bisogno di indicazioni precise su come "recitare" il testo, non solo su cosa dire. Tre famiglie di parametri fanno la differenza:</p>
+<div class="rcif-list">
+<ul>
+<li><strong>Tono e atmosfera:</strong> serio, entusiasta, narrativo, solenne, calmo.</li>
+<li><strong>Caratteristiche dello speaker:</strong> età presunta, genere, accento, ritmo di lettura.</li>
+<li><strong>Contesto:</strong> ad esempio "Leggi come se stessi raccontando una fiaba a bambini" oppure "Leggi come un lettore del telegiornale".</li>
+</ul>
+</div>
+
+<h3 class="phase-title">Modulo 1.2: Guidare la musica e la composizione</h3>
+<p>Per la generazione musicale il prompt funziona in modo analogo, ma i parametri da specificare riguardano lo stile sonoro e la struttura del brano, più che il contenuto verbale:</p>
+<div class="rcif-list">
+<ul>
+<li><strong>Genere e sottogenere:</strong> pop anni '80, synthwave, lofi hip-hop, musica classica epica, folk, rap.</li>
+<li><strong>Strumentazione e mood:</strong> pianoforte acustico, chitarra distorta, ritmico, malinconico, motivazionale.</li>
+<li><strong>Struttura del brano:</strong> indicare chiaramente se si desidera un brano con testo cantato o un sottofondo puramente strumentale.</li>
+</ul>
+</div>
+<div class="note-box">
+          💡 <strong>Idea chiave:</strong> più il prompt è specifico su tono, ritmo e stile, più il risultato sonoro sarà controllato, coerente e riutilizzabile in classe — evitando di dover rigenerare più volte lo stesso audio.</div>
+
+<div class="back-to-top-wrap">
+<a class="back-to-top" href="#page-top">↑ Torna all'inizio</a>
+</div>
+</section>
+
+<!-- ==================== PARTE 2 ==================== -->
+<section class="section-block" id="parte2">
+<span class="section-tag-header">Strumenti e applicazioni</span>
+<h2 class="section-title">I tre pilastri della creazione audio</h2>
+<p>La produzione audio con l'IA applicata alla didattica si può ricondurre a tre grandi famiglie di utilizzo, ciascuna con strumenti e finalità proprie: la sintesi vocale, il podcast automatico e la generazione musicale.</p>
+
+<h3 class="phase-title">Modulo 2.1: Sintesi vocale e lettura inclusiva (Text-to-Speech)</h3>
+<p>Il primo pilastro riguarda la capacità dell'IA di trasformare qualsiasi testo in una voce naturale, espressiva e modulabile: è la tecnologia alla base della sintesi vocale, o Text-to-Speech (TTS).</p>
+<h4 class="sub-phase-title">Casi d'uso didattici</h4>
+<div class="rcif-list">
+<ul>
+<li>Creazione di audio-lezioni accessibili per studenti con DSA o non vedenti.</li>
+<li>Lettura drammatizzata o recitazione di testi storici/letterari con voci e intonazioni diverse.</li>
+</ul>
+</div>
+<h4 class="sub-phase-title">Strumenti consigliati per la prova</h4>
+<div class="rcif-list">
+<ul>
+<li><strong>ElevenLabs</strong> — estremamente naturale, ottimo piano gratuito.</li>
+<li><strong>Murf.ai</strong> o le funzionalità TTS integrate nei principali software scolastici.</li>
+</ul>
+</div>
+
+<h3 class="phase-title">Modulo 2.2: Il podcast automatico e la conversazione</h3>
+<p>Il secondo pilastro consiste nel creare discussioni audio e podcast a partire da documenti di studio come PDF, appunti o articoli.</p>
+<h4 class="sub-phase-title">Il caso principale: NotebookLM e l'Audio Overview</h4>
+<p>NotebookLM permette di caricare un documento — ad esempio un saggio o un capitolo di libro — e di far generare all'IA un podcast in stile "intervista tra due speaker", che discutono e riassumono i contenuti caricati in modo naturale e scorrevole.</p>
+<h4 class="sub-phase-title">Casi d'uso didattici</h4>
+<div class="rcif-list">
+<ul>
+<li>Fornire agli studenti un riassunto parlato prima di un ripasso.</li>
+<li>Far creare agli studenti stessi il proprio podcast partendo dalle loro ricerche di gruppo.</li>
+</ul>
+</div>
+
+<h3 class="phase-title">Modulo 2.3: Generazione di musica e canzoni didattiche</h3>
+<p>Il terzo pilastro riguarda la possibilità di trasformare parole chiave, poesie o formule in brani musicali completi, comprensivi di voce e strumenti.</p>
+<h4 class="sub-phase-title">Casi d'uso didattici</h4>
+<div class="rcif-list">
+<ul>
+<li><strong>Musica mnemonica:</strong> trasformare regole grammaticali, eventi storici o poesie in canzoni (pop, rap, rock, classica) per facilitare la memorizzazione.</li>
+<li><strong>Colonna sonora:</strong> generare sottofondi musicali per presentazioni, recite scolastiche o video.</li>
+</ul>
+</div>
+<h4 class="sub-phase-title">Strumenti consigliati per la prova</h4>
+<div class="rcif-list">
+<ul>
+<li><strong>Suno</strong> — molto intuitivo, genera testo e musica da un semplice prompt o accetta testi scritti dall'utente.</li>
+<li><strong>Udio</strong> — ottima qualità musicale e controllo dello stile.</li>
+</ul>
+</div>
+
+<div class="back-to-top-wrap">
+<a class="back-to-top" href="#page-top">↑ Torna all'inizio</a>
+</div>
+</section>
+
+<!-- ==================== PARTE 3 ==================== -->
+<section class="section-block" id="parte3">
+<span class="section-tag-header">Strumenti e applicazioni</span>
+<h2 class="section-title">Panoramica e confronto dei tool</h2>
+<p>Ogni pilastro della creazione audio si appoggia a strumenti con caratteristiche molto diverse tra loro. Prima di scegliere quale proporre in classe o quale sperimentare in laboratorio, è utile avere un quadro comparativo di pro e contro.</p>
+
+<h3 class="phase-title">Modulo 3.1: Tabella comparativa degli strumenti audio</h3>
+<div class="table-responsive">
+<table class="summary-table">
+<thead>
+<tr>
+<th>Strumento</th>
+<th>Descrizione</th>
+<th>Ideale per...</th>
+<th>Pro</th>
+<th>Contro</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<div class="tool-cell">
+<strong class="tool-name">Chatbot canonici</strong>
+<span class="tag-category">ChatGPT, Gemini</span>
+</div>
+</td>
+<td>Integrazione di funzioni vocali avanzate (Voice Mode) per interagire e generare conversazioni parlate in tempo reale.</td>
+<td>Interazioni vocali dirette, simulazioni di colloqui, ascolto e pronuncia delle lingue.</td>
+<td>Nativi nell'ambiente che i corsisti già conoscono; conversazione fluida e naturale.</td>
+<td>Meno controllo sulla personalizzazione fine della voce o sulla generazione di file audio strutturati/esportabili.</td>
+</tr>
+<tr>
+<td>
+<div class="tool-cell">
+<strong class="tool-name">NotebookLM</strong>
+<span class="tag-category">Podcast</span>
+</div>
+</td>
+<td>Tool di Google che analizza i documenti caricati e genera una discussione audio tra due speaker virtuali.</td>
+<td>Creare podcast riassuntivi a partire da dispense, articoli e fonti di studio.</td>
+<td>Estremamente accurato sui documenti caricati; genera un podcast completo con un solo clic.</td>
+<td>Minore controllo sul testo esatto pronunciato dagli speaker; stile della conversazione prefissato.</td>
+</tr>
+<tr>
+<td>
+<div class="tool-cell">
+<strong class="tool-name">ElevenLabs</strong>
+<span class="tag-category">Sintesi vocale</span>
+</div>
+</td>
+<td>Piattaforma leader nella sintesi vocale (Text-to-Speech) ad altissima fedeltà e clonazione vocale.</td>
+<td>Audio-lezioni espressive, audiolibri, lettura drammatizzata di testi e poesie.</td>
+<td>Voci incredibilmente umane e naturali; controllo preciso di intonazione ed emozioni.</td>
+<td>Piano gratuito limitato nei caratteri mensili; richiede una gestione attenta dei crediti.</td>
+</tr>
+<tr>
+<td>
+<div class="tool-cell">
+<strong class="tool-name">Suno</strong>
+<span class="tag-category">Musica generativa</span>
+</div>
+</td>
+<td>Modello di IA generativa musicale in grado di produrre brani completi (voce + strumenti) da un prompt o da un testo.</td>
+<td>Canzoni didattiche, sigle per podcast scolastici, sottofondi musicali per presentazioni.</td>
+<td>Facilissimo da usare; qualità musicale sorprendente; accetta testi scritti dall'utente.</td>
+<td>Meno controllo sul mixaggio o sui singoli strumenti musicali della traccia.</td>
+</tr>
+<tr>
+<td>
+<div class="tool-cell">
+<strong class="tool-name">Udio</strong>
+<span class="tag-category">Musica generativa</span>
+</div>
+</td>
+<td>Piattaforma di generazione musicale IA ad alta qualità con controlli avanzati sullo stile e la struttura.</td>
+<td>Produzione musicale dettagliata, sottofondi per video e progetti creativi.</td>
+<td>Elevata qualità sonora e grande flessibilità sugli stili musicali.</td>
+<td>Curva di apprendimento leggermente più ripida rispetto a Suno per chi è alle prime armi.</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div class="back-to-top-wrap">
+<a class="back-to-top" href="#page-top">↑ Torna all'inizio</a>
+</div>
+</section>
+
+<!-- ==================== PARTE 4 ==================== -->
+<section class="section-block" id="parte4">
+<span class="section-tag-header">Applicazioni e consapevolezza</span>
+<h2 class="section-title">Applicazioni didattiche e aspetti etici</h2>
+<p>Una volta acquisita familiarità con i tre pilastri e gli strumenti disponibili, è utile vedere come tradurli in attività concrete da proporre in classe — senza dimenticare le responsabilità che l'uso dell'audio generativo comporta.</p>
+
+<h3 class="phase-title">Modulo 4.1: Attività didattiche suggerite</h3>
+
+<div class="exercise-card">
+<h4 class="exercise-title">1. La pillola ripasso in podcasting</h4>
+<p>Creare brevi audio-riassunti (2-3 minuti) di capitoli o argomenti di verifica, accessibili via QR code sulle schede cartacee o sul registro elettronico.</p>
+</div>
+
+<div class="exercise-card">
+<h4 class="exercise-title">2. Inclusione e accessibilità (DSA / BES)</h4>
+<p>Convertire testi di studio, schede di verifica o brani antologici in file audio espressivi e ben ritmati, per facilitare la comprensione agli studenti con difficoltà di lettura.</p>
+</div>
+
+<div class="exercise-card">
+<h4 class="exercise-title">3. Puntate podcast di classe (storytelling)</h4>
+<p>Far svolgere una ricerca di gruppo agli studenti e far sintetizzare i loro elaborati sotto forma di intervista audio o podcast narrativo su un evento storico o un autore letterario.</p>
+</div>
+
+<div class="exercise-card">
+<h4 class="exercise-title">4. La canzone mnemonica didattica</h4>
+<p>Trasformare formule, regole grammaticali, date storiche o poesie in brani musicali (es. una canzone pop o rap) per facilitare la memorizzazione e l'apprendimento attivo.</p>
+</div>
+
+<h3 class="phase-title">Modulo 4.2: Aspetti etici e precauzioni didattiche</h3>
+<p>L'uso della voce e della musica generate dall'IA in ambito scolastico richiede alcune attenzioni specifiche, da condividere anche con gli studenti.</p>
+<div class="rcif-list">
+<ul>
+<li><strong>Clonazione vocale (Voice Cloning):</strong> sensibilizzare sull'uso improprio della voce altrui e sui rischi legati ai deepfake audio.</li>
+<li><strong>Copyright e licenze:</strong> verificare i termini d'uso delle piattaforme per l'utilizzo dei brani e degli audio generati all'interno di progetti scolastici pubblici o su canali della scuola.</li>
+<li><strong>Riconoscimento dell'IA:</strong> insegnare agli studenti a dichiarare sempre quando un audio o un brano musicale è stato generato con il supporto dell'intelligenza artificiale.</li>
+</ul>
+</div>
+<div class="note-box">
+          ⚖️ <strong>Attenzione:</strong> prima di pubblicare un podcast o un brano su canali ufficiali della scuola, verificate sempre licenza d'uso della piattaforma e consenso di eventuali voci reali coinvolte.</div>
+
+<div class="back-to-top-wrap">
+<a class="back-to-top" href="#page-top">↑ Torna all'inizio</a>
+</div>
+</section>
+
+<!-- ==================== PARTE 5 ==================== -->
+<section class="section-block" id="parte5">
+<span class="section-tag-header">Prompt cookbook</span>
+<h2 class="section-title">Prompt cookbook: ricette per l'audio e la musica</h2>
+<p>In questa sezione trovate formule già testate, da utilizzare direttamente o da adattare alle vostre esigenze didattiche: alcune sono pronte all'uso, altre vanno completate con i contenuti della vostra materia.</p>
+
+<h3 class="phase-title">Modulo 5.1: Prompt "pronti all'uso" (Categoria A)</h3>
+
+<p><strong>1. Lettura teatrale/narrativa per sintesi vocale</strong> <em>(ElevenLabs / TTS — Voce narrante / Drammatizzazione)</em></p>
+<blockquote class="prompt-box">"Leggi il seguente testo con un tono solenne, profondo ed espressivo, come se fossi un attore di teatro che sta recitando un prologo storico davanti a un pubblico attento. Mantieni un ritmo moderato, facendo brevi pause strategiche prima dei concetti chiave."</blockquote>
+
+<p><strong>2. Sigla per podcast scolastico</strong> <em>(Suno / Udio — Musica / Sigla)</em></p>
+<blockquote class="prompt-box">"Sottofondo musicale per sigla di un podcast scolastico di divulgazione scientifica. Stile Lofi Hip-Hop, ritmo moderato e rilassante, con pianoforte acustico e beat delicato. Senza voce, solo strumentale. Atmosfera curiosa e stimolante."</blockquote>
+
+<p><strong>3. Simulazione di intervista immersiva</strong> <em>(ChatGPT / Gemini — Chatbot vocale / Roleplay)</em></p>
+<blockquote class="prompt-box">"Agisci come se fossi un giornalista radiofonico degli anni '30. Fammi domande una alla volta per intervistarmi sulla scoperta della penicillina. Mantieni un tono incalzante ma formale ed entusiasta. Aspetta la mia risposta prima di fare la domanda successiva."</blockquote>
+
+<h3 class="phase-title">Modulo 5.2: Prompt "da completare" — template modulari (Categoria B)</h3>
+
+<p><strong>4. Canzone didattica mnemonica</strong> <em>(Suno / Udio — Musica didattica)</em></p>
+<blockquote class="prompt-box">"Crea un brano musicale in stile [INSERISCI STILE: es. Pop italiano anni '90 / Rap ritmato / Rock energico]. Il testo della canzone deve spiegare ed essere basato su questo argomento: [INSERISCI ARGOMENTO O TESTO: es. la differenza tra verbi transitivi e intransitivi / le fasi della fotosintesi clorofilliana]. Il tono deve essere festoso e facile da memorizzare per gli studenti."</blockquote>
+
+<p><strong>5. Audio-guida inclusiva per studenti DSA</strong> <em>(TTS / ElevenLabs — Accessibilità / Lettura)</em></p>
+<blockquote class="prompt-box">"Leggi la seguente scheda di ripasso su [INSERISCI MATERIA/ARGOMENTO]. Usa una voce [INSERISCI CARATTERISTICA: es. calda, rassicurante e molto chiara]. Mantieni un ritmo di lettura leggermente scandito, scandendo bene i termini tecnici e facendo una pausa di due secondi tra un paragrafo e l'altro."</blockquote>
+
+<p><strong>6. Podcast narrativo/biografico</strong> <em>(Chatbot / TTS — Storytelling audio)</em></p>
+<blockquote class="prompt-box">"Scrivi lo script per la puntata di un podcast della durata di circa 2 minuti su [INSERISCI PERSONAGGIO STORICO, AUTORE O EVENTO]. Struttura il testo con una breve introduzione che catturi l'attenzione, due o tre passaggi chiave della vicenda raccontati in ordine cronologico e una conclusione che lasci agli ascoltatori una domanda o uno spunto di riflessione."</blockquote>
+
+<div class="back-to-top-wrap">
+<a class="back-to-top" href="#page-top">↑ Torna all'inizio</a>
+</div>
+</section>
+
+<!-- ==================== PARTE 6 ==================== -->
+<section class="section-block" id="parte6">
+<span class="section-tag-header lab">Laboratorio pratico</span>
+<h2 class="section-title">Esercizi e laboratorio pratico</h2>
+<p>Scegliete ed eseguite almeno due tra i seguenti esercizi pratici, mettendo alla prova gli strumenti presentati in questa lezione.</p>
+
+<div class="exercise-card">
+<h4 class="exercise-title">Esercizio 1 — Podcast con NotebookLM</h4>
+<p>Caricare un file PDF di una propria lezione (o un breve saggio) su NotebookLM. Generare la Panoramica Audio e riascoltare il podcast ottenuto per valutarne la chiarezza didattica.</p>
+</div>
+
+<div class="exercise-card">
+<h4 class="exercise-title">Esercizio 2 — Lettura espressiva con ElevenLabs</h4>
+<p>Inserire un breve testo letterario, una poesia o un brano storico su ElevenLabs. Testare due voci diverse (es. una voce narrante giovanile e una solenne/adulta) e regolare il prompt del tono per osservare come cambia la resa.</p>
+</div>
+
+<div class="exercise-card">
+<h4 class="exercise-title">Esercizio 3 — Canzone didattica con Suno</h4>
+<p>Inserire una poesia o un testo con regole di studio (es. una regola grammaticale o una cronologia di eventi). Chiedere a Suno di generare un brano specificando uno stile musicale a scelta (es. "canzone pop italiana ritmata" o "brano lofi rilassante").</p>
+</div>
+
+<div class="back-to-top-wrap">
+<a class="back-to-top" href="#page-top">↑ Torna all'inizio</a>
+</div>
+</section>
+
+<!-- ==================== RISORSE E DOWNLOAD ==================== -->
+<section class="section-block" id="downloads">
+<span class="section-tag-header">Risorse e Download</span>
+<h2 class="section-title">Materiali della lezione</h2>
+<p>Scarica le schede riassuntive e i materiali operativi da utilizzare in classe o come riferimento personale.</p>
+<div class="download-grid">
+<a class="download-card" href="download/lezione-07-guida-prompting-audio.pdf" rel="noopener noreferrer" target="_blank">
+<span aria-hidden="true" class="download-icon icon-pdf"><svg viewBox="0 0 24 24"><use href="#icon-doc"></use></svg></span>
+<span class="download-info">
+<span class="download-title">Guida al prompting per voce e musica</span>
+</span>
+<span class="file-badge badge-pdf">PDF</span>
+</a>
+<a class="download-card" href="download/lezione-07-confronto-tool-audio.pdf" rel="noopener noreferrer" target="_blank">
+<span aria-hidden="true" class="download-icon icon-pdf"><svg viewBox="0 0 24 24"><use href="#icon-doc"></use></svg></span>
+<span class="download-info">
+<span class="download-title">Tabella comparativa degli strumenti audio</span>
+</span>
+<span class="file-badge badge-pdf">PDF</span>
+</a>
+<a class="download-card" href="download/lezione-07-prompt-cookbook.pdf" rel="noopener noreferrer" target="_blank">
+<span aria-hidden="true" class="download-icon icon-pdf"><svg viewBox="0 0 24 24"><use href="#icon-doc"></use></svg></span>
+<span class="download-info">
+<span class="download-title">Prompt cookbook per audio e musica</span>
+</span>
+<span class="file-badge badge-pdf">PDF</span>
+</a>
+<a class="download-card" href="download/lezione-07-slide.pptx" rel="noopener noreferrer" target="_blank">
+<span aria-hidden="true" class="download-icon icon-ppt"><svg viewBox="0 0 24 24"><use href="#icon-doc"></use></svg></span>
+<span class="download-info">
+<span class="download-title">Slide della lezione</span>
+</span>
+<span class="file-badge badge-ppt">PPT</span>
+</a>
+</div>
+<div class="back-to-top-wrap">
+<a class="back-to-top" href="#page-top">↑ Torna all'inizio</a>
+</div>
+</section>
+
+<!-- ==================== BOTTONI DI NAVIGAZIONE ==================== -->
+<div class="navigation-buttons">
+<a class="btn btn-secondary" href="contenuti-visivi.html">← Lezione precedente: Dai contenuti alla rappresentazione visiva</a>
+<a class="btn btn-primary" href="video.html">Lezione successiva: La creazione di video →</a>
+</div>
+</div>
+</div>
+
+  <footer id="footer-info">
+    <p><span class="footer-logo">LitterAI</span> - a cura del prof. Daniele Virgili - 2026</p>
+  </footer>
+
+  <script>
+    const navbar = document.getElementById('navbar');
+    const navToggle = document.getElementById('navToggle');
+    const navLinks = document.getElementById('navLinks');
+
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 20) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
+    });
+
+    navToggle.addEventListener('click', () => {
+      navToggle.classList.toggle('active');
+      navLinks.classList.toggle('active');
+    });
+
+    document.querySelectorAll('.nav-link-item').forEach(link => {
+      link.addEventListener('click', () => {
+        navToggle.classList.remove('active');
+        navLinks.classList.remove('active');
+      });
+    });
+  </script>
+
+</body>
+</html>
