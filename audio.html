@@ -545,6 +545,7 @@
 <span class="section-tag-header">Teoria e metodologia</span>
 <h2 class="section-title">Il prompting per l'audio e la musica</h2>
 <p>Prima di generare audio o musica, occorre comprendere che i modelli sonori rispondono a parametri differenti rispetto a quelli puramente testuali. Se nella scrittura il prompt costruisce frasi e argomentazioni, e nella creazione di immagini definisce soggetto, stile e composizione, in ambito audio il prompt deve guidare elementi come tono, ritmo, genere musicale e strumentazione: dimensioni che non hanno un vero equivalente nel testo scritto.</p>
+<p>Questo significa che, se non specifichiamo con chiarezza queste dimensioni, l'IA non resta "neutra": sceglie comunque un tono, un ritmo, uno stile — semplicemente lo fa in autonomia, spesso in modo generico o incoerente con l'uso didattico che ne vogliamo fare. È il motivo per cui capita di ottenere una lettura piatta di un testo che avrebbe bisogno di enfasi, o un sottofondo musicale invadente per un video che avrebbe richiesto un accompagnamento discreto: non è un limite dello strumento, ma un'indicazione mancante nel prompt.</p>
 
 <h3 class="phase-title">Modulo 1.1: Guidare la voce e il parlato</h3>
 <p>Quando l'obiettivo è generare una voce narrante o una lettura espressiva, l'IA ha bisogno di indicazioni precise su come "recitare" il testo, non solo su cosa dire. Tre famiglie di parametri fanno la differenza:</p>
@@ -578,9 +579,10 @@
 <span class="section-tag-header">Strumenti e applicazioni</span>
 <h2 class="section-title">I tre pilastri della creazione audio</h2>
 <p>La produzione audio con l'IA applicata alla didattica si può ricondurre a tre grandi famiglie di utilizzo, ciascuna con strumenti e finalità proprie: la sintesi vocale, il podcast automatico e la generazione musicale.</p>
+<p>Non si tratta di tre varianti dello stesso strumento, ma di tre risposte a bisogni didattici distinti. La sintesi vocale serve innanzitutto l'accessibilità: dare voce a un testo che altrimenti resterebbe illeggibile per alcuni studenti. Il podcast automatico serve la sintesi e la comprensione: trasformare un documento denso in una conversazione che si può ascoltare e riascoltare. La generazione musicale serve la memorizzazione e il coinvolgimento emotivo: affidare a un ritornello ciò che un elenco di regole difficilmente farebbe ricordare. Distinguere i tre pilastri aiuta quindi a scegliere lo strumento giusto in base all'obiettivo, invece di usarne uno solo per tutto.</p>
 
 <h3 class="phase-title">Modulo 2.1: Sintesi vocale e lettura inclusiva (Text-to-Speech)</h3>
-<p>Il primo pilastro riguarda la capacità dell'IA di trasformare qualsiasi testo in una voce naturale, espressiva e modulabile: è la tecnologia alla base della sintesi vocale, o Text-to-Speech (TTS).</p>
+<p>Il primo pilastro riguarda la capacità dell'IA di trasformare qualsiasi testo in una voce naturale, espressiva e modulabile: è la tecnologia alla base della sintesi vocale, o Text-to-Speech (TTS). Il suo valore didattico sta soprattutto nel fatto che rimuove una barriera: per uno studente con dislessia, o che semplicemente apprende meglio ascoltando, la stessa scheda di ripasso letta ad alta voce con un ritmo curato può fare la differenza tra un contenuto inaccessibile e uno pienamente fruibile, senza che il docente debba registrare nulla di persona.</p>
 <h4 class="sub-phase-title">Casi d'uso didattici</h4>
 <div class="rcif-list">
 <ul>
@@ -597,7 +599,7 @@
 </div>
 
 <h3 class="phase-title">Modulo 2.2: Il podcast automatico e la conversazione</h3>
-<p>Il secondo pilastro consiste nel creare discussioni audio e podcast a partire da documenti di studio come PDF, appunti o articoli.</p>
+<p>Il secondo pilastro consiste nel creare discussioni audio e podcast a partire da documenti di studio come PDF, appunti o articoli. Il salto rispetto a un riassunto scritto è significativo: uno studente che ascolta due voci "discutere" un argomento — chiedersi cosa significhi un passaggio, tornare su un concetto, fare un esempio — sperimenta un livello di comprensione più simile a una lezione o a uno scambio tra pari, piuttosto che alla lettura passiva di un testo condensato. Questo lo rende particolarmente efficace come momento di preparazione prima di uno studio più approfondito, o come ripasso durante uno spostamento.</p>
 <h4 class="sub-phase-title">Il caso principale: NotebookLM e l'Audio Overview</h4>
 <p>NotebookLM permette di caricare un documento — ad esempio un saggio o un capitolo di libro — e di far generare all'IA un podcast in stile "intervista tra due speaker", che discutono e riassumono i contenuti caricati in modo naturale e scorrevole.</p>
 <h4 class="sub-phase-title">Casi d'uso didattici</h4>
@@ -609,7 +611,7 @@
 </div>
 
 <h3 class="phase-title">Modulo 2.3: Generazione di musica e canzoni didattiche</h3>
-<p>Il terzo pilastro riguarda la possibilità di trasformare parole chiave, poesie o formule in brani musicali completi, comprensivi di voce e strumenti.</p>
+<p>Il terzo pilastro riguarda la possibilità di trasformare parole chiave, poesie o formule in brani musicali completi, comprensivi di voce e strumenti. Qui il beneficio didattico non è l'accessibilità né la sintesi, ma la memoria: un contenuto associato a una melodia e a un ritmo riconoscibile si fissa più facilmente di un elenco di regole studiato a memoria in modo meccanico, sfruttando lo stesso principio per cui ricordiamo il testo di una canzone molto più a lungo di quanto ricordiamo un paragrafo letto una sola volta.</p>
 <h4 class="sub-phase-title">Casi d'uso didattici</h4>
 <div class="rcif-list">
 <ul>
@@ -747,7 +749,7 @@
 </div>
 
 <h3 class="phase-title">Modulo 4.2: Aspetti etici e precauzioni didattiche</h3>
-<p>L'uso della voce e della musica generate dall'IA in ambito scolastico richiede alcune attenzioni specifiche, da condividere anche con gli studenti.</p>
+<p>L'uso della voce e della musica generate dall'IA in ambito scolastico richiede alcune attenzioni specifiche, da condividere anche con gli studenti. Rispetto al testo o alle immagini, l'audio porta con sé una posta in gioco identitaria più alta: una voce, a differenza di uno stile grafico, viene percepita come intrinsecamente legata a una persona reale, e questo rende l'uso improprio della sintesi vocale — o la sua condivisione senza consapevolezza — un rischio più delicato da gestire in classe.</p>
 <div class="rcif-list">
 <ul>
 <li><strong>Clonazione vocale (Voice Cloning):</strong> sensibilizzare sull'uso improprio della voce altrui e sui rischi legati ai deepfake audio.</li>
@@ -780,6 +782,12 @@
 <p><strong>3. Simulazione di intervista immersiva</strong> <em>(ChatGPT / Gemini — Chatbot vocale / Roleplay)</em></p>
 <blockquote class="prompt-box">"Agisci come se fossi un giornalista radiofonico degli anni '30. Fammi domande una alla volta per intervistarmi sulla scoperta della penicillina. Mantieni un tono incalzante ma formale ed entusiasta. Aspetta la mia risposta prima di fare la domanda successiva."</blockquote>
 
+<p><strong>4. Radiogiornale scolastico</strong> <em>(ElevenLabs / TTS — Voce narrante / Notiziario)</em></p>
+<blockquote class="prompt-box">"Leggi il seguente testo come se fossi un conduttore di un notiziario radiofonico scolastico: voce chiara, ritmo scorrevole, tono professionale ma amichevole. Inserisci una breve pausa dopo ogni notizia per dare il tempo di assimilare l'informazione."</blockquote>
+
+<p><strong>5. Sottofondo per la lettura silenziosa</strong> <em>(Suno / Udio — Musica / Sottofondo strumentale)</em></p>
+<blockquote class="prompt-box">"Genera un brano strumentale ambient/lofi, pensato come sottofondo per un momento di lettura silenziosa in classe. Nessuna voce, ritmo lento, atmosfera calma e concentrata, senza picchi sonori improvvisi."</blockquote>
+
 <h3 class="phase-title">Modulo 5.2: Prompt "da completare" — template modulari (Categoria B)</h3>
 
 <p><strong>4. Canzone didattica mnemonica</strong> <em>(Suno / Udio — Musica didattica)</em></p>
@@ -791,6 +799,9 @@
 <p><strong>6. Podcast narrativo/biografico</strong> <em>(Chatbot / TTS — Storytelling audio)</em></p>
 <blockquote class="prompt-box">"Scrivi lo script per la puntata di un podcast della durata di circa 2 minuti su [INSERISCI PERSONAGGIO STORICO, AUTORE O EVENTO]. Struttura il testo con una breve introduzione che catturi l'attenzione, due o tre passaggi chiave della vicenda raccontati in ordine cronologico e una conclusione che lasci agli ascoltatori una domanda o uno spunto di riflessione."</blockquote>
 
+<p><strong>7. Dialogo podcast a due voci tra personaggi storici</strong> <em>(Chatbot + TTS — Dialogo simulato)</em></p>
+<blockquote class="prompt-box">"Scrivi un dialogo immaginario in stile podcast tra [INSERISCI PERSONAGGIO 1] e [INSERISCI PERSONAGGIO 2] su [INSERISCI TEMA O EVENTO STORICO]. Alterna le battute in modo naturale, mantenendo i toni di voce e le posizioni storiche coerenti con i due personaggi, e concludi con una sintesi condivisa del tema trattato."</blockquote>
+
 <div class="back-to-top-wrap">
 <a class="back-to-top" href="#page-top">↑ Torna all'inizio</a>
 </div>
@@ -800,7 +811,7 @@
 <section class="section-block" id="parte6">
 <span class="section-tag-header lab">Laboratorio pratico</span>
 <h2 class="section-title">Esercizi e laboratorio pratico</h2>
-<p>Scegliete ed eseguite almeno due tra i seguenti esercizi pratici, mettendo alla prova gli strumenti presentati in questa lezione.</p>
+<p>Scegliete ed eseguite almeno due tra i seguenti cinque esercizi pratici, mettendo alla prova gli strumenti presentati in questa lezione.</p>
 
 <div class="exercise-card">
 <h4 class="exercise-title">Esercizio 1 — Podcast con NotebookLM</h4>
@@ -815,6 +826,16 @@
 <div class="exercise-card">
 <h4 class="exercise-title">Esercizio 3 — Canzone didattica con Suno</h4>
 <p>Inserire una poesia o un testo con regole di studio (es. una regola grammaticale o una cronologia di eventi). Chiedere a Suno di generare un brano specificando uno stile musicale a scelta (es. "canzone pop italiana ritmata" o "brano lofi rilassante").</p>
+</div>
+
+<div class="exercise-card">
+<h4 class="exercise-title">Esercizio 4 — Radiogiornale scolastico con TTS</h4>
+<p>Scegliere tre notizie o aggiornamenti relativi alla propria materia (o alla vita della classe) e trasformarli in un breve script da notiziario. Generarne la lettura con uno strumento TTS, sperimentando il prompt "Radiogiornale scolastico" proposto nel cookbook.</p>
+</div>
+
+<div class="exercise-card">
+<h4 class="exercise-title">Esercizio 5 — Dialogo podcast tra personaggi storici</h4>
+<p>Scegliere due autori, personaggi storici o scienziati della propria disciplina e far scrivere a un chatbot un dialogo in stile podcast tra loro su un tema comune. Convertire poi il testo in audio con due voci diverse (TTS) per ottenere un vero e proprio mini-podcast a due voci.</p>
 </div>
 
 <div class="back-to-top-wrap">
