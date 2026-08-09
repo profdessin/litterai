@@ -156,22 +156,35 @@
 
   .dropdown-menu {
     position: absolute;
-    top: calc(100% + 14px);
+    top: 100%;
     left: 50%;
-    transform: translateX(-50%) translateY(8px);
+    transform: translateX(-50%) translateY(0);
     background: var(--color-surface);
     border: 1px solid var(--color-border);
     border-radius: 12px;
     box-shadow: var(--shadow-hover);
-    padding: 10px;
+    padding: 22px 10px 10px;
+    margin-top: 0;
     min-width: 260px;
     max-height: 62vh;
     overflow-y: auto;
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
-    transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s;
+    transition: opacity 0.25s ease, visibility 0.25s;
     z-index: 1100;
+  }
+
+  /* Ponte invisibile che copre lo spazio tra la voce di menu e il dropdown,
+     così il cursore non perde mai l'hover durante lo spostamento */
+  .nav-item::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: max(100%, 260px);
+    height: 14px;
   }
 
   .nav-item:hover .dropdown-menu,
@@ -439,6 +452,8 @@
   }
 
   @media (max-width: 768px) {
+    .nav-item::after { display: none; }
+
     .nav-links {
       position: fixed;
       top: 0;
@@ -980,7 +995,7 @@
 
         <a href="llama.html" class="lesson-tile">
           <div class="tile-head">
-            <span class="tile-icon">📓</span>
+            <span class="tile-icon">🦙</span>
             <h3>Llama Coder</h3>
             <div class="lesson-tags">
               <span>Programmazione</span>
