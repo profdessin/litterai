@@ -206,6 +206,93 @@
     margin: 25px 0;
   }
 
+  /* ---------- SCHEDE STRUMENTO (PRO/CONTRO) ---------- */
+  .tool-profile-card {
+    background: #ffffff;
+    border: 1px solid var(--color-border);
+    border-radius: 14px;
+    overflow: hidden;
+    margin: 25px 0;
+    box-shadow: var(--shadow-soft);
+  }
+  .tool-profile-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 18px 25px;
+    background: var(--color-primary);
+    color: #ffffff;
+  }
+  .tool-profile-badge {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: 1.15rem;
+    flex-shrink: 0;
+    color: #ffffff;
+  }
+  .tool-profile-heading { min-width: 0; }
+  .tool-profile-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    font-family: 'Fraunces', serif;
+    color: #ffffff;
+    margin-bottom: 2px;
+  }
+  .tool-profile-tag {
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.18);
+    color: #E8F3F8;
+  }
+  .tool-profile-body { padding: 22px 25px 25px; }
+  .tool-profile-use {
+    font-size: 0.94rem;
+    color: var(--color-text);
+    background: var(--color-bg);
+    border-radius: 10px;
+    padding: 12px 16px;
+    margin-bottom: 18px;
+  }
+  .tool-profile-use strong { color: var(--color-secondary); }
+
+  .procon-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .procon-col { padding: 16px 20px; }
+  .procon-col.pro { background: #EAF7EE; border-right: 1px solid var(--color-border); }
+  .procon-col.con { background: #FDF1F1; }
+  .procon-label {
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .procon-label.pro { color: #15803D; }
+  .procon-label.con { color: #B91C1C; }
+  .procon-col ul { margin: 0; padding-left: 18px; font-size: 0.86rem; }
+  .procon-col li { margin-bottom: 8px; }
+  .procon-col li:last-child { margin-bottom: 0; }
+
   /* ---------- TABELLE COMPARATIVE ---------- */
   .table-responsive {
     overflow-x: auto;
@@ -462,6 +549,11 @@
     .navigation-buttons { flex-direction: column; }
     .btn { width: 100%; }
     .back-to-top-wrap { text-align: left; }
+
+    .procon-grid { grid-template-columns: 1fr; }
+    .procon-col.pro { border-right: none; border-bottom: 1px solid var(--color-border); }
+    .tool-profile-header { padding: 16px 20px; }
+    .tool-profile-body { padding: 18px 20px 22px; }
   }
 </style>
 </head>
@@ -504,17 +596,17 @@
 <div class="container">
 <!-- ==================== NAV RAPIDA TRA LE PARTI ==================== -->
 <div class="part-nav">
-<a href="#parte1">1. Comprendere la generazione video</a>
-<a href="#parte2">2. Creare video efficaci</a>
-<a href="#parte3">3. Video per la didattica</a>
-<a href="#parte4">4. Strumenti a confronto</a>
-<a href="#parte5">5. Prompt Cookbook</a>
-<a href="#parte6">6. Laboratorio pratico</a>
+<a href="#parte1">Comprendere la generazione video</a>
+<a href="#parte2">Creare video efficaci</a>
+<a href="#parte3">Video per la didattica</a>
+<a href="#parte4">Strumenti a confronto</a>
+<a href="#parte5">Prompt Cookbook</a>
+<a href="#parte6">Laboratorio pratico</a>
 <a href="#downloads">Risorse e download</a>
 </div>
 <!-- ==================== PARTE 1 ==================== -->
 <section class="section-block" id="parte1">
-<span class="section-tag-header">Parte 1 · Teoria</span>
+<span class="section-tag-header">Parte 1 - Teoria</span>
 <h2 class="section-title">Comprendere la generazione video</h2>
 <p>Prima di passare all'azione e utilizzare i software, è fondamentale comprendere cosa avviene "sotto il cofano" quando chiediamo a un'Intelligenza Artificiale di creare un video. Generare un'immagine statica è una sfida complessa, ma creare un video richiede un salto di livello concettuale e computazionale notevole: significa insegnare alla macchina non solo come rappresentare lo spazio, ma anche come interpretare il tempo e la fisica del movimento.</p>
 
@@ -574,7 +666,7 @@
 
 <!-- ==================== PARTE 2 ==================== -->
 <section class="section-block" id="parte2">
-<span class="section-tag-header">Parte 2 · Tecniche</span>
+<span class="section-tag-header">Parte 2 - Tecniche</span>
 <h2 class="section-title">Creare video efficaci</h2>
 <p>Creare un video con l'Intelligenza Artificiale non significa semplicemente scrivere qualche parola e attendere il risultato. Richiede la capacità di ragionare come un regista: occorre definire lo spazio, il movimento, l'inquadratura e il ritmo nel tempo. In questa sezione vedremo come trasformare un'idea astratta in una sequenza visiva coerente ed efficace per la didattica.</p>
 
@@ -695,7 +787,7 @@
 
 <!-- ==================== PARTE 3 ==================== -->
 <section class="section-block" id="parte3">
-<span class="section-tag-header lab">Parte 3 · Didattica</span>
+<span class="section-tag-header lab">Parte 3 - Didattica</span>
 <h2 class="section-title">Video per la didattica</h2>
 <p>Disporre di strumenti capaci di generare immagini in movimento in pochi secondi è un'opportunità straordinaria, ma la tecnologia da sola non produce apprendimento. In questa sezione esploreremo come trasformare il video sintetico da semplice "effetto speciale" a risorsa pedagogica strutturata, capace di stimolare l'inclusione, la comprensione profonda e la rielaborazione critica da parte degli studenti.</p>
 
@@ -766,129 +858,227 @@
 
 <!-- ==================== PARTE 4 ==================== -->
 <section class="section-block" id="parte4">
-<span class="section-tag-header">Parte 4 · Strumenti</span>
+<span class="section-tag-header">Parte 4 - Strumenti</span>
 <h2 class="section-title">I principali strumenti a confronto</h2>
 <p>I generatori video basati su Intelligenza Artificiale non sono tutti uguali: ognuno possiede specializzazioni, punti di forza e limiti specifici. Per un docente non è necessario conoscere decine di piattaforme diverse; l'aspetto fondamentale è comprendere quale tipologia di strumento attivare in base al risultato didattico che si desidera ottenere. In questa sezione analizziamo le piattaforme più efficaci e accessibili oggi disponibili, valutandone l'impatto e la sostenibilità nell'uso scolastico.</p>
 
 <h3 class="phase-title">Modulo 4.1: Piattaforme Text-to-Video e Image-to-Video</h3>
 <p>Questi strumenti rappresentano i "motori di regia" dell'IA: sono progettati per creare scenografie, ambientazioni d'epoca, brevi sequenze narrative e animazioni di immagini statiche.</p>
 
-<div class="exercise-card">
-<h4 class="exercise-title">Kling AI</h4>
-<p><em>Piattaforma di generazione visiva di nuova generazione, nota per la grande fluidità dei movimenti e un'elevata coerenza fisica nelle scene. Ideale per: creare sequenze ambientali complesse, ricostruzioni di eventi storici e animazioni ad alta fedeltà a partire da immagini statiche.</em></p>
-<p><strong>PRO:</strong></p>
+<div class="tool-profile-card">
+<div class="tool-profile-header">
+<span class="tool-profile-badge">K</span>
+<div class="tool-profile-heading">
+<div class="tool-profile-title">Kling AI</div>
+<span class="tool-profile-tag">Text/Image-to-Video</span>
+</div>
+</div>
+<div class="tool-profile-body">
+<p class="tool-profile-use">Piattaforma di generazione visiva di nuova generazione, nota per la grande fluidità dei movimenti e un'elevata coerenza fisica nelle scene. <strong>Ideale per:</strong> creare sequenze ambientali complesse, ricostruzioni di eventi storici e animazioni ad alta fedeltà a partire da immagini statiche.</p>
+<div class="procon-grid">
+<div class="procon-col pro">
+<div class="procon-label pro">✔ Pro</div>
 <ul>
 <li>Eccellente gestione del movimento e della fisica degli oggetti.</li>
 <li>Generazione di clip fino a 5-10 secondi con ottima stabilità.</li>
 <li>Piano gratuito con crediti giornalieri/mensili ricaricabili.</li>
 </ul>
-<p><strong>CONTRO:</strong></p>
+</div>
+<div class="procon-col con">
+<div class="procon-label con">✘ Contro</div>
 <ul>
 <li>I tempi di attesa per la generazione nei piani gratuiti possono essere lunghi durante le ore di picco.</li>
 <li>Richiede prompt visivi molto dettagliati per evitare interpretazioni fantasiose.</li>
 </ul>
 </div>
+</div>
+</div>
+</div>
 
-<div class="exercise-card">
-<h4 class="exercise-title">Runway (Gen-2 / Gen-3 Alpha)</h4>
-<p><em>Uno dei pionieri della generazione video sintetica, punto di riferimento per la qualità cinematografica e il controllo della telecamera. Ideale per: progetti ad alto impatto visivo, booktrailer e scenografie per la didattica delle arti e della letteratura.</em></p>
-<p><strong>PRO:</strong></p>
+<div class="tool-profile-card">
+<div class="tool-profile-header">
+<span class="tool-profile-badge">R</span>
+<div class="tool-profile-heading">
+<div class="tool-profile-title">Runway (Gen-2 / Gen-3 Alpha)</div>
+<span class="tool-profile-tag">Text/Image-to-Video</span>
+</div>
+</div>
+<div class="tool-profile-body">
+<p class="tool-profile-use">Uno dei pionieri della generazione video sintetica, punto di riferimento per la qualità cinematografica e il controllo della telecamera. <strong>Ideale per:</strong> progetti ad alto impatto visivo, booktrailer e scenografie per la didattica delle arti e della letteratura.</p>
+<div class="procon-grid">
+<div class="procon-col pro">
+<div class="procon-label pro">✔ Pro</div>
 <ul>
 <li>Controllo avanzato sui movimenti di macchina (zoom, panning, inclinazione).</li>
 <li>Funzione Motion Brush per decidere esattamente quale area dell'immagine animare e quale lasciare fissa.</li>
 <li>Interfaccia web estremamente curata e professionale.</li>
 </ul>
-<p><strong>CONTRO:</strong></p>
+</div>
+<div class="procon-col con">
+<div class="procon-label con">✘ Contro</div>
 <ul>
 <li>Il piano gratuito offre un numero limitato di crediti non rinnovabili.</li>
 <li>Curva di apprendimento leggermente più ripida per sfruttare i comandi avanzati.</li>
 </ul>
 </div>
+</div>
+</div>
+</div>
 
-<div class="exercise-card">
-<h4 class="exercise-title">Pika (Pika Labs)</h4>
-<p><em>Piattaforma dinamica ed eclettica, particolarmente orientata alla creatività, all'animazione di stili differenti (dal fotorealismo al cartoon) e all'integrazione di effetti visivi. Ideale per: storytelling creativo condotto dagli studenti, animazione di illustrazioni e fumetti.</em></p>
-<p><strong>PRO:</strong></p>
+<div class="tool-profile-card">
+<div class="tool-profile-header">
+<span class="tool-profile-badge">P</span>
+<div class="tool-profile-heading">
+<div class="tool-profile-title">Pika (Pika Labs)</div>
+<span class="tool-profile-tag">Text/Image-to-Video</span>
+</div>
+</div>
+<div class="tool-profile-body">
+<p class="tool-profile-use">Piattaforma dinamica ed eclettica, particolarmente orientata alla creatività, all'animazione di stili differenti (dal fotorealismo al cartoon) e all'integrazione di effetti visivi. <strong>Ideale per:</strong> storytelling creativo condotto dagli studenti, animazione di illustrazioni e fumetti.</p>
+<div class="procon-grid">
+<div class="procon-col pro">
+<div class="procon-label pro">✔ Pro</div>
 <ul>
 <li>Capacità di modificare o aggiungere elementi in aree specifiche del video (Inpainting).</li>
 <li>Ottima resa su stili non fotorealistici (disegni, acquerelli, 3D).</li>
 <li>Interfaccia semplice e immediata.</li>
 </ul>
-<p><strong>CONTRO:</strong></p>
+</div>
+<div class="procon-col con">
+<div class="procon-label con">✘ Contro</div>
 <ul>
 <li>Risoluzione delle clip talvolta inferiore nella versione gratuita.</li>
 <li>Tendenza a introdurre deformazioni se si richiedono movimenti troppo bruschi.</li>
 </ul>
 </div>
+</div>
+</div>
+</div>
 
 <h3 class="phase-title">Modulo 4.2: Piattaforme per Avatar e Talking Head</h3>
 <p>Questi software sono specializzati nella sincronizzazione labiale (lip-sync) e nell'animazione facciale di ritratti o figure umane, partendo da un testo scritto o da un file audio.</p>
 
-<div class="exercise-card">
-<h4 class="exercise-title">HeyGen</h4>
-<p><em>Piattaforma leader nella creazione di avatar parlanti iperrealistici e nella traduzione video multilingue con clonazione vocale. Ideale per: creare lezioni in modalità flipped classroom, presentazioni di moduli didattici ed esercitazioni di lingue straniere.</em></p>
-<p><strong>PRO:</strong></p>
+<div class="tool-profile-card">
+<div class="tool-profile-header">
+<span class="tool-profile-badge">H</span>
+<div class="tool-profile-heading">
+<div class="tool-profile-title">HeyGen</div>
+<span class="tool-profile-tag">Avatar / Talking Head</span>
+</div>
+</div>
+<div class="tool-profile-body">
+<p class="tool-profile-use">Piattaforma leader nella creazione di avatar parlanti iperrealistici e nella traduzione video multilingue con clonazione vocale. <strong>Ideale per:</strong> creare lezioni in modalità flipped classroom, presentazioni di moduli didattici ed esercitazioni di lingue straniere.</p>
+<div class="procon-grid">
+<div class="procon-col pro">
+<div class="procon-label pro">✔ Pro</div>
 <ul>
 <li>Sincronizzazione labiale e naturalezza della mimica facciale ai massimi livelli del settore.</li>
 <li>Straordinaria funzione di traduzione automatica dei video in oltre 40 lingue mantenendo la voce originale.</li>
 <li>Integrazione diretta con script e modelli di presentazione.</li>
 </ul>
-<p><strong>CONTRO:</strong></p>
+</div>
+<div class="procon-col con">
+<div class="procon-label con">✘ Contro</div>
 <ul>
 <li>La versione gratuita è molto limitata (generalmente permette la creazione di pochi minuti di video prova).</li>
 <li>Piani a pagamento dal costo elevato per un uso continuativo personale.</li>
 </ul>
 </div>
+</div>
+</div>
+</div>
 
-<div class="exercise-card">
-<h4 class="exercise-title">D-ID</h4>
-<p><em>Strumento storico e di immediato utilizzo per dare la parola a foto statiche, quadri, dipinti e illustrazioni d'epoca. Ideale per: realizzare "interviste impossibili" ad autori storici e letterari (Dante, Leopardi, Manzoni) o far presentare un quadro al suo stesso autore.</em></p>
-<p><strong>PRO:</strong></p>
+<div class="tool-profile-card">
+<div class="tool-profile-header">
+<span class="tool-profile-badge">D</span>
+<div class="tool-profile-heading">
+<div class="tool-profile-title">D-ID</div>
+<span class="tool-profile-tag">Avatar / Talking Head</span>
+</div>
+</div>
+<div class="tool-profile-body">
+<p class="tool-profile-use">Strumento storico e di immediato utilizzo per dare la parola a foto statiche, quadri, dipinti e illustrazioni d'epoca. <strong>Ideale per:</strong> realizzare "interviste impossibili" ad autori storici e letterari (Dante, Leopardi, Manzoni) o far presentare un quadro al suo stesso autore.</p>
+<div class="procon-grid">
+<div class="procon-col pro">
+<div class="procon-label pro">✔ Pro</div>
 <ul>
 <li>Funziona eccezionalmente bene su dipinti d'epoca e opere d'arte a dominio pubblico.</li>
 <li>Generazione estremamente rapida a partire da un semplice file immagine e un testo.</li>
 <li>Interfaccia snella e adatta anche a docenti privi di competenze tecniche.</li>
 </ul>
-<p><strong>CONTRO:</strong></p>
+</div>
+<div class="procon-col con">
+<div class="procon-label con">✘ Contro</div>
 <ul>
 <li>Il movimento del corpo è limitato alla sola testa e al collo.</li>
 <li>I volti stilizzati o molto astratti possono generare artefatti visivi attorno alle labbra.</li>
 </ul>
 </div>
+</div>
+</div>
+</div>
 
 <h3 class="phase-title">Modulo 4.3: Ecosistemi Integrati ed Editing Assistito</h3>
 <p>Piattaforme che non si limitano a generare la singola clip, ma offrono un ambiente completo per il montaggio, la titolazione e l'assemblaggio finale.</p>
 
-<div class="exercise-card">
-<h4 class="exercise-title">Canva (Magic Media & Editor Video)</h4>
-<p><em>La suite di grafica e comunicazione visiva più diffusa nella scuola, integrata con funzioni di IA generativa (Magic Media). Ideale per: docenti alle prime armi che desiderano creare presentazioni animate e video integrati senza cambiare piattaforma.</em></p>
-<p><strong>PRO:</strong></p>
+<div class="tool-profile-card">
+<div class="tool-profile-header">
+<span class="tool-profile-badge">C</span>
+<div class="tool-profile-heading">
+<div class="tool-profile-title">Canva (Magic Media &amp; Editor Video)</div>
+<span class="tool-profile-tag">Ecosistema Integrato</span>
+</div>
+</div>
+<div class="tool-profile-body">
+<p class="tool-profile-use">La suite di grafica e comunicazione visiva più diffusa nella scuola, integrata con funzioni di IA generativa (Magic Media). <strong>Ideale per:</strong> docenti alle prime armi che desiderano creare presentazioni animate e video integrati senza cambiare piattaforma.</p>
+<div class="procon-grid">
+<div class="procon-col pro">
+<div class="procon-label pro">✔ Pro</div>
 <ul>
 <li>Accesso gratuito completo a Canva for Education per docenti e studenti della scuola pubblica.</li>
 <li>Integrazione nativa tra testi, grafiche, slide, musica e generazione di brevi clip IA.</li>
 <li>Ambiente sicuro, privo di pubblicità e pienamente conforme all'uso scolastico.</li>
 </ul>
-<p><strong>CONTRO:</strong></p>
+</div>
+<div class="procon-col con">
+<div class="procon-label con">✘ Contro</div>
 <ul>
 <li>Il motore di generazione video interno ha funzioni di controllo del movimento più semplici rispetto a tool dedicati come Kling o Runway.</li>
 <li>Meno adatto per sequenze cinematografiche complesse.</li>
 </ul>
 </div>
+</div>
+</div>
+</div>
 
-<div class="exercise-card">
-<h4 class="exercise-title">CapCut</h4>
-<p><em>Editor video completo e multi-piattaforma (web, smartphone, tablet, desktop) arricchito da potenti algoritmi di intelligenza artificiale per il post-processing. Ideale per: il montaggio finale delle micro-pillole didattiche, la generazione automatica dei sottotitoli e la preparazione di riassunti visivi.</em></p>
-<p><strong>PRO:</strong></p>
+<div class="tool-profile-card">
+<div class="tool-profile-header">
+<span class="tool-profile-badge">CC</span>
+<div class="tool-profile-heading">
+<div class="tool-profile-title">CapCut</div>
+<span class="tool-profile-tag">Editing &amp; Post-Produzione</span>
+</div>
+</div>
+<div class="tool-profile-body">
+<p class="tool-profile-use">Editor video completo e multi-piattaforma (web, smartphone, tablet, desktop) arricchito da potenti algoritmi di intelligenza artificiale per il post-processing. <strong>Ideale per:</strong> il montaggio finale delle micro-pillole didattiche, la generazione automatica dei sottotitoli e la preparazione di riassunti visivi.</p>
+<div class="procon-grid">
+<div class="procon-col pro">
+<div class="procon-label pro">✔ Pro</div>
 <ul>
 <li>Generazione di sottotitoli automatici in italiano con un solo clic, altamente stilizzabili.</li>
 <li>Strumenti di pulizia dell'audio, rimozione dello sfondo e sintesi vocale incorporati.</li>
 <li>Ricchissima libreria di transizioni, effetti e modelli grafici pronti all'uso.</li>
 </ul>
-<p><strong>CONTRO:</strong></p>
+</div>
+<div class="procon-col con">
+<div class="procon-label con">✘ Contro</div>
 <ul>
 <li>Richiede un minimo di praticità con la timeline di montaggio video.</li>
 <li>Alcune funzioni avanzate o effetti grafici specifici richiedono la versione Pro.</li>
 </ul>
+</div>
+</div>
+</div>
 </div>
 
 <h4 class="sub-phase-title">Modulo 4.4: Tabella Comparativa Sintetica</h4>
@@ -965,7 +1155,7 @@
 
 <!-- ==================== PARTE 5 ==================== -->
 <section class="section-block" id="parte5">
-<span class="section-tag-header lab">Parte 5 · Cookbook</span>
+<span class="section-tag-header lab">Parte 5 - Cookbook</span>
 <h2 class="section-title">Prompt Cookbook</h2>
 <p>Scrivere un prompt video efficace richiede precisione: l'IA ha bisogno di istruzioni chiare su soggetti, ambienti, movimenti e stile per evitare deformazioni e risultati imprevedibili. In questa sezione trovi una raccolta di template modificabili e una selezione di prompt pronti all'uso (Ready-to-Use) pensati specificamente per la didattica.</p>
 <div class="note-box">
@@ -1021,7 +1211,7 @@
 
 <!-- ==================== PARTE 6 ==================== -->
 <section class="section-block" id="parte6">
-<span class="section-tag-header lab">Parte 6 · Laboratorio</span>
+<span class="section-tag-header lab">Parte 6 - Laboratorio</span>
 <h2 class="section-title">Esercizi e Laboratorio pratico</h2>
 <p>La formazione sull'Intelligenza Artificiale diventa davvero efficace quando ci si mette alla prova in prima persona. Questo laboratorio propone 5 esercizi a complessità crescente: i primi tre seguono un percorso progressivo d'integrazione (dall'avatar semplice alla micro-pillola finita), mentre gli ultimi due sono dedicati al pensiero critico, all'analisi degli errori dell'IA e alla progettazione di attività per gli studenti.</p>
 
@@ -1177,7 +1367,7 @@
 <!-- ==================== BOTTONI DI NAVIGAZIONE ==================== -->
 <div class="navigation-buttons">
 <a class="btn btn-secondary" href="audio.html">← Lezione precedente: La creazione di audio, podcast e musica</a>
-<a class="btn btn-primary" href="verifiche.html">Lezione successiva: La creazione di verifiche →</a>
+<a class="btn btn-primary" href="verifiche.html">Lezione successiva: La creazione delle verifiche →</a>
 </div>
 </div>
 </div>
