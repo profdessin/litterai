@@ -189,17 +189,6 @@
     border-radius: 0 8px 8px 0;
   }
 
-  .placeholder-box {
-    background-color: #FFF6E9;
-    border-left: 4px solid #E0A030;
-    padding: 12px 16px;
-    margin: 15px 0 20px;
-    font-size: 0.88rem;
-    color: #7A5210;
-    border-radius: 0 8px 8px 0;
-    font-style: italic;
-  }
-
   .rcif-list {
     background: var(--color-bg);
     padding: 20px 25px;
@@ -266,6 +255,21 @@
     align-items: flex-start;
     gap: 6px;
     min-width: 120px;
+  }
+  .tool-icon {
+    width: 26px;
+    height: 26px;
+    flex-shrink: 0;
+  }
+  .tool-icon.letter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 7px;
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: 0.85rem;
+    color: #ffffff;
   }
 
   .tag-category {
@@ -493,23 +497,24 @@
  <div class="page-header" id="page-top">
 <div class="container">
 <h1>La creazione di video con l'IA</h1>
-<p>Dalla fisica del movimento sintetico alla progettazione di sequenze video efficaci per la didattica</p>
+<p>Dalla teoria alla regia sintetica: come progettare, scrivere e generare video didattici efficaci con l'Intelligenza Artificiale</p>
 </div>
 </div>
 <div class="main-wrapper">
 <div class="container">
 <!-- ==================== NAV RAPIDA TRA LE PARTI ==================== -->
 <div class="part-nav">
-<a href="#parte1">Comprendere la generazione video</a>
-<a href="#parte2">Creare video efficaci</a>
-<a href="#parte3">Video per la didattica</a>
-<a href="#parte4">Strumenti a confronto</a>
-<a href="#downloads">Materiali scaricabili</a>
+<a href="#parte1">1. Comprendere la generazione video</a>
+<a href="#parte2">2. Creare video efficaci</a>
+<a href="#parte3">3. Video per la didattica</a>
+<a href="#parte4">4. Strumenti a confronto</a>
+<a href="#parte5">5. Prompt Cookbook</a>
+<a href="#parte6">6. Laboratorio pratico</a>
+<a href="#downloads">Risorse e download</a>
 </div>
-
 <!-- ==================== PARTE 1 ==================== -->
 <section class="section-block" id="parte1">
-<span class="section-tag-header">Parte 1 — Fondamenti</span>
+<span class="section-tag-header">Parte 1 · Teoria</span>
 <h2 class="section-title">Comprendere la generazione video</h2>
 <p>Prima di passare all'azione e utilizzare i software, è fondamentale comprendere cosa avviene "sotto il cofano" quando chiediamo a un'Intelligenza Artificiale di creare un video. Generare un'immagine statica è una sfida complessa, ma creare un video richiede un salto di livello concettuale e computazionale notevole: significa insegnare alla macchina non solo come rappresentare lo spazio, ma anche come interpretare il tempo e la fisica del movimento.</p>
 
@@ -541,17 +546,16 @@
 <p>Non tutti i video generati con l'IA nascono allo stesso modo. A seconda del nostro obiettivo didattico, possiamo sfruttare cinque diverse modalità di produzione:</p>
 <div class="rcif-list">
 <ol>
-<li><strong>Text-to-Video (Da Testo a Video):</strong> è la modalità più pura e complessa. Scriviamo una descrizione testuale (prompt) e l'IA genera l'intera sequenza visiva da zero. <em>Utile per:</em> creare ambientazioni d'atmosfera, paesaggi storici o scene simboliche prive di dettagli rigidi.</li>
-<li><strong>Image-to-Video (Da Immagine a Video):</strong> forniamo all'IA un'immagine statica (un quadro famoso, una foto d'epoca o un'immagine creata con DALL-E/Midjourney/Canva) e le chiediamo di "animarla" attraverso un prompt o parametri di movimento. <em>Utile per:</em> mantenere un elevato controllo sul soggetto e sullo stile visivo prima di dare vita alla scena.</li>
-<li><strong>Video-to-Video (Trasformazione Video):</strong> carichiamo un video reale esistente e chiediamo all'IA di applicare uno stile visivo differente (es. trasformare una ripresa di una strada moderna in un acquerello animato o in un cartone animato). <em>Utile per:</em> rielaborare contenuti multimediali creati dagli studenti mantenendo la recitazione o i movimenti originali.</li>
-<li><strong>Avatar e Talking Head (Personaggi Parlanti):</strong> algoritmi specializzati che prendono un ritratto (una foto, un dipinto o un avatar 3D) e sincronizzano i movimenti del volto e del labiale (lip-sync) a un file audio o a un testo scritto. <em>Utile per:</em> far "parlare" personaggi storici, autori letterari o creare spiegazioni sintetiche per la flipped classroom.</li>
+<li><strong>Text-to-Video (Da Testo a Video):</strong> è la modalità più pura e complessa. Scriviamo una descrizione testuale (prompt) e l'IA genera l'intera sequenza visiva da zero. Utile per creare ambientazioni d'atmosfera, paesaggi storici o scene simboliche prive di dettagli rigidi.</li>
+<li><strong>Image-to-Video (Da Immagine a Video):</strong> forniamo all'IA un'immagine statica (un quadro famoso, una foto d'epoca o un'immagine creata con DALL-E/Midjourney/Canva) e le chiediamo di "animarla" attraverso un prompt o parametri di movimento. Utile per mantenere un elevato controllo sul soggetto e sullo stile visivo prima di dare vita alla scena.</li>
+<li><strong>Video-to-Video (Trasformazione Video):</strong> carichiamo un video reale esistente e chiediamo all'IA di applicare uno stile visivo differente (es. trasformare una ripresa di una strada moderna in un acquerello animato o in un cartone animato). Utile per rielaborare contenuti multimediali creati dagli studenti mantenendo la recitazione o i movimenti originali.</li>
+<li><strong>Avatar e Talking Head (Personaggi Parlanti):</strong> algoritmi specializzati che prendono un ritratto (una foto, un dipinto o un avatar 3D) e sincronizzano i movimenti del volto e del labiale (lip-sync) a un file audio o a un testo scritto. Utile per far "parlare" personaggi storici, autori letterari o creare spiegazioni sintetiche per la flipped classroom.</li>
 <li><strong>Editing assistito dall'IA:</strong> strumenti di post-produzione che usano l'IA per automatizzare compiti complessi, come la trascrizione e la generazione di sottotitoli automatici, il tracciamento dei soggetti, il ritaglio intelligente o la rimozione dello sfondo.</li>
 </ol>
 </div>
 
 <h3 class="phase-title">Modulo 1.3: I limiti attuali e la fisica dell'IA</h3>
-<p>Per insegnare l'uso critico di questi strumenti ai nostri studenti, dobbiamo per primi conoscere i punti deboli della tecnologia attuale. L'IA non "capisce" la fisica del mondo reale, si limita a simularla su base statistica.</p>
-<h4 class="sub-phase-title">I principali difetti della generazione video sintetico</h4>
+<p>Per insegnare l'uso critico di questi strumenti ai nostri studenti, dobbiamo per primi conoscere i punti deboli della tecnologia attuale. L'IA non "capisce" la fisica del mondo reale, si limita a simularla su base statistica. Ecco i principali difetti della generazione video sintetico:</p>
 <div class="rcif-list">
 <ul>
 <li><strong>Coerenza tra fotogrammi e sfarfallio (flickering):</strong> durante il movimento, gli elementi secondari sullo sfondo possono mutare, sfarfallare o cambiare consistenza da un secondo all'altro.</li>
@@ -570,7 +574,7 @@
 
 <!-- ==================== PARTE 2 ==================== -->
 <section class="section-block" id="parte2">
-<span class="section-tag-header">Parte 2 — Tecnica</span>
+<span class="section-tag-header">Parte 2 · Tecniche</span>
 <h2 class="section-title">Creare video efficaci</h2>
 <p>Creare un video con l'Intelligenza Artificiale non significa semplicemente scrivere qualche parola e attendere il risultato. Richiede la capacità di ragionare come un regista: occorre definire lo spazio, il movimento, l'inquadratura e il ritmo nel tempo. In questa sezione vedremo come trasformare un'idea astratta in una sequenza visiva coerente ed efficace per la didattica.</p>
 
@@ -594,22 +598,17 @@
 <h4 class="sub-phase-title">Costruzione progressiva di un prompt: un esempio pratico</h4>
 <p>Vediamo come un prompt semplice e generico si trasforma in un'istruzione registica precisa, garantendo un risultato di gran lunga superiore.</p>
 
-<p><strong>Livello 1 (Base):</strong></p>
+<p><strong>Livello 1 (Base):</strong> risultato dell'IA: una scena statica, generica e imprevedibile. L'IA potrebbe generare un'immagine fissa o movimenti casuali e privi di senso.</p>
 <blockquote class="prompt-box">"Un amanuense medievale"</blockquote>
-<p><strong>Risultato dell'IA:</strong> una scena statica, generica e imprevedibile. L'IA potrebbe generare un'immagine fissa o movimenti casuali e privi di senso.</p>
 
-<p><strong>Livello 2 (Intermedio):</strong></p>
+<p><strong>Livello 2 (Intermedio):</strong> risultato dell'IA: l'azione è chiara, ma la telecamera è fissa e l'atmosfera visiva è affidata interamente al caso.</p>
 <blockquote class="prompt-box">"Un amanuense medievale scrive un manoscritto in un monastero"</blockquote>
-<p><strong>Risultato dell'IA:</strong> l'azione è chiara, ma la telecamera è fissa e l'atmosfera visiva è affidata interamente al caso.</p>
 
-<p><strong>Livello 3 (Avanzato):</strong></p>
+<p><strong>Livello 3 (Avanzato):</strong> risultato dell'IA: una clip d'impatto, coerente, con un movimento di macchina fluido e un'atmosfera perfetta per una lezione di storia o letteratura.</p>
 <blockquote class="prompt-box">"Piano medio di un amanuense medievale che scrive lentamente su una pergamena con una piuma d'oca. Ambiente: uno scriptorium illuminato da candele, pulviscolo dorato che fluttua nell'aria. Movimento di camera: carrellata lenta in avanti verso il manoscritto. Stile cinematografico, dettagli nitidi, toni caldi d'epoca."</blockquote>
-<p><strong>Risultato dell'IA:</strong> una clip d'impatto, coerente, con un movimento di macchina fluido e un'atmosfera perfetta per una lezione di storia o letteratura.</p>
 
 <h3 class="phase-title">Modulo 2.2: Dal testo all'immagine, dall'immagine al video</h3>
-<p>Uno degli errori più comuni tra i principianti è affidarsi esclusivamente alla modalità Text-to-Video (generare il video direttamente dal testo). Nella maggior parte dei casi, la strategia migliore è seguire un percorso in tre fasi:</p>
-<div class="note-box">
-          💡 <strong>Il flusso di lavoro consigliato:</strong> "Testo" ⟶ "Immagine" ⟶ "Movimento"</div>
+<p>Uno degli errori più comuni tra i principianti è affidarsi esclusivamente alla modalità Text-to-Video (generare il video direttamente dal testo). Nella maggior parte dei casi, la strategia migliore è seguire un percorso in tre fasi: <strong>"Testo" ⟶ "Immagine" ⟶ "Movimento"</strong></p>
 
 <h4 class="sub-phase-title">Quando usare il Text-to-Video diretto</h4>
 <div class="rcif-list">
@@ -642,10 +641,8 @@
 </ol>
 </div>
 
-<h4 class="exercise-title">Esempio pratico: tradurre una terzina di Dante in video</h4>
-<p>Ipotizziamo di voler spiegare visivamente l'incipit della Commedia:</p>
-<blockquote class="prompt-box">"Nel mezzo del cammin di nostra vita / mi ritrovai per una selva oscura, / ché la diritta via era smarrita."</blockquote>
-
+<h4 class="sub-phase-title">Esempio pratico: tradurre una terzina di Dante in video</h4>
+<p>Ipotizziamo di voler spiegare visivamente l'incipit della Commedia: <em>"Nel mezzo del cammin di nostra vita / mi ritrovai per una selva oscura, / ché la diritta via era smarrita."</em></p>
 <div class="table-responsive">
 <table class="summary-table">
 <thead>
@@ -659,20 +656,21 @@
 <tr>
 <td>Scena 1</td>
 <td>"Nel mezzo del cammin di nostra vita..."</td>
-<td>Prompt: campo lungo di una figura solitaria con mantello rosso che cammina lungo un sentiero roccioso al tramonto. Carrellata indietro.</td>
+<td>Campo lungo di una figura solitaria con mantello rosso che cammina lungo un sentiero roccioso al tramonto. Carrellata indietro.</td>
 </tr>
 <tr>
 <td>Scena 2</td>
 <td>"...mi ritrovai per una selva oscura..."</td>
-<td>Prompt: piano medio di alberi secolari e intricati con nebbia densa, luce spettrale che filtra tra i rami. Movimento di camera lento verso l'alto.</td>
+<td>Piano medio di alberi secolari e intricati con nebbia densa, luce spettrale che filtra tra i rami. Movimento di camera lento verso l'alto.</td>
 </tr>
 <tr>
 <td>Scena 3</td>
 <td>"...ché la diritta via era smarrita."</td>
-<td>Prompt: primo piano sul volto del viandante che si volta smarrito verso la camera, sguardo preoccupato, atmosfera cupa e drammatica.</td>
+<td>Primo piano sul volto del viandante che si volta smarrito verso la camera, sguardo preoccupato, atmosfera cupa e drammatica.</td>
 </tr>
 <tr>
-<td colspan="3">Montaggio: unione delle 3 clip + traccia voce narrante + sottotitoli automatici in CapCut/Canva.</td>
+<td>Montaggio</td>
+<td colspan="2">Unione delle 3 clip + traccia voce narrante + sottotitoli automatici in CapCut/Canva.</td>
 </tr>
 </tbody>
 </table>
@@ -680,21 +678,15 @@
 
 <h3 class="phase-title">Modulo 2.4: Tecniche avanzate di coerenza</h3>
 <p>Mantenere la continuità visiva tra scene diverse è una delle sfide principali dell'IA generativa. Ecco alcune tecniche operative per evitare che i personaggi cambino aspetto da un fotogramma all'altro:</p>
-
-<h4 class="exercise-title">1. Usare l'IA come "Co-Pilot" nella scrittura dei prompt</h4>
-<p>Se hai in mente un'idea ma non sai come descrivere i movimenti di macchina o la fisica della scena, chiedi a un Chatbot (come ChatGPT, Claude o Gemini):</p>
-<blockquote class="prompt-box"><strong>Prompt da usare in chat:</strong> "Trasforma questa idea per una lezione in 3 prompt visivi dettagliati in inglese per un generatore video: [inserisci la tua idea]."</blockquote>
-
-<h4 class="exercise-title">2. Prompt di riferimento visivo (Image Prompting)</h4>
-<p>Molti generatori video avanzati consentono di caricare un'immagine di partenza e un'immagine finale, chiedendo all'IA di generare la transizione in movimento tra le due.</p>
-
-<h4 class="exercise-title">3. Lavorare per variazione, non da zero</h4>
-<p>Quando trovi uno stile o un personaggio che funziona, non cambiare il prompt iniziale: modifica soltanto l'azione.</p>
-<div class="note-box">
-          💡 <strong>Esempio:</strong> mantieni identica tutta la descrizione dell'amanuense e modifica solo la parte finale, da "scrive a lume di candela" a "posa la piuma e chiude il libro".</div>
-
-<h4 class="exercise-title">4. Gestione del formato e dei movimenti</h4>
-<p>Per presentazioni scolastiche prediligi il formato orizzontale (16:9); per attività degli studenti su tablet o smartphone puoi optare per il formato verticale (9:16). Ricorda: movimenti di macchina lenti e fluidi generano sempre meno distorsioni rispetto a movimenti rapidi.</p>
+<div class="rcif-list">
+<ul>
+<li><strong>Usare l'IA come "Co-Pilot" nella scrittura dei prompt:</strong> se hai in mente un'idea ma non sai come descrivere i movimenti di macchina o la fisica della scena, chiedi a un Chatbot (come ChatGPT, Claude o Gemini) di trasformare la tua idea in prompt video dettagliati.</li>
+<li><strong>Prompt di riferimento visivo (Image Prompting):</strong> molti generatori video avanzati consentono di caricare un'immagine di partenza e un'immagine finale, chiedendo all'IA di generare la transizione in movimento tra le due.</li>
+<li><strong>Lavorare per variazione, non da zero:</strong> quando trovi uno stile o un personaggio che funziona, non cambiare il prompt iniziale: modifica soltanto l'azione (es. mantieni identica tutta la descrizione dell'amanuense e modifica solo la parte finale da "scrive a lume di candela" a "posa la piuma e chiude il libro").</li>
+<li><strong>Gestione del formato e dei movimenti:</strong> per presentazioni scolastiche prediligi il formato orizzontale (16:9); per attività degli studenti su tablet o smartphone puoi optare per il formato verticale (9:16). Ricorda: movimenti di macchina lenti e fluidi generano sempre meno distorsioni rispetto a movimenti rapidi.</li>
+</ul>
+</div>
+<blockquote class="prompt-box"><strong>Prompt "Co-Pilot" da usare in chat:</strong> "Trasforma questa idea per una lezione in 3 prompt visivi dettagliati in inglese per un generatore video: [inserisci la tua idea]."</blockquote>
 
 <div class="back-to-top-wrap">
 <a class="back-to-top" href="#page-top">↑ Torna all'inizio</a>
@@ -703,13 +695,12 @@
 
 <!-- ==================== PARTE 3 ==================== -->
 <section class="section-block" id="parte3">
-<span class="section-tag-header lab">Didattica</span>
-<h2 class="section-title">Parte 3 — Video per la didattica</h2>
+<span class="section-tag-header lab">Parte 3 · Didattica</span>
+<h2 class="section-title">Video per la didattica</h2>
 <p>Disporre di strumenti capaci di generare immagini in movimento in pochi secondi è un'opportunità straordinaria, ma la tecnologia da sola non produce apprendimento. In questa sezione esploreremo come trasformare il video sintetico da semplice "effetto speciale" a risorsa pedagogica strutturata, capace di stimolare l'inclusione, la comprensione profonda e la rielaborazione critica da parte degli studenti.</p>
 
 <h3 class="phase-title">Modulo 3.1: Quando un video aggiunge valore?</h3>
 <p>Non tutto ciò che può essere trasformato in un video deve necessariamente diventarlo. L'uso dell'Intelligenza Artificiale nella scuola deve rispondere a un principio fondamentale di efficacia didattica: il video generato ha senso se e solo se offre un valore aggiunto rispetto al testo scritto, all'immagine statica o alla spiegazione orale.</p>
-
 <h4 class="sub-phase-title">I pilastri del valore aggiunto visivo</h4>
 <div class="rcif-list">
 <ul>
@@ -720,12 +711,12 @@
 </ul>
 </div>
 <div class="note-box">
-          🎯 <strong>Il principio guida per il docente:</strong> chiediti sempre: "Questo video serve solo a decorare la mia presentazione o aiuta i miei studenti a capire meglio, a ricordare più a lungo o a porsi nuove domande?"</div>
+          💡 <strong>Il principio guida per il docente:</strong> chiediti sempre: "Questo video serve solo a decorare la mia presentazione o aiuta i miei studenti a capire meglio, a ricordare più a lungo o a porsi nuove domande?"</div>
 
 <h3 class="phase-title">Modulo 3.2: Idee e attività per le discipline letterarie e umanistiche</h3>
 <p>Le discipline umanistiche traggono un enorme vantaggio dalla capacità di "mettere in scena" la cultura. Ecco alcune applicazioni concrete da cui prendere spunto per le proprie lezioni:</p>
 
-<h4 class="exercise-title">1. Dare vita al patrimonio artistico e letterario</h4>
+<h4 class="exercise-title">📖 1. Dare vita al patrimonio artistico e letterario</h4>
 <div class="rcif-list">
 <ul>
 <li><strong>Quadri che raccontano:</strong> animare dipinti storici o copertine di codici miniati per mostrare i dettagli della composizione o per far "uscire" un personaggio dalla tela e introdurre l'opera.</li>
@@ -733,21 +724,19 @@
 </ul>
 </div>
 
-<h4 class="exercise-title">2. Visualizzazione della poesia e dell'epica</h4>
+<h4 class="exercise-title">📜 2. Visualizzazione della poesia e dell'epica</h4>
 <p>Tradurre l'apparato metaforico e simbolico di un testo poetico (da Omero a Montale) in sequenze visive evocative che accompagnano la lettura metrica o la parafrasi, aiutando gli studenti a cogliere l'atmosfera e le figure retoriche.</p>
 
-<h4 class="exercise-title">3. Interviste impossibili e Avatar Parlanti</h4>
+<h4 class="exercise-title">🎭 3. Interviste impossibili e Avatar Parlanti</h4>
 <p>Utilizzare strumenti di Talking Head per creare brevi interventi di autori del passato. Un "Dante", un "Manzoni" o un' "Emily Dickinson" virtuali possono presentare le proprie opere, spiegare il contesto della loro epoca o rispondere alle domande degli studenti, rendendo lo studio della storia della letteratura decisamente più vivo.</p>
 
-<h4 class="exercise-title">4. Booktrailer e Teaser Didattici</h4>
+<h4 class="exercise-title">🎬 4. Booktrailer e Teaser Didattici</h4>
 <p>Realizzare brevi "trailer" cinematografici per introdurre la lettura di un romanzo programmato per l'anno scolastico, creando aspettativa e interesse prima ancora di aprire il libro.</p>
 
 <h3 class="phase-title">Modulo 3.3: Il video come prodotto degli studenti (Didattica Attiva)</h3>
 <p>La vera svolta metodologica si verifica quando l'IA smette di essere uno strumento esclusivo del docente per diventare uno strumento di lavoro nelle mani degli studenti. In questo contesto, la generazione video si trasforma in un potente esercizio di comprensione, sintesi e rielaborazione critica.</p>
-
 <div class="note-box">
-          💡 <strong>Il processo di produzione dello studente:</strong> Testo d'origine ──► Analisi &amp; Storyboard ──► Ingegneria del Prompt ──► Generazione &amp; Editing ──► Debriefing Critico</div>
-
+          🔄 <strong>Il processo di produzione dello studente:</strong> Testo d'origine ──► Analisi &amp; Storyboard ──► Ingegneria del Prompt ──► Generazione &amp; Editing ──► Debriefing Critico</div>
 <div class="rcif-list">
 <ol>
 <li><strong>Analisi del Testo:</strong> gli studenti leggono un testo (un canto della Divina Commedia, un capitolo de I Promessi Sposi, un saggio storico) e ne individuano i punti chiave, i personaggi e i nuclei narrativi.</li>
@@ -760,7 +749,7 @@
 <p><strong>Perché funziona:</strong> gli studenti non sono semplici spettatori passivi, ma diventano "registi trasversali". Per spiegare all'IA come generare una scena di un romanzo o di un evento storico, devono prima aver studiato e capito a fondo quel testo.</p>
 
 <h3 class="phase-title">Modulo 3.4: Limiti, etica e pensiero critico</h3>
-<p>Portare la generazione video a scuola richiede una riflessione etica e la costruzione di un solido spirito critico negli studenti. I video sintetici rappresentano infatti una delle frontiere più delicate dell'informazione digitale.</p>
+<p>Portare la generazione video a scuola richiede una riflessione etica e la costruzione di un solido spirito critico negli studenti. I video sintetici rappresentano infatti una delle frontiere più delicate dell'informazione digitale. Ecco gli aspetti chiave da affrontare in classe:</p>
 <div class="rcif-list">
 <ul>
 <li><strong>I Deepfake e la Disinformazione Visiva:</strong> insegnare agli studenti che oggi "vedere non è più credere". Analizzare in classe video sintetici per identificare i segnali d'allarme (artefatti visivi, sbavature, movimento innaturale degli occhi, errori di luce) costituisce una fondamentale lezione di educazione alla cittadinanza digitale.</li>
@@ -777,53 +766,349 @@
 
 <!-- ==================== PARTE 4 ==================== -->
 <section class="section-block" id="parte4">
-<span class="section-tag-header">Strumenti</span>
-<h2 class="section-title">Parte 4 — I principali strumenti a confronto</h2>
-<p>I generatori video basati su Intelligenza Artificiale non sono tutti uguali: ognuno possiede specializzazioni, punti di forza e limiti specifici. Per un docente non è necessario conoscere decine di piattaforme diverse; l'aspetto fondamentale è comprendere quale tipologia di strumento attivare in base al risultato didattico che si desidera ottenere.</p>
-<p>In questa sezione analizziamo le piattaforme più efficaci e accessibili oggi disponibili, valutandone l'impatto e la sostenibilità nell'uso scolastico.</p>
+<span class="section-tag-header">Parte 4 · Strumenti</span>
+<h2 class="section-title">I principali strumenti a confronto</h2>
+<p>I generatori video basati su Intelligenza Artificiale non sono tutti uguali: ognuno possiede specializzazioni, punti di forza e limiti specifici. Per un docente non è necessario conoscere decine di piattaforme diverse; l'aspetto fondamentale è comprendere quale tipologia di strumento attivare in base al risultato didattico che si desidera ottenere. In questa sezione analizziamo le piattaforme più efficaci e accessibili oggi disponibili, valutandone l'impatto e la sostenibilità nell'uso scolastico.</p>
 
 <h3 class="phase-title">Modulo 4.1: Piattaforme Text-to-Video e Image-to-Video</h3>
 <p>Questi strumenti rappresentano i "motori di regia" dell'IA: sono progettati per creare scenografie, ambientazioni d'epoca, brevi sequenze narrative e animazioni di immagini statiche.</p>
 
+<div class="exercise-card">
+<h4 class="exercise-title">Kling AI</h4>
+<p><em>Piattaforma di generazione visiva di nuova generazione, nota per la grande fluidità dei movimenti e un'elevata coerenza fisica nelle scene. Ideale per: creare sequenze ambientali complesse, ricostruzioni di eventi storici e animazioni ad alta fedeltà a partire da immagini statiche.</em></p>
+<p><strong>PRO:</strong></p>
+<ul>
+<li>Eccellente gestione del movimento e della fisica degli oggetti.</li>
+<li>Generazione di clip fino a 5-10 secondi con ottima stabilità.</li>
+<li>Piano gratuito con crediti giornalieri/mensili ricaricabili.</li>
+</ul>
+<p><strong>CONTRO:</strong></p>
+<ul>
+<li>I tempi di attesa per la generazione nei piani gratuiti possono essere lunghi durante le ore di picco.</li>
+<li>Richiede prompt visivi molto dettagliati per evitare interpretazioni fantasiose.</li>
+</ul>
+</div>
+
+<div class="exercise-card">
+<h4 class="exercise-title">Runway (Gen-2 / Gen-3 Alpha)</h4>
+<p><em>Uno dei pionieri della generazione video sintetica, punto di riferimento per la qualità cinematografica e il controllo della telecamera. Ideale per: progetti ad alto impatto visivo, booktrailer e scenografie per la didattica delle arti e della letteratura.</em></p>
+<p><strong>PRO:</strong></p>
+<ul>
+<li>Controllo avanzato sui movimenti di macchina (zoom, panning, inclinazione).</li>
+<li>Funzione Motion Brush per decidere esattamente quale area dell'immagine animare e quale lasciare fissa.</li>
+<li>Interfaccia web estremamente curata e professionale.</li>
+</ul>
+<p><strong>CONTRO:</strong></p>
+<ul>
+<li>Il piano gratuito offre un numero limitato di crediti non rinnovabili.</li>
+<li>Curva di apprendimento leggermente più ripida per sfruttare i comandi avanzati.</li>
+</ul>
+</div>
+
+<div class="exercise-card">
+<h4 class="exercise-title">Pika (Pika Labs)</h4>
+<p><em>Piattaforma dinamica ed eclettica, particolarmente orientata alla creatività, all'animazione di stili differenti (dal fotorealismo al cartoon) e all'integrazione di effetti visivi. Ideale per: storytelling creativo condotto dagli studenti, animazione di illustrazioni e fumetti.</em></p>
+<p><strong>PRO:</strong></p>
+<ul>
+<li>Capacità di modificare o aggiungere elementi in aree specifiche del video (Inpainting).</li>
+<li>Ottima resa su stili non fotorealistici (disegni, acquerelli, 3D).</li>
+<li>Interfaccia semplice e immediata.</li>
+</ul>
+<p><strong>CONTRO:</strong></p>
+<ul>
+<li>Risoluzione delle clip talvolta inferiore nella versione gratuita.</li>
+<li>Tendenza a introdurre deformazioni se si richiedono movimenti troppo bruschi.</li>
+</ul>
+</div>
+
+<h3 class="phase-title">Modulo 4.2: Piattaforme per Avatar e Talking Head</h3>
+<p>Questi software sono specializzati nella sincronizzazione labiale (lip-sync) e nell'animazione facciale di ritratti o figure umane, partendo da un testo scritto o da un file audio.</p>
+
+<div class="exercise-card">
+<h4 class="exercise-title">HeyGen</h4>
+<p><em>Piattaforma leader nella creazione di avatar parlanti iperrealistici e nella traduzione video multilingue con clonazione vocale. Ideale per: creare lezioni in modalità flipped classroom, presentazioni di moduli didattici ed esercitazioni di lingue straniere.</em></p>
+<p><strong>PRO:</strong></p>
+<ul>
+<li>Sincronizzazione labiale e naturalezza della mimica facciale ai massimi livelli del settore.</li>
+<li>Straordinaria funzione di traduzione automatica dei video in oltre 40 lingue mantenendo la voce originale.</li>
+<li>Integrazione diretta con script e modelli di presentazione.</li>
+</ul>
+<p><strong>CONTRO:</strong></p>
+<ul>
+<li>La versione gratuita è molto limitata (generalmente permette la creazione di pochi minuti di video prova).</li>
+<li>Piani a pagamento dal costo elevato per un uso continuativo personale.</li>
+</ul>
+</div>
+
+<div class="exercise-card">
+<h4 class="exercise-title">D-ID</h4>
+<p><em>Strumento storico e di immediato utilizzo per dare la parola a foto statiche, quadri, dipinti e illustrazioni d'epoca. Ideale per: realizzare "interviste impossibili" ad autori storici e letterari (Dante, Leopardi, Manzoni) o far presentare un quadro al suo stesso autore.</em></p>
+<p><strong>PRO:</strong></p>
+<ul>
+<li>Funziona eccezionalmente bene su dipinti d'epoca e opere d'arte a dominio pubblico.</li>
+<li>Generazione estremamente rapida a partire da un semplice file immagine e un testo.</li>
+<li>Interfaccia snella e adatta anche a docenti privi di competenze tecniche.</li>
+</ul>
+<p><strong>CONTRO:</strong></p>
+<ul>
+<li>Il movimento del corpo è limitato alla sola testa e al collo.</li>
+<li>I volti stilizzati o molto astratti possono generare artefatti visivi attorno alle labbra.</li>
+</ul>
+</div>
+
+<h3 class="phase-title">Modulo 4.3: Ecosistemi Integrati ed Editing Assistito</h3>
+<p>Piattaforme che non si limitano a generare la singola clip, ma offrono un ambiente completo per il montaggio, la titolazione e l'assemblaggio finale.</p>
+
+<div class="exercise-card">
+<h4 class="exercise-title">Canva (Magic Media & Editor Video)</h4>
+<p><em>La suite di grafica e comunicazione visiva più diffusa nella scuola, integrata con funzioni di IA generativa (Magic Media). Ideale per: docenti alle prime armi che desiderano creare presentazioni animate e video integrati senza cambiare piattaforma.</em></p>
+<p><strong>PRO:</strong></p>
+<ul>
+<li>Accesso gratuito completo a Canva for Education per docenti e studenti della scuola pubblica.</li>
+<li>Integrazione nativa tra testi, grafiche, slide, musica e generazione di brevi clip IA.</li>
+<li>Ambiente sicuro, privo di pubblicità e pienamente conforme all'uso scolastico.</li>
+</ul>
+<p><strong>CONTRO:</strong></p>
+<ul>
+<li>Il motore di generazione video interno ha funzioni di controllo del movimento più semplici rispetto a tool dedicati come Kling o Runway.</li>
+<li>Meno adatto per sequenze cinematografiche complesse.</li>
+</ul>
+</div>
+
+<div class="exercise-card">
+<h4 class="exercise-title">CapCut</h4>
+<p><em>Editor video completo e multi-piattaforma (web, smartphone, tablet, desktop) arricchito da potenti algoritmi di intelligenza artificiale per il post-processing. Ideale per: il montaggio finale delle micro-pillole didattiche, la generazione automatica dei sottotitoli e la preparazione di riassunti visivi.</em></p>
+<p><strong>PRO:</strong></p>
+<ul>
+<li>Generazione di sottotitoli automatici in italiano con un solo clic, altamente stilizzabili.</li>
+<li>Strumenti di pulizia dell'audio, rimozione dello sfondo e sintesi vocale incorporati.</li>
+<li>Ricchissima libreria di transizioni, effetti e modelli grafici pronti all'uso.</li>
+</ul>
+<p><strong>CONTRO:</strong></p>
+<ul>
+<li>Richiede un minimo di praticità con la timeline di montaggio video.</li>
+<li>Alcune funzioni avanzate o effetti grafici specifici richiedono la versione Pro.</li>
+</ul>
+</div>
+
+<h4 class="sub-phase-title">Modulo 4.4: Tabella Comparativa Sintetica</h4>
+<p>Per orientarsi rapidamente nella scelta dello strumento più adatto alla specifica attività didattica:</p>
 <div class="table-responsive">
 <table class="summary-table">
 <thead>
 <tr>
 <th>Strumento</th>
-<th>Ideale per</th>
-<th>Pro</th>
-<th>Contro</th>
+<th>Funzione Chiave</th>
+<th>Livello Difficoltà</th>
+<th>Piano Gratuito / Ed.</th>
+<th>Uso Didattico Consigliato</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>
-<div class="tool-cell">
-<strong class="tool-name">Kling AI</strong>
-<span class="tag-category">Text/Image-to-Video</span>
-</div>
-</td>
-<td>Creare sequenze ambientali complesse, ricostruzioni di eventi storici e animazioni ad alta fedeltà a partire da immagini statiche.</td>
-<td><ul><li>Eccellente gestione del movimento e della fisica degli oggetti.</li><li>Generazione di clip fino a 5-10 secondi con ottima stabilità.</li><li>Piano gratuito con crediti giornalieri/mensili ricaricabili.</li></ul></td>
-<td><ul><li>I tempi di attesa per la generazione nei piani gratuiti possono essere lunghi durante le ore di picco.</li><li>Richiede prompt visivi molto dettagliati per evitare interpretazioni fantasiose.</li></ul></td>
+<td><div class="tool-cell"><strong class="tool-name">Kling AI</strong><span class="tag-category">Text/Image-to-Video</span></div></td>
+<td>Movimento fluido e fisica realistica</td>
+<td>Intermedio</td>
+<td>Crediti gratuiti periodici</td>
+<td>Ricostruzioni storiche e scene narrative</td>
 </tr>
 <tr>
-<td>
-<div class="tool-cell">
-<strong class="tool-name">Runway (Gen-2 / Gen-3 Alpha)</strong>
-<span class="tag-category">Text/Image-to-Video</span>
-</div>
-</td>
-<td>Progetti ad alto impatto visivo, booktrailer e scenografie per la didattica delle arti e della letteratura. Uno dei pionieri della generazione video sintetica, punto di riferimento per la qualità cinematografica e il controllo della telecamera.</td>
-<td><ul><li>Controllo avanzato sui movimenti di macchina (zoom, panning, inclinazione).</li></ul></td>
-<td><em>[Contenuto non fornito nel materiale ricevuto: il testo si interrompe qui]</em></td>
+<td><div class="tool-cell"><strong class="tool-name">Runway</strong><span class="tag-category">Text/Image-to-Video</span></div></td>
+<td>Controllo registico e Motion Brush</td>
+<td>Avanzato</td>
+<td>Crediti iniziali limitati</td>
+<td>Booktrailer e storytelling d'impatto</td>
+</tr>
+<tr>
+<td><div class="tool-cell"><strong class="tool-name">Pika</strong><span class="tag-category">Text/Image-to-Video</span></div></td>
+<td>Modifica di aree video (Inpainting)</td>
+<td>Intermedio</td>
+<td>Crediti gratuiti periodici</td>
+<td>Animazione di fumetti, opere e illustrazioni</td>
+</tr>
+<tr>
+<td><div class="tool-cell"><strong class="tool-name">HeyGen</strong><span class="tag-category">Avatar / Talking Head</span></div></td>
+<td>Avatar iperrealistici e traduzione voce</td>
+<td>Facile</td>
+<td>Prova gratuita molto limitata</td>
+<td>Flipped classroom e pillole del docente</td>
+</tr>
+<tr>
+<td><div class="tool-cell"><strong class="tool-name">D-ID</strong><span class="tag-category">Avatar / Talking Head</span></div></td>
+<td>Animazione di foto e dipinti storici</td>
+<td>Facile</td>
+<td>Crediti di prova iniziali</td>
+<td>Interviste impossibili a personaggi storici</td>
+</tr>
+<tr>
+<td><div class="tool-cell"><strong class="tool-name">Canva</strong><span class="tag-category">Ecosistema Integrato</span></div></td>
+<td>Suite completa di creazione e video</td>
+<td>Molto Facile</td>
+<td>Gratuito per Educatori</td>
+<td>Presentazioni animate, schede e lezioni</td>
+</tr>
+<tr>
+<td><div class="tool-cell"><strong class="tool-name">CapCut</strong><span class="tag-category">Editing &amp; Post-Produzione</span></div></td>
+<td>Sottotitoli automatici e montaggio</td>
+<td>Intermedio</td>
+<td>Ampia versione gratuita</td>
+<td>Assemblaggio finale e accessibilità (BES/DSA)</td>
 </tr>
 </tbody>
 </table>
 </div>
 
-<div class="placeholder-box">
-⚠️ Il materiale che mi hai fornito per la Parte 4 si interrompe a metà della scheda su Runway. Mancano: la lista CONTRO di Runway, gli altri strumenti da confrontare in tabella (Text-to-Video/Image-to-Video, ma anche presumibilmente Avatar/Talking Head ed editing assistito, coerentemente coi moduli 1.2), l'eventuale Modulo 4.2, oltre a tutta la Parte 5 (schede/laboratorio) e Parte 6 (esercitazioni pratiche + tabella di autovalutazione) previste dal template. Inviami il testo completo e integro questa sezione senza inventare contenuti.
+<div class="back-to-top-wrap">
+<a class="back-to-top" href="#page-top">↑ Torna all'inizio</a>
+</div>
+</section>
+
+<!-- ==================== PARTE 5 ==================== -->
+<section class="section-block" id="parte5">
+<span class="section-tag-header lab">Parte 5 · Cookbook</span>
+<h2 class="section-title">Prompt Cookbook</h2>
+<p>Scrivere un prompt video efficace richiede precisione: l'IA ha bisogno di istruzioni chiare su soggetti, ambienti, movimenti e stile per evitare deformazioni e risultati imprevedibili. In questa sezione trovi una raccolta di template modificabili e una selezione di prompt pronti all'uso (Ready-to-Use) pensati specificamente per la didattica.</p>
+<div class="note-box">
+          💡 <strong>Consiglio di utilizzo:</strong> copia il testo e sostituisci i campi tra parentesi quadre [...] con i dettagli della tua lezione.</div>
+
+<h3 class="phase-title">🛠️ Modulo 5.1: Modelli di Prompt da Completare (Template)</h3>
+
+<div class="exercise-card">
+<h4 class="exercise-title">Template 1: Scena Storico-Letteraria o Narrativa</h4>
+<p>Uso: utile per ricostruire ambientazioni storiche, eventi o scene da opere letterarie.</p>
+<blockquote class="prompt-box"><strong>Modello da compilare:</strong> "Inquadratura [tipo di inquadratura: es. piano medio / campo lungo / primo piano] di [soggetto: es. un filosofo greco / un cavaliere medievale / un viaggiatore dell'Ottocento] che [azione principale: es. osserva le stelle / sfoglia un manoscritto / cammina lungo la riva]. Ambiente: [descrizione del luogo: es. la piazza dell'Agorà di Atene / uno scriptorium buio / un paesaggio romantico tempestoso]. Movimento di camera: [tipo di movimento: es. carrellata lenta in avanti / panoramica verso destra / zoom in sui dettagli]. Illuminazione e atmosfera: [es. luce solare pomeridiana / bagliore di candele / nebbia mattutina]. Stile: [es. cinematografico, dettagli nitidi, 4k, toni caldi]."</blockquote>
+</div>
+
+<div class="exercise-card">
+<h4 class="exercise-title">Template 2: Processo Dinamico o Concettuale (Scienze e Arte)</h4>
+<p>Uso: utile per mostrare l'evoluzione di un fenomeno, l'animazione di un quadro o la trasformazione di un elemento nel tempo.</p>
+<blockquote class="prompt-box"><strong>Modello da compilare:</strong> "Un video [stile visivo: es. documentaristico / animazione 3D / dipinto a olio animato] che mostra [processo o soggetto: es. la fioritura di una pianta / un'eruzione vulcanica / una piazza impressionista sotto la pioggia]. Il soggetto [azione o trasformazione: es. si espande lentamente / prende vita con pennellate visibili]. Movimento di camera: [es. telecamera fissa / rotazione fluida a 360 gradi]. Atmosfera e luci: [es. luce naturale brillante / contrasto elevato, sfumature di blu e oro]."</blockquote>
+</div>
+
+<div class="exercise-card">
+<h4 class="exercise-title">Template 3: Sfondo d'Atmosfera in Loop (Per Slide e Presentazioni)</h4>
+<p>Uso: utile per creare brevi clip di sfondo non invasive da inserire in presentazioni PowerPoint o Canva.</p>
+<blockquote class="prompt-box"><strong>Modello da compilare:</strong> "Un video in loop fluido e rilassante di [soggetto astratto o ambientale: es. particelle dorate di pulviscolo che fluttuano nell'aria / onde del mare al tramonto / pagine di un libro antico mosse dal vento]. Movimento del soggetto impercettibile e delicato. Movimento di camera: fisso. Stile: [es. minimale, acquerello sfumato, colori caldi]. Nessun cambio di scena o movimento brusco."</blockquote>
+</div>
+
+<h3 class="phase-title">Modulo 5.2: Prompt Già Pronti (Ready-to-Use)</h3>
+<p>Prompt ottimizzati e testati, pronti da copiare e incollare nei generatori Text-to-Video o Image-to-Video (come Kling, Runway, Pika o Canva).</p>
+
+<h4 class="exercise-title">📜 Ambito Umanistico e Storico</h4>
+<p><strong>L'Amanuense nello Scriptorium:</strong></p>
+<blockquote class="prompt-box">"Piano medio cinematografico di un amanuense medievale con saio scuro che scrive con attenzione su una pergamena antica usando una piuma d'oca. Luce soffusa di una candela sul tavolo di legno scuro, leggero pulviscolo dorato che fluttua nell'aria. Carrellata lenta in avanti verso la mano che scrive. Atmosfera solenne, stile pittura fiamminga, 4k."</blockquote>
+<p><strong>Il Senato Romano:</strong></p>
+<blockquote class="prompt-box">"Campo lungo dell'interno del Senato romano durante una seduta: senatori in toga bianca seduti sulle gradinate di marmo che interagiscono tra loro con gesti solenni. Luce solare che filtra dalle alte aperture superiori creando fasci di luce. Panoramica orizzontale lenta da sinistra a destra. Stile cinematografico d'epoca, dettagli storici accurati."</blockquote>
+<p><strong>La Passeggiata del Poeta Romantico:</strong></p>
+<blockquote class="prompt-box">"Figura di un poeta dell'Ottocento vista di spalle, in piedi su una scogliera rocciosa che contempla un mare in tempesta con onde alte e cielo nuvoloso. Vento leggero che muove il mantello. Movimento di macchina: carrellata indietro lenta ad allargare il campo. Stile quadro romantico alla Caspar David Friedrich, toni freddi e drammatici."</blockquote>
+
+<h4 class="exercise-title">🧪 Ambito Scientifico e Geografico</h4>
+<p><strong>Rotazione della Terra dallo Spazio:</strong></p>
+<blockquote class="prompt-box">"Ricostruzione in grafica 3D fotorealistica del pianeta Terra visto dallo spazio mentre ruota lentamente sul proprio asse. L'atmosfera luminosa si accende al passaggio del sole, continente europeo ben visibile. Movimento di camera: traslazione fluida nello spazio. Sfondo con stelle brillanti, stile documentario spaziale High-Tech, 8k."</blockquote>
+<p><strong>Sezione di un Vulcano in Attività:</strong></p>
+<blockquote class="prompt-box">"Animazione 3D didattica che mostra la sezione spaccata di un vulcano: il magma incandescente risale lentamente lungo il condotto principale verso il cratere. Dettagli nitidi degli strati di roccia della crosta terrestre. Telecamera fissa con movimento interno del fluido magmatico. Stile scientifico e divulgativo, colori vivaci."</blockquote>
+
+<h4 class="exercise-title">🎨 Ambito Artistico e Museale</h4>
+<p><strong>Dipinto Impressionista in Movimento:</strong></p>
+<blockquote class="prompt-box">"Un dipinto ad olio in stile impressionista raffigurante una piazza cittadina sotto una pioggia leggera che prende vita: i riflessi colorati delle luci sulle pozzanghere oscillano, le figure con gli ombrelli camminano lentamente. Pennellate visibili e vibranti, stile Claude Monet, movimento fluido e poetico."</blockquote>
+<p><strong>Bottega Rinascimentale:</strong></p>
+<blockquote class="prompt-box">"Inquadratura a piano medio di un maestro pittore del Rinascimento intento a mescolare pigmenti colorati in una ciotola di terracotta. Sullo sfondo, bozzetti e tele appoggiate alle pareti di mattoni. Carrellata in avanti lenta verso i recipienti dei colori. Atmosfera calda, illuminazione chiaroscurale stile Caravaggio."</blockquote>
+
+<div class="back-to-top-wrap">
+<a class="back-to-top" href="#page-top">↑ Torna all'inizio</a>
+</div>
+</section>
+
+<!-- ==================== PARTE 6 ==================== -->
+<section class="section-block" id="parte6">
+<span class="section-tag-header lab">Parte 6 · Laboratorio</span>
+<h2 class="section-title">Esercizi e Laboratorio pratico</h2>
+<p>La formazione sull'Intelligenza Artificiale diventa davvero efficace quando ci si mette alla prova in prima persona. Questo laboratorio propone 5 esercizi a complessità crescente: i primi tre seguono un percorso progressivo d'integrazione (dall'avatar semplice alla micro-pillola finita), mentre gli ultimi due sono dedicati al pensiero critico, all'analisi degli errori dell'IA e alla progettazione di attività per gli studenti.</p>
+
+<div class="exercise-card">
+<h4 class="exercise-title">🔹 Esercizio 1: "Dai la parola alla Storia" (Avatar parlanti — Livello Base)</h4>
+<p><em>Obiettivo Didattico: prendere familiarità con gli strumenti di Talking Head / Lip-Sync animando un'immagine statica d'epoca e sintetizzando un testo efficace.</em></p>
+<p><strong>Piattaforma consigliata:</strong> D-ID o HeyGen.</p>
+<p><strong>Competenza chiave:</strong> sintesi testuale per il parlato e gestione degli avatar.</p>
+<p><strong>📝 Consegna operativa:</strong></p>
+<div class="rcif-list">
+<ol>
+<li>Cerca su repository a dominio pubblico (es. Wikimedia Commons o Unsplash) un ritratto nitido di un personaggio storico, letterario o scientifico (es. Dante Alighieri, Margherita Hack, Leonardo da Vinci, Marie Curie).</li>
+<li>Scrivi un testo breve di 30-40 parole in cui il personaggio si presenta alla classe e lancia una domanda stimolante o un dilemma legato alla sua epoca.</li>
+<li>Carica l'immagine nello strumento, inserisci il testo (o registra la tua voce) e genera il video avatar.</li>
+<li>Verifica: il parlato è sincronizzato correttamente? L'espressività del volto è naturale o presenta distorsioni?</li>
+</ol>
+</div>
+</div>
+
+<div class="exercise-card">
+<h4 class="exercise-title">🔹 Esercizio 2: "Dal Testo alla Scena" (Image-to-Video — Livello Intermedio)</h4>
+<p><em>Obiettivo Didattico: controllare il movimento di una scena partendo da un'immagine definita, applicando le regole del prompting video.</em></p>
+<p><strong>Piattaforma consigliata:</strong> Kling AI, Runway, Pika o Canva (Magic Media).</p>
+<p><strong>Competenza chiave:</strong> ingegneria del prompt applicata al movimento e alla telecamera.</p>
+<p><strong>📝 Consegna operativa:</strong></p>
+<div class="rcif-list">
+<ol>
+<li>Scegli un'immagine statica: puoi riutilizzare un'illustrazione generata durante la lezione sulla creazione di immagini oppure un dipinto famoso.</li>
+<li>Identifica il tipo di movimento che vuoi imprimere alla scena (es. un movimento d'ambiente come il vento tra gli alberi, o un movimento di telecamera come un lento zoom in).</li>
+<li>Utilizza i Template della Parte 5 per scrivere un prompt di movimento preciso da associare all'immagine.</li>
+<li>Genera una clip di 4-5 secondi e confronta il risultato ottenuto con la tua intenzione iniziale: l'IA ha mantenuto la coerenza dello sfondo? Ha introdotto elementi indesiderati?</li>
+</ol>
+</div>
+</div>
+
+<div class="exercise-card">
+<h4 class="exercise-title">🔹 Esercizio 3: "La Micro-Pillola Didattica" (Assemblaggio — Livello Avanzato)</h4>
+<p><em>Obiettivo Didattico: costruire una risorsa multimediale completa (audio, video, testo) pronta per essere utilizzata in classe o caricata sulla piattaforma didattica della scuola.</em></p>
+<p><strong>Piattaforma consigliata:</strong> CapCut o Canva.</p>
+<p><strong>Competenza chiave:</strong> micro-regia, montaggio, sintesi vocale e accessibilità (sottotitolazione).</p>
+<p><strong>📝 Consegna operativa:</strong></p>
+<div class="rcif-list">
+<ol>
+<li>Progetta un video breve di 20-30 secondi per introdurre un argomento della tua materia (es. l'inizio di una lezione sulla rivoluzione industriale o sulle leggi di Keplero).</li>
+<li>Unisci all'interno dell'editor: la clip o l'avatar generati negli Esercizi 1 e 2; una traccia vocale (registrata da te o creata con un generatore di voce IA); una copertina iniziale con il titolo della lezione.</li>
+<li>Attiva la funzione di generazione automatica dei sottotitoli per garantire l'accessibilità a studenti con BES o DSA e personalizza lo stile grafico del testo.</li>
+<li>Esporta il file video e rifletti su dove e come lo integreresti nella tua programmazione.</li>
+</ol>
+</div>
+</div>
+
+<div class="exercise-card">
+<h4 class="exercise-title">🕵️ Esercizio 4: "Caccia all'Allucinazione Visiva" (Analisi Critica — Livello Didattico)</h4>
+<p><em>Obiettivo Didattico: sviluppare il pensiero critico e preparare una scheda di lavoro per insegnare agli studenti a riconoscere gli errori, le allucinazioni e gli anacronismi dell'IA visiva.</em></p>
+<p><strong>Piattaforma consigliata:</strong> qualsiasi generatore Text-to-Video (es. Kling, Runway, Pika).</p>
+<p><strong>Competenza chiave:</strong> valutazione critica dei contenuti sintetici ed educazione alla cittadinanza digitale.</p>
+<p><strong>📝 Consegna operativa:</strong></p>
+<div class="rcif-list">
+<ol>
+<li>Inserisci in un generatore video un prompt storicamente o scientificamente molto rigido (es. "Un soldato romano della Legione che marcia lungo la Via Appia tenendo in mano uno scudo e una lancia, inquadratura laterale").</li>
+<li>Genera il video e analizza attentamente ogni singolo fotogramma.</li>
+<li>Compila una Griglia di Rilevamento Errori annotando:</li>
+</ol>
+</div>
+<div class="rcif-list">
+<ul>
+<li><strong>Anacronismi:</strong> ci sono oggetti, dettagli o abiti non coerenti con l'epoca?</li>
+<li><strong>Errori di Fisica e Anatomia:</strong> ci sono arti che si fondono, movimenti innaturali o oggetti che fluttuano?</li>
+<li><strong>Incoerenza di Sfondo:</strong> lo sfondo sfarfalla o cambia forma durante il movimento?</li>
+</ul>
+</div>
+<p>Formula 2 domande guida che potresti fare ai tuoi studenti per trasformare questo video "sbagliato" in un'occasione di ripasso e verifica delle fonti storiche o scientifiche.</p>
+</div>
+
+<div class="exercise-card">
+<h4 class="exercise-title">✍️ Esercizio 5: "Dalla Pagina al Trailer" (Progettazione del Compito Autentico)</h4>
+<p><em>Obiettivo Didattico: mettersi nei panni degli studenti per progettare un'attività didattica di produzione attiva basata sulla trasposizione da testo a video.</em></p>
+<p><strong>Piattaforma consigliata:</strong> documento di testo o ambiente grafico (es. Canva) per lo Storyboard.</p>
+<p><strong>Competenza chiave:</strong> progettazione didattica, scomposizione narrativa e valutazione formativa.</p>
+<p><strong>📝 Consegna operativa:</strong></p>
+<div class="rcif-list">
+<ol>
+<li>Scegli un brano d'autore o un evento storico significativo compreso nel tuo programma (es. l'addio ai monti nei Promessi Sposi, la prima eruzione del Vesuvio narrata da Plinio il Giovane, o la descrizione della struttura dell'atomo).</li>
+<li>Scomponi il testo in 3 scene consecutive e progetta la scheda di uno Storyboard Didattico compilando per ciascuna scena: testo citato / voce narrante (il frammento di testo d'origine); descrizione visiva/prompt (l'istruzione precisa da dare all'IA per generare la scena); criterio di controllo (cosa deve assolutamente essere presente nel video per dimostrare che lo studente ha capito il testo).</li>
+<li>Definisci la rubrica con cui valuteresti il lavoro dei tuoi studenti: quale peso daresti alla fedeltà al testo originale rispetto alla sola resa estetica del video?</li>
+</ol>
+</div>
 </div>
 
 <div class="back-to-top-wrap">
@@ -833,22 +1118,54 @@
 
 <!-- ==================== MATERIALI SCARICABILI ==================== -->
 <section class="section-block" id="downloads">
-<span class="section-tag-header">Materiali scaricabili</span>
-<div class="placeholder-box">
-⚠️ Non mi hai fornito l'elenco dei file da scaricare per questa lezione (PDF/PPT). Sostituisci i segnaposto sotto con i nomi reali e i percorsi corretti in /download/.
-</div>
+<span class="section-tag-header">Risorse e download</span>
 <div class="download-grid">
-<a class="download-card" href="download/documento.pdf" rel="noopener noreferrer" target="_blank">
+<a class="download-card" href="download/video.pdf" rel="noopener noreferrer" target="_blank">
 <span aria-hidden="true" class="download-icon icon-pdf"><svg viewBox="0 0 24 24"><use href="#icon-doc"></use></svg></span>
 <span class="download-info">
-<span class="download-title">[NOME FILE 1]</span>
+<span class="download-title">Foglio di riepilogo — Generazione video e applicazione didattica</span>
 </span>
 <span class="file-badge badge-pdf">PDF</span>
 </a>
-<a class="download-card" href="download/documento.pdf" rel="noopener noreferrer" target="_blank">
+<a class="download-card" href="download/video-tool.pdf" rel="noopener noreferrer" target="_blank">
+<span aria-hidden="true" class="download-icon icon-pdf"><svg viewBox="0 0 24 24"><use href="#icon-doc"></use></svg></span>
+<span class="download-info">
+<span class="download-title">Foglio di riepilogo — Confronto tra i vari tool</span>
+</span>
+<span class="file-badge badge-pdf">PDF</span>
+</a>
+<a class="download-card" href="download/video-cookbook.pdf" rel="noopener noreferrer" target="_blank">
+<span aria-hidden="true" class="download-icon icon-pdf"><svg viewBox="0 0 24 24"><use href="#icon-doc"></use></svg></span>
+<span class="download-info">
+<span class="download-title">Foglio di riepilogo — Prompt cookbook</span>
+</span>
+<span class="file-badge badge-pdf">PDF</span>
+</a>
+<a class="download-card" href="download/video-esercizi.pdf" rel="noopener noreferrer" target="_blank">
+<span aria-hidden="true" class="download-icon icon-pdf"><svg viewBox="0 0 24 24"><use href="#icon-doc"></use></svg></span>
+<span class="download-info">
+<span class="download-title">Foglio di riepilogo — Esercizi</span>
+</span>
+<span class="file-badge badge-pdf">PDF</span>
+</a>
+<a class="download-card" href="download/video-presentazione.pdf" rel="noopener noreferrer" target="_blank">
 <span aria-hidden="true" class="download-icon icon-ppt"><svg viewBox="0 0 24 24"><use href="#icon-doc"></use></svg></span>
 <span class="download-info">
-<span class="download-title">[NOME FILE 2]</span>
+<span class="download-title">Presentazione — Generazione video e didattica</span>
+</span>
+<span class="file-badge badge-ppt">PPT</span>
+</a>
+<a class="download-card" href="download/video-tool-presentazione.pdf" rel="noopener noreferrer" target="_blank">
+<span aria-hidden="true" class="download-icon icon-ppt"><svg viewBox="0 0 24 24"><use href="#icon-doc"></use></svg></span>
+<span class="download-info">
+<span class="download-title">Presentazione — Confronto tra i vari tool</span>
+</span>
+<span class="file-badge badge-ppt">PPT</span>
+</a>
+<a class="download-card" href="download/video-esercizi-presentazione.pdf" rel="noopener noreferrer" target="_blank">
+<span aria-hidden="true" class="download-icon icon-ppt"><svg viewBox="0 0 24 24"><use href="#icon-doc"></use></svg></span>
+<span class="download-info">
+<span class="download-title">Presentazione — Esercizi (in preparazione)</span>
 </span>
 <span class="file-badge badge-ppt">PPT</span>
 </a>
@@ -857,7 +1174,6 @@
 <a class="back-to-top" href="#page-top">↑ Torna all'inizio</a>
 </div>
 </section>
-
 <!-- ==================== BOTTONI DI NAVIGAZIONE ==================== -->
 <div class="navigation-buttons">
 <a class="btn btn-secondary" href="audio.html">← Lezione precedente: Audio, podcast e musica</a>
