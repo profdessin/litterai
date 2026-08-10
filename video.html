@@ -1,1 +1,900 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La creazione di video con l'IA — LitterAI</title>
+<link rel="icon" type="image/png" href="image/logo-sfondo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,500;0,600;0,700;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --color-primary: #0E3A52;   /* Blu Petrolio Scuro: Navbar, Footer, Intestazioni */
+    --color-accent: #19B5E8;    /* Ciano / Blu AI: Dettagli, Link, Pulsanti */
+    --color-secondary: #126A8A; /* Blu Intermedio: Sottotitoli */
+    --color-header: #BEE6F5;    /* Celeste intermedio */
+    --color-bg: #E9F4FA;        /* Sfondo pagina */
+    --color-surface: #F4FAFD;   /* Sfondo dei contenitori */
+    --color-text: #1E293B;      /* Grigio scuro/blu per testi */
+    --color-border: #E2E8F0;    /* Grigio leggero per linee */
+    --radius: 14px;
+    --shadow-soft: 0 8px 24px rgba(14, 58, 82, 0.08);
+  }
 
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+  
+  h1, h2, h3, h4, h5, .logo-text { 
+    font-family: 'Fraunces', serif; 
+    color: var(--color-primary); 
+  }
+  
+  a { text-decoration: none; color: inherit; }
+  ul, ol { margin-bottom: 20px; padding-left: 24px; }
+  li { margin-bottom: 8px; }
+  p { margin-bottom: 16px; }
+
+  .container { 
+    max-width: 960px; 
+    margin: 0 auto; 
+    padding: 0 24px; 
+  }
+
+  /* ---------- NAVBAR ---------- */
+  .navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background: var(--color-primary);
+    border-bottom: 1px solid var(--color-secondary);
+    transition: box-shadow 0.3s ease;
+  }
+  .navbar.scrolled { box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); }
+  
+  .nav-inner { 
+    display: flex; 
+    align-items: center; 
+    justify-content: space-between; 
+    padding: 12px 24px; 
+    max-width: 1150px; 
+    margin: 0 auto; 
+  }
+  
+  .nav-brand img { 
+    height: 40px; 
+    width: auto; 
+    display: block; 
+    filter: brightness(0) invert(1); 
+  }
+  
+  .nav-links { display: flex; gap: 2.2rem; }
+  .nav-links a { 
+    font-size: 0.95rem; 
+    font-weight: 500; 
+    color: #E8F3F8; 
+    position: relative; 
+    padding: 4px 0; 
+    transition: color 0.25s ease; 
+  }
+  .nav-links a::after { 
+    content: ""; 
+    position: absolute; 
+    bottom: -2px; 
+    left: 0; 
+    width: 0; 
+    height: 2px; 
+    background: var(--color-accent); 
+    transition: width 0.3s ease; 
+  }
+  .nav-links a:hover { color: var(--color-accent); }
+  .nav-links a:hover::after { width: 100%; }
+  
+  .nav-toggle { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; z-index: 1001; }
+  .nav-toggle span { width: 26px; height: 2.5px; background: #E8F3F8; border-radius: 2px; transition: all 0.3s ease; }
+
+  /* ---------- PAGE HEADER ---------- */
+  .page-header { 
+    padding: 140px 24px 60px; 
+    background: var(--color-header); 
+    text-align: center; 
+    border-bottom: 1px solid var(--color-border); 
+    scroll-margin-top: 90px;
+  }
+  .page-header h1 { font-size: clamp(2.2rem, 4.5vw, 3.2rem); margin-bottom: 12px; }
+  .page-header p { font-size: 1.15rem; color: var(--color-secondary); font-weight: 500; max-width: 750px; margin: 0 auto; }
+  
+  /* ---------- STILI SEZIONI DIDATTICHE ---------- */
+  .main-wrapper { padding: 60px 0; }
+  
+  .section-block {
+    background: #ffffff;
+    border-radius: var(--radius);
+    padding: 45px;
+    margin-bottom: 50px;
+    box-shadow: var(--shadow-soft);
+    border: 1px solid var(--color-border);
+    scroll-margin-top: 90px;
+  }
+
+  .section-tag-header {
+    display: inline-block;
+    background: var(--color-primary);
+    color: #ffffff;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    padding: 6px 16px;
+    border-radius: 50px;
+    margin-bottom: 25px;
+  }
+
+  .section-tag-header.lab {
+    background: var(--color-secondary);
+  }
+
+  h2.section-title {
+    font-size: 2.1rem;
+    margin-bottom: 25px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--color-bg);
+  }
+
+  h3.phase-title {
+    font-size: 1.5rem;
+    margin: 40px 0 15px;
+    color: var(--color-secondary);
+  }
+
+  h4.sub-phase-title {
+    font-size: 1.2rem;
+    margin: 25px 0 10px;
+    color: var(--color-primary);
+  }
+
+  h4.exercise-title {
+    font-size: 1.1rem;
+    margin: 20px 0 8px;
+    color: var(--color-primary);
+  }
+
+  blockquote.prompt-box {
+    background-color: var(--color-surface);
+    border-left: 4px solid var(--color-accent);
+    padding: 18px 22px;
+    margin: 12px 0 20px;
+    border-radius: 0 var(--radius) var(--radius) 0;
+    font-size: 0.96rem;
+    color: var(--color-text);
+  }
+  blockquote.prompt-box strong { color: var(--color-primary); }
+
+  .note-box {
+    background-color: #EBF8FF;
+    border-left: 4px solid var(--color-accent);
+    padding: 12px 16px;
+    margin: 15px 0 20px;
+    font-size: 0.9rem;
+    color: var(--color-primary);
+    border-radius: 0 8px 8px 0;
+  }
+
+  .placeholder-box {
+    background-color: #FFF6E9;
+    border-left: 4px solid #E0A030;
+    padding: 12px 16px;
+    margin: 15px 0 20px;
+    font-size: 0.88rem;
+    color: #7A5210;
+    border-radius: 0 8px 8px 0;
+    font-style: italic;
+  }
+
+  .rcif-list {
+    background: var(--color-bg);
+    padding: 20px 25px;
+    border-radius: 10px;
+    margin: 15px 0 25px;
+  }
+  .rcif-list ul, .rcif-list ol { margin-bottom: 0; }
+  .rcif-list li:last-child { margin-bottom: 0; }
+
+  .exercise-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 25px;
+    margin: 25px 0;
+  }
+
+  /* ---------- TABELLE COMPARATIVE ---------- */
+  .table-responsive {
+    overflow-x: auto;
+    margin: 20px 0 25px;
+  }
+
+  .summary-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+    text-align: left;
+  }
+
+  .summary-table th {
+    background-color: var(--color-primary);
+    color: #ffffff;
+    padding: 12px 14px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .summary-table td {
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--color-border);
+    vertical-align: top;
+  }
+
+  .summary-table tr:nth-child(even) {
+    background-color: var(--color-surface);
+  }
+
+  .summary-table td ul {
+    margin: 0;
+    padding-left: 16px;
+    font-size: 0.86rem;
+  }
+  .summary-table td ul li { margin-bottom: 4px; }
+  .summary-table td ul li:last-child { margin-bottom: 0; }
+
+  .summary-table strong.tool-name {
+    color: var(--color-primary);
+  }
+
+  .tool-cell {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    min-width: 120px;
+  }
+
+  .tag-category {
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    padding: 3px 9px;
+    border-radius: 20px;
+    background: var(--color-bg);
+    color: var(--color-secondary);
+    border: 1px solid var(--color-border);
+  }
+
+  /* ---------- NAV RAPIDA TRA LE PARTI ---------- */
+  .part-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 40px;
+  }
+  .part-nav a {
+    background: var(--color-primary);
+    color: #ffffff;
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 10px 20px;
+    border-radius: 50px;
+    box-shadow: 0 4px 14px rgba(14, 58, 82, 0.15);
+    transition: all 0.25s ease;
+  }
+  .part-nav a:hover {
+    background: var(--color-secondary);
+    transform: translateY(-2px);
+  }
+
+  .back-to-top-wrap {
+    text-align: right;
+    margin-top: 35px;
+  }
+  .back-to-top {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-secondary);
+    border: 1px solid var(--color-border);
+    padding: 8px 16px;
+    border-radius: 50px;
+    transition: all 0.25s ease;
+  }
+  .back-to-top:hover {
+    background: var(--color-bg);
+    color: var(--color-primary);
+    border-color: var(--color-secondary);
+  }
+
+  /* ---------- MATERIALI SCARICABILI ---------- */
+  .download-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+  }
+
+  .download-card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 16px 18px;
+    transition: all 0.25s ease;
+  }
+  .download-card:hover {
+    border-color: var(--color-accent);
+    box-shadow: var(--shadow-soft);
+    transform: translateY(-2px);
+  }
+
+  .download-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .download-icon svg { width: 20px; height: 20px; }
+  .download-icon.icon-pdf { background: #FBE7E7; color: #B91C1C; }
+  .download-icon.icon-ppt { background: #FDECD8; color: #C2680C; }
+
+  .download-info {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+  .download-title {
+    font-weight: 600;
+    color: var(--color-primary);
+    font-size: 0.93rem;
+    line-height: 1.35;
+  }
+
+  .file-badge {
+    flex-shrink: 0;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    padding: 4px 10px;
+    border-radius: 20px;
+  }
+  .file-badge.badge-pdf { background: #B91C1C; color: #ffffff; }
+  .file-badge.badge-ppt { background: #C2680C; color: #ffffff; }
+
+  /* ---------- PULSANTI FINALI DI NAVIGAZIONE ---------- */
+  .navigation-buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    margin-top: 40px;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px 28px;
+    font-weight: 600;
+    font-size: 1rem;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    text-align: center;
+  }
+
+  .btn-secondary {
+    background: #ffffff;
+    color: var(--color-primary);
+    border: 2px solid var(--color-primary);
+  }
+  .btn-secondary:hover {
+    background: var(--color-bg);
+    transform: translateY(-2px);
+  }
+
+  .btn-primary {
+    background: var(--color-primary);
+    color: #ffffff;
+    border: 2px solid var(--color-primary);
+    box-shadow: 0 4px 14px rgba(14, 58, 82, 0.2);
+  }
+  .btn-primary:hover {
+    background: var(--color-secondary);
+    border-color: var(--color-secondary);
+    transform: translateY(-2px);
+  }
+
+  /* ---------- FOOTER ---------- */
+  footer { 
+    background: var(--color-primary); 
+    color: #E8F3F8; 
+    text-align: center; 
+    padding: 34px 24px; 
+    border-top: 1px solid var(--color-secondary); 
+  }
+  footer p { font-size: 0.92rem; color: #BFE3F0; letter-spacing: 0.3px; }
+  footer .footer-logo { font-family: 'Fraunces', serif; font-weight: 700; color: var(--color-accent); }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width: 768px) {
+    .nav-links { 
+      position: fixed; top: 0; right: -100%; width: 70%; max-width: 320px; height: 100vh; 
+      background: var(--color-primary); 
+      flex-direction: column; justify-content: center; align-items: center; gap: 2.2rem; 
+      transition: right 0.4s ease; box-shadow: -8px 0 30px rgba(0,0,0,0.25); 
+    }
+    .nav-links.active { right: 0; }
+    .nav-toggle { display: flex; }
+    .nav-toggle.active span:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
+    .nav-toggle.active span:nth-child(2) { opacity: 0; }
+    .nav-toggle.active span:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
+    
+    .section-block { padding: 25px; }
+    .navigation-buttons { flex-direction: column; }
+    .btn { width: 100%; }
+    .back-to-top-wrap { text-align: left; }
+  }
+</style>
+</head>
+<body>
+
+  <!-- ==================== SPRITE ICONE ==================== -->
+  <svg width="0" height="0" style="position:absolute; overflow:hidden" aria-hidden="true">
+    <symbol id="icon-doc" viewBox="0 0 24 24">
+      <path fill="currentColor" d="M6 2a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6H6zm7 1.5L18.5 9H14a1 1 0 0 1-1-1V3.5zM8 13h8v1.5H8V13zm0 3.5h8V19H8v-1.5zm0-7h4V11H8V9.5z"/>
+    </symbol>
+  </svg>
+
+  <header class="navbar" id="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-brand">
+        <img src="image/logo.png" alt="LitterAI">
+      </a>
+      <nav>
+        <ul class="nav-links" id="navLinks">
+          <li><a href="index.html#home" class="nav-link-item">Home</a></li>
+          <li><a href="index.html#lezioni" class="nav-link-item">Lezioni</a></li>
+          <li><a href="#footer-info" class="nav-link-item">Info</a></li>
+        </ul>
+      </nav>
+      <button class="nav-toggle" id="navToggle" aria-label="Apri menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+ <div class="page-header" id="page-top">
+<div class="container">
+<h1>La creazione di video con l'IA</h1>
+<p>Dalla fisica del movimento sintetico alla progettazione di sequenze video efficaci per la didattica</p>
+</div>
+</div>
+<div class="main-wrapper">
+<div class="container">
+<!-- ==================== NAV RAPIDA TRA LE PARTI ==================== -->
+<div class="part-nav">
+<a href="#parte1">Comprendere la generazione video</a>
+<a href="#parte2">Creare video efficaci</a>
+<a href="#parte3">Video per la didattica</a>
+<a href="#parte4">Strumenti a confronto</a>
+<a href="#downloads">Materiali scaricabili</a>
+</div>
+
+<!-- ==================== PARTE 1 ==================== -->
+<section class="section-block" id="parte1">
+<span class="section-tag-header">Fondamenti</span>
+<h2 class="section-title">Parte 1 — Comprendere la generazione video</h2>
+<p>Prima di passare all'azione e utilizzare i software, è fondamentale comprendere cosa avviene "sotto il cofano" quando chiediamo a un'Intelligenza Artificiale di creare un video. Generare un'immagine statica è una sfida complessa, ma creare un video richiede un salto di livello concettuale e computazionale notevole: significa insegnare alla macchina non solo come rappresentare lo spazio, ma anche come interpretare il tempo e la fisica del movimento.</p>
+
+<h3 class="phase-title">Modulo 1.1: Come nasce un video con l'IA</h3>
+
+<h4 class="sub-phase-title">Che cos'è la generazione video</h4>
+<p>A differenza del video editing tradizionale — dove tagliamo, cuciamo e montiamo riprese reali fatte con una telecamera —, la generazione video tramite IA crea fotogrammi totalmente sintetici partendo da modelli matematici. L'algoritmo non attinge da un archivio di video preesistenti per "incollarli" insieme, ma ricostruisce da zero ogni singolo istante della scena.</p>
+
+<h4 class="sub-phase-title">Dal testo alla sequenza di immagini</h4>
+<p>Un video digitale standard è composto da una successione rapida di immagini fisse (chiamate fotogrammi o frames), solitamente tra i 24 e i 30 al secondo. Quando forniamo un prompt di testo al sistema:</p>
+<div class="rcif-list">
+<ol>
+<li>L'IA analizza il testo per comprendere i soggetti, lo stile e l'ambiente.</li>
+<li>Genera un primo fotogramma chiave (keyframe).</li>
+<li>Prevede come quel fotogramma debba evolversi nel tempo, calcolando i fotogrammi successivi uno per uno.</li>
+</ol>
+</div>
+
+<h4 class="sub-phase-title">Il concetto di movimento e vettori</h4>
+<p>Come fa la macchina a sapere come si muove un oggetto? I modelli di generazione video vengono addestrati su milioni di ore di filmati. Attraverso questo addestramento, l'IA impara i vettori di movimento: apprende che una chioma d'albero si muove sotto l'azione del vento, che i panni stesi oscillano, che una persona che cammina sposta alternativamente le gambe e che le ombre cambiano in base al movimento delle luci.</p>
+
+<h4 class="sub-phase-title">Perché il video è più complesso dell'immagine</h4>
+<p>Quando chiediamo all'IA di generare un'immagine statica, il modello deve garantire la coerenza spaziale (oggetti collocati correttamente nello spazio). Nel video entra in gioco una quarta dimensione: il tempo. L'algoritmo deve garantire la coerenza temporale: la sedia su cui è seduto il nostro personaggio al secondo 1 deve rimanere la stessa sedia al secondo 4, senza svanire, cambiare forma o mutare colore tra un fotogramma e l'altro.</p>
+
+<h4 class="sub-phase-title">Perché ogni generazione è diversa</h4>
+<p>I modelli generativi sono di natura probabilistica, non deterministica. Questo significa che, fornendo esattamente lo stesso prompt due volte di seguito, l'IA non produrrà mai due video identici. Ogni generazione è un calcolo unico e irripetibile di probabilità visive.</p>
+
+<h3 class="phase-title">Modulo 1.2: I principali tipi di generazione video</h3>
+<p>Non tutti i video generati con l'IA nascono allo stesso modo. A seconda del nostro obiettivo didattico, possiamo sfruttare cinque diverse modalità di produzione:</p>
+<div class="rcif-list">
+<ol>
+<li><strong>Text-to-Video (Da Testo a Video):</strong> è la modalità più pura e complessa. Scriviamo una descrizione testuale (prompt) e l'IA genera l'intera sequenza visiva da zero. <em>Utile per:</em> creare ambientazioni d'atmosfera, paesaggi storici o scene simboliche prive di dettagli rigidi.</li>
+<li><strong>Image-to-Video (Da Immagine a Video):</strong> forniamo all'IA un'immagine statica (un quadro famoso, una foto d'epoca o un'immagine creata con DALL-E/Midjourney/Canva) e le chiediamo di "animarla" attraverso un prompt o parametri di movimento. <em>Utile per:</em> mantenere un elevato controllo sul soggetto e sullo stile visivo prima di dare vita alla scena.</li>
+<li><strong>Video-to-Video (Trasformazione Video):</strong> carichiamo un video reale esistente e chiediamo all'IA di applicare uno stile visivo differente (es. trasformare una ripresa di una strada moderna in un acquerello animato o in un cartone animato). <em>Utile per:</em> rielaborare contenuti multimediali creati dagli studenti mantenendo la recitazione o i movimenti originali.</li>
+<li><strong>Avatar e Talking Head (Personaggi Parlanti):</strong> algoritmi specializzati che prendono un ritratto (una foto, un dipinto o un avatar 3D) e sincronizzano i movimenti del volto e del labiale (lip-sync) a un file audio o a un testo scritto. <em>Utile per:</em> far "parlare" personaggi storici, autori letterari o creare spiegazioni sintetiche per la flipped classroom.</li>
+<li><strong>Editing assistito dall'IA:</strong> strumenti di post-produzione che usano l'IA per automatizzare compiti complessi, come la trascrizione e la generazione di sottotitoli automatici, il tracciamento dei soggetti, il ritaglio intelligente o la rimozione dello sfondo.</li>
+</ol>
+</div>
+
+<h3 class="phase-title">Modulo 1.3: I limiti attuali e la fisica dell'IA</h3>
+<p>Per insegnare l'uso critico di questi strumenti ai nostri studenti, dobbiamo per primi conoscere i punti deboli della tecnologia attuale. L'IA non "capisce" la fisica del mondo reale, si limita a simularla su base statistica.</p>
+<h4 class="sub-phase-title">I principali difetti della generazione video sintetico</h4>
+<div class="rcif-list">
+<ul>
+<li><strong>Coerenza tra fotogrammi e sfarfallio (flickering):</strong> durante il movimento, gli elementi secondari sullo sfondo possono mutare, sfarfallare o cambiare consistenza da un secondo all'altro.</li>
+<li><strong>Movimenti innaturali e la gravità:</strong> l'IA fallisce spesso nel simulare il peso degli oggetti o le collisioni fisiche. Personaggi che camminano possono sembrare "scivolare" sul terreno o muoversi con fluidità innaturale (uncanny valley).</li>
+<li><strong>Volti, mani e oggetti complessi:</strong> se la telecamera si muove, le mani possono generare dita extra o fondersi con gli oggetti impugnati (es. una penna che si fonde con la mano di uno scrittore).</li>
+<li><strong>Continuità dei personaggi:</strong> far compiere a uno stesso personaggio un'azione complessa in più scene consecutive è la sfida più ardua: l'IA tende a modificare i tratti del viso o gli abiti ad ogni nuova generazione.</li>
+<li><strong>Gestione del testo e dettagli micro:</strong> le scritte all'interno dei video generati (insegne, libri, cartelli) risultano quasi sempre incomprensibili, prive di senso o composte da caratteri distorti.</li>
+<li><strong>Anacronismi ed errori storici:</strong> senza una guida rigida nel prompt, l'IA rischia di inserire elementi moderni o concettualmente errati all'interno di ricostruzioni storiche (es. un orologio da polso nel Senato romano).</li>
+</ul>
+</div>
+
+<div class="back-to-top-wrap">
+<a class="back-to-top" href="#page-top">↑ Torna all'inizio</a>
+</div>
+</section>
+
+<!-- ==================== PARTE 2 ==================== -->
+<section class="section-block" id="parte2">
+<span class="section-tag-header">Tecnica</span>
+<h2 class="section-title">Parte 2 — Creare video efficaci</h2>
+<p>Creare un video con l'Intelligenza Artificiale non significa semplicemente scrivere qualche parola e attendere il risultato. Richiede la capacità di ragionare come un regista: occorre definire lo spazio, il movimento, l'inquadratura e il ritmo nel tempo. In questa sezione vedremo come trasformare un'idea astratta in una sequenza visiva coerente ed efficace per la didattica.</p>
+
+<h3 class="phase-title">Modulo 2.1: Come scrivere un prompt video</h3>
+<p>Mentre un prompt per immagini descrive uno stato statico, un prompt video descrive una trasformazione nel tempo. Bisogna indicare all'IA non solo cosa c'è nella scena, ma anche cosa succede e come la telecamera osserva l'azione.</p>
+
+<h4 class="sub-phase-title">I 7 elementi chiave di un prompt video</h4>
+<p>Per costruire una descrizione completa ed efficace, struttura il tuo prompt includendo questi componenti:</p>
+<div class="rcif-list">
+<ol>
+<li><strong>Soggetto:</strong> chi o cosa è il protagonista della scena (es. un astronomo del Seicento).</li>
+<li><strong>Azione:</strong> cosa sta facendo il soggetto (es. osserva il cielo attraverso un cannocchiale di legno).</li>
+<li><strong>Ambiente:</strong> il contesto spaziale e temporale (es. in un'antica torre osservatorio, carte astronomiche sparse sul tavolo).</li>
+<li><strong>Movimento del soggetto:</strong> la dinamica del movimento (es. si sposta lentamente, regolando la posizione del tubo).</li>
+<li><strong>Movimento della telecamera:</strong> come si muove l'obiettivo (es. carrellata lenta in avanti, panning verso destra, zoom in).</li>
+<li><strong>Inquadratura:</strong> la distanza o l'angolo della ripresa (es. primo piano, piano medio, campo lungo, vista dall'alto).</li>
+<li><strong>Stile, luce e atmosfera:</strong> l'estetica visiva (es. luce lunare che entra dalla finestra, stile cinematografico, toni caldi, 4k).</li>
+</ol>
+</div>
+
+<h4 class="sub-phase-title">Costruzione progressiva di un prompt: un esempio pratico</h4>
+<p>Vediamo come un prompt semplice e generico si trasforma in un'istruzione registica precisa, garantendo un risultato di gran lunga superiore.</p>
+
+<p><strong>Livello 1 (Base):</strong></p>
+<blockquote class="prompt-box">"Un amanuense medievale"</blockquote>
+<p><strong>Risultato dell'IA:</strong> una scena statica, generica e imprevedibile. L'IA potrebbe generare un'immagine fissa o movimenti casuali e privi di senso.</p>
+
+<p><strong>Livello 2 (Intermedio):</strong></p>
+<blockquote class="prompt-box">"Un amanuense medievale scrive un manoscritto in un monastero"</blockquote>
+<p><strong>Risultato dell'IA:</strong> l'azione è chiara, ma la telecamera è fissa e l'atmosfera visiva è affidata interamente al caso.</p>
+
+<p><strong>Livello 3 (Avanzato):</strong></p>
+<blockquote class="prompt-box">"Piano medio di un amanuense medievale che scrive lentamente su una pergamena con una piuma d'oca. Ambiente: uno scriptorium illuminato da candele, pulviscolo dorato che fluttua nell'aria. Movimento di camera: carrellata lenta in avanti verso il manoscritto. Stile cinematografico, dettagli nitidi, toni caldi d'epoca."</blockquote>
+<p><strong>Risultato dell'IA:</strong> una clip d'impatto, coerente, con un movimento di macchina fluido e un'atmosfera perfetta per una lezione di storia o letteratura.</p>
+
+<h3 class="phase-title">Modulo 2.2: Dal testo all'immagine, dall'immagine al video</h3>
+<p>Uno degli errori più comuni tra i principianti è affidarsi esclusivamente alla modalità Text-to-Video (generare il video direttamente dal testo). Nella maggior parte dei casi, la strategia migliore è seguire un percorso in tre fasi:</p>
+<div class="note-box">
+          💡 <strong>Il flusso di lavoro consigliato:</strong> "Testo" ⟶ "Immagine" ⟶ "Movimento"</div>
+
+<h4 class="sub-phase-title">Quando usare il Text-to-Video diretto</h4>
+<div class="rcif-list">
+<ul>
+<li>Quando cerchi ispirazione o vuoi generare sfondi d'atmosfera astratti.</li>
+<li>Quando non hai vincoli rigidi sul volto dei personaggi o sull'architettura della scena.</li>
+</ul>
+</div>
+
+<h4 class="sub-phase-title">Quando passare prima dall'immagine (Image-to-Video)</h4>
+<div class="rcif-list">
+<ul>
+<li><strong>Controllo visivo totale:</strong> generare prima un'immagine fissa (con strumenti come Midjourney, DALL-E, Canva o Leonardo) ti permette di perfezionare ogni dettaglio dello sfondo e del personaggio prima di dargli movimento.</li>
+<li><strong>Continuità con la lezione sulle immagini:</strong> se durante la lezione sulla creazione di immagini hai già generato illustrazioni o quadri per le tue schede didattiche, puoi riutilizzarli direttamente come punto di partenza per dar loro vita.</li>
+<li><strong>Uso di fonti storiche reali:</strong> puoi caricare dipinti d'epoca, mappe o ritratti originali a dominio pubblico per animarli senza alterarne la struttura di base.</li>
+</ul>
+</div>
+
+<h3 class="phase-title">Modulo 2.3: Costruire una sequenza (La micro-regia didattica)</h3>
+<p>Un singolo video di 4 secondi generato dall'IA non è una lezione: è solo un mattoncino. Per costruire un video didattico efficace occorre progettare una sequenza narrativa.</p>
+
+<h4 class="sub-phase-title">Il flusso di lavoro in 5 passaggi</h4>
+<div class="rcif-list">
+<ol>
+<li><strong>Lo Storyboard:</strong> dividi il contenuto della tua spiegazione in piccole unità narrative (scene).</li>
+<li><strong>Scrittura dello script e voce narrante:</strong> prepara il testo spiegato (puoi usare gli strumenti audio analizzati nella lezione precedente per generare la voce fuori campo).</li>
+<li><strong>Generazione delle clip individuali:</strong> genera una breve clip visiva (3-5 secondi) per ciascuna frase o concetto dello storyboard.</li>
+<li><strong>Montaggio e sincronizzazione:</strong> unisci le clip in un editor video (come CapCut o Canva) sovrapponendole alla traccia audio.</li>
+<li><strong>Accessibilità e sottotitoli:</strong> aggiungi sottotitoli e parole chiave per facilitare la comprensione (fondamentale per studenti con BES o DSA).</li>
+</ol>
+</div>
+
+<h4 class="exercise-title">Esempio pratico: tradurre una terzina di Dante in video</h4>
+<p>Ipotizziamo di voler spiegare visivamente l'incipit della Commedia:</p>
+<blockquote class="prompt-box">"Nel mezzo del cammin di nostra vita / mi ritrovai per una selva oscura, / ché la diritta via era smarrita."</blockquote>
+
+<div class="table-responsive">
+<table class="summary-table">
+<thead>
+<tr>
+<th>Scena</th>
+<th>Testo Audio / Voce Narrante</th>
+<th>Descrizione Visiva / Prompt IA</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Scena 1</td>
+<td>"Nel mezzo del cammin di nostra vita..."</td>
+<td>Prompt: campo lungo di una figura solitaria con mantello rosso che cammina lungo un sentiero roccioso al tramonto. Carrellata indietro.</td>
+</tr>
+<tr>
+<td>Scena 2</td>
+<td>"...mi ritrovai per una selva oscura..."</td>
+<td>Prompt: piano medio di alberi secolari e intricati con nebbia densa, luce spettrale che filtra tra i rami. Movimento di camera lento verso l'alto.</td>
+</tr>
+<tr>
+<td>Scena 3</td>
+<td>"...ché la diritta via era smarrita."</td>
+<td>Prompt: primo piano sul volto del viandante che si volta smarrito verso la camera, sguardo preoccupato, atmosfera cupa e drammatica.</td>
+</tr>
+<tr>
+<td colspan="3">Montaggio: unione delle 3 clip + traccia voce narrante + sottotitoli automatici in CapCut/Canva.</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<h3 class="phase-title">Modulo 2.4: Tecniche avanzate di coerenza</h3>
+<p>Mantenere la continuità visiva tra scene diverse è una delle sfide principali dell'IA generativa. Ecco alcune tecniche operative per evitare che i personaggi cambino aspetto da un fotogramma all'altro:</p>
+
+<h4 class="exercise-title">1. Usare l'IA come "Co-Pilot" nella scrittura dei prompt</h4>
+<p>Se hai in mente un'idea ma non sai come descrivere i movimenti di macchina o la fisica della scena, chiedi a un Chatbot (come ChatGPT, Claude o Gemini):</p>
+<blockquote class="prompt-box"><strong>Prompt da usare in chat:</strong> "Trasforma questa idea per una lezione in 3 prompt visivi dettagliati in inglese per un generatore video: [inserisci la tua idea]."</blockquote>
+
+<h4 class="exercise-title">2. Prompt di riferimento visivo (Image Prompting)</h4>
+<p>Molti generatori video avanzati consentono di caricare un'immagine di partenza e un'immagine finale, chiedendo all'IA di generare la transizione in movimento tra le due.</p>
+
+<h4 class="exercise-title">3. Lavorare per variazione, non da zero</h4>
+<p>Quando trovi uno stile o un personaggio che funziona, non cambiare il prompt iniziale: modifica soltanto l'azione.</p>
+<div class="note-box">
+          💡 <strong>Esempio:</strong> mantieni identica tutta la descrizione dell'amanuense e modifica solo la parte finale, da "scrive a lume di candela" a "posa la piuma e chiude il libro".</div>
+
+<h4 class="exercise-title">4. Gestione del formato e dei movimenti</h4>
+<p>Per presentazioni scolastiche prediligi il formato orizzontale (16:9); per attività degli studenti su tablet o smartphone puoi optare per il formato verticale (9:16). Ricorda: movimenti di macchina lenti e fluidi generano sempre meno distorsioni rispetto a movimenti rapidi.</p>
+
+<div class="back-to-top-wrap">
+<a class="back-to-top" href="#page-top">↑ Torna all'inizio</a>
+</div>
+</section>
+
+<!-- ==================== PARTE 3 ==================== -->
+<section class="section-block" id="parte3">
+<span class="section-tag-header lab">Didattica</span>
+<h2 class="section-title">Parte 3 — Video per la didattica</h2>
+<p>Disporre di strumenti capaci di generare immagini in movimento in pochi secondi è un'opportunità straordinaria, ma la tecnologia da sola non produce apprendimento. In questa sezione esploreremo come trasformare il video sintetico da semplice "effetto speciale" a risorsa pedagogica strutturata, capace di stimolare l'inclusione, la comprensione profonda e la rielaborazione critica da parte degli studenti.</p>
+
+<h3 class="phase-title">Modulo 3.1: Quando un video aggiunge valore?</h3>
+<p>Non tutto ciò che può essere trasformato in un video deve necessariamente diventarlo. L'uso dell'Intelligenza Artificiale nella scuola deve rispondere a un principio fondamentale di efficacia didattica: il video generato ha senso se e solo se offre un valore aggiunto rispetto al testo scritto, all'immagine statica o alla spiegazione orale.</p>
+
+<h4 class="sub-phase-title">I pilastri del valore aggiunto visivo</h4>
+<div class="rcif-list">
+<ul>
+<li><strong>Visual Learning e Semplificazione di Concetti Complessi:</strong> la capacità di visualizzare dinamiche temporali o ambientazioni lontane aiuta a costruire modelli mentali solidi, specialmente in presenza di concetti astratti.</li>
+<li><strong>Inclusione e Accessibilità (BES / DSA):</strong> i contenuti video combinati con sintesi vocale e sottotitoli costituiscono un potente canale vicariante per studenti con difficoltà di lettura, dislessia o svantaggio linguistico, riducendo il carico cognitivo.</li>
+<li><strong>Aumento dell'Engagement e del Coinvolgimento:</strong> un incipit visivo forte (un hook di pochi secondi) all'inizio di una lezione cattura l'attenzione della classe e attiva la curiosità epistemica.</li>
+<li><strong>Flipped Classroom (Classe Capovolta):</strong> brevi pillole video generate dal docente permettono agli studenti di studiare i contenuti teorici a casa con il proprio ritmo, liberando tempo prezioso in aula per il dibattito, il lavoro di gruppo e i laboratori.</li>
+</ul>
+</div>
+<div class="note-box">
+          🎯 <strong>Il principio guida per il docente:</strong> chiediti sempre: "Questo video serve solo a decorare la mia presentazione o aiuta i miei studenti a capire meglio, a ricordare più a lungo o a porsi nuove domande?"</div>
+
+<h3 class="phase-title">Modulo 3.2: Idee e attività per le discipline letterarie e umanistiche</h3>
+<p>Le discipline umanistiche traggono un enorme vantaggio dalla capacità di "mettere in scena" la cultura. Ecco alcune applicazioni concrete da cui prendere spunto per le proprie lezioni:</p>
+
+<h4 class="exercise-title">1. Dare vita al patrimonio artistico e letterario</h4>
+<div class="rcif-list">
+<ul>
+<li><strong>Quadri che raccontano:</strong> animare dipinti storici o copertine di codici miniati per mostrare i dettagli della composizione o per far "uscire" un personaggio dalla tela e introdurre l'opera.</li>
+<li><strong>Ricostruzione di ambienti storici:</strong> trasformare fonti iconografiche o descrizioni testuali nella ricostruzione di una domus romana, di una bottega rinascimentale o di un caffè letterario dell'Ottocento.</li>
+</ul>
+</div>
+
+<h4 class="exercise-title">2. Visualizzazione della poesia e dell'epica</h4>
+<p>Tradurre l'apparato metaforico e simbolico di un testo poetico (da Omero a Montale) in sequenze visive evocative che accompagnano la lettura metrica o la parafrasi, aiutando gli studenti a cogliere l'atmosfera e le figure retoriche.</p>
+
+<h4 class="exercise-title">3. Interviste impossibili e Avatar Parlanti</h4>
+<p>Utilizzare strumenti di Talking Head per creare brevi interventi di autori del passato. Un "Dante", un "Manzoni" o un' "Emily Dickinson" virtuali possono presentare le proprie opere, spiegare il contesto della loro epoca o rispondere alle domande degli studenti, rendendo lo studio della storia della letteratura decisamente più vivo.</p>
+
+<h4 class="exercise-title">4. Booktrailer e Teaser Didattici</h4>
+<p>Realizzare brevi "trailer" cinematografici per introdurre la lettura di un romanzo programmato per l'anno scolastico, creando aspettativa e interesse prima ancora di aprire il libro.</p>
+
+<h3 class="phase-title">Modulo 3.3: Il video come prodotto degli studenti (Didattica Attiva)</h3>
+<p>La vera svolta metodologica si verifica quando l'IA smette di essere uno strumento esclusivo del docente per diventare uno strumento di lavoro nelle mani degli studenti. In questo contesto, la generazione video si trasforma in un potente esercizio di comprensione, sintesi e rielaborazione critica.</p>
+
+<div class="note-box">
+          💡 <strong>Il processo di produzione dello studente:</strong> Testo d'origine ──► Analisi &amp; Storyboard ──► Ingegneria del Prompt ──► Generazione &amp; Editing ──► Debriefing Critico</div>
+
+<div class="rcif-list">
+<ol>
+<li><strong>Analisi del Testo:</strong> gli studenti leggono un testo (un canto della Divina Commedia, un capitolo de I Promessi Sposi, un saggio storico) e ne individuano i punti chiave, i personaggi e i nuclei narrativi.</li>
+<li><strong>Progettazione dello Storyboard:</strong> la classe o il gruppo di lavoro scompone il testo in scene, decidendo cosa mostrare e quale testo o voce narrante abbinare.</li>
+<li><strong>Traduzione in Prompt (Ingegneria delle istruzioni):</strong> per far generare all'IA la scena corretta, gli studenti devono dimostrare di aver compreso il testo originale: devono descrivere l'abbigliamento d'epoca preciso, l'architettura, le emozioni dei personaggi e l'atmosfera.</li>
+<li><strong>Assemblaggio e Montaggio:</strong> gli studenti uniscono le clip, registrano la propria voce narrante, aggiungono la colonna sonora e inseriscono i sottotitoli.</li>
+<li><strong>Presentazione e Valutazione:</strong> il prodotto finale viene mostrato alla classe e discusso collettivamente.</li>
+</ol>
+</div>
+<p><strong>Perché funziona:</strong> gli studenti non sono semplici spettatori passivi, ma diventano "registi trasversali". Per spiegare all'IA come generare una scena di un romanzo o di un evento storico, devono prima aver studiato e capito a fondo quel testo.</p>
+
+<h3 class="phase-title">Modulo 3.4: Limiti, etica e pensiero critico</h3>
+<p>Portare la generazione video a scuola richiede una riflessione etica e la costruzione di un solido spirito critico negli studenti. I video sintetici rappresentano infatti una delle frontiere più delicate dell'informazione digitale.</p>
+<div class="rcif-list">
+<ul>
+<li><strong>I Deepfake e la Disinformazione Visiva:</strong> insegnare agli studenti che oggi "vedere non è più credere". Analizzare in classe video sintetici per identificare i segnali d'allarme (artefatti visivi, sbavature, movimento innaturale degli occhi, errori di luce) costituisce una fondamentale lezione di educazione alla cittadinanza digitale.</li>
+<li><strong>Diritto d'Autore e Proprietà Intellettuale:</strong> discutere di come i modelli di IA generativa vengono addestrati e di come tutelare le opere d'arte umane originali dal plagio sintetico.</li>
+<li><strong>Privacy e Uso delle Immagini:</strong> stabilire regole ferree sull'uso dei volti: non utilizzare mai foto di compagni di classe o docenti per generare avatar senza consenso e utilizzare sempre immagini a dominio pubblico o con licenza Creative Commons per la creazione di avatar storici.</li>
+<li><strong>Trasparenza e Dichiarazione dell'Uso dell'IA:</strong> educare gli studenti a dichiarare sempre esplicitamente quando un contenuto multimediale è stato generato con il supporto dell'IA, abituandoli alla trasparenza intellettuale e al rispetto delle fonti.</li>
+</ul>
+</div>
+
+<div class="back-to-top-wrap">
+<a class="back-to-top" href="#page-top">↑ Torna all'inizio</a>
+</div>
+</section>
+
+<!-- ==================== PARTE 4 ==================== -->
+<section class="section-block" id="parte4">
+<span class="section-tag-header">Strumenti</span>
+<h2 class="section-title">Parte 4 — I principali strumenti a confronto</h2>
+<p>I generatori video basati su Intelligenza Artificiale non sono tutti uguali: ognuno possiede specializzazioni, punti di forza e limiti specifici. Per un docente non è necessario conoscere decine di piattaforme diverse; l'aspetto fondamentale è comprendere quale tipologia di strumento attivare in base al risultato didattico che si desidera ottenere.</p>
+<p>In questa sezione analizziamo le piattaforme più efficaci e accessibili oggi disponibili, valutandone l'impatto e la sostenibilità nell'uso scolastico.</p>
+
+<h3 class="phase-title">Modulo 4.1: Piattaforme Text-to-Video e Image-to-Video</h3>
+<p>Questi strumenti rappresentano i "motori di regia" dell'IA: sono progettati per creare scenografie, ambientazioni d'epoca, brevi sequenze narrative e animazioni di immagini statiche.</p>
+
+<div class="table-responsive">
+<table class="summary-table">
+<thead>
+<tr>
+<th>Strumento</th>
+<th>Ideale per</th>
+<th>Pro</th>
+<th>Contro</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<div class="tool-cell">
+<strong class="tool-name">Kling AI</strong>
+<span class="tag-category">Text/Image-to-Video</span>
+</div>
+</td>
+<td>Creare sequenze ambientali complesse, ricostruzioni di eventi storici e animazioni ad alta fedeltà a partire da immagini statiche.</td>
+<td><ul><li>Eccellente gestione del movimento e della fisica degli oggetti.</li><li>Generazione di clip fino a 5-10 secondi con ottima stabilità.</li><li>Piano gratuito con crediti giornalieri/mensili ricaricabili.</li></ul></td>
+<td><ul><li>I tempi di attesa per la generazione nei piani gratuiti possono essere lunghi durante le ore di picco.</li><li>Richiede prompt visivi molto dettagliati per evitare interpretazioni fantasiose.</li></ul></td>
+</tr>
+<tr>
+<td>
+<div class="tool-cell">
+<strong class="tool-name">Runway (Gen-2 / Gen-3 Alpha)</strong>
+<span class="tag-category">Text/Image-to-Video</span>
+</div>
+</td>
+<td>Progetti ad alto impatto visivo, booktrailer e scenografie per la didattica delle arti e della letteratura. Uno dei pionieri della generazione video sintetica, punto di riferimento per la qualità cinematografica e il controllo della telecamera.</td>
+<td><ul><li>Controllo avanzato sui movimenti di macchina (zoom, panning, inclinazione).</li></ul></td>
+<td><em>[Contenuto non fornito nel materiale ricevuto: il testo si interrompe qui]</em></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div class="placeholder-box">
+⚠️ Il materiale che mi hai fornito per la Parte 4 si interrompe a metà della scheda su Runway. Mancano: la lista CONTRO di Runway, gli altri strumenti da confrontare in tabella (Text-to-Video/Image-to-Video, ma anche presumibilmente Avatar/Talking Head ed editing assistito, coerentemente coi moduli 1.2), l'eventuale Modulo 4.2, oltre a tutta la Parte 5 (schede/laboratorio) e Parte 6 (esercitazioni pratiche + tabella di autovalutazione) previste dal template. Inviami il testo completo e integro questa sezione senza inventare contenuti.
+</div>
+
+<div class="back-to-top-wrap">
+<a class="back-to-top" href="#page-top">↑ Torna all'inizio</a>
+</div>
+</section>
+
+<!-- ==================== MATERIALI SCARICABILI ==================== -->
+<section class="section-block" id="downloads">
+<span class="section-tag-header">Materiali scaricabili</span>
+<div class="placeholder-box">
+⚠️ Non mi hai fornito l'elenco dei file da scaricare per questa lezione (PDF/PPT). Sostituisci i segnaposto sotto con i nomi reali e i percorsi corretti in /download/.
+</div>
+<div class="download-grid">
+<a class="download-card" href="download/documento.pdf" rel="noopener noreferrer" target="_blank">
+<span aria-hidden="true" class="download-icon icon-pdf"><svg viewBox="0 0 24 24"><use href="#icon-doc"></use></svg></span>
+<span class="download-info">
+<span class="download-title">[NOME FILE 1]</span>
+</span>
+<span class="file-badge badge-pdf">PDF</span>
+</a>
+<a class="download-card" href="download/documento.pdf" rel="noopener noreferrer" target="_blank">
+<span aria-hidden="true" class="download-icon icon-ppt"><svg viewBox="0 0 24 24"><use href="#icon-doc"></use></svg></span>
+<span class="download-info">
+<span class="download-title">[NOME FILE 2]</span>
+</span>
+<span class="file-badge badge-ppt">PPT</span>
+</a>
+</div>
+<div class="back-to-top-wrap">
+<a class="back-to-top" href="#page-top">↑ Torna all'inizio</a>
+</div>
+</section>
+
+<!-- ==================== BOTTONI DI NAVIGAZIONE ==================== -->
+<div class="navigation-buttons">
+<a class="btn btn-secondary" href="audio.html">← Lezione precedente: Audio, podcast e musica</a>
+<a class="btn btn-primary" href="verifiche.html">Lezione successiva: Verifiche →</a>
+</div>
+</div>
+</div>
+
+  <footer id="footer-info">
+    <p><span class="footer-logo">LitterAI</span> - a cura del prof. Daniele Virgili - 2026</p>
+  </footer>
+
+  <script>
+    const navbar = document.getElementById('navbar');
+    const navToggle = document.getElementById('navToggle');
+    const navLinks = document.getElementById('navLinks');
+
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 20) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
+    });
+
+    navToggle.addEventListener('click', () => {
+      navToggle.classList.toggle('active');
+      navLinks.classList.toggle('active');
+    });
+
+    document.querySelectorAll('.nav-link-item').forEach(link => {
+      link.addEventListener('click', () => {
+        navToggle.classList.remove('active');
+        navLinks.classList.remove('active');
+      });
+    });
+  </script>
+
+</body>
+</html>
