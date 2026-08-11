@@ -352,6 +352,13 @@
     transform: translateY(-2px);
   }
 
+  .download-card.disabled {
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+.file-badge.badge-soon { background: var(--color-secondary); color: #ffffff; }
+
   .download-icon {
     width: 42px;
     height: 42px;
@@ -1266,15 +1273,13 @@
             <span class="file-badge badge-ppt">PPT</span>
           </a>
 
-          <a href="download/immagini-esercizi-presentazione.pdf" class="download-card" target="_blank" rel="noopener noreferrer">
-            <span class="download-icon icon-ppt" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#icon-doc"></use></svg></span>
-            <span class="download-info">
-              <span class="download-title">Presentazione sugli esercizi (in preparazione)</span>
-            </span>
-            <span class="file-badge badge-ppt">PPT</span>
-          </a>
-        </div>
-
+        <a class="download-card disabled" href="#" aria-disabled="true">
+<span aria-hidden="true" class="download-icon icon-ppt"><svg viewBox="0 0 24 24"><use href="#icon-doc"></use></svg></span>
+<span class="download-info">
+<span class="download-title">Presentazione — Esercizi</span>
+</span>
+<span class="file-badge badge-soon">A BREVE</span>
+</a>
         <div class="back-to-top-wrap">
           <a href="#page-top" class="back-to-top">↑ Torna all'inizio</a>
         </div>
