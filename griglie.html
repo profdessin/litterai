@@ -1,0 +1,1223 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La creazione di griglie e rubriche di valutazione — LitterAI</title>
+<link rel="icon" type="image/png" href="image/logo-sfondo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,500;0,600;0,700;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --color-primary: #0E3A52;   /* Blu Petrolio Scuro: Navbar, Footer, Intestazioni */
+    --color-accent: #19B5E8;    /* Ciano / Blu AI: Dettagli, Link, Pulsanti */
+    --color-secondary: #126A8A; /* Blu Intermedio: Sottotitoli */
+    --color-header: #BEE6F5;    /* Celeste intermedio */
+    --color-bg: #E9F4FA;        /* Sfondo pagina */
+    --color-surface: #F4FAFD;   /* Sfondo dei contenitori */
+    --color-text: #1E293B;      /* Grigio scuro/blu per testi */
+    --color-border: #E2E8F0;    /* Grigio leggero per linee */
+    --radius: 14px;
+    --shadow-soft: 0 8px 24px rgba(14, 58, 82, 0.08);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+  
+  h1, h2, h3, h4, h5, .logo-text { 
+    font-family: 'Fraunces', serif; 
+    color: var(--color-primary); 
+  }
+  
+  a { text-decoration: none; color: inherit; }
+  ul, ol { margin-bottom: 20px; padding-left: 24px; }
+  li { margin-bottom: 8px; }
+  p { margin-bottom: 16px; }
+
+  .container { 
+    max-width: 960px; 
+    margin: 0 auto; 
+    padding: 0 24px; 
+  }
+
+  /* ---------- NAVBAR ---------- */
+  .navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background: var(--color-primary);
+    border-bottom: 1px solid var(--color-secondary);
+    transition: box-shadow 0.3s ease;
+  }
+  .navbar.scrolled { box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); }
+  
+  .nav-inner { 
+    display: flex; 
+    align-items: center; 
+    justify-content: space-between; 
+    padding: 12px 24px; 
+    max-width: 1150px; 
+    margin: 0 auto; 
+  }
+  
+  .nav-brand img { 
+    height: 40px; 
+    width: auto; 
+    display: block; 
+    filter: brightness(0) invert(1); 
+  }
+  
+  .nav-links { display: flex; gap: 2.2rem; }
+  .nav-links a { 
+    font-size: 0.95rem; 
+    font-weight: 500; 
+    color: #E8F3F8; 
+    position: relative; 
+    padding: 4px 0; 
+    transition: color 0.25s ease; 
+  }
+  .nav-links a::after { 
+    content: ""; 
+    position: absolute; 
+    bottom: -2px; 
+    left: 0; 
+    width: 0; 
+    height: 2px; 
+    background: var(--color-accent); 
+    transition: width 0.3s ease; 
+  }
+  .nav-links a:hover { color: var(--color-accent); }
+  .nav-links a:hover::after { width: 100%; }
+  
+  .nav-toggle { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; z-index: 1001; }
+  .nav-toggle span { width: 26px; height: 2.5px; background: #E8F3F8; border-radius: 2px; transition: all 0.3s ease; }
+
+  /* ---------- PAGE HEADER ---------- */
+  .page-header { 
+    padding: 140px 24px 60px; 
+    background: var(--color-header); 
+    text-align: center; 
+    border-bottom: 1px solid var(--color-border); 
+    scroll-margin-top: 90px;
+  }
+  .page-header h1 { font-size: clamp(2.2rem, 4.5vw, 3.2rem); margin-bottom: 12px; }
+  .page-header p { font-size: 1.15rem; color: var(--color-secondary); font-weight: 500; max-width: 750px; margin: 0 auto; }
+  
+  /* ---------- STILI SEZIONI DIDATTICHE ---------- */
+  .main-wrapper { padding: 60px 0; }
+  
+  .section-block {
+    background: #ffffff;
+    border-radius: var(--radius);
+    padding: 45px;
+    margin-bottom: 50px;
+    box-shadow: var(--shadow-soft);
+    border: 1px solid var(--color-border);
+    scroll-margin-top: 90px;
+  }
+
+  .section-tag-header {
+    display: inline-block;
+    background: var(--color-primary);
+    color: #ffffff;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    padding: 6px 16px;
+    border-radius: 50px;
+    margin-bottom: 25px;
+  }
+
+  .section-tag-header.lab {
+    background: var(--color-secondary);
+  }
+
+  h2.section-title {
+    font-size: 2.1rem;
+    margin-bottom: 25px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--color-bg);
+  }
+
+  h3.phase-title {
+    font-size: 1.5rem;
+    margin: 40px 0 15px;
+    color: var(--color-secondary);
+  }
+
+  h4.sub-phase-title {
+    font-size: 1.2rem;
+    margin: 25px 0 10px;
+    color: var(--color-primary);
+  }
+
+  h4.exercise-title {
+    font-size: 1.1rem;
+    margin: 20px 0 8px;
+    color: var(--color-primary);
+  }
+
+  blockquote.prompt-box {
+    background-color: var(--color-surface);
+    border-left: 4px solid var(--color-accent);
+    padding: 18px 22px;
+    margin: 12px 0 20px;
+    border-radius: 0 var(--radius) var(--radius) 0;
+    font-size: 0.96rem;
+    color: var(--color-text);
+  }
+  blockquote.prompt-box strong { color: var(--color-primary); }
+
+  .note-box {
+    background-color: #EBF8FF;
+    border-left: 4px solid var(--color-accent);
+    padding: 12px 16px;
+    margin: 15px 0 20px;
+    font-size: 0.9rem;
+    color: var(--color-primary);
+    border-radius: 0 8px 8px 0;
+  }
+
+  .rcif-list {
+    background: var(--color-bg);
+    padding: 20px 25px;
+    border-radius: 10px;
+    margin: 15px 0 25px;
+  }
+  .rcif-list ul, .rcif-list ol { margin-bottom: 0; }
+  .rcif-list li:last-child { margin-bottom: 0; }
+
+  .exercise-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 25px;
+    margin: 25px 0;
+  }
+
+  /* ---------- TABELLE COMPARATIVE ---------- */
+  .table-responsive {
+    overflow-x: auto;
+    margin: 20px 0 25px;
+  }
+
+  .summary-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+    text-align: left;
+  }
+
+  .summary-table th {
+    background-color: var(--color-primary);
+    color: #ffffff;
+    padding: 12px 14px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .summary-table td {
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--color-border);
+    vertical-align: top;
+  }
+
+  .summary-table tr:nth-child(even) {
+    background-color: var(--color-surface);
+  }
+
+  .summary-table td ul {
+    margin: 0;
+    padding-left: 16px;
+    font-size: 0.86rem;
+  }
+  .summary-table td ul li { margin-bottom: 4px; }
+  .summary-table td ul li:last-child { margin-bottom: 0; }
+
+  .summary-table strong.tool-name {
+    color: var(--color-primary);
+  }
+
+  .tool-cell {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    min-width: 120px;
+  }
+  .tool-icon {
+    width: 26px;
+    height: 26px;
+    flex-shrink: 0;
+  }
+  .tool-icon.letter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 7px;
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: 0.85rem;
+    color: #ffffff;
+  }
+
+  .tag-category {
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    padding: 3px 9px;
+    border-radius: 20px;
+    background: var(--color-bg);
+    color: var(--color-secondary);
+    border: 1px solid var(--color-border);
+  }
+
+  /* ---------- NAV RAPIDA TRA LE PARTI ---------- */
+  .part-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 40px;
+  }
+  .part-nav a {
+    background: var(--color-primary);
+    color: #ffffff;
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 10px 20px;
+    border-radius: 50px;
+    box-shadow: 0 4px 14px rgba(14, 58, 82, 0.15);
+    transition: all 0.25s ease;
+  }
+  .part-nav a:hover {
+    background: var(--color-secondary);
+    transform: translateY(-2px);
+  }
+
+  .back-to-top-wrap {
+    text-align: right;
+    margin-top: 35px;
+  }
+  .back-to-top {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-secondary);
+    border: 1px solid var(--color-border);
+    padding: 8px 16px;
+    border-radius: 50px;
+    transition: all 0.25s ease;
+  }
+  .back-to-top:hover {
+    background: var(--color-bg);
+    color: var(--color-primary);
+    border-color: var(--color-secondary);
+  }
+
+  /* ---------- MATERIALI SCARICABILI ---------- */
+  .download-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+  }
+
+  .download-card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 16px 18px;
+    transition: all 0.25s ease;
+  }
+  .download-card:hover {
+    border-color: var(--color-accent);
+    box-shadow: var(--shadow-soft);
+    transform: translateY(-2px);
+  }
+
+  .download-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .download-icon svg { width: 20px; height: 20px; }
+  .download-icon.icon-pdf { background: #FBE7E7; color: #B91C1C; }
+  .download-icon.icon-ppt { background: #FDECD8; color: #C2680C; }
+
+  .download-info {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+  .download-title {
+    font-weight: 600;
+    color: var(--color-primary);
+    font-size: 0.93rem;
+    line-height: 1.35;
+  }
+
+  .file-badge {
+    flex-shrink: 0;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    padding: 4px 10px;
+    border-radius: 20px;
+  }
+  .file-badge.badge-pdf { background: #B91C1C; color: #ffffff; }
+  .file-badge.badge-ppt { background: #C2680C; color: #ffffff; }
+
+  /* ---------- FLUSSO DOCENTE / IA ---------- */
+  .flow-diagram {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin: 20px 0 25px;
+    padding: 25px;
+    background: var(--color-bg);
+    border-radius: 10px;
+  }
+  .flow-step {
+    background: #ffffff;
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    padding: 14px 20px;
+    text-align: center;
+    min-width: 170px;
+    box-shadow: var(--shadow-soft);
+  }
+  .flow-step strong { display: block; color: var(--color-primary); font-family: 'Fraunces', serif; font-size: 1.05rem; margin-bottom: 4px; }
+  .flow-step span { font-size: 0.85rem; color: var(--color-text); }
+  .flow-arrow { font-size: 1.4rem; color: var(--color-accent); font-weight: 700; }
+
+  /* ---------- PULSANTI FINALI DI NAVIGAZIONE ---------- */
+  .navigation-buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    margin-top: 40px;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px 28px;
+    font-weight: 600;
+    font-size: 1rem;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    text-align: center;
+  }
+
+  .btn-secondary {
+    background: #ffffff;
+    color: var(--color-primary);
+    border: 2px solid var(--color-primary);
+  }
+  .btn-secondary:hover {
+    background: var(--color-bg);
+    transform: translateY(-2px);
+  }
+
+  .btn-primary {
+    background: var(--color-primary);
+    color: #ffffff;
+    border: 2px solid var(--color-primary);
+    box-shadow: 0 4px 14px rgba(14, 58, 82, 0.2);
+  }
+  .btn-primary:hover {
+    background: var(--color-secondary);
+    border-color: var(--color-secondary);
+    transform: translateY(-2px);
+  }
+
+  /* ---------- FOOTER ---------- */
+  footer { 
+    background: var(--color-primary); 
+    color: #E8F3F8; 
+    text-align: center; 
+    padding: 34px 24px; 
+    border-top: 1px solid var(--color-secondary); 
+  }
+  footer p { font-size: 0.92rem; color: #BFE3F0; letter-spacing: 0.3px; }
+  footer .footer-logo { font-family: 'Fraunces', serif; font-weight: 700; color: var(--color-accent); }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width: 768px) {
+    .nav-links { 
+      position: fixed; top: 0; right: -100%; width: 70%; max-width: 320px; height: 100vh; 
+      background: var(--color-primary); 
+      flex-direction: column; justify-content: center; align-items: center; gap: 2.2rem; 
+      transition: right 0.4s ease; box-shadow: -8px 0 30px rgba(0,0,0,0.25); 
+    }
+    .nav-links.active { right: 0; }
+    .nav-toggle { display: flex; }
+    .nav-toggle.active span:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
+    .nav-toggle.active span:nth-child(2) { opacity: 0; }
+    .nav-toggle.active span:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
+    
+    .section-block { padding: 25px; }
+    .navigation-buttons { flex-direction: column; }
+    .btn { width: 100%; }
+    .back-to-top-wrap { text-align: left; }
+    .flow-diagram { flex-direction: column; }
+    .flow-arrow { transform: rotate(90deg); }
+  }
+</style>
+</head>
+<body>
+
+  <!-- ==================== SPRITE ICONE ==================== -->
+  <svg width="0" height="0" style="position:absolute; overflow:hidden" aria-hidden="true">
+    <symbol id="icon-doc" viewBox="0 0 24 24">
+      <path fill="currentColor" d="M6 2a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6H6zm7 1.5L18.5 9H14a1 1 0 0 1-1-1V3.5zM8 13h8v1.5H8V13zm0 3.5h8V19H8v-1.5zm0-7h4V11H8V9.5z"/>
+    </symbol>
+    <symbol id="icon-chatgpt" viewBox="0 0 256 260">
+      <path d="M239.184 106.203a64.716 64.716 0 0 0-5.576-53.103C219.452 28.459 191 15.784 163.213 21.74A65.586 65.586 0 0 0 52.096 45.22a64.716 64.716 0 0 0-43.23 31.36c-14.31 24.602-11.061 55.634 8.033 76.74a64.665 64.665 0 0 0 5.525 53.102c14.174 24.65 42.644 37.324 70.446 31.36a64.72 64.72 0 0 0 48.754 21.744c28.481.025 53.714-18.361 62.414-45.481a64.767 64.767 0 0 0 43.229-31.36c14.137-24.558 10.875-55.423-8.083-76.483Zm-97.56 136.338a48.397 48.397 0 0 1-31.105-11.255l1.535-.87 51.67-29.825a8.595 8.595 0 0 0 4.247-7.367v-72.85l21.845 12.636c.218.111.37.32.409.563v60.367c-.056 26.818-21.783 48.545-48.601 48.601Zm-104.466-44.61a48.345 48.345 0 0 1-5.781-32.589l1.534.921 51.722 29.826a8.339 8.339 0 0 0 8.441 0l63.181-36.425v25.221a.87.87 0 0 1-.358.665l-52.335 30.184c-23.257 13.398-52.97 5.431-66.404-17.803ZM23.549 85.38a48.499 48.499 0 0 1 25.58-21.333v61.39a8.288 8.288 0 0 0 4.195 7.316l62.874 36.272-21.845 12.636a.819.819 0 0 1-.767 0L41.353 151.53c-23.211-13.454-31.171-43.144-17.804-66.405v.256Zm179.466 41.695-63.08-36.63L161.73 77.86a.819.819 0 0 1 .768 0l52.233 30.184a48.6 48.6 0 0 1-7.316 87.635v-61.391a8.544 8.544 0 0 0-4.4-7.213Zm21.742-32.69-1.535-.922-51.619-30.081a8.39 8.39 0 0 0-8.492 0L99.98 99.808V74.587a.716.716 0 0 1 .307-.665l52.233-30.133a48.652 48.652 0 0 1 72.236 50.391v.205ZM88.061 139.097l-21.845-12.585a.87.87 0 0 1-.41-.614V65.685a48.652 48.652 0 0 1 79.757-37.346l-1.535.87-51.67 29.825a8.595 8.595 0 0 0-4.246 7.367l-.051 72.697Zm11.868-25.58 28.138-16.217 28.188 16.218v32.434l-28.086 16.218-28.188-16.218-.052-32.434Z"/>
+    </symbol>
+    <symbol id="icon-gemini" viewBox="0 0 24 24">
+      <path d="M11.04 19.32Q12 21.51 12 24q0-2.49.93-4.68.96-2.19 2.58-3.81t3.81-2.55Q21.51 12 24 12q-2.49 0-4.68-.93a12.3 12.3 0 0 1-3.81-2.58 12.3 12.3 0 0 1-2.58-3.81Q12 2.49 12 0q0 2.49-.96 4.68-.93 2.19-2.55 3.81a12.3 12.3 0 0 1-3.81 2.58Q2.49 12 0 12q2.49 0 4.68.96 2.19.93 3.81 2.55t2.55 3.81"/>
+    </symbol>
+  </svg>
+
+  <header class="navbar" id="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-brand">
+        <img src="image/logo.png" alt="LitterAI">
+      </a>
+      <nav>
+        <ul class="nav-links" id="navLinks">
+          <li><a href="index.html#home" class="nav-link-item">Home</a></li>
+          <li><a href="index.html#lezioni" class="nav-link-item">Lezioni</a></li>
+          <li><a href="#footer-info" class="nav-link-item">Info</a></li>
+        </ul>
+      </nav>
+      <button class="nav-toggle" id="navToggle" aria-label="Apri menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+ <div class="page-header" id="page-top">
+<div class="container">
+<h1>La creazione di griglie e rubriche di valutazione</h1>
+<p>Come usare l'intelligenza artificiale per progettare, adattare e raffinare gli strumenti di valutazione, mantenendo sempre il docente al centro del giudizio pedagogico.</p>
+</div>
+</div>
+<div class="main-wrapper">
+<div class="container">
+<!-- ==================== NAV RAPIDA TRA LE PARTI ==================== -->
+<div class="part-nav">
+<a href="#parte1">Dalla griglia all'IA</a>
+<a href="#parte2">Cosa possiamo fare</a>
+<a href="#parte3">Griglie ufficiali e ad hoc</a>
+<a href="#parte4">Tool e strumenti</a>
+<a href="#parte5">Prompt Cookbook</a>
+<a href="#parte6">Laboratorio pratico</a>
+<a href="#downloads">Materiali</a>
+</div>
+
+<!-- ==================== PARTE 1 ==================== -->
+<section class="section-block" id="parte1">
+<span class="section-tag-header">PARTE 1</span>
+<h2 class="section-title">Dalla griglia all'IA</h2>
+<p>Nella nostra pratica quotidiana di docenti di Italiano e Latino, la valutazione è uno dei momenti più delicati, complessi e dispendiosi in termini di tempo. Tutti noi utilizziamo abitualmente le griglie di valutazione: le usiamo per correggere un tema di tipologia B o C, per attribuire un voto a una versione di Latino, o per strutturare la prova orale.</p>
+
+<h3 class="phase-title">Modulo 1.1: Che cos'è una griglia di valutazione</h3>
+<p>Ma che cos'è, in sostanza, una griglia di valutazione? Senza addentrarci in complesse teorie docimologiche, una griglia è semplicemente uno strumento di trasparenza e di coerenza. Serve a rendere esplicito — a noi stessi, agli studenti e alle famiglie — che cosa stiamo valutando, quali aspetti riteniamo importanti e come attribuiamo un determinato punteggio o giudizio.</p>
+
+<h4 class="sub-phase-title">Gli elementi ricorrenti di una griglia</h4>
+<p>Una griglia può organizzarsi attorno ad alcuni elementi ricorrenti:</p>
+<div class="rcif-list">
+<ol>
+<li><strong>Criteri (o indicatori):</strong> le dimensioni o gli aspetti dell'attività che abbiamo deciso di misurare. In una versione di Latino, ad esempio, possono essere la correttezza morfosintattica, la resa lessicale e stilistica o la comprensione del testo.</li>
+<li><strong>Livelli:</strong> la scala di prestazione che adottiamo per descrivere il lavoro dell'alunno (ad esempio: eccellente, buono, sufficiente, non sufficiente, oppure una scala numerica).</li>
+<li><strong>Descrittori:</strong> le descrizioni concrete e osservabili di ciò che lo studente sa fare a ciascun livello. È il cuore della griglia: spiega cosa significa, nei fatti, ottenere "buono" o "insufficiente" in un determinato criterio.</li>
+<li><strong>Punteggi (o pesi):</strong> la traduzione dei criteri e dei livelli in numeri, percentuali o voti decimali, in linea con i criteri stabiliti dal Collegio dei Docenti o dal PTOF.</li>
+</ol>
+</div>
+
+<h4 class="sub-phase-title">La regola d'oro: la coerenza</h4>
+<p>La qualità principale di una griglia di valutazione non è la sua lunghezza, né la sua complessità formale, ma la sua coerenza con ciò che è stato realmente richiesto agli studenti. Se assegniamo un'attività di scrittura argomentativa e poi valutiamo quasi esclusivamente la correttezza ortografica, si crea un cortocircuito: la griglia non misura ciò per cui la prova era stata progettata.</p>
+
+<h4 class="sub-phase-title">Una nota sul termine "Rubrica"</h4>
+<p>Per semplificare, possiamo considerare la rubrica come una forma particolarmente articolata di griglia, nella quale i diversi livelli di prestazione vengono descritti in modo esplicito e dettagliato. Nel corso di questa lezione continueremo a usare prevalentemente l'espressione "griglia di valutazione", che ci è più familiare, sapendo che i principi di fondo sono gli stessi.</p>
+
+<h3 class="phase-title">Modulo 1.2: Che cosa può fare l'IA per la valutazione</h3>
+<p>Quando pensiamo all'Intelligenza Artificiale applicata alla valutazione, il primo impulso potrebbe essere quello di aprire un chatbot e scrivere semplicemente: "Creami una griglia di valutazione per un tema di Italiano".</p>
+<p>Questo approccio, tuttavia, sfrutta solo una minima frazione delle potenzialità dell'IA e spesso restituisce risultati generici o poco adatti alla nostra classe. Il valore più grande dell'IA non sta nel sostituire la nostra mente, ma nel funzionare come un assistente di redazione e di progettazione. Soprattutto, non dobbiamo partire sempre da zero: la situazione più utile non è chiedere all'IA di inventare qualcosa di nuovo, ma dirle: "Questa è la griglia che utilizzo già: aiutami a migliorarla, a chiarirla o ad adattarla alla prova di oggi".</p>
+
+<h4 class="sub-phase-title">Sei operazioni concrete</h4>
+<p>Ecco quali sono le operazioni concrete che un modello linguistico può svolgere al nostro fianco:</p>
+<div class="rcif-list">
+<ol>
+<li><strong>Generare (partire da zero per attività nuove):</strong> se stiamo progettando un'attività didattica insolita o innovativa — come un debate filosofico-letterario, la realizzazione di un podcast su Dante, o una presentazione multimediale su un autore latino — l'IA può fornirci in pochi secondi una prima bozza strutturata di griglia, evidenziando criteri a cui magari non avevamo pensato.</li>
+<li><strong>Adattare (declinare sul contesto):</strong> possiamo inserire un testo, una traccia d'esame o una griglia generale di dipartimento e chiedere all'IA di adattarla a uno specifico compito o a una specifica classe, bilanciando i criteri sulla base di quanto spiegato nelle lezioni precedenti.</li>
+<li><strong>Raffinare (eliminare il vago):</strong> è uno degli usi più preziosi. Quante volte nelle nostre griglie troviamo descrittori come "dimostra una buona conoscenza" o "si esprime in modo adeguato"? L'IA è straordinariamente efficace nel trasformare queste formule generiche in descrittori operativi e osservabili.</li>
+<li><strong>Controllare (rilevare incoerenze):</strong> incollando la nostra griglia nell'IA, possiamo chiederle di fare una revisione critica: ci sono criteri che si sovrappongono? I livelli sono chiaramente distinguibili tra loro? I punteggi assegnati sono equilibrati?</li>
+<li><strong>Trasformare (cambiare registro e pubblico):</strong> l'IA può prendere una griglia di valutazione formale pensata per il docente e convertirla in una checklist di autovalutazione per gli studenti, tradotta in un linguaggio semplice, diretto e comprensibile.</li>
+<li><strong>Personalizzare (valutare compiti complessi):</strong> dalla valutazione dei lavori di gruppo alle analisi comparative di due testi poetici, l'IA ci permette di costruire strumenti su misura in pochi minuti, lasciando al docente più spazio per concentrarsi sulla qualità dei criteri e sulla coerenza con l'attività.</li>
+</ol>
+</div>
+
+<h3 class="phase-title">Modulo 1.3: Il docente resta il valutatore</h3>
+<p>Con la diffusione degli strumenti di Intelligenza Artificiale, è fondamentale chiarire un principio irrinunciabile: l'IA non si sostituisce al giudizio pedagogico del docente. L'IA può essere utilizzata anche per analizzare o formulare una proposta di valutazione, ma non deve essere considerata il soggetto che decide autonomamente il giudizio da attribuire allo studente.</p>
+
+<div class="flow-diagram">
+<div class="flow-step"><strong>Docente</strong><span>Fornisce contesto, obiettivi e vincoli</span></div>
+<span class="flow-arrow">→</span>
+<div class="flow-step"><strong>IA</strong><span>Genera una bozza o propone modifiche</span></div>
+<span class="flow-arrow">→</span>
+<div class="flow-step"><strong>Docente</strong><span>Revisiona, adatta, valida ed applica</span></div>
+</div>
+
+<h4 class="sub-phase-title">Che cosa può fare l'IA</h4>
+<div class="rcif-list">
+<ul>
+<li>Proporre un elenco di criteri ed elementi da considerare.</li>
+<li>Suggerire descrittori linguistici precisi e ben articolati.</li>
+<li>Evidenziare lacune o ridondanze nella struttura della griglia.</li>
+<li>Formattare la griglia in tabelle chiare e pronte all'uso.</li>
+</ul>
+</div>
+
+<h4 class="sub-phase-title">Che cosa NON può fare l'IA</h4>
+<div class="rcif-list">
+<ul>
+<li>Non conosce le decisioni assunte nel vostro Dipartimento di Lettere.</li>
+<li>Non conosce il PTOF della vostra scuola né i criteri di istituto.</li>
+<li>Non conosce la vostra classe: non sa se quel gruppo di studenti ha appena affrontato un determinato argomento o se ha bisogno di un supporto specifico.</li>
+<li>Non possiede la responsabilità educativa e legale della valutazione.</li>
+</ul>
+</div>
+
+<div class="note-box">
+          💡 <strong>Il concetto di "Bozza da revisionare":</strong> ogni output generato dall'IA deve essere considerato esclusivamente come un punto di partenza, una bozza da vagliare con l'occhio critico dell'esperto. Non esiste una formula fissa o una percentuale matematica (come "80% IA e 20% docente"): in alcuni casi l'IA restituirà una bozza quasi perfetta che richiederà solo piccoli ritocchi; in altri casi fornirà solo un'idea utile o una tabella da ristrutturare completamente. In qualunque scenario, la decisione finale su cosa valutare, come valutarlo e quale voto attribuire appartiene — e apparterrà sempre — al docente.</div>
+
+<div class="back-to-top-wrap">
+<a class="back-to-top" href="#page-top">↑ Torna all'inizio</a>
+</div>
+</section>
+
+<!-- ==================== PARTE 2 ==================== -->
+<section class="section-block" id="parte2">
+<span class="section-tag-header">PARTE 2</span>
+<h2 class="section-title">Cosa possiamo fare con l'IA</h2>
+<p>Vediamo ora, in concreto, come tradurre le sei operazioni introdotte nella Parte 1 in prompt e flussi di lavoro applicabili nella pratica quotidiana.</p>
+
+<h3 class="phase-title">Modulo 2.1: Creare una griglia per un'attività nuova</h3>
+<p>Quando proponiamo un'attività didattica che esce dalla routine (un podcast, un debate, un'analisi comparativa), definire la griglia di valutazione da zero richiede tempo. Guidando l'IA attraverso la corretta sequenza logica, possiamo ottenere in pochi secondi un'ottima prima bozza di lavoro.</p>
+
+<h4 class="sub-phase-title">Il percorso di progettazione</h4>
+<div class="flow-diagram">
+<div class="flow-step"><strong>Attività</strong></div>
+<span class="flow-arrow">→</span>
+<div class="flow-step"><strong>Obiettivi</strong></div>
+<span class="flow-arrow">→</span>
+<div class="flow-step"><strong>Criteri</strong></div>
+<span class="flow-arrow">→</span>
+<div class="flow-step"><strong>Livelli</strong></div>
+<span class="flow-arrow">→</span>
+<div class="flow-step"><strong>Descrittori</strong></div>
+</div>
+
+<h4 class="sub-phase-title">Un esempio pratico: Podcast su Seneca</h4>
+<p>Ipotizziamo di aver assegnato un compito di realtà: realizzare un podcast audio di 5 minuti su Seneca e l'attualità delle Epistulae ad Lucilium. Ecco come formulare il prompt:</p>
+<blockquote class="prompt-box"><strong>Prompt di partenza:</strong> "Sono un docente di Latino del liceo. Ho assegnato alla classe quarta la creazione di un podcast audio di 5 minuti in cui presentare Seneca e l'attualità delle Epistulae ad Lucilium a un pubblico di coetanei. Proponi una griglia di valutazione con 4 criteri (Aderenza ai contenuti, Registro/Divulgazione, Struttura del podcast, Qualità espositiva/audio). Per ciascun criterio imposta 4 livelli (Eccellente, Buono, Sufficiente, Non sufficiente) con descrittori brevi e osservabili."</blockquote>
+
+<p>Come si presenta l'output dell'IA (estratto):</p>
+<div class="table-responsive">
+<table class="summary-table">
+<thead>
+<tr>
+<th>Criterio</th>
+<th>Livello: Eccellente</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Aderenza e correttezza dei contenuti</td>
+<td>Espone il pensiero di Seneca con accuratezza concettuale e contestualizza in modo originale l'attualità dei temi trattati.</td>
+</tr>
+<tr>
+<td>Registro e divulgazione</td>
+<td>Adotta un registro colloquiale ma rigoroso, pienamente adeguato al format podcast e al target dei coetanei.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Il vantaggio per il docente:</strong> in meno di un minuto otteniamo una struttura logica pronta su cui intervenire con i nostri ritocchi pedagogici.</p>
+
+<h3 class="phase-title">Modulo 2.2: Adattare una griglia che già possediamo</h3>
+<p>Nella pratica di tutti i giorni non dobbiamo reinventare la ruota. Spesso possediamo già la griglia approvata dal Dipartimento di Lettere o un modello ministeriale, e abbiamo semplicemente bisogno di adattarla alla singola traccia o prova che stiamo somministrando.</p>
+<div class="note-box">
+          ⚠️ <strong>Importante:</strong> la griglia di Dipartimento fissa le cornici istituzionali, i criteri generali e i pesi dei voti. L'IA non deve alterare questi vincoli, ma aiutarci a declinare i descrittori in relazione al testo o alla traccia specifica.</div>
+
+<h4 class="sub-phase-title">Esempio pratico di adattamento</h4>
+<p>Se la griglia generale del Dipartimento prevede il criterio "Comprensione e analisi del testo", possiamo chiedere all'IA:</p>
+<blockquote class="prompt-box"><strong>Prompt:</strong> "Ecco la griglia generale di Dipartimento [incolla testo] e la traccia del tema argomentativo su Machiavelli che ho appena preparato [incolla traccia]. Senza modificare i criteri e i punteggi della griglia generale, adatta i descrittori del criterio 'Comprensione e analisi' rendendoli specifici per questa traccia su Machiavelli."</blockquote>
+<p>In questo modo l'IA esplicita al docente e agli studenti che cosa significa, concretamente, "analizzare bene" quella specifica traccia.</p>
+
+<h3 class="phase-title">Modulo 2.3: Migliorare descrittori e livelli</h3>
+<p>Spesso le nostre griglie tradizionali contengono formule vaghe come "dimostra una buona comprensione" o "si esprime in modo adeguato". L'IA è utilissima per trasformare queste espressioni in comportamenti osservabili, senza però inventare contenuti o vincoli prescrittivi non previsti.</p>
+<div class="table-responsive">
+<table class="summary-table">
+<thead>
+<tr>
+<th>Descrittore vago</th>
+<th>Descrittore rettificato con l'IA</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Dimostra una buona capacità di analisi del testo poetico.</td>
+<td>Individua le principali figure retoriche e ne spiega la funzione espressiva in relazione al tema del testo.</td>
+</tr>
+<tr>
+<td>Traduce la versione di Latino in modo adeguato.</td>
+<td>Riconosce e interpreta correttamente le strutture sintattiche del periodo, restituendone il significato in italiano in modo preciso e coerente.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="note-box">
+          🎯 <strong>Attenzione alle "sovrainvenzioni" dell'IA:</strong> verificate sempre che l'IA non abbia inserito nei descrittori requisiti specifici (es. citare costrutti sintattici particolari) che non avevate intenzionalmente richiesto nella prova. Se l'output è troppo lungo o pedante, basta richiedere: "Rendi i descrittori più sintetici: massimo 2 righe per livello".</div>
+
+<h3 class="phase-title">Modulo 2.4: Dalla griglia del docente allo strumento per lo studente</h3>
+<p>L'IA ci permette di trasformare una griglia formale in una checklist di autovalutazione o in una scheda di peer assessment (valutazione tra pari), favorendo la trasparenza e la metacognizione degli studenti.</p>
+<h4 class="sub-phase-title">Esempio di trasformazione</h4>
+<div class="rcif-list">
+<ul>
+<li><strong>Dalla griglia del docente:</strong> "Individua la tesi centrale e le argomentazioni a supporto, distinguendole dalle obiezioni."</li>
+<li><strong>Alla checklist per lo studente (generata dall'IA):</strong> ☐ Ho esplicitato chiaramente la mia tesi nel primo paragrafo? ☐ Ho inserito almeno due argomenti a sostegno della mia idea? ☐ Ho preso in considerazione un'obiezione e l'ho confutata?</li>
+</ul>
+</div>
+<p>Questo passaggio aiuta gli studenti a comprendere i criteri di correzione prima della consegna, permettendo loro di revisionare l'elaborato in autonomia.</p>
+
+<h3 class="phase-title">Modulo 2.5: Controllare una griglia con l'IA</h3>
+<p>Oltre a creare e adattare, possiamo usare l'IA come revisore critico di una griglia che abbiamo già costruito da soli. È un modo efficace per individuare punti deboli prima di distribuirla alla classe.</p>
+<blockquote class="prompt-box"><strong>Prompt:</strong> "Analizza questa mia griglia di valutazione [incolla la griglia]. Segnalami: 1) Se ci sono criteri che rischiano di sovrapporsi; 2) Se i passaggi tra i livelli (es. tra 'Sufficiente' e 'Discreto') sono chiari o sfumati; 3) Se ci sono termini ambigui o poco osservabili nei descrittori."</blockquote>
+<p>L'IA metterà in luce eventuali incongruenze, offrendoci lo spunto per affinare lo strumento prima di applicarlo alle verifiche della classe.</p>
+
+<div class="back-to-top-wrap">
+<a class="back-to-top" href="#page-top">↑ Torna all'inizio</a>
+</div>
+</section>
+
+<!-- ==================== PARTE 3 ==================== -->
+<section class="section-block" id="parte3">
+<span class="section-tag-header">PARTE 3</span>
+<h2 class="section-title">Griglie ufficiali e griglie ad hoc</h2>
+<p>Nella vita scolastica quotidiana non tutte le griglie nascono nello stesso modo né hanno lo stesso valore normativo. È importante distinguere quando possiamo lasciare mano libera all'IA e quando invece dobbiamo tenerla rigorosamente ancorata a vincoli già stabiliti.</p>
+
+<h3 class="phase-title">Modulo 3.1: Quando la griglia non si può modificare</h3>
+<p>È fondamentale distinguere tre livelli di strumenti:</p>
+<div class="rcif-list">
+<ol>
+<li><strong>Griglie ministeriali:</strong> definite a livello nazionale (come quelle per le prove scritte dell'Esame di Stato) e non modificabili nei criteri.</li>
+<li><strong>Criteri d'istituto e griglie di Dipartimento:</strong> deliberati dal Collegio dei Docenti o dai singoli Dipartimenti disciplinari (es. Dipartimento di Lettere) per garantire omogeneità di valutazione tra le classi dello stesso indirizzo.</li>
+<li><strong>Griglie ad hoc del docente:</strong> strumenti flessibili progettati per specifiche attività didattiche, laboratori, debate o compiti di realtà.</li>
+</ol>
+</div>
+
+<h4 class="sub-phase-title">Il ruolo dell'IA di fronte ai vincoli istituzionali</h4>
+<p>Quando lavoriamo con griglie ministeriali o di Dipartimento, i criteri, i livelli e i punteggi sono già stabiliti dagli organi competenti e non devono essere alterati arbitrariamente. L'IA non conosce le delibere del vostro istituto né le scelte didattiche del vostro Dipartimento. Di conseguenza, non dobbiamo mai chiedere al chatbot di "riscrivere" o "reinventare" una griglia ufficiale, perché rischieremmo di produrre uno strumento difforme dai criteri condivisi della scuola.</p>
+<div class="note-box">
+          📌 <strong>L'IA non sostituisce le delibere collegiali:</strong> il suo ruolo, di fronte a una griglia ufficiale, non è quello di modificare, ma di rendere operativo e concreto ciò che è già stato stabilito.</div>
+
+<h3 class="phase-title">Modulo 3.2: L'IA come "declinatore" della griglia</h3>
+<p>Un conto è creare una nuova griglia (operazione utile per un'attività inedita, come visto nel Modulo 2.1), un altro conto è rendere operativa una griglia esistente. Nella routine scolastica, la seconda opzione è di gran lunga la più frequente e preziosa. Una griglia generale di Dipartimento per l'analisi del testo (Tipologia A) deve rimanere necessariamente generica per potersi adattare a qualsiasi autore. Tuttavia, quando somministriamo un testo specifico — ad esempio un canto di Leopardi — lo studente ha bisogno di capire che cosa significhi, nei fatti, "analizzare bene" quel testo specifico.</p>
+<p>L'IA eccelle proprio in questo: prendere i criteri e le fasce di punteggio ufficiali della scuola e declinare i descrittori sulla singola prova, senza toccare i voti o le regole approvate dal Dipartimento.</p>
+
+<h4 class="sub-phase-title">Un esempio pratico: Analisi del testo su Leopardi</h4>
+<p>Ipotizziamo di utilizzare la griglia di Dipartimento per la Tipologia A, che prevede già criteri e fasce di punteggio fisse per il criterio "Analisi e interpretazione del testo":</p>
+<div class="rcif-list">
+<ul>
+<li><strong>Eccellente:</strong> 27 - 30 punti</li>
+<li><strong>Buono:</strong> 22 - 26 punti</li>
+<li><strong>Sufficiente:</strong> 18 - 21 punti</li>
+<li><strong>Non sufficiente:</strong> 0 - 17 punti</li>
+</ul>
+</div>
+
+<h4 class="sub-phase-title">Il prompt di declinazione (con vincoli precisi)</h4>
+<p>Per evitare che l'IA inventi punteggi o aggiunga richieste non previste dalla traccia, formuliamo il prompt fornendo sia la griglia ufficiale sia la traccia preparata:</p>
+<blockquote class="prompt-box"><strong>Prompt:</strong> "Sono un docente di Italiano. Sto somministrando un'analisi del testo su 'Canto notturno di un pastore errante dell'Asia' di Leopardi. Ecco la traccia con le domande che ho preparato: [incolla traccia]. Ecco il criterio ufficiale di Dipartimento con le sue fasce di punteggio originali: Criterio: Analisi e interpretazione del testo (Punti totali: 30); Fasce fisse: Eccellente (27-30), Buono (22-26), Sufficiente (18-21), Non sufficiente (0-17). Mantenendo RIGIDAMENTE le fasce di punteggio indicate e SENZA modificare i criteri generali, declina i descrittori per ciascun livello basandoti ESCLUSIVAMENTE sulle richieste presenti nella traccia. Non introdurre nuovi requisiti o argomenti non espressamente richiesti dal testo della verifica."</blockquote>
+
+<h4 class="sub-phase-title">L'output ottenuto (griglia resa operativa per la prova)</h4>
+<div class="table-responsive">
+<table class="summary-table">
+<thead>
+<tr>
+<th>Livello (punteggio fisso)</th>
+<th>Descrittore declinato sulla traccia (Leopardi - Canto Notturno)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Eccellente (27 - 30 punti)</td>
+<td>Risponde a tutte le domande dell'analisi individuando con precisione la struttura dialogica (pastore/luna), le figure retoriche richieste e argomentando in modo esauriente i punti di contatto con il pensiero dell'autore indicati nella traccia.</td>
+</tr>
+<tr>
+<td>Buono (22 - 26 punti)</td>
+<td>Analizza correttamente lo sviluppo del testo e risponde in modo completo alle domande di analisi stilistica e concettuale previste dalla traccia, con lievi imprecisioni o omissioni marginali.</td>
+</tr>
+<tr>
+<td>Sufficiente (18 - 21 punti)</td>
+<td>Comprende il significato generale della lirica e risponde in modo essenziale alle domande della verifica, cogliendo gli elementi nodali richiesti ma con un'analisi poco approfondita.</td>
+</tr>
+<tr>
+<td>Non sufficiente (0 - 17 punti)</td>
+<td>L'analisi risulta parziale o scorretta; non risponde a quesiti centrali della traccia o dimostra gravi incomprensioni del testo proposto.</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<h4 class="sub-phase-title">Perché questo approccio funziona</h4>
+<div class="rcif-list">
+<ol>
+<li><strong>Rispetta il Dipartimento:</strong> non abbiamo toccato una sola virgola della struttura e dei punteggi deliberati dalla scuola.</li>
+<li><strong>Evita le sovrainvenzioni dell'IA:</strong> avendo vincolato il prompt alla sola traccia, l'IA non ha inserito richieste arbitrarie.</li>
+<li><strong>Offre massima trasparenza:</strong> gli studenti vedono chiaramente come la griglia generale della scuola si applica alla verifica che hanno svolto.</li>
+</ol>
+</div>
+
+<div class="back-to-top-wrap">
+<a class="back-to-top" href="#page-top">↑ Torna all'inizio</a>
+</div>
+</section>
+
+<!-- ==================== PARTE 4 ==================== -->
+<section class="section-block" id="parte4">
+<span class="section-tag-header">PARTE 4</span>
+<h2 class="section-title">Tool e strumenti</h2>
+<p>In questa sezione analizziamo i principali strumenti utili per progettare, adattare e raffinare le griglie di valutazione. L'obiettivo è comprendere le caratteristiche dei diversi modelli e scegliere lo strumento più adatto in base allo specifico compito da svolgere.</p>
+
+<h3 class="phase-title">Modulo 4.1: I chatbot generalisti</h3>
+<p>I modelli di intelligenza artificiale generalisti (LLM) consentono di gestire in un unico spazio di lavoro diverse operazioni sulla valutazione, dalla generazione di descrittori al controllo critico.</p>
+<div class="table-responsive">
+<table class="summary-table">
+<thead>
+<tr>
+<th>Strumento</th>
+<th>Ideale per</th>
+<th>Pro</th>
+<th>Contro</th>
+<th>Piani e limiti d'uso</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<div class="tool-cell">
+<span class="tool-icon" aria-hidden="true"><svg viewBox="0 0 256 260"><use href="#icon-chatgpt"></use></svg></span>
+<strong class="tool-name">ChatGPT (OpenAI)</strong>
+<span class="tag-category">Chatbot generalista</span>
+</div>
+</td>
+<td>Stesura iniziale di griglie per attività nuove, riscrittura di descrittori prolissi e conversione in checklist o schede di autovalutazione.</td>
+<td><ul><li>Grande flessibilità nel comprendere contesti articolati</li><li>Generazione di tabelle pulite e pronte da copiare</li></ul></td>
+<td><ul><li>Tendenza alla prolissità nei descrittori se non vincolato</li><li>Rischio di inesattezze con prompt poco specifici</li></ul></td>
+<td>Piano gratuito con modelli base e limite di messaggi; abbonamento Plus a pagamento per modelli avanzati e uso continuativo.</td>
+</tr>
+<tr>
+<td>
+<div class="tool-cell">
+<span class="tool-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#icon-gemini"></use></svg></span>
+<strong class="tool-name">Gemini (Google)</strong>
+<span class="tag-category">Chatbot generalista</span>
+</div>
+</td>
+<td>Chi opera in Google Workspace (Docs, Drive, Classroom) e vuole integrare le griglie nei propri file senza copia-incolla.</td>
+<td><ul><li>Esportazione con un clic in Google Docs e Fogli</li><li>Analisi diretta dei file memorizzati su Google Drive</li></ul></td>
+<td><ul><li>Predilige il testo continuo: richiede prompt espliciti per le tabelle</li><li>Tendenza a variare leggermente i punteggi se non bloccati</li></ul></td>
+<td>Versione base gratuita tramite account Google; opzioni avanzate nei piani Google Workspace o Google One AI Premium.</td>
+</tr>
+<tr>
+<td>
+<div class="tool-cell">
+<span class="tool-icon letter" style="background:#D97757" aria-hidden="true">C</span>
+<strong class="tool-name">Claude (Anthropic)</strong>
+<span class="tag-category">Chatbot generalista</span>
+</div>
+</td>
+<td>Rifinitura di descrittori complessi e adattamento di griglie per l'analisi del testo, la scrittura argomentativa e la traduzione dal latino.</td>
+<td><ul><li>Ottima cura del registro linguistico e dell'analisi letteraria</li><li>Aderenza rigorosa ai vincoli e alle istruzioni del prompt</li></ul></td>
+<td><ul><li>Nessuna funzione di esportazione diretta verso la suite scuola</li><li>Soglia messaggi della versione gratuita esauribile in sessioni lunghe</li></ul></td>
+<td>Versione gratuita ad accesso libero con limite temporaneo di messaggi; piano Claude Pro a pagamento per volumi superiori.</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<h3 class="phase-title">Modulo 4.2: Strumenti specializzati per la didattica</h3>
+<p>A differenza dei chatbot generalisti, le piattaforme specializzate per la scuola guidano il docente attraverso interfacce preimpostate (maschere d'inserimento, menu a tendina o estensioni per il browser).</p>
+<div class="table-responsive">
+<table class="summary-table">
+<thead>
+<tr>
+<th>Strumento</th>
+<th>Ideale per</th>
+<th>Pro</th>
+<th>Contro</th>
+<th>Piani e limiti d'uso</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<div class="tool-cell">
+<span class="tool-icon letter" style="background:#F2A33C" aria-hidden="true">M</span>
+<strong class="tool-name">MagicSchool AI</strong>
+<span class="tag-category">Tool specializzato</span>
+</div>
+</td>
+<td>Generare rapidamente rubriche e materiali didattici standardizzati tramite procedura guidata per argomento, grado e livelli.</td>
+<td><ul><li>Interfaccia guidata: non serve scrivere prompt complessi</li><li>Generazione della tabella in pochi secondi</li></ul></td>
+<td><ul><li>Schemi rigidi, difficili da adattare ai Dipartimenti italiani</li><li>Limite di generazioni mensili nella versione gratuita</li></ul></td>
+<td>Piano gratuito con generazioni mensili limitate; piano MagicSchool Plus a pagamento per uso illimitato.</td>
+</tr>
+<tr>
+<td>
+<div class="tool-cell">
+<span class="tool-icon letter" style="background:#4C8C6B" aria-hidden="true">E</span>
+<strong class="tool-name">Eduaide.ai</strong>
+<span class="tag-category">Tool specializzato</span>
+</div>
+</td>
+<td>Docenti che cercano risorse strutturate secondo modelli pedagogici e vogliono generare contestualmente griglie e materiali di supporto.</td>
+<td><ul><li>Integrazione nativa tra rubriche e programmazione didattica</li><li>Ambiente di lavoro riservato, ad uso esclusivo del docente</li></ul></td>
+<td><ul><li>Soglia di generazioni gratuite mensili molto ridotta</li><li>Poca flessibilità nell'adattare griglie esistenti a punteggi rigidi</li></ul></td>
+<td>Piano gratuito con circa 20 generazioni al mese; piano Eduaide Pro a pagamento per uso continuativo.</td>
+</tr>
+<tr>
+<td>
+<div class="tool-cell">
+<span class="tool-icon letter" style="background:#3F6FD1" aria-hidden="true">B</span>
+<strong class="tool-name">Brisk Teaching</strong>
+<span class="tag-category">Tool specializzato</span>
+</div>
+</td>
+<td>Creare o applicare griglie e inserire commenti correttivi direttamente nei file di lavoro (Google Docs, Slides, Classroom) via estensione browser.</td>
+<td><ul><li>Operatività diretta sui documenti senza cambiare scheda</li><li>Facilità nel sovrapporre la rubrica al testo dello studente</li></ul></td>
+<td><ul><li>Richiede l'installazione dell'estensione (ottimizzato per Chrome/Edge)</li><li>L'interfaccia a comparsa richiede una breve familiarizzazione</li></ul></td>
+<td>Piano Educator Free con strumenti base e limiti d'uso; piano Educator Pro a pagamento per correzione massiva e funzioni avanzate.</td>
+</tr>
+<tr>
+<td>
+<div class="tool-cell">
+<span class="tool-icon letter" style="background:#8B5FBF" aria-hidden="true">D</span>
+<strong class="tool-name">Diffit</strong>
+<span class="tag-category">Tool specializzato</span>
+</div>
+</td>
+<td>Classi ad abilità miste (inclusione, BES) dove serve differenziare il testo e coordinare i relativi criteri di verifica.</td>
+<td><ul><li>Differenziazione del testo e dei criteri in un solo passaggio</li><li>Esportazione e impaginazione pulita delle schede</li></ul></td>
+<td><ul><li>Focalizzato sulla comprensione del testo, poco adatto come generatore generale</li><li>Esportazione verso Classroom riservata alla versione Pro</li></ul></td>
+<td>Piano gratuito per adattamento testi e download PDF; abbonamento Teacher Premium per esportazione diretta in Google Docs/Classroom.</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<h3 class="phase-title">Modulo 4.3: Quadro comparativo e principio di scelta</h3>
+<div class="table-responsive">
+<table class="summary-table">
+<thead>
+<tr>
+<th>Tipologia</th>
+<th>Vantaggi</th>
+<th>Limitazioni</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong class="tool-name">Chatbot Generalisti</strong><br>(ChatGPT, Gemini, Claude)</td>
+<td><ul><li>Massima personalizzazione: adattabili a qualsiasi griglia di Dipartimento</li><li>Versatilità: adatti sia per le tracce che per la revisione delle griglie</li><li>Accessibilità: funzioni base gratuite su tutti i portali</li></ul></td>
+<td><ul><li>Richiedono la stesura di un prompt preciso</li><li>Assenza di maschere o menu guidati preimpostati</li></ul></td>
+</tr>
+<tr>
+<td><strong class="tool-name">Tool Specializzati</strong><br>(MagicSchool, Eduaide, Brisk, Diffit)</td>
+<td><ul><li>Interfaccia guidata: maschere veloci per argomento e livelli</li><li>Integrazione di flusso: operatività diretta nei file via estensione</li><li>Rapidità: generazione immediata di strutture standard</li></ul></td>
+<td><ul><li>Schemi predefiniti: meno adatti per i vincoli rigidi dei Dipartimenti italiani</li><li>Piani a pagamento: funzioni avanzate spesso bloccate da abbonamenti</li></ul></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<h4 class="sub-phase-title">Il principio fondamentale: non esiste uno strumento "migliore"</h4>
+<p>Nessun software o modello linguistico garantisce da solo un risultato perfetto. La qualità della griglia di valutazione non dipende dal tool scelto, ma da quattro fattori chiave:</p>
+<div class="rcif-list">
+<ol>
+<li>La chiarezza dell'attività didattica di partenza.</li>
+<li>La precisione delle informazioni e dei contesti forniti.</li>
+<li>I vincoli pedagogici impostati nel prompt (es. punteggi fissi, chiarezza dei livelli).</li>
+<li>La revisione critica e la validazione finale del docente.</li>
+</ol>
+</div>
+<p>Gli strumenti specializzati offrono rapidità e supporto visivo; i chatbot generalisti offrono massima flessibilità e aderenza ai vincoli dell'istituto. La scelta spetta al docente in base alla complessità del lavoro da svolgere.</p>
+
+<div class="back-to-top-wrap">
+<a class="back-to-top" href="#page-top">↑ Torna all'inizio</a>
+</div>
+</section>
+
+<!-- ==================== PARTE 5 ==================== -->
+<section class="section-block" id="parte5">
+<span class="section-tag-header lab">PARTE 5</span>
+<h2 class="section-title">Prompt Cookbook</h2>
+<p>In questa sezione raccogliamo le "ricette" di prompt pronte all'uso per le situazioni più frequenti legate alla valutazione. Ogni ricetta è strutturata con l'obiettivo didattico, il modello di prompt da copiare e completare (tra parentesi quadre i campi da personalizzare) e le note di applicazione per ottenere il massimo risultato.</p>
+<div class="note-box">
+          💡 <strong>Consiglio di utilizzo:</strong> copiate il prompt, sostituite i campi tra parentesi quadre con i dati reali della vostra attività e non esitate a dialogare ulteriormente con il chatbot per affinare il risultato ottenuto.</div>
+
+<h3 class="phase-title">🛠️ Le ricette</h3>
+
+<div class="exercise-card">
+<h4 class="exercise-title">1. Creare una griglia da zero (compito di realtà o laboratorio)</h4>
+<p><strong>Quando usarla:</strong> per un'attività didattica nuova o non ordinaria (es. un debate, un podcast letterario, una presentazione multimediale o una mostra virtuale su un tema storico/letterario).</p>
+<p><strong>Obiettivo:</strong> ottenere una prima bozza di rubrica analitica su cui lavorare, senza dovere impostare da soli la struttura della tabella.</p>
+<blockquote class="prompt-box"><strong>Modello da compilare:</strong> "Sono un docente di [Materia, es. Italiano]. Devo valutare la seguente attività svolta dagli studenti: [Descrivi brevemente l'attività, es. un podcast di 5 minuti che analizza un canto del Paradiso]. Crea una prima bozza di rubrica analitica in forma di tabella strutturata su 4 livelli di prestazione (Eccellente, Buono, Sufficiente, Non sufficiente). Articola la griglia sui seguenti criteri: [Criterio 1, es. Rigore dei contenuti e aderenza al testo], [Criterio 2, es. Efficacia comunicativa ed espositiva], [Criterio 3, es. Organizzazione del lavoro]. Per ogni criterio e livello, proponi descrittori brevi e distinti. Non assegnare punteggi numerici per ora, concentrati solo sui descrittori di prestazione."</blockquote>
+</div>
+
+<div class="exercise-card">
+<h4 class="exercise-title">2. Rendere operativa una griglia di Dipartimento su una prova specifica</h4>
+<p><strong>Quando usarla:</strong> quando i criteri e le fasce di punteggio della scuola o del Dipartimento sono già stabiliti (es. per la Prima prova scritta o una versione dal latino), ma vogliamo esplicitare i descrittori per la verifica specifica somministrata.</p>
+<p><strong>Obiettivo:</strong> mantenere fissi voti e criteri ufficiali, declinando i descrittori sulla traccia reale ed evitando invenzioni del modello.</p>
+<blockquote class="prompt-box"><strong>Modello da compilare:</strong> "Sono un docente di [Materia]. Ho somministrato la seguente verifica: [Incolla il testo della traccia con le relative domande o la versione]. Devo applicare la seguente griglia ufficiale approvata dal mio Dipartimento: Criterio: [Nome del criterio, es. Comprensione e analisi del testo]; Punteggio totale: [es. 30 punti]; Fasce di punteggio FISSE: [es. Eccellente (27-30), Buono (22-26), Sufficiente (18-21), Non sufficiente (0-17)]. Mantenendo RIGIDAMENTE inalterati il nome del criterio, le fasce e gli intervalli di punteggio, declina i descrittori per ciascun livello basandoti ESCLUSIVAMENTE sulle richieste della traccia. Vincoli: non modificare gli intervalli di punteggio; non introdurre requisiti o argomenti non presenti nella traccia; se per un livello la traccia non fornisce elementi sufficienti per definire il descrittore, segnala l'informazione mancante invece di inventarla. Restituisci l'output in una tabella a due colonne (Fascia di punteggio | Descrittore declinato)."</blockquote>
+</div>
+
+<div class="exercise-card">
+<h4 class="exercise-title">3. Revisione e potenziamento di descrittori vaghi</h4>
+<p><strong>Quando usarla:</strong> quando abbiamo una griglia già pronta che contiene formule generiche o poco utili ai fini del feedback (es. "L'alunno scrive in modo adeguato").</p>
+<p><strong>Obiettivo:</strong> trasformare formule astratte in descrittori ancorati ad azioni ed evidenze concrete che il docente può rilevare nell'elaborato dello studente.</p>
+<blockquote class="prompt-box"><strong>Modello da compilare:</strong> "Sono un docente. Ho la seguente bozza di griglia con descrittori generici: [Incolla i criteri o la tabella da revisionare]. Riscrivi i descrittori applicando le seguenti regole: sostituisci gli aggettivi generici (es. 'adeguato', 'buono', 'corretto') con evidenze concrete ed elementi osservabili nel testo dell'alunno (es. individuazione delle tesi, uso di connettivi, presenza di errori morfosintattici); chiarisci cosa distingue sul piano pratico un livello 'Sufficiente', 'Buono' ed 'Eccellente'; mantieni i descrittori sintetici (massimo 3-4 righe per casella). Fornisci la tabella revisionata."</blockquote>
+</div>
+
+<div class="exercise-card">
+<h4 class="exercise-title">4. Controllo di coerenza della griglia</h4>
+<p><strong>Quando usarla:</strong> prima di adottare una griglia nuova, per verificare che non contenga sovrapposizioni o passaggi ambigui tra i diversi livelli.</p>
+<p><strong>Obiettivo:</strong> effettuare una verifica critica su chiarezza, coerenza e osservabilità, senza alterare la struttura istituzionale.</p>
+<blockquote class="prompt-box"><strong>Modello da compilare:</strong> "Esamina la seguente griglia di valutazione che intendo utilizzare: [Incolla la griglia o la rubrica da analizzare]. Analizza il testo senza modificare i criteri generali o le fasce di punteggio stabilite. Segnala esclusivamente: passaggi ambigui (dove è difficile distinguere il confine tra un livello e quello successivo?); sovrapposizioni (ci sono elementi o aspetti valutati due volte in criteri differenti?); osservabilità (ci sono descrittori ancora troppo astratti o difficili da rilevare nell'elaborato?). Fornisci un breve elenco puntato di rilievi e proponi le relative correzioni mirate per i soli descrittori."</blockquote>
+</div>
+
+<div class="exercise-card">
+<h4 class="exercise-title">5. Adattare la griglia per gli studenti (checklist e peer evaluation)</h4>
+<p><strong>Quando usarla:</strong> all'avvio di un lavoro di stesura o di un progetto, per chiarire agli studenti le aspettative della prova e consentire l'auto-monitoraggio o la revisione tra pari.</p>
+<p><strong>Obiettivo:</strong> tradurre una griglia formale in una checklist operativa chiara e guidata.</p>
+<blockquote class="prompt-box"><strong>Modello da compilare:</strong> "Ecco la griglia di valutazione docente per la seguente prova: [es. Testo argomentativo / Analisi del testo]. [Incolla la griglia di valutazione]. Trasforma questa griglia in una checklist di autovalutazione a misura di studente: usa la prima persona singolare ('Ho verificato che...', 'Ho chiarito la mia tesi...'); semplifica il linguaggio burocratico mantenendo il rigore delle richieste; organizza l'output con caselle di spunta [ ] divise in 3 fasi: Prima di scrivere, Durante la stesura, Revisione finale. Variante per valutazione tra pari: sostituisci la prima persona con la seconda persona ('Il compagno/a ha espresso chiaramente la tesi...', 'I passaggi logici risultano...'), inserendo uno spazio finale per due suggerimenti costruttivi d'impostazione 'Cosa funziona' / 'Cosa si può migliorare'."</blockquote>
+</div>
+
+<h4 class="sub-phase-title">Regola d'oro: l'uso iterativo del prompt</h4>
+<p>È raro che la prima risposta generata dall'IA sia perfetta o immediatamente pronta all'uso. Considera sempre il primo output come una bozza di lavoro. Non esitare a dialogare con il chatbot per affinare il risultato attraverso richieste di revisione mirate, come ad esempio:</p>
+<div class="rcif-list">
+<ul>
+<li>"Rendi più sintetici i descrittori del livello Buono."</li>
+<li>"Sostituisci la parola X con un'evidenza più precisa sul testo."</li>
+<li>"Riordina la tabella mantenendo fissa la colonna dei punteggi."</li>
+</ul>
+</div>
+<p>Il controllo finale, la contestualizzazione e la validazione della griglia restano sempre responsabilità esclusiva del docente.</p>
+
+<div class="back-to-top-wrap">
+<a class="back-to-top" href="#page-top">↑ Torna all'inizio</a>
+</div>
+</section>
+
+<!-- ==================== PARTE 6 ==================== -->
+<section class="section-block" id="parte6">
+<span class="section-tag-header lab">PARTE 6</span>
+<h2 class="section-title">Esercizi e Laboratorio pratico</h2>
+<p>In questa sezione finale proponiamo una serie di attività pratiche strutturate secondo una logica progressiva: dal semplice raffinamento di un singolo descrittore fino all'applicazione guidata su una prova d'esame. L'obiettivo di questo laboratorio è sviluppare l'occhio critico del docente di fronte agli output generati dall'intelligenza artificiale, lavorando — laddove possibile — su attività reali che dovrete valutare nelle vostre classi, in modo da terminare con uno strumento immediatamente utilizzabile.</p>
+
+<div class="exercise-card">
+<h4 class="exercise-title">🧪 Esercizio 1 — Raffinamento (dall'astratto all'osservabile)</h4>
+<p><em>Molte griglie d'istituto contengono ancora formulazioni generiche come: "Dimostra una buona padronanza delle strutture e del lessico della disciplina." Questa frase non spiega allo studente cosa deve fare nell'elaborato e lascia al docente un margine d'interpretazione troppo ampio in fase di correzione.</em></p>
+<p><strong>📝 Cosa devi fare:</strong></p>
+<div class="rcif-list">
+<ol>
+<li>Scegli un chatbot generalista tra quelli analizzati nella Parte 4 (es. ChatGPT, Gemini o Claude).</li>
+<li>Utilizza la Ricetta 3 (Parte 5) per chiedere all'IA di riscrivere la frase trasformandola in tre descrittori distinti per i livelli Sufficiente, Buono ed Eccellente.</li>
+<li>Analizza l'output: l'IA ha inserito elementi realmente osservabili sul piano operativo? Verifica la pertinenza: gli elementi introdotti dall'IA sono coerenti con ciò che intendi valutare o ha inserito requisiti non pertinenti?</li>
+<li>Se l'output non ti soddisfa, chiedi una seconda revisione indicando la tipologia specifica di prova che intendi somministrare.</li>
+</ol>
+</div>
+</div>
+
+<div class="exercise-card">
+<h4 class="exercise-title">⚖️ Esercizio 2 — Sui vincoli (declinare una prova senza alterare la griglia)</h4>
+<p><em>Devi somministrare una verifica o una prova d'esame e hai a disposizione la griglia di Dipartimento con criteri e punteggi stabiliti che non possono essere modificati.</em></p>
+<p><strong>📝 Cosa devi fare:</strong></p>
+<div class="rcif-list">
+<ol>
+<li>Prendi la traccia della verifica che intendi somministrare e la griglia ufficiale della tua scuola.</li>
+<li>Utilizza la Ricetta 2 (Parte 5) inserendo nel prompt la traccia e i criteri con i punteggi fissi.</li>
+<li>Controlla l'output dell'IA, verifica alla mano: l'IA ha rispettato esattamente gli intervalli di punteggio e i criteri forniti? Ha inserito elementi o requisiti non richiesti nelle domande della traccia?</li>
+<li>Se noti elementi "inventati", intervieni con una richiesta di revisione mirata (es. "Rimuovi il riferimento all'aspetto X poiché non è richiesto nel testo della verifica").</li>
+</ol>
+</div>
+</div>
+
+<div class="exercise-card">
+<h4 class="exercise-title">🔄 Esercizio 3 — Prova integrata di simulazione (dalla griglia al feedback per lo studente)</h4>
+<p><em>Applichiamo l'intero flusso di lavoro a un'attività di valutazione reale (es. la stesura di un testo argomentativo, un'analisi del testo o una prova laboratoriale).</em></p>
+<p><strong>📝 Flusso di lavoro guidato in 4 passaggi:</strong></p>
+<div class="rcif-list">
+<ol>
+<li><strong>Generare la prima bozza della rubrica (Ricetta 1):</strong> chiedi all'IA una prima bozza di griglia analitica su 4 livelli per i criteri stabiliti.</li>
+<li><strong>Giudizio autonomo del docente (fase d'analisi):</strong> prima di procedere, esamina criticamente la bozza in autonomia e individua almeno due problemi (es. un descrittore poco chiaro, una sovrapposizione, un salto di livello illogico).</li>
+<li><strong>Revisione e controllo di coerenza (Ricetta 4):</strong> chiedi all'IA di analizzare la bozza e di intervenire sui due problemi individuati nel passaggio precedente, senza modificare la struttura istituzionale.</li>
+<li><strong>Trasformazione per gli studenti (Ricetta 5):</strong> converti la griglia revisionata dal docente in una checklist di autovalutazione o valutazione tra pari da consegnare alla classe.</li>
+</ol>
+</div>
+</div>
+
+<h4 class="sub-phase-title">✅ Checklist di validazione finale del docente</h4>
+<p>Prima di adottare qualsiasi griglia o declinazione generata con l'ausilio dell'IA, verifica sempre che lo strumento superi questo controllo di qualità in 6 punti:</p>
+<div class="rcif-list">
+<ul>
+<li>☐ <strong>Aderenza alle delibere:</strong> i criteri e le fasce di punteggio rispettano le decisioni del Dipartimento e del Collegio?</li>
+<li>☐ <strong>Pertinenza alla traccia:</strong> i descrittori richiamano esclusivamente ciò che è stato richiesto o spiegato in classe?</li>
+<li>☐ <strong>Chiarezza dei livelli:</strong> la differenza tra un livello e quello adiacente (es. tra Sufficiente e Buono) è netta e motivabile?</li>
+<li>☐ <strong>Linguaggio formativo:</strong> la formulazione evita toni punitivi e aiuta lo studente a capire come migliorare?</li>
+<li>☐ <strong>Sostenibilità per il docente:</strong> la griglia è abbastanza sintetica da essere utilizzata agevolmente durante la correzione reale?</li>
+<li>☐ <strong>Controllo personale finale:</strong> hai verificato e validato personalmente ciascun criterio e descrittore prima dell'uso in classe?</li>
+</ul>
+</div>
+
+<div class="note-box">
+          🎓 <strong>Conclusioni — L'intelligenza artificiale al servizio del giudizio docente:</strong> l'intelligenza artificiale rappresenta un formidabile amplificatore di tempo e di precisione metodologica, ma non possiede né la sensibilità pedagogica né la responsabilità giuridica ed educativa della valutazione. L'IA non sostituisce le delibere dei Dipartimenti né tantomeno lo sguardo del docente sul processo di crescita delle studentesse e degli studenti. Il suo valore reale non risiede nella capacità di "inventare voti", ma nella possibilità di sollevare l'insegnante dal lavoro burocratico e compilativo, offrendogli bozze strutturate, descrittori più chiari e checklist operative. In ultima analisi, la qualità della valutazione scolastica continuerà a dipendere non dal modello di intelligenza artificiale utilizzato, ma dalla chiarezza dei vincoli impostati nel prompt, dall'aderenza alla vita reale della classe e, soprattutto, dal controllo critico e insostituibile del docente.</div>
+
+<div class="back-to-top-wrap">
+<a class="back-to-top" href="#page-top">↑ Torna all'inizio</a>
+</div>
+</section>
+
+<!-- ==================== MATERIALI SCARICABILI ==================== -->
+<section class="section-block" id="downloads">
+<span class="section-tag-header">MATERIALI SCARICABILI</span>
+<div class="download-grid">
+<a class="download-card" href="download/griglie.pdf" rel="noopener noreferrer" target="_blank">
+<span aria-hidden="true" class="download-icon icon-pdf"><svg viewBox="0 0 24 24"><use href="#icon-doc"></use></svg></span>
+<span class="download-info">
+<span class="download-title">Foglio di riepilogo - Creazione di griglie</span>
+</span>
+<span class="file-badge badge-pdf">PDF</span>
+</a>
+<a class="download-card" href="download/griglie-tool.pdf" rel="noopener noreferrer" target="_blank">
+<span aria-hidden="true" class="download-icon icon-pdf"><svg viewBox="0 0 24 24"><use href="#icon-doc"></use></svg></span>
+<span class="download-info">
+<span class="download-title">Foglio di riepilogo - Confronto tra vari tool</span>
+</span>
+<span class="file-badge badge-pdf">PDF</span>
+</a>
+<a class="download-card" href="download/griglie-cookbook.pdf" rel="noopener noreferrer" target="_blank">
+<span aria-hidden="true" class="download-icon icon-pdf"><svg viewBox="0 0 24 24"><use href="#icon-doc"></use></svg></span>
+<span class="download-info">
+<span class="download-title">Foglio di riepilogo - Prompt cookbook</span>
+</span>
+<span class="file-badge badge-pdf">PDF</span>
+</a>
+<a class="download-card" href="download/griglie-cookbook.pdf" rel="noopener noreferrer" target="_blank">
+<span aria-hidden="true" class="download-icon icon-pdf"><svg viewBox="0 0 24 24"><use href="#icon-doc"></use></svg></span>
+<span class="download-info">
+<span class="download-title">Foglio di riepilogo – Esercizi</span>
+</span>
+<span class="file-badge badge-pdf">PDF</span>
+</a>
+<a class="download-card" href="download/griglie-presentazione.pdf" rel="noopener noreferrer" target="_blank">
+<span aria-hidden="true" class="download-icon icon-ppt"><svg viewBox="0 0 24 24"><use href="#icon-doc"></use></svg></span>
+<span class="download-info">
+<span class="download-title">Presentazione - Creazione di griglie</span>
+</span>
+<span class="file-badge badge-ppt">PPT</span>
+</a>
+<a class="download-card" href="download/griglie-presentazione-tool.pdf" rel="noopener noreferrer" target="_blank">
+<span aria-hidden="true" class="download-icon icon-ppt"><svg viewBox="0 0 24 24"><use href="#icon-doc"></use></svg></span>
+<span class="download-info">
+<span class="download-title">Presentazione - Confronto tra vari tool</span>
+</span>
+<span class="file-badge badge-ppt">PPT</span>
+</a>
+<a class="download-card" href="download/griglie-presentazione-esercizi.pdf" rel="noopener noreferrer" target="_blank">
+<span aria-hidden="true" class="download-icon icon-ppt"><svg viewBox="0 0 24 24"><use href="#icon-doc"></use></svg></span>
+<span class="download-info">
+<span class="download-title">Presentazione sugli esercizi - in preparazione</span>
+</span>
+<span class="file-badge badge-ppt">PPT</span>
+</a>
+</div>
+<div class="back-to-top-wrap">
+<a class="back-to-top" href="#page-top">↑ Torna all'inizio</a>
+</div>
+</section>
+
+<!-- ==================== BOTTONI DI NAVIGAZIONE ==================== -->
+<div class="navigation-buttons">
+<a class="btn btn-secondary" href="verifiche.html">← Lezione precedente: La creazione di verifiche</a>
+<a class="btn btn-primary" href="personalizza.html">Lezione successiva: Personalizzare la didattica →</a>
+</div>
+</div>
+</div>
+
+  <footer id="footer-info">
+    <p><span class="footer-logo">LitterAI</span> - a cura del prof. Daniele Virgili - 2026</p>
+  </footer>
+
+  <script>
+    const navbar = document.getElementById('navbar');
+    const navToggle = document.getElementById('navToggle');
+    const navLinks = document.getElementById('navLinks');
+
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 20) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
+    });
+
+    navToggle.addEventListener('click', () => {
+      navToggle.classList.toggle('active');
+      navLinks.classList.toggle('active');
+    });
+
+    document.querySelectorAll('.nav-link-item').forEach(link => {
+      link.addEventListener('click', () => {
+        navToggle.classList.remove('active');
+        navLinks.classList.remove('active');
+      });
+    });
+  </script>
+
+</body>
+</html>
