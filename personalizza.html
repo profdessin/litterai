@@ -1,1 +1,1478 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La personalizzazione della didattica con l'IA — LitterAI</title>
+<link rel="icon" type="image/png" href="image/logo-sfondo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,500;0,600;0,700;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --color-primary: #0E3A52;   /* Blu Petrolio Scuro: Navbar, Footer, Intestazioni */
+    --color-accent: #19B5E8;    /* Ciano / Blu AI: Dettagli, Link, Pulsanti */
+    --color-secondary: #126A8A; /* Blu Intermedio: Sottotitoli */
+    --color-header: #BEE6F5;    /* Celeste intermedio */
+    --color-bg: #E9F4FA;        /* Sfondo pagina */
+    --color-surface: #F4FAFD;   /* Sfondo dei contenitori */
+    --color-text: #1E293B;      /* Grigio scuro/blu per testi */
+    --color-border: #E2E8F0;    /* Grigio leggero per linee */
+    --radius: 14px;
+    --shadow-soft: 0 8px 24px rgba(14, 58, 82, 0.08);
+  }
 
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+  
+  h1, h2, h3, h4, h5, .logo-text { 
+    font-family: 'Fraunces', serif; 
+    color: var(--color-primary); 
+  }
+  
+  a { text-decoration: none; color: inherit; }
+  ul, ol { margin-bottom: 20px; padding-left: 24px; }
+  li { margin-bottom: 8px; }
+  p { margin-bottom: 16px; }
+
+  .container { 
+    max-width: 960px; 
+    margin: 0 auto; 
+    padding: 0 24px; 
+  }
+
+  /* ---------- NAVBAR ---------- */
+  .navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background: var(--color-primary);
+    border-bottom: 1px solid var(--color-secondary);
+    transition: box-shadow 0.3s ease;
+  }
+  .navbar.scrolled { box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); }
+  
+  .nav-inner { 
+    display: flex; 
+    align-items: center; 
+    justify-content: space-between; 
+    padding: 12px 24px; 
+    max-width: 1150px; 
+    margin: 0 auto; 
+  }
+  
+  .nav-brand img { 
+    height: 40px; 
+    width: auto; 
+    display: block; 
+    filter: brightness(0) invert(1); 
+  }
+  
+  .nav-links { display: flex; gap: 2.2rem; }
+  .nav-links a { 
+    font-size: 0.95rem; 
+    font-weight: 500; 
+    color: #E8F3F8; 
+    position: relative; 
+    padding: 4px 0; 
+    transition: color 0.25s ease; 
+  }
+  .nav-links a::after { 
+    content: ""; 
+    position: absolute; 
+    bottom: -2px; 
+    left: 0; 
+    width: 0; 
+    height: 2px; 
+    background: var(--color-accent); 
+    transition: width 0.3s ease; 
+  }
+  .nav-links a:hover { color: var(--color-accent); }
+  .nav-links a:hover::after { width: 100%; }
+  
+  .nav-toggle { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; z-index: 1001; }
+  .nav-toggle span { width: 26px; height: 2.5px; background: #E8F3F8; border-radius: 2px; transition: all 0.3s ease; }
+
+  /* ---------- PAGE HEADER ---------- */
+  .page-header { 
+    padding: 140px 24px 60px; 
+    background: var(--color-header); 
+    text-align: center; 
+    border-bottom: 1px solid var(--color-border); 
+    scroll-margin-top: 90px;
+  }
+  .page-header h1 { font-size: clamp(2.2rem, 4.5vw, 3.2rem); margin-bottom: 12px; }
+  .page-header p { font-size: 1.15rem; color: var(--color-secondary); font-weight: 500; max-width: 750px; margin: 0 auto; }
+  
+  /* ---------- STILI SEZIONI DIDATTICHE ---------- */
+  .main-wrapper { padding: 60px 0; }
+  
+  .section-block {
+    background: #ffffff;
+    border-radius: var(--radius);
+    padding: 45px;
+    margin-bottom: 50px;
+    box-shadow: var(--shadow-soft);
+    border: 1px solid var(--color-border);
+    scroll-margin-top: 90px;
+  }
+
+  .section-tag-header {
+    display: inline-block;
+    background: var(--color-primary);
+    color: #ffffff;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    padding: 6px 16px;
+    border-radius: 50px;
+    margin-bottom: 25px;
+  }
+
+  .section-tag-header.lab {
+    background: var(--color-secondary);
+  }
+
+  h2.section-title {
+    font-size: 2.1rem;
+    margin-bottom: 25px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--color-bg);
+  }
+
+  h3.phase-title {
+    font-size: 1.5rem;
+    margin: 40px 0 15px;
+    color: var(--color-secondary);
+  }
+
+  h4.sub-phase-title {
+    font-size: 1.2rem;
+    margin: 25px 0 10px;
+    color: var(--color-primary);
+  }
+
+  h4.exercise-title {
+    font-size: 1.1rem;
+    margin: 20px 0 8px;
+    color: var(--color-primary);
+  }
+
+  blockquote.prompt-box {
+    background-color: var(--color-surface);
+    border-left: 4px solid var(--color-accent);
+    padding: 18px 22px;
+    margin: 12px 0 20px;
+    border-radius: 0 var(--radius) var(--radius) 0;
+    font-size: 0.96rem;
+    color: var(--color-text);
+  }
+  blockquote.prompt-box strong { color: var(--color-primary); }
+
+  .note-box {
+    background-color: #EBF8FF;
+    border-left: 4px solid var(--color-accent);
+    padding: 12px 16px;
+    margin: 15px 0 20px;
+    font-size: 0.9rem;
+    color: var(--color-primary);
+    border-radius: 0 8px 8px 0;
+  }
+
+  .flow-box {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin: 15px 0 25px;
+    overflow-x: auto;
+  }
+  .flow-box pre {
+    font-family: 'Consolas', 'Menlo', monospace;
+    font-size: 0.82rem;
+    color: var(--color-secondary);
+    white-space: pre;
+    line-height: 1.5;
+  }
+
+  .rcif-list {
+    background: var(--color-bg);
+    padding: 20px 25px;
+    border-radius: 10px;
+    margin: 15px 0 25px;
+  }
+  .rcif-list ul, .rcif-list ol { margin-bottom: 0; }
+  .rcif-list li:last-child { margin-bottom: 0; }
+
+  .exercise-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 25px;
+    margin: 25px 0;
+  }
+
+  /* ---------- TABELLE COMPARATIVE ---------- */
+  .table-responsive {
+    overflow-x: auto;
+    margin: 20px 0 25px;
+  }
+
+  .summary-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+    text-align: left;
+  }
+
+  .summary-table th {
+    background-color: var(--color-primary);
+    color: #ffffff;
+    padding: 12px 14px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .summary-table td {
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--color-border);
+    vertical-align: top;
+  }
+
+  .summary-table tr:nth-child(even) {
+    background-color: var(--color-surface);
+  }
+
+  .summary-table td ul {
+    margin: 0;
+    padding-left: 16px;
+    font-size: 0.86rem;
+  }
+  .summary-table td ul li { margin-bottom: 4px; }
+  .summary-table td ul li:last-child { margin-bottom: 0; }
+
+  .summary-table strong.tool-name {
+    color: var(--color-primary);
+  }
+
+  .tag-category {
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    padding: 3px 9px;
+    border-radius: 20px;
+    background: var(--color-bg);
+    color: var(--color-secondary);
+    border: 1px solid var(--color-border);
+  }
+
+  /* ---------- NAV RAPIDA TRA LE PARTI ---------- */
+  .part-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 40px;
+  }
+  .part-nav a {
+    background: var(--color-primary);
+    color: #ffffff;
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 10px 20px;
+    border-radius: 50px;
+    box-shadow: 0 4px 14px rgba(14, 58, 82, 0.15);
+    transition: all 0.25s ease;
+  }
+  .part-nav a:hover {
+    background: var(--color-secondary);
+    transform: translateY(-2px);
+  }
+
+  .back-to-top-wrap {
+    text-align: right;
+    margin-top: 35px;
+  }
+  .back-to-top {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-secondary);
+    border: 1px solid var(--color-border);
+    padding: 8px 16px;
+    border-radius: 50px;
+    transition: all 0.25s ease;
+  }
+  .back-to-top:hover {
+    background: var(--color-bg);
+    color: var(--color-primary);
+    border-color: var(--color-secondary);
+  }
+
+  /* ---------- MATERIALI SCARICABILI ---------- */
+  .download-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+  }
+
+  .download-card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 16px 18px;
+    transition: all 0.25s ease;
+  }
+  .download-card:hover {
+    border-color: var(--color-accent);
+    box-shadow: var(--shadow-soft);
+    transform: translateY(-2px);
+  }
+
+  .download-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .download-icon svg { width: 20px; height: 20px; }
+  .download-icon.icon-pdf { background: #FBE7E7; color: #B91C1C; }
+  .download-icon.icon-ppt { background: #FDECD8; color: #C2680C; }
+
+  .download-info {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+  .download-title {
+    font-weight: 600;
+    color: var(--color-primary);
+    font-size: 0.93rem;
+    line-height: 1.35;
+  }
+
+  .file-badge {
+    flex-shrink: 0;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    padding: 4px 10px;
+    border-radius: 20px;
+  }
+  .file-badge.badge-pdf { background: #B91C1C; color: #ffffff; }
+  .file-badge.badge-ppt { background: #C2680C; color: #ffffff; }
+
+  /* ---------- PULSANTI FINALI DI NAVIGAZIONE ---------- */
+  .navigation-buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    margin-top: 40px;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px 28px;
+    font-weight: 600;
+    font-size: 1rem;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    text-align: center;
+  }
+
+  .btn-secondary {
+    background: #ffffff;
+    color: var(--color-primary);
+    border: 2px solid var(--color-primary);
+  }
+  .btn-secondary:hover {
+    background: var(--color-bg);
+    transform: translateY(-2px);
+  }
+
+  .btn-primary {
+    background: var(--color-primary);
+    color: #ffffff;
+    border: 2px solid var(--color-primary);
+    box-shadow: 0 4px 14px rgba(14, 58, 82, 0.2);
+  }
+  .btn-primary:hover {
+    background: var(--color-secondary);
+    border-color: var(--color-secondary);
+    transform: translateY(-2px);
+  }
+
+  /* ---------- FOOTER ---------- */
+  footer { 
+    background: var(--color-primary); 
+    color: #E8F3F8; 
+    text-align: center; 
+    padding: 34px 24px; 
+    border-top: 1px solid var(--color-secondary); 
+  }
+  footer p { font-size: 0.92rem; color: #BFE3F0; letter-spacing: 0.3px; }
+  footer .footer-logo { font-family: 'Fraunces', serif; font-weight: 700; color: var(--color-accent); }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width: 768px) {
+    .nav-links { 
+      position: fixed; top: 0; right: -100%; width: 70%; max-width: 320px; height: 100vh; 
+      background: var(--color-primary); 
+      flex-direction: column; justify-content: center; align-items: center; gap: 2.2rem; 
+      transition: right 0.4s ease; box-shadow: -8px 0 30px rgba(0,0,0,0.25); 
+    }
+    .nav-links.active { right: 0; }
+    .nav-toggle { display: flex; }
+    .nav-toggle.active span:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
+    .nav-toggle.active span:nth-child(2) { opacity: 0; }
+    .nav-toggle.active span:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
+    
+    .section-block { padding: 25px; }
+    .navigation-buttons { flex-direction: column; }
+    .btn { width: 100%; }
+    .back-to-top-wrap { text-align: left; }
+  }
+</style>
+</head>
+<body>
+
+  <!-- ==================== SPRITE ICONE ==================== -->
+  <svg width="0" height="0" style="position:absolute; overflow:hidden" aria-hidden="true">
+    <symbol id="icon-doc" viewBox="0 0 24 24">
+      <path fill="currentColor" d="M6 2a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6H6zm7 1.5L18.5 9H14a1 1 0 0 1-1-1V3.5zM8 13h8v1.5H8V13zm0 3.5h8V19H8v-1.5zm0-7h4V11H8V9.5z"/>
+    </symbol>
+  </svg>
+
+  <header class="navbar" id="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-brand">
+        <img src="image/logo.png" alt="LitterAI">
+      </a>
+      <nav>
+        <ul class="nav-links" id="navLinks">
+          <li><a href="index.html#home" class="nav-link-item">Home</a></li>
+          <li><a href="index.html#lezioni" class="nav-link-item">Lezioni</a></li>
+          <li><a href="#footer-info" class="nav-link-item">Info</a></li>
+        </ul>
+      </nav>
+      <button class="nav-toggle" id="navToggle" aria-label="Apri menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+ <div class="page-header" id="page-top">
+<div class="container">
+<h1>La personalizzazione della didattica con l'IA</h1>
+<p>Dalle strade parallele per uno stesso obiettivo al Tutor Socratico, fino a un ecosistema didattico completo: come usare l'intelligenza artificiale per differenziare materiali, diagnosticare difficoltà e costruire percorsi su misura, restando sempre alla guida del processo.</p>
+</div>
+</div>
+<div class="main-wrapper">
+<div class="container">
+<!-- ==================== NAV RAPIDA TRA LE PARTI ==================== -->
+<div class="part-nav">
+<a href="#parte1">1. Percorsi personalizzati</a>
+<a href="#parte2">2. Conoscere le difficoltà</a>
+<a href="#parte3">3. Differenziare i materiali</a>
+<a href="#parte4">4. Il Tutor Socratico</a>
+<a href="#parte5">5. NotebookLM</a>
+<a href="#parte6">6. Prompt Cookbook</a>
+<a href="#parte7">7. Laboratorio finale</a>
+<a href="#downloads">Materiali scaricabili</a>
+</div>
+
+<!-- ==================== PARTE 1 ==================== -->
+<section class="section-block" id="parte1">
+<span class="section-tag-header">Parte 1</span>
+<h2 class="section-title">Dalla didattica uguale per tutti ai percorsi personalizzati</h2>
+<p>Nella prassi quotidiana ci troviamo di fronte a classi con livelli di preparazione, ritmi di lavoro e bisogni di supporto estremamente disomogenei. Personalizzare la didattica, tuttavia, non significa progettare 25 lezioni diverse per 25 studenti: un'operazione del genere sarebbe insostenibile per chiunque.</p>
+
+<h3 class="phase-title">Modulo 1.1: Stesso obiettivo, strade diverse</h3>
+<p>Il principio guida è semplice e sostenibile: mantenere invariato l'obiettivo di apprendimento, modificando invece i livelli di supporto (scaffolding), la complessità del materiale e il grado di autonomia richiesto.</p>
+
+<h4 class="sub-phase-title">Un esempio pratico: La poetica del Canzoniere di Petrarca</h4>
+<p><strong>Obiettivo comune:</strong> Riconoscere il "dissidio" interiore del poeta e individuare le caratteristiche formali del sonetto petrarchesco attraverso il testo <em>Voi ch'ascoltate in rime sparse il suono</em> (Canzoniere, I).</p>
+<p>Anziché consegnare a tutta la classe la medesima scheda di lavoro, l'attività può essere modulata su percorsi paralleli che rispondono a diverse esigenze di apprendimento:</p>
+<div class="rcif-list">
+<ul>
+<li><strong>Percorso facilitato (Supporto alto):</strong> gli studenti individuano nel testo le parole legate al tema dell'errore e della vergogna, affiancati da una parafrasi a fronte e da domande guidate o a completamento che riducono il carico cognitivo di scrittura.</li>
+<li><strong>Percorso standard (Supporto medio):</strong> gli studenti analizzano la struttura del sonetto, individuano le figure retoriche principali (antitesi, chiasmo) e rispondono a domande aperte sul dissidio, con il testo originale e note lessicali.</li>
+<li><strong>Percorso di consolidamento (Supporto leggero):</strong> lavorando sul testo originale, gli studenti riassumono l'argomentazione di Petrarca e spiegano come la struttura metrica rispecchi il passaggio dal "giovenile errore" alla consapevolezza del presente, guidati da una breve scaletta concettuale.</li>
+<li><strong>Percorso di potenziamento (Maggiore autonomia):</strong> gli studenti mettono in relazione il proemio del Canzoniere con un passo del De vita solitaria o delle Familiares, redigendo un testo argomentativo di confronto tra la riflessione petrarchesca in volgare e in latino.</li>
+</ul>
+</div>
+<p>Tutti gli studenti lavorano sul medesimo nodo concettuale, ma ciascuno affronta il livello di complessità e il tipo di consegna più adatto alla propria fase di preparazione.</p>
+
+<h3 class="phase-title">Modulo 1.2: Personalizzare senza quadruplicare il lavoro</h3>
+<p>Se dovessimo preparare manualmente ogni singola variante per le nostre classi, il lavoro di progettazione diventerebbe presto ingestibile. È qui che l'intelligenza artificiale diventa una risorsa preziosa: non sostituisce le scelte pedagogiche dell'insegnante, ma prende in carico la parte più meccanica e ripetitiva dell'adattamento dei materiali.</p>
+<p>L'IA non sa quale percorso sia adatto a uno specifico studente: questa decisione spetta interamente al docente, che conosce la classe e le sue dinamiche. Il chatbot interviene subito dopo, per tradurre quella decisione didattica in materiali concreti.</p>
+
+<h4 class="sub-phase-title">Il flusso di lavoro</h4>
+<div class="flow-box"><pre>[ Attività originale ] ──&gt; [ Analisi dei bisogni ] ──&gt; [ Generazione dell'IA ] ──&gt; [ Controllo del docente ]</pre></div>
+<div class="rcif-list">
+<ol>
+<li><strong>Attività originale:</strong> si parte da un testo o da un esercizio base già pronto.</li>
+<li><strong>Analisi dei bisogni:</strong> si definiscono i livelli di supporto necessari per la classe.</li>
+<li><strong>Generazione dell'IA:</strong> si richiede al chatbot di creare le varianti desiderate.</li>
+<li><strong>Controllo del docente:</strong> si verificano la correttezza, la tenuta filologica e la pertinenza delle proposte.</li>
+</ol>
+</div>
+
+<h4 class="sub-phase-title">Esempio operativo: Tre livelli di analisi del testo in Italiano</h4>
+<p>Partiamo da una lezione tradizionale sui primi versi del Canto I dell'Inferno di Dante (vv. 1-18). Vogliamo che tutta la classe comprenda il significato letterale e allegorico della "selva" e del "colle", ma attraverso modalità graduate.</p>
+<p><strong>Il Prompt completo da copiare e adattare</strong></p>
+<blockquote class="prompt-box">Agisci come un docente esperto di letteratura italiana per la scuola secondaria di secondo grado.<br>Ti fornisco i versi 1-18 del Canto I dell'Inferno di Dante.<br><br>Crea 3 versioni differenziate di un'attività di comprensione e analisi, mantenendo per tutte lo stesso obiettivo: comprendere il significato letterale e allegorico della selva e del colle.<br><br>1. LIVELLO BASE (Scaffolding alto): Inserisci il testo con parafrasi a fronte, 3 domande a risposta multipla sulla trama e 2 domande guidate con incipit di risposta per spiegare la simbologia della selva.<br>2. LIVELLO STANDARD (Scaffolding medio): Inserisci il testo originale, 4 domande aperte di comprensione e un'analisi guidata dei termini chiave (selva, colle, sole).<br>3. LIVELLO AVANZATO (Maggiore autonomia): Inserisci il testo originale, 2 domande di analisi stilistica e una consegna di scrittura argomentativa che richieda un confronto tra la "selva" dantesca e una rappresentazione moderna dello smarrimento.<br><br>Presenta le 3 attività in modo chiaro, distinto e pronto per la stampa.</blockquote>
+
+<h4 class="sub-phase-title">Cosa controllare nell'output dell'IA</h4>
+<p>Quando il chatbot genera le schede, la revisione del docente deve concentrarsi su quattro aspetti chiave:</p>
+<div class="rcif-list">
+<ul>
+<li><strong>Rigorosità dei contenuti:</strong> verificare che le parafrasi o le glosse fornite nel livello base non banalizzino il testo né introducano imprecisioni concettuali.</li>
+<li><strong>Calibrazione degli aiuti:</strong> assicurarsi che nel livello base gli "incipit di risposta" guidino lo studente senza sostituirsi completamente alla sua rielaborazione.</li>
+<li><strong>Pertinenza delle consegne:</strong> verificare che la proposta di scrittura per il livello avanzato rimanga ancorata all'obiettivo della lezione.</li>
+<li><strong>Adeguamento del layout:</strong> accertarsi che i tre materiali risultino graficamente ordinati e pronti per l'uso in classe.</li>
+</ul>
+</div>
+
+<div class="back-to-top-wrap">
+<a class="back-to-top" href="#page-top">↑ Torna all'inizio</a>
+</div>
+</section>
+
+<!-- ==================== PARTE 2 ==================== -->
+<section class="section-block" id="parte2">
+<span class="section-tag-header">Parte 2</span>
+<h2 class="section-title">Conoscere meglio le difficoltà degli studenti</h2>
+<p>Quando correggiamo una verifica o osserviamo un'attività in classe, notiamo spesso errori che si ripetono. Tuttavia, un errore è quasi sempre soltanto un sintomo: la vera sfida didattica consiste nell'individuare il nodo concettuale, la lacuna nei prerequisiti o il passaggio di ragionamento che lo ha generato.</p>
+
+<h3 class="phase-title">Modulo 2.1: Dall'errore alla comprensione della difficoltà</h3>
+<p>L'intelligenza artificiale può affiancare il docente come uno strumento di analisi preventiva, aiutando a ipotizzare le possibili cause alla base di un blocco o di uno sbaglio sistematico, per progettare interventi di recupero mirati.</p>
+<div class="note-box">
+💡 <strong>Avvertenza fondamentale:</strong> l'IA non conosce i nostri studenti, non effettua diagnosi e non può sostituire l'osservazione professionale dell'insegnante. Il chatbot si limita a suggerire un ventaglio di ipotesi di lavoro, che il docente valuterà sulla base della conoscenza reale della classe.</div>
+
+<h4 class="sub-phase-title">Il flusso di analisi: dall'errore all'intervento</h4>
+<div class="flow-box"><pre>"Errore osservato" ⟶ "Possibile causa" ⟶ "Ipotesi di lavoro" ⟶ "Attività di recupero"</pre></div>
+
+<h4 class="sub-phase-title">Un esempio pratico: la sintassi latina</h4>
+<p>In una verifica di Latino, diversi studenti traducono la frase seguente commettendo lo stesso errore sistematico:</p>
+<p><strong>Frase:</strong> "Milites quos dux miserat in castris manebant"<br>
+<strong>Traduzione errata ricorrente:</strong> "I soldati inviarono il comandante che rimaneva nell'accampamento".</p>
+<p>Questo tipo di errore indica che la difficoltà non riguarda solo un singolo vocabolo, ma coinvolge più livelli dell'analisi sintattica: il riconoscimento dei casi, l'individuazione dell'antecedente del relativo, la separazione tra proposizione principale e relativa, e la corretta attribuzione delle funzioni logiche.</p>
+
+<p><strong>Il Prompt per l'analisi dell'errore</strong></p>
+<blockquote class="prompt-box">Agisci come un docente ed esperto di didattica del Latino per la scuola secondaria di secondo grado.<br><br>Un gruppo di studenti del secondo anno ha tradotto la frase:<br>"Milites quos dux miserat in castris manebant"<br>con:<br>"I soldati inviarono il comandante che rimaneva nell'accampamento".<br><br>Analizza questo errore e forniscimi:<br>1. Le possibili cause linguistiche e morfosintattiche che possono aver condotto a questo scambio tra soggetto e oggetto e alla scorretta attribuzione della relativa (es. riconoscimento dei casi, antecedente di "quos", distinzione tra principale e subordinata).<br>2. Un'ipotesi sul processo di pensiero o sulla strategia errata seguita dagli studenti.<br>3. Tre brevi esercizi di recupero mirati a smontare questo specifico meccanismo di errore, focalizzati sul riconoscimento visivo dei casi e delle funzioni logiche prima della traduzione.</blockquote>
+
+<h4 class="sub-phase-title">Come interpretare e applicare l'output</h4>
+<p>Tra le possibili interpretazioni, l'IA potrebbe suggerire che gli studenti abbiano applicato una lettura sequenziale "all'italiana" (Soggetto + Verbo + Oggetto), interpretando <em>dux</em> (nominativo) come complemento oggetto solo perché segue il verbo <em>miserat</em>, e scambiando <em>quos</em> (accusativo) per il soggetto della relativa.</p>
+<p>Il docente, verificata la plausibilità di questa ipotesi rispetto alla classe, non proporrà semplicemente "più frasi da tradurre", ma potrà progettare un'attività mirata: ad esempio, schede in cui gli studenti isolano con codici cromatici differenti la reggente e la relativa, oppure indicano i casi dei pronomi prima di cercare il verbo.</p>
+
+<h3 class="phase-title">Modulo 2.2: Simulare il punto di vista dello studente</h3>
+<p>Prima di proporre un testo, un'analisi o una verifica, è utile prevedere quali passaggi cognitivi e operativi potrebbero risultare più impegnativi. Usare l'IA come simulatore di difficoltà permette di sottoporre un'attività a un test preventivo, osservandola con gli occhi di studenti che affrontano il compito con risorse e competenze diverse.</p>
+<p>Anziché chiedere al chatbot di svolgere l'esercizio, gli chiediamo di individuare dove potrebbero verificarsi blocchi, smarrimenti o cali di attenzione.</p>
+
+<h4 class="sub-phase-title">Esempio operativo: analisi di un testo argomentativo (Italiano)</h4>
+<p>Vogliamo proporre alla classe la lettura e l'analisi di un testo argomentativo complesso o di un brano di saggistica letteraria.</p>
+<p><strong>Il Prompt per la simulazione preventiva</strong></p>
+<blockquote class="prompt-box">Agisci come un consulente per la didattica dell'Italiano nella scuola secondaria di secondo grado.<br>Ti fornisco il testo seguente: [inserire il testo].<br><br>Analizza questa attività di comprensione simulando il punto di vista di tre scenari ipotetici di studenti:<br><br>1. SCENARIO A (Prerequisiti e lessico fragili): Quali termini, strutture sintattiche o passaggi logici impliciti potrebbero causare un blocco della comprensione o una perdita di motivazione?<br>2. SCENARIO B (Preparazione consolidata): Quali domande risulteranno chiare e dove potrebbe servire uno stimolo in più per evitare risposte superficiali?<br>3. SCENARIO C (Elevata autonomia): Quali aspetti dell'attività rischiano di risultare ripetitivi e quali consegne potrebbero stimolare una rielaborazione critica più profonda?<br><br>Per ciascuno scenario, suggerisci un piccolo aggiustamento o un elemento di supporto da integrare nel materiale prima di distribuirlo in classe.</blockquote>
+
+<h4 class="sub-phase-title">Perché questo approccio è efficace</h4>
+<div class="rcif-list">
+<ul>
+<li><strong>Prevenzione dei blocchi:</strong> permette di inserire un piccolo glossario o una nota esplicativa prima che lo studente si fermi durante la lettura.</li>
+<li><strong>Consapevolezza dei tempi:</strong> aiuta a stimare in modo più realistico il tempo necessario per svolgere l'attività in classe.</li>
+<li><strong>Adattamento proattivo:</strong> consente di preparare in anticipo gli aiuti minimi da fornire a chi si trova in difficoltà, senza doversi improvvisare durante la spiegazione.</li>
+</ul>
+</div>
+
+<h4 class="sub-phase-title">Dalla simulazione alla progettazione</h4>
+<p>Utilizzare l'IA per simulare le reazioni della classe non significa prevedere con certezza matematica cosa accadrà in aula. Si tratta piuttosto di condurre uno <em>stress test</em> didattico sull'attività che abbiamo progettato. L'analisi dell'IA ci aiuta a porci domande decisive prima di entrare in classe:</p>
+<div class="rcif-list">
+<ul>
+<li>Quali prerequisiti dà per scontati questa consegna?</li>
+<li>Dove potrebbe verificarsi un blocco di comprensione?</li>
+<li>Quale supporto minimo può prevenire la frustrazione senza annullare la sfida cognitiva?</li>
+<li>Quali spunti possono valorizzare gli studenti più autonomi?</li>
+<li>Quanto tempo richiederà davvero l'esecuzione dell'attività?</li>
+</ul>
+</div>
+<p>Spetta sempre al docente, con la sua conoscenza della classe reale, decidere quali di queste ipotesi siano fondate e quali modifiche sia opportuno apportare ai materiali.</p>
+<div class="note-box">🧭 <strong>Verso la pratica:</strong> una volta individuate le possibili difficoltà e stimati i bisogni della classe, il passaggio successivo consiste nel tradurre queste riflessioni in materiali concreti. Nella Parte 3 vedremo come costruire diversi livelli di supporto attraverso lo scaffolding e come utilizzare strumenti dedicati per la differenziazione dei testi.</div>
+
+<div class="back-to-top-wrap">
+<a class="back-to-top" href="#page-top">↑ Torna all'inizio</a>
+</div>
+</section>
+
+<!-- ==================== PARTE 3 ==================== -->
+<section class="section-block" id="parte3">
+<span class="section-tag-header lab">Parte 3</span>
+<h2 class="section-title">Differenziare materiali e attività</h2>
+<p>In didattica, il termine <em>scaffolding</em> (impalcatura) indica l'insieme di sostegni temporanei forniti agli studenti durante il processo di apprendimento.</p>
+
+<h3 class="phase-title">Modulo 3.1: Scaffolding: aumentare o diminuire il supporto</h3>
+<p>Riprendendo quanto visto nella Parte 1 e nella Parte 2, l'obiettivo resta il medesimo: mantenere inalterato l'esito di apprendimento per tutta la classe, modulando tuttavia la complessità e la guida in base alle difficoltà individuate.</p>
+<p>Un'impalcatura efficace non sostituisce il lavoro cognitivo dello studente: fornisce un supporto temporaneo che gli permette di affrontare un compito che, con un livello inferiore di supporto, non riuscirebbe ancora a svolgere in totale autonomia.</p>
+<p>Nel contesto della personalizzazione, lo scaffolding non è una struttura rigida, ma un processo dinamico:</p>
+<div class="rcif-list">
+<ul>
+<li>Si <strong>aumenta</strong> il supporto quando l'attività richiede prerequisiti fragili o quando un passaggio concettuale presenta un carico interpretativo elevato.</li>
+<li>Si <strong>riduce progressivamente</strong> il supporto (<em>fading</em>) man mano che lo studente acquisisce sicurezza e padronanza, fino a lasciargli la gestione autonoma del compito.</li>
+</ul>
+</div>
+
+<h4 class="sub-phase-title">Esempio pratico: tre livelli di supporto nell'analisi del testo poetico</h4>
+<p>Prendiamo un'attività classica nelle discipline letterarie: l'analisi e la comprensione di un testo poetico complesso (ad esempio, un sonetto di Ugo Foscolo o di Giacomo Leopardi). Invece di somministrare la stessa scheda di domande a tutta la classe, possiamo progettare tre livelli di supporto attorno alla medesima poesia e allo stesso obiettivo d'analisi:</p>
+<div class="flow-box"><pre>[ Guida passo passo ] ────&gt; [ Supporto parziale ] ────&gt; [ Autonomia e approfondimento ]
+  (Scaffolding Alto)          (Scaffolding Medio)                 (Scaffolding Basso)</pre></div>
+
+<p><strong>1. Guida passo passo (Scaffolding Alto)</strong></p>
+<div class="rcif-list">
+<p><em>Funzione didattica:</em> utile per studenti che, rispetto a questo specifico compito, presentano prerequisiti fragili, riscontrano un elevato affaticamento nella lettura o necessitano di una guida del tutto esplicita per orientarsi nel testo.</p>
+<p><em>Struttura del materiale:</em></p>
+<ul>
+<li>Testo poetico affiancato da un glossario dei termini meno consueti.</li>
+<li>Parafrasi guidata con inserimento di termini chiave nei passaggi più complessi.</li>
+<li>Domande di analisi corredate da incipit di risposta (es. "L'autore definisce la sera 'cara' perché...").</li>
+<li>Indicazione esplicita o evidenziazione delle principali figure retoriche presenti nel testo.</li>
+</ul>
+</div>
+
+<p><strong>2. Supporto parziale (Scaffolding Medio)</strong></p>
+<div class="rcif-list">
+<p><em>Funzione didattica:</em> indicato per chi possiede una preparazione solida sul contesto, ma necessita di una traccia strutturata per organizzare l'analisi in autonomia.</p>
+<p><em>Struttura del materiale:</em></p>
+<ul>
+<li>Testo poetico originale corredato da brevi note essenziali sul lessico arcaico.</li>
+<li>Scaletta di domande aperte suddivise per aree (Comprensione letterale, Analisi stilistica, Contestualizzazione).</li>
+<li>Un riquadro "Suggerimenti per l'analisi" che richiama quali figure retoriche cercare, senza indicare direttamente in quali versi si trovino.</li>
+</ul>
+</div>
+
+<p><strong>3. Autonomia e approfondimento (Scaffolding Basso)</strong></p>
+<div class="rcif-list">
+<p><em>Funzione didattica:</em> destinato a chi dimostra elevata autonomia e prontezza nella rielaborazione critica.</p>
+<p><em>Struttura del materiale:</em></p>
+<ul>
+<li>Testo originale privo di supporti o note aggiuntive.</li>
+<li>Una consegna sintetica di analisi e rielaborazione (es. "Esamina il tema della sera nel testo, mettendo in luce come la struttura metrica e le figure di suono concorrano alla creazione del clima meditativo. Sviluppa un testo argomentativo di circa 300 parole").</li>
+<li>Uno stimolo ad attuare collegamenti con altri testi dell'autore o della tradizione letteraria.</li>
+</ul>
+</div>
+<div class="note-box">💡 <strong>Nota didattica:</strong> questi livelli non identificano categorie rigide o fisse di studenti. Lo stesso studente può richiedere uno scaffolding alto quando affronta per la prima volta la metrica di un testo trecentesco e, al contrario, muoversi in totale autonomia nella comprensione di un brano di prosa contemporanea.</div>
+
+<h4 class="sub-phase-title">La progressiva riduzione dell'aiuto (Fading)</h4>
+<p>L'obiettivo fondamentale dello scaffolding è la sua stessa progressiva scomparsa. L'aiuto non deve trasformarsi in una misura facilitante permanente, ma in un ponte verso l'autonomia. L'IA consente di generare con facilità la progressione dei materiali nel corso dell'anno:</p>
+<div class="flow-box"><pre>Attività 1: Scheda con incipit di risposta e glossario a fronte.
+Attività 2: Scheda con sola scaletta di domande guida e note essenziali.
+Attività 3: Consegna sintetica d'analisi da svolgere in autonomia.</pre></div>
+<p>Questa progressione non deve seguire una cronologia rigida per tutti: spetta all'insegnante decidere quando ridurre o ripristinare i sostegni in base alle risposte e ai progressi osservati.</p>
+
+<h3 class="phase-title">Modulo 3.2: Un testo, più percorsi: Diffit</h3>
+<p>Oltre ai chatbot generici, esistono strumenti d'intelligenza artificiale ideati specificamente per supportare i docenti nella progettazione di risorse didattiche. Nell'ambito delle discipline umanistiche, un riferimento particolarmente utile è <strong>Diffit</strong> (diffit.me).</p>
+<p>Diffit è una piattaforma che permette di caricare o incollare un materiale di partenza (un testo breve, un saggio o un estratto da un manuale) e di generare un insieme di risorse multilivello pronte per essere modificate, esportate o stampate.</p>
+
+<div class="exercise-card">
+<h4 class="exercise-title">🧪 Laboratorio pratico: differenziare un testo con Diffit</h4>
+<p>Ipotizziamo di voler proporre alla classe una lettura storiografica o un approfondimento in prosa (ad esempio, un saggio sulla Peste del 1630 o un estratto dei Promessi Sposi).</p>
+<p><strong>Il flusso di lavoro in 4 passaggi</strong></p>
+<div class="rcif-list">
+<ol>
+<li><strong>Inserimento del materiale di partenza:</strong> si incolla il testo di partenza all'interno della piattaforma (o si carica un estratto in formato digitale).</li>
+<li><strong>Selezione del livello e adattamento:</strong> si seleziona il grado scolastico o la fascia di leggibilità desiderata per tarare la complessità del linguaggio.</li>
+<li><strong>Generazione della bozza di lavoro:</strong> il tool elabora una prima proposta che include tipicamente una versione riscritta del testo, una sintesi per punti chiave e un vocabolario dei termini fondamentali, proposte di domande di comprensione e spunti di discussione.</li>
+<li><strong>Adattamento dei livelli e selezione del docente:</strong> modificando il livello di complessità, è possibile generare versioni differenti dello stesso materiale, da selezionare e combinare in base alle esigenze della classe.</li>
+</ol>
+</div>
+</div>
+
+<h4 class="sub-phase-title">Il controllo di qualità del docente</h4>
+<p>Diffit e le piattaforme analoghe accelerano la fase di prima stesura e impaginazione, ma non sostituiscono la revisione pedagogica e disciplinare del docente. Prima di distribuire una scheda generata con l'ausilio dell'IA, è opportuno guidare il controllo di qualità ponendosi quattro domande chiave:</p>
+<div class="flow-box"><pre>1. IL CONTENUTO È CORRETTO?
+   [ ] Le informazioni storiche e letterarie sono prive di inesattezze o semplificazioni fuorvianti?
+
+2. IL SIGNIFICATO È STATO PRESERVATO?
+   [ ] Il testo adattato mantiene il senso originario e la tenuta concettuale, senza banalizzare i passaggi chiave?
+
+3. LE DOMANDE MISURANO CIÒ CHE VOGLIO FAR APPRENDERE?
+   [ ] I quesiti stimolano l'analisi e l'inferenza, evitando di limitarsi alla sola memorizzazione letterale?
+
+4. IL MATERIALE È REALMENTE ACCESSIBILE E UTILIZZABILE?
+   [ ] La struttura grafica, l'impaginazione e la leggibilità complessiva rispondono alle reali esigenze operative degli studenti?</pre></div>
+<div class="note-box">💡 <strong>Nota sull'accessibilità:</strong> un layout pulito o un font ad alta leggibilità sono elementi utili, ma l'accessibilità reale si ottiene solo equilibrando la chiarezza grafica con la qualità didattica dell'adattamento linguistico e dei supporti previsti.</div>
+
+<div class="note-box">🧭 <strong>Prospettiva di lavoro:</strong> in questo modulo abbiamo visto come progettare materiali cartacei e digitali differenziati, adattando testi e livelli di supporto. Nella Parte 4 faremo un passo ulteriore: vedremo come utilizzare l'IA non solo per stampare schede di lavoro, ma per configurare un vero e proprio Tutor Socratico interattivo, capace di affiancare lo studente nel ragionamento senza mai anticipare la risposta corretta.</div>
+
+<div class="back-to-top-wrap">
+<a class="back-to-top" href="#page-top">↑ Torna all'inizio</a>
+</div>
+</section>
+
+<!-- ==================== PARTE 4 ==================== -->
+<section class="section-block" id="parte4">
+<span class="section-tag-header">Parte 4</span>
+<h2 class="section-title">Il Tutor Socratico</h2>
+<p>L'uso più istintivo dell'intelligenza artificiale in ambito scolastico è quello consultivo: porre una domanda per ottenere una risposta o un testo completo. Ricevere un prodotto finito può risultare utile in determinate fasi di lavoro, ma rischia di ridurre lo spazio per la rielaborazione autonoma se lo studente utilizza l'IA per sostituire il proprio processo di pensiero.</p>
+
+<h3 class="phase-title">Modulo 4.1: Dall'IA che risponde all'IA che fa ragionare</h3>
+<p>Per integrare l'IA nei percorsi di personalizzazione, è possibile affiancare all'uso consultivo una diversa modalità di lavoro: configurare il chatbot come un <strong>Tutor Socratico</strong>.</p>
+
+<h4 class="sub-phase-title">Il confronto tra i due approcci</h4>
+<div class="table-responsive">
+<table class="summary-table">
+<thead>
+<tr>
+<th>Approccio Esecutivo (Consultivo)</th>
+<th>Approccio Socratico (Formativo)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Richiesta: "Traduci questo passo di Cicerone."</td>
+<td>Richiesta: "Guidami nella traduzione di questo passo di Cicerone facendomi domande per analizzare la struttura."</td>
+</tr>
+<tr>
+<td>Output: la traduzione finale completa.</td>
+<td>Output: l'indicazione di individuare prima la reggente, una domanda sul caso di un sostantivo o sul valore di una congiunzione.</td>
+</tr>
+<tr>
+<td>Effetto: fornisce un risultato immediato, ma rischia di saltare la fase d'analisi.</td>
+<td>Effetto: accompagna lo studente nel ragionamento, aiuta a identificare gli errori e sostiene la costruzione autonoma della soluzione.</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<h4 class="sub-phase-title">Che cosa rende "Socratico" un Tutor basato sull'IA?</h4>
+<p>Un tutor socratico non si limita a formulare domande a raggio libero. Riprendendo il concetto di scaffolding e fading introdotto nella Parte 3, l'IA applica un sostegno interattivo e adattivo:</p>
+<div class="rcif-list">
+<ol>
+<li><strong>Individua il punto di blocco:</strong> chiede allo studente di spiegare cosa ha già svolto e dove incontra difficoltà.</li>
+<li><strong>Fornisce un supporto minimo:</strong> offre indizi o richiami alla regola proporzionati all'ostacolo, senza risolvere l'esercizio.</li>
+<li><strong>Gestisce l'errore in modo diagnostico:</strong> di fronte a un'inesattezza, non si limita a correggere, ma pone una domanda di richiamo sui prerequisiti (collegandosi al metodo dell'analisi dell'errore della Parte 2).</li>
+<li><strong>Adatta il supporto in tempo reale:</strong> aumenta temporaneamente la guida se lo studente è smarrito (scaffolding); riduce progressivamente gli aiuti non appena lo studente mostra maggiore sicurezza (fading).</li>
+</ol>
+</div>
+
+<h4 class="sub-phase-title">Applicazioni nelle discipline umanistiche</h4>
+<div class="rcif-list">
+<ul>
+<li><strong>Traduzione Latina:</strong> invece di tradurre il testo, il tutor pone domande mirate alla sintassi: "Qual è il verbo della proposizione principale? Quale elemento della frase ti aiuta a riconoscerne il soggetto?".</li>
+<li><strong>Analisi del testo poetico:</strong> per accompagnare la comprensione di una lirica, il tutor guida lo studente sui passaggi chiave: "Nota la posizione degli aggettivi nel secondo verso: come cambia il ritmo rispetto al primo?".</li>
+<li><strong>Costruzione dell'argomentazione:</strong> durante la preparazione di un testo argomentativo, l'IA interroga lo studente sulle tesi e sulle evidenze: "Hai enunciato la tua tesi; quali argomenti puoi citare per sostenerla di fronte a una possibile obiezione?".</li>
+<li><strong>Preparazione dell'esposizione orale:</strong> il tutor simula un colloquio guidato, chiedendo di precisare i concetti quando la risposta risulta generica: "Hai definito questo autore 'innovativo': quali aspetti formali della sua poetica giustificano questa definizione?".</li>
+</ul>
+</div>
+
+<h3 class="phase-title">Modulo 4.2: Costruire il proprio Tutor</h3>
+<p>Per fare in modo che l'IA agisca come tutor e non fornisca immediatamente la soluzione, occorre impostare un'istruzione iniziale (prompt di configurazione o istruzioni personalizzate) che definisca il ruolo, le regole di comportamento e la progressione degli aiuti.</p>
+<p>Il prompt può essere incollato direttamente all'inizio di una conversazione oppure inserito negli spazi dedicati alla configurazione degli assistenti presenti nelle varie piattaforme.</p>
+
+<p><strong>Il Prompt completo per il Tutor Socratico</strong></p>
+<blockquote class="prompt-box">Sei un Tutor Socratico esperto nell'insegnamento dell'Italiano e del Latino per la scuola secondaria di secondo grado. Il tuo obiettivo è guidare lo studente a comprendere i testi, analizzare le strutture linguistiche e costruire argomentazioni, fornendo il minimo supporto necessario per permettergli di proseguire in autonomia.<br><br>Segui rigorosamente queste regole di comportamento:<br><br>1. PROGRESSIONE DEGLI AIUTI: Non fornire subito la soluzione finale o la traduzione completa. Segui invece questo percorso graduale:<br>Domanda di analisi ──&gt; Indizio ──&gt; Richiamo della regola/prerequisito ──&gt; Esempio analogo.<br>Se lo studente rimane del tutto bloccato dopo più tentativi, fornisci una spiegazione breve o risolvi solo un piccolo passaggio di esempio, chiedendo subito dopo di applicare la stessa logica al resto dell'esercizio.<br><br>2. UNA DOMANDA O INDIZIO ALLA VOLTA: Mantieni gli interventi brevi per non sovraccaricare lo studente. Ogni tuo messaggio deve contenere una breve spiegazione o indizio seguito da UNA sola domanda chiara, attendendo la risposta prima di proseguire.<br><br>3. GESTIONE DEGLI ERRORI: Se lo studente sbaglia, non dire semplicemente "errato". Aiutalo a capire dove si è verificata l'interruzione ponendo una domanda diagnostica sui prerequisiti o mostrandogli dove il suo ragionamento porta a una contraddizione.<br><br>4. ADATTAMENTO DEL SUPPORTO (Scaffolding e Fading):<br>- Se lo studente risponde in modo corretto e sicuro: riduci le spiegazioni e proponi il passaggio successivo.<br>- Se risponde in modo corretto ma incerto: chiedigli brevemente di motivare la risposta.<br>- Se mostra forte difficoltà: aumenta temporaneamente gli aiuti fornendo una scelta tra due opzioni o un rimando teorico.<br><br>Inizia chiedendo allo studente quale argomento, frase di Latino o testo di Italiano desidera analizzare oggi.</blockquote>
+
+<h4 class="sub-phase-title">Impostare l'istruzione nelle diverse piattaforme</h4>
+<div class="flow-box"><pre>┌─────────────────────────────────────────────────────────────────────────┐
+│                     MODALITÀ DI CONFIGURAZIONE                          │
+├──────────────────────────┬──────────────────────────┬───────────────────┤
+│    Chatbot Generico      │ Assistenti Personalizzati│  Ambienti basati  │
+│    (Sessione singola)    │  (Custom GPT, Gems, etc.)│   su documenti    │
+├──────────────────────────┼──────────────────────────┼───────────────────┤
+│ Si incolla il prompt     │ Si inserisce l'istruzione│ Si inserisce il   │
+│ come primo messaggio     │ nello spazio dedicato di │ comportamento     │
+│ della chat prima di far  │ configurazione del bot   │ socratico affian- │
+│ lavorare lo studente.    │ per salvarlo e condivi-  │ candolo alle fonti│
+│                          │ derlo tramite link.      │ caricate.         │
+└──────────────────────────┴──────────────────────────┴───────────────────┘</pre></div>
+
+<h4 class="sub-phase-title">Verificare e tarare il Tutor (Stress Test)</h4>
+<p>Prima di proporre il tutor alla classe o di condividere il link di una chat configurata, il docente deve sempre svolgere un collaudo preventivo per assicurarsi che l'assistente mantenga la condotta desiderata:</p>
+<div class="rcif-list">
+<ul>
+<li><strong>Provocare il bot:</strong> inviare messaggi come "Non ho tempo, dammi direttamente la traduzione" o "Dimmi subito la risposta giusta". Verificare che l'IA non ceda immediatamente, ma rilanci con un piccolo indizio o una domanda di guida.</li>
+<li><strong>Verificare la gestione degli errori:</strong> fornire volutamente una risposta errata per osservare se il tutor individua il nodo concettuale o se si limita a correggere la frase.</li>
+<li><strong>Calibrare il linguaggio e la complessità:</strong> accertarsi che il registro e la difficoltà delle domande siano adeguati alla fascia d'età e al livello di preparazione della propria classe.</li>
+<li><strong>Verificare la dinamica di supporto (Fading):</strong> controllare che l'IA sappia diradare gli aiuti e lasciare maggiore iniziativa allo studente man mano che le risposte diventano corrette e sicure.</li>
+</ul>
+</div>
+
+<div class="note-box">⚠️ <strong>Una nota essenziale sull'affidabilità dei contenuti:</strong> anche quando è accuratamente configurato con un'impostazione socratica, un modello di intelligenza artificiale può commettere errori: può richiamare una regola grammaticale in modo impreciso, interpretare male la risposta dello studente o confermare per errore un ragionamento errato. È fondamentale spiegare agli studenti che il tutor è uno strumento di supporto al ripasso e all'esercitazione, non un'autorità infallibile: devono mantenere un atteggiamento critico e fare sempre riferimento al manuale e al docente per qualsiasi dubbio sui contenuti.</div>
+
+<h4 class="sub-phase-title">Il ruolo centrale del docente</h4>
+<p>Il Tutor Socratico rappresenta una forma di scaffolding interattivo in tempo reale che aiuta a personalizzare i ritmi di lavoro della classe. Tuttavia, l'IA non agisce come un insegnante autonomo:</p>
+<div class="rcif-list">
+<ul>
+<li>È il docente che definisce gli obiettivi di apprendimento e la struttura della lezione.</li>
+<li>È il docente che sceglie e prepara i testi da sottoporre all'analisi.</li>
+<li>È il docente che testa e calibra il tutor prima di metterlo a disposizione della classe.</li>
+<li>È il docente che osserva i progressi reali degli studenti e interviene laddove l'assistente digitale non sia sufficiente.</li>
+</ul>
+</div>
+
+<div class="back-to-top-wrap">
+<a class="back-to-top" href="#page-top">↑ Torna all'inizio</a>
+</div>
+</section>
+
+<!-- ==================== PARTE 5 ==================== -->
+<section class="section-block" id="parte5">
+<span class="section-tag-header lab">Parte 5</span>
+<h2 class="section-title">Creare assistenti di studio personalizzati con NotebookLM</h2>
+<p>Nelle Parti precedenti abbiamo esaminato come utilizzare l'intelligenza artificiale per comprendere le difficoltà degli studenti (Parte 2), differenziare i materiali (Parte 3) e impostare un dialogo di tipo socratico (Parte 4). Quando si lavora con assistenti conversazionali generici, tuttavia, si incontra un limite strutturale significativo: il modello attinge dall'intero corpus di addestramento raccolto sul web, con il rischio di introdurre nozioni non previste dal programma o vere e proprie inesattezze concettuali.</p>
+
+<h3 class="phase-title">Modulo 5.1: Perché NotebookLM per la personalizzazione?</h3>
+<p><strong>NotebookLM</strong> risponde a questa esigenza introducendo un approccio basato sulle fonti (<em>source-grounded AI</em>).</p>
+
+<div class="table-responsive">
+<table class="summary-table">
+<thead>
+<tr>
+<th>Chatbot Generico</th>
+<th>NotebookLM</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Risponde attingendo da un vasto corpus di dati appreso dalla rete.</td>
+<td>Risponde orientandosi in modo prioritario sulle fonti scritte inserite dal docente.</td>
+</tr>
+<tr>
+<td>Risposte libere, prive di riferimenti diretti ai testi adottati in classe.</td>
+<td>Risposte ancorate ai testi con citazioni e riferimenti alla fonte verificabili.</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<h4 class="sub-phase-title">I vantaggi pedagogici per la didattica d'aula</h4>
+<div class="rcif-list">
+<ul>
+<li><strong>Perimetro informativo definito:</strong> il docente seleziona e carica i materiali di riferimento (capitoli del manuale, estratti di fonti, schede sintattiche, saggi storiografici). L'IA orienta le proprie risposte primariamente all'interno di questo confine, riducendo le divagazioni.</li>
+<li><strong>Educazione alla verifica della fonte:</strong> i passaggi generati da NotebookLM includono note e citazioni numerate. Cliccando su di esse, lo studente viene riportato al punto esatto del documento originale, così la risposta dell'IA cessa di essere considerata un'autorità indiscussa e diventa uno stimolo per risalire al testo di partenza.</li>
+<li><strong>Ambiente di lavoro focalizzato:</strong> limitare il campo d'azione dei materiali aiuta gli studenti a concentrarsi sui nuclei concettuali del percorso senza perdersi in ricerche indistinte sul web.</li>
+</ul>
+</div>
+<div class="note-box">⚠️ <strong>Avvertenza sull'affidabilità:</strong> l'ancoraggio alle fonti riduce sensibilmente il rischio di risposte estranee, ma non rende lo strumento infallibile. Un modello linguistico può comunque sintetizzare un passaggio in modo impreciso o interpretare male una frase complessa. Il perimetro delle fonti rende tuttavia la verifica e la correzione molto più semplici sia per il docente sia per lo studente.</div>
+
+<h3 class="phase-title">Modulo 5.2: Creare e configurare un "Taccuino di Studio"</h3>
+<p>Un Taccuino (Notebook) su NotebookLM è un ambiente digitale organizzato attorno a un tema circoscritto: un autore, un'unità didattica di Latino o Italiano, un modulo storiografico o una selezione di testi per il recupero.</p>
+<p>Per evitare risposte generiche, la regola fondamentale è la chiarezza del perimetro: caricare un numero selezionato e coerente di documenti di alta qualità produce risultati didattici nettamente superiori rispetto all'inserimento indistinto di grandi quantità di file.</p>
+
+<h4 class="sub-phase-title">Il flusso di lavoro per il docente in 3 passaggi</h4>
+<div class="flow-box"><pre>1. CARICAMENTO FONTI ────&gt; 2. CONFIGURAZIONE GUIDA ────&gt; 3. CONDIVISIONE / USO
+   (PDF, Drive, Testi,        (Istruzioni per l'uso,         (Studio guidato,
+    Link, file Audio)          impostazione del ruolo)        esercitazioni)</pre></div>
+
+<p><strong>1. Selezione e caricamento dei materiali</strong></p>
+<p>Il docente crea un nuovo taccuino e inserisce i documenti di lavoro. NotebookLM supporta diversi formati: documenti PDF e file di testo (es. un'antologia di brani latini con glossario, schede di analisi del testo), file provenienti da Google Drive (Documenti, Presentazioni), testi incollati direttamente, indirizzi web e file audio.</p>
+
+<p><strong>2. Configurazione delle istruzioni di guida</strong></p>
+<p>Nell'interfaccia della chat e nelle impostazioni del taccuino è possibile inserire un'istruzione iniziale per orientare la modalità di risposta del sistema, raccordando così l'ambiente basato su fonti con la logica del Tutor Socratico vista nella Parte 4.</p>
+<blockquote class="prompt-box"><strong>Prompt di configurazione da inserire nella chat del Taccuino:</strong> "Sei un tutor di supporto allo studio per gli studenti di questo corso. Rispondi alle domande basandoti rigorosamente sui documenti presenti in questo taccuino. Quando spieghi un concetto o guidi l'analisi di un testo:<br>- Non fornire subito la risposta completa o la parafrasi finale, ma poni una domanda alla volta per guidare il ragionamento dello studente.<br>- Quando fornisci un indizio, indica espressamente a quale documento o sezione del taccuino far riferimento per ritrovare l'informazione.<br>- Se lo studente mostra difficoltà, fornisci un piccolo aiuto o un richiamo alla regola, poi chiedigli di applicarlo.<br>- Se lo studente pone una domanda su un argomento che NON è presente nei documenti caricati, dichiara chiaramente che le fonti disponibili non contengono tale informazione."</blockquote>
+
+<p><strong>3. Personalizzazione dei percorsi di studio</strong></p>
+<p>Una volta predisposto il taccuino, il docente può utilizzarlo per accompagnare diverse modalità di lavoro in classe e a casa, variando non la natura degli obiettivi ma il livello di supporto e la profondità dell'analisi:</p>
+<div class="rcif-list">
+<ul>
+<li><strong>Supporto allo studio autonomo:</strong> gli studenti interrogano il taccuino per ripassare, chiarire passaggi linguistici o verificare la comprensione dei testi del manuale.</li>
+<li><strong>Scaffolding e supporto guidato:</strong> per gli studenti che incontrano maggiori difficoltà, il taccuino agisce come una guida passo-passo che rimanda continuamente alle note grammaticali o al glossario integrato nelle fonti.</li>
+<li><strong>Estensione e approfondimento:</strong> gli studenti con competenze più avanzate possono porre quesiti complessi di confronto tra documenti diversi (ad esempio mettendo in relazione due testi storiografici o due brani poetici caricati nel medesimo ambiente).</li>
+</ul>
+</div>
+
+<h3 class="phase-title">Modulo 5.3: Generazione di materiali e supporti per lo studio</h3>
+<p>Oltre al dialogo in chat, NotebookLM integra strumenti di sintesi automatica che rielaborano le fonti caricate trasformandole in diversi formati didattici.</p>
+
+<h4 class="sub-phase-title">Strumenti integrati di rielaborazione</h4>
+<div class="rcif-list">
+<ul>
+<li><strong>Guida allo studio e FAQ:</strong> genera automaticamente schede di sintesi, domande frequenti e glossari a partire dai documenti di lavoro, offrendo uno schema d'avvio per la strutturazione dei ripassi.</li>
+<li><strong>Piani di lavoro e Cronologie:</strong> estrae dai materiali sequenze temporali, schemi di concetti o tabelle di sintesi.</li>
+<li><strong>Audio Overview (Panoramica Audio):</strong> elabora i testi caricati generando una discussione parlata tra due voci sintetiche che riassumono e commentano i temi principali presenti nel taccuino.</li>
+</ul>
+</div>
+
+<h4 class="sub-phase-title">L'Audio Overview nella progettazione didattica</h4>
+<p>L'utilizzo della panoramica audio non deve essere inteso come un semplice sostituto della lettura o un automatismo per specifiche categorie di studenti. Si tratta invece di una modalità alternativa e complementare di accesso ai contenuti, particolarmente utile per chi trae beneficio dall'ascolto o incontra affaticamento nella lettura prolungata di testi complessi.</p>
+<p>Per evitare un ascolto passivo, la risorsa audio va integrata all'interno di una sequenza di ascolto attivo:</p>
+<div class="flow-box"><pre>┌─────────────────────────────────────────────────────────────────────────┐
+│                   SEQUENZA DI ASCOLTO ATTIVO                            │
+├─────────────────────────────────────────────────────────────────────────┤
+│ 1. Ascolto guidato della panoramica audio (anche in Flipped Classroom). │
+│ 2. Annotazione individuale di 2-3 concetti chiave o dubbi emersi.       │
+│ 3. Riscontro sul testo: ricerca delle conferme all'interno delle fonti.│
+│ 4. Discussione e rielaborazione in classe guidata dal docente.         │
+└─────────────────────────────────────────────────────────────────────────┘</pre></div>
+
+<h4 class="sub-phase-title">La verifica del Taccuino (Stress Test)</h4>
+<p>Prima di condividere i materiali o utilizzare il taccuino con gli studenti, il docente deve svolgere una verifica di qualità operando cinque controlli fondamentali:</p>
+<div class="flow-box"><pre>[ ] 1. PERTINENZA: Le risposte rimangono ancorate al corpus di fonti caricato?
+[ ] 2. ACCURATEZZA: La sintesi dell'IA rispetta il significato originale del testo?
+[ ] 3. CITAZIONI: Le note numerate rimandano ai passaggi corretti dei documenti?
+[ ] 4. TENUTA SOCRATICA: La chat guida il ragionamento senza regalare la soluzione?
+[ ] 5. TEST DEL LIMITE: Ponendo una domanda ESTRANEA alle fonti, il sistema 
+       dichiara correttamente di non possedere l'informazione?</pre></div>
+<div class="note-box">🎯 Particolarmente rivelatore è il <strong>Test del limite</strong> (punto 5): accertarsi che il taccuino sappia dire "Questa informazione non è presente nei materiali messi a disposizione dal docente" è il miglior modo per mostrare agli studenti come funziona il perimetro di un'IA basata sulle fonti.</div>
+
+<h4 class="sub-phase-title">Il ruolo centrale del docente nel percorso di personalizzazione</h4>
+<p>L'adozione di NotebookLM dimostra che la tecnologia non sostituisce la progettazione didattica, ma ne richiede una ancora più consapevole. Il sistema non sceglie le fonti, non definisce gli obiettivi d'apprendimento e non valuta i progressi:</p>
+<div class="rcif-list">
+<ul>
+<li>Il docente seleziona i testi e stabilisce i confini scientifici del lavoro.</li>
+<li>Il docente definisce la progressione degli aiuti (scaffolding) e ne pianifica il graduale azzeramento (fading).</li>
+<li>Il docente valida le sintesi e media la relazione educativa in aula.</li>
+</ul>
+</div>
+
+<div class="back-to-top-wrap">
+<a class="back-to-top" href="#page-top">↑ Torna all'inizio</a>
+</div>
+</section>
+
+<!-- ==================== PARTE 6 ==================== -->
+<section class="section-block" id="parte6">
+<span class="section-tag-header lab">Parte 6</span>
+<h2 class="section-title">Prompt Cookbook: personalizzare con l'IA</h2>
+
+<h3 class="phase-title">Modulo 6.1: Come utilizzare questo Cookbook</h3>
+<p>Nelle Parti precedenti abbiamo analizzato i principi pedagogici della personalizzazione, lo scaffolding, il dialogo socratico e l'analisi dell'errore. Questa sezione costituisce una raccolta operativa di prompt pronti all'uso, pensata come un ricettario pratico per il lavoro quotidiano del docente.</p>
+<p>I prompt presenti in questo Cookbook non sono legati a una specifica piattaforma né rappresentano "formule magiche" adatte a ogni situazione. L'efficacia di qualunque prompt generato con l'IA dipende in modo diretto da cinque fattori fondamentali:</p>
+<div class="rcif-list">
+<ol>
+<li><strong>Chiarezza dell'obiettivo didattico:</strong> sapere esattamente quale traguardo deve raggiungere lo studente.</li>
+<li><strong>Informazioni sul contesto:</strong> fornire dettagli pertinenti sul gruppo classe, sulle fragilità o sui punti di forza degli studenti.</li>
+<li><strong>Qualità del materiale di partenza:</strong> inserire testi, brani d'autore, frasi di Latino o verifiche ben strutturate.</li>
+<li><strong>Vincoli forniti al modello:</strong> indicare esplicitamente cosa l'IA può modificare e cosa deve rimanere tassativamente invariato.</li>
+<li><strong>Revisione critica del docente:</strong> verificare la correttezza, la tenuta concettuale e l'adeguatezza dell'output prima dell'uso in classe.</li>
+</ol>
+</div>
+
+<h4 class="sub-phase-title">L'Architettura RCIF dei Prompt</h4>
+<p>Per garantire la massima robustezza e chiarezza espositiva, ogni prompt di questo Cookbook è strutturato secondo il modello <strong>RCIF</strong>, integrato con i parametri operativi di input e controllo:</p>
+<div class="rcif-list">
+<ul>
+<li><strong>R — Role (Ruolo):</strong> definisce l'identità e la competenza specialistica che l'IA deve assumere.</li>
+<li><strong>C — Context (Contesto):</strong> specifica l'ordine di scuola, la disciplina e la tipologia di studenti.</li>
+<li><strong>I — Instruction (Istruzioni e Vincoli):</strong> descrive il compito pedagogico e stabilisce cosa deve rimanere invariato per non svuotare l'obiettivo didattico.</li>
+<li><strong>F — Format (Formato dell'output):</strong> impone l'organizzazione visiva e strutturale del testo generato.</li>
+<li><strong>[M] — Materiale di partenza:</strong> lo spazio in cui incollare i propri contenuti (brani, frasi, verifiche).</li>
+<li><strong>[C] — Controllo del docente:</strong> i punti critici da verificare sul testo generato prima dell'uso in classe.</li>
+</ul>
+</div>
+<div class="note-box">🎯 <strong>Regola pratica d'oro:</strong> più il docente specifica cosa deve rimanere invariato nelle Instruction (es. concetti chiave, termini tecnici disciplinari, nodi concettuali), più è facile ottenere una personalizzazione che non alteri l'obiettivo didattico originale.</div>
+
+<h3 class="phase-title">Modulo 6.2: I Prompt divisi per bisogno didattico</h3>
+
+<div class="exercise-card">
+<h4 class="exercise-title">1. Rendere accessibile</h4>
+<p><strong>Obiettivo:</strong> rimodulare la struttura grafica e spaziale del testo per ridurne il carico visivo e cognitivo, senza alterarne i contenuti.</p>
+<p><strong>Quando usarlo:</strong> quando occorre presentare un brano denso o un saggio a studenti che beneficiano di un'alta chiarificazione visiva, evitandone la banalizzazione scientifica.</p>
+<blockquote class="prompt-box">[ROLE] Sei un docente esperto in didattica inclusiva e accessibilità dei materiali per la scuola secondaria di secondo grado.<br>[CONTEXT] Devi adattare un testo di studio per studenti che beneficiano di una presentazione ad alta leggibilità e ridotto affaticamento visivo.<br>[INSTRUCTION] Rendi il testo fornito in basso più leggibile e accessibile dal punto di vista grafico ed espositivo, riducendo il carico visivo e la complessità di presentazione.<br>VINCOLO TASSATIVO: Non introdurre nuove informazioni, non omettere concetti e non modificare il significato o la tenuta concettuale del testo originale.<br>[FORMAT]<br>1. Dividi il testo in brevi paragrafi coerenti, distanziati e preceduti da titoli chiari e descrittivi.<br>2. Riorganizza la sintassi con struttura lineare (Soggetto - Verbo - Complemento), limitando le subordinate incassate.<br>3. Evidenzia in grassetto esclusivamente le parole chiave fondamentali (max 2-3 per paragrafo).<br>4. Inserisci un breve glossario iniziale con la spiegazione dei termini meno consueti.<br>5. Usa punti elenco per schematizzare sequenze, cause o elenchi.<br><br>[MATERIALE DI PARTENZA]<br>[INSERISCI QUI IL TESTO ORIGINALE]</blockquote>
+<p><strong>Controllo del docente:</strong> verificare che l'IA non abbia tagliato concetti disciplinari chiave e che il grassetto sia stato applicato solo a parole realmente centrali.</p>
+</div>
+
+<div class="exercise-card">
+<h4 class="exercise-title">2. Semplificare senza impoverire</h4>
+<p><strong>Obiettivo:</strong> rimodulare la complessità sintattica e lessicale di un testo garantendo al contempo il rispetto della ricchezza dei concetti.</p>
+<p><strong>Quando usarlo:</strong> con studenti che presentano fragilità di comprensione linguistica o con background linguistico vario (es. studenti NAI o L2), quando è necessario semplificare il codice comunicativo senza svuotare l'argomento.</p>
+<blockquote class="prompt-box">[ROLE] Sei un docente di Italiano specializzato in facilitazione linguistica.<br>[CONTEXT] Devi adattare un testo d'autore o di critica per uno studente di scuola secondaria con fragilità nella comprensione del testo scritto.<br>[INSTRUCTION] Riscrivi il brano fornito riducendo la complessità linguistica del testo, ma MANTENENDO INVARIATA la complessità concettuale dell'argomento.<br>Rules:<br>1. Semplifica la sintassi: accorcia i periodi ed elimina le subordinate di terzo o quarto grado.<br>2. Semplifica il lessico generale sostituendo termini arcaici o burocratici con vocaboli ad alta frequenza.<br>3. MANTIENI I TERMINI TECNICI DISCIPLINARI: i concetti fondamentali e il lessico specifico non devono essere eliminati; fornisci la loro spiegazione chiara direttamente tra parentesi o in nota.<br>[FORMAT]<br>- Testo semplificato articolato in brevi paragrafi.<br>- In coda al testo, inserisci [inserire numero, es. 3 o 4] domande di verifica della comprensione focalizzate sui passaggi logici principali.<br><br>[MATERIALE DI PARTENZA]<br>[INSERISCI QUI IL TESTO DA SEMPLIFICARE]</blockquote>
+<p><strong>Controllo del docente:</strong> accertarsi che i termini specialistici della disciplina siano stati conservati e spiegati adeguatamente, anziché superficialmente eliminati.</p>
+</div>
+
+<div class="exercise-card">
+<h4 class="exercise-title">3. Aumentare il supporto (Scaffolding Alto)</h4>
+<p><strong>Obiettivo:</strong> trasformare un'attività autonoma in un compito ad alta guida fornendo sostegni espliciti, organizzatori anticipati e avvii di risposta.</p>
+<p><strong>Quando usarlo:</strong> nelle fasi iniziali di un argomento complesso o quando un singolo studente dimostra un forte blocco nell'avvio del compito di analisi o di traduzione.</p>
+<blockquote class="prompt-box">[ROLE] Sei un docente di Italiano e Latino per il liceo.<br>[CONTEXT] Devi preparare una scheda di lavoro per uno studente che necessita di un forte accompagnamento nella comprensione e nell'analisi del testo.<br>[INSTRUCTION] A partire dal testo fornito, progetta una scheda di lavoro caratterizzata da un ALTO LIVELLO DI SUPPORTO (Scaffolding Alto).<br>[FORMAT]<br>Crea una scheda strutturata contenente:<br>1. TESTO E GLOSSARIO APPRONTATO: affianca al testo un glossario dei termini o costrutti latini più articolati.<br>2. TRACCIA GUIDATA / PARAFRASI PARZIALE: fornisci una struttura di analisi/traduzione parzialmente completata, con spazi vuoti da riempire attingendo da un riquadro di opzioni fornite.<br>3. DOMANDE CON INCIPIT: formula domande di comprensione fornendo l'incipit esplicito della risposta (es. "L'autore utilizza l'anafora al v. 4 allo scopo di...") per ridurre l'affaticamento da avvio della scrittura.<br>4. LOCALIZZAZIONE DEGLI ELEMENTI: indica chiaramente nei quesiti i numeri di riga o di verso in cui individuare le figure retoriche o i costrutti richiesti.<br><br>[MATERIALE DI PARTENZA]<br>[INSERISCI QUI IL TESTO O IL PASSO LATINO]</blockquote>
+<p><strong>Controllo del docente:</strong> controllare che gli incipit guida indirizzino la strutturazione del pensiero senza suggerire direttamente la soluzione dell'analisi.</p>
+</div>
+
+<div class="exercise-card">
+<h4 class="exercise-title">4. Ridurre il supporto (Fading)</h4>
+<p><strong>Obiettivo:</strong> rimuovere progressivamente sostegni e facilitazioni per accompagnare lo studente verso una reale autonomia di rielaborazione.</p>
+<p><strong>Quando usarlo:</strong> quando uno studente ha superato la fase di avvio con guida e si intende verificare la sua capacità di svolgere il medesimo obiettivo didattico in autonomia.</p>
+<blockquote class="prompt-box">[ROLE] Sei un docente di Italiano e Latino.<br>[CONTEXT] Devi trasformare un'attività guidata in una prova autonoma per uno studente pronto a lavorare senza aiuti intermedi.<br>[INSTRUCTION] Rielabora l'attività fornita trasformandola in una consegna a BASSO LIVELLO DI SUPPORTO (Fading avanzato). L'obiettivo didattico finale deve rimanere IDENTICO, ma gli elementi di supporto devono essere rimossi.<br>Rules:<br>1. Rimuovi note lessicali, glossari, localizzazioni puntuali di versi e incipit di risposta.<br>2. MANTIENI INVARIATO il livello di rigore e la richiesta concettuale, chiedendo allo studente di gestire autonomamente le fasi di analisi e commento.<br>[FORMAT]<br>- 2 quesiti di rielaborazione sintetica o traccia per un'analisi globale del testo.<br>- 1 richiesta di contestualizzazione e collegamento motivato con un altro autore o tema studiato.<br><br>[MATERIALE DI PARTENZA]<br>[INSERISCI QUI L'ATTIVITÀ GUIDATA DI PARTENZA]</blockquote>
+<p><strong>Controllo del docente:</strong> assicurarsi che la rimozione degli aiuti corrisponda a un reale incremento dell'autonomia e non semplicemente a un aumento sproporzionato del carico di lavoro.</p>
+</div>
+
+<div class="exercise-card">
+<h4 class="exercise-title">5. Differenziare la difficoltà (Tre Livelli Parallelizzati)</h4>
+<p><strong>Obiettivo:</strong> creare tre percorsi d'analisi distinti per grado di supporto e autonomia, che convergono sull'identico traguardo d'apprendimento.</p>
+<p><strong>Quando usarlo:</strong> nella progettazione di schede di lavoro da destinare all'intera classe durante attività di lavoro individuale o a gruppi eterogenei.</p>
+<blockquote class="prompt-box">[ROLE] Sei un docente della scuola secondaria di secondo grado.<br>[CONTEXT] Devi progettare un'attività differenziata per una classe eterogenea, garantendo a tutti l'accesso al medesimo nucleo concettuale.<br>[INSTRUCTION] A partire dal materiale fornito, progetta una scheda di lavoro articolata su TRE LIVELLI DI DIFFICOLTÀ PARALLELI. Tutti e tre i livelli devono valutare I MEDESIMI OBIETTIVI DI APPRENDIMENTO, differenziati per grado di supporto.<br>[FORMAT]<br>Organizza l'output in tre sezioni chiare:<br>- LIVELLO 1 (Guida strutturata - Scaffolding Alto): testo con note lessicali, domande a risposta guidata, incipit espliciti ed evidenziazione dei passi chiave.<br>- LIVELLO 2 (Supporto parziale - Scaffolding Medio): testo originale con glossario essenziale, domande aperte a risposta sintetica, scaletta di orientamento senza incipit.<br>- LIVELLO 3 (Autonomia e approfondimento - Scaffolding Basso): consegna sintetica di analisi e sintesi critica, richiesta di confronti intertestuali e interpretazione personale motivata.<br><br>[MATERIALE DI PARTENZA]<br>[INSERISCI QUI L'ARGOMENTO, IL TESTO O IL PASSO DI LATINO]</blockquote>
+<p><strong>Controllo del docente:</strong> verificare che il Livello 1 non sia una penalizzazione dei contenuti e che il Livello 3 non richieda elementi estranei al programma svolto.</p>
+</div>
+
+<div class="exercise-card">
+<h4 class="exercise-title">6. Creare percorsi di recupero</h4>
+<p><strong>Obiettivo:</strong> progettare un modulo strutturato in tre fasi per affrontare le lacune emerse durante una prova o una verifica.</p>
+<p><strong>Quando usarlo:</strong> al termine di una verifica sommativa, quando è necessario proporre un'attività di recupero individuale o per piccoli gruppi focalizzata sui punti di fragilità evidenziati.</p>
+<blockquote class="prompt-box">[ROLE] Sei un docente esperto nella progettazione di interventi di recupero per le discipline umanistiche.<br>[CONTEXT] Devi strutturare un percorso di recupero mirato per uno studente che ha mostrato lacune specifiche in una prova.<br>[INSTRUCTION] Sulla base dell'elenco degli errori o degli argomenti critici forniti in basso, elabora un Piano di Recupero Breve.<br>NOTA: Se indico solo gli argomenti generali e non gli errori precisi, formula ipotesi ragionevoli sulle difficoltà più frequenti riscontrate dagli studenti su questi temi.<br>[FORMAT]<br>Articola la scheda esattamente in 3 FASI consecutive:<br>1. FASE 1 - REVISIONE DEI PREREQUISITI: sintetica scheda di ripasso (max 1 pag.) sulla regola o concetto frainteso, con due esempi corretti e un CONTROESEMPIO guidato sull'errore frequente.<br>2. FASE 2 - ESERCITAZIONE GUIDATA: 5 brevi esercizi con soluzione commentata a fronte (spiegando IL PERCHÉ del risultato) per l'autocorrezione.<br>3. FASE 3 - PROVA DI RIALLINEAMENTO: 3 quesiti analoghi a quelli falliti nella prova originale, da svolgere in autonomia.<br><br>[MATERIALE DI PARTENZA]<br>[INSERISCI QUI GLI ARGOMENTI CRITICI O GLI ERRORI OSSERVATI NELLE PROVE]</blockquote>
+<p><strong>Controllo del docente:</strong> revisionare attentamente le soluzioni commentate generate dall'IA nella Fase 2, assicurandosi che la spiegazione sia esente da imprecisioni o allucinazioni.</p>
+</div>
+
+<div class="exercise-card">
+<h4 class="exercise-title">7. Creare attività di potenziamento</h4>
+<p><strong>Obiettivo:</strong> offrire compiti a elevata complessità cognitiva, autonomia e spirito critico per studenti che hanno pienamente raggiunto i traguardi di base.</p>
+<p><strong>Quando usarlo:</strong> per valorizzare studenti che terminano le attività con largo anticipo o che richiedono stimoli di approfondimento, evitando di somministrare semplicemente "più esercizi della stessa tipologia".</p>
+<blockquote class="prompt-box">[ROLE] Sei un docente di Italiano, Latino e Storia per il liceo.<br>[CONTEXT] Devi progettare un'attività di potenziamento per studenti con elevata autonomia e rapido ritmo di apprendimento.<br>[INSTRUCTION] Progetta un'attività che non aumenti la quantità di lavoro, ma elevi la COMPLESSITÀ COGNITIVA, l'autonomia e la capacità di trasposizione critico-argomentativa.<br>[FORMAT]<br>Elabora la proposta attorno a uno di questi 3 formati a scelta:<br>- OPZIONE A (Analisi comparativa): confronto tra il testo/autore studiato e un testo contemporaneo o un'opera visiva/filosofica.<br>- OPZIONE B (Compito di realtà): redazione di una recensione critica, discorso persuasivo o saggio breve dal punto di vista di un autore o corrente.<br>- OPZIONE C (Debate): tesi interpretativa complessa/controversa con richiesta di costruire argomentazioni a favore e contro basate sulle fonti.<br>Includi sempre una rubrica di autovalutazione o lista di controllo per lo studente.<br><br>[MATERIALE DI PARTENZA]<br>[INSERISCI QUI L'ARGOMENTO O IL TESTO DI PARTENZA]</blockquote>
+<p><strong>Controllo del docente:</strong> verificare che l'attività solleciti i livelli alti della tassonomia di Bloom (analisi, valutazione, creazione) e non soltanto un mero immagazzinamento di ulteriori nozioni.</p>
+</div>
+
+<div class="exercise-card">
+<h4 class="exercise-title">8. Analizzare gli errori (Diagnosi formativa)</h4>
+<p><strong>Obiettivo:</strong> mappare e ricondurre gli errori visibili in un elaborato a possibili origini logiche, sintattiche o di comprensione, al fine di impostare un feedback formativo (feedforward).</p>
+<p><strong>Quando usarlo:</strong> in fase di correzione delle verifiche scritte o dei compiti a casa, per classificare rapidamente le criticità e preparare restituzioni individualizzate.</p>
+<blockquote class="prompt-box">[ROLE] Sei un docente esperto nell'analisi e nella correzione formativa delle prove scritte.<br>[CONTEXT] Devi analizzare il compito di uno studente per individuare la natura degli errori e formulare un commento correttivo efficace.<br>[INSTRUCTION] Esamina l'elaborato fornito ed effettua un'analisi diagnostica distinguendo chiaramente tra fatti osservabili e ipotesi interpretative.<br>[FORMAT]<br>1. MAPPATURA DEGLI ERRORI OSSERVABILI: elenca gli errori commessi raggruppandoli per categoria (es. morfosintassi, lessico/parafrasi, coerenza argomentativa).<br>2. IPOTESI SULLA POSSIBILE ORIGINE DELL'ERRORE: formula un'ipotesi prudente sulla causa dell'ostacolo (es. mancato riconoscimento del caso, sovraccarico di memoria di lavoro, equivoco sulla consegna).<br>3. PROPOSTA DI FEEDBACK FORMATIVO (FEEDFORWARD): scrivi un commento di 3-4 righe rivolto allo studente contenente: a) Un punto di forza; b) L'errore prioritario su cui lavorare; c) Un'azione pratica immediata per superarlo.<br><br>[MATERIALE DI PARTENZA]<br>[INSERISCI QUI IL TESTO O LA PROVA DELLO STUDENTE CON GLI ERRORI OSSERVATI]</blockquote>
+<p><strong>Controllo del docente:</strong> assicurarsi che le ipotesi dell'IA rimangano spunti di riflessione didattica e che il feedback per lo studente mantenga un tono motivante ed essenziale.</p>
+</div>
+
+<div class="exercise-card">
+<h4 class="exercise-title">9. Simulare uno studente (Persona Prompting)</h4>
+<p><strong>Obiettivo:</strong> configurare l'IA affinché simuli le risposte e le possibili incomprensioni di uno studente tipo, al fine di collaudare una verifica, una consegna o una spiegazione prima di presentarla alla classe.</p>
+<p><strong>Quando usarlo:</strong> durante la preparazione delle lezioni o delle schede di verifica, per anticipare le risposte, le interpretazioni scorrette o i blocchi tipici degli studenti.</p>
+<blockquote class="prompt-box">[ROLE] Sei uno studente di liceo scientifico con una preparazione sufficiente sui concetti di base, ma con difficoltà di fronte a inferenze complesse, periodi ipotattici lunghi o costrutti latini impliciti.<br>[CONTEXT] Devi interagire con il docente (me) per collaudare l'efficacia e la chiarezza di una traccia di verifica prima che venga somministrata alla classe.<br>[INSTRUCTION] Rispondi alle domande o consegne che ti sottoporrò simulando il profilo indicato.<br>Rules:<br>1. Rispondi fornendo la tua risposta finale direttamente, senza mostrare processi di pensiero interni o ragionamenti nascosti.<br>2. Di fronte a consegne complesse, produci risposte osservabili compatibili con il tuo profilo (es. commettere una svista tipica, applicare una regola in modo troppo rigido).<br>3. Se ricevi un indizio o feedback, mostra di potertene avvalere nella risposta successiva.<br>NOTA: Questa simulazione serve unicamente a testare la traccia e non rappresenta un singolo studente reale.<br>[FORMAT]<br>Risposte brevi e dirette in formato dialogo. Inizia dicendomi che sei pronto e chiedimi quale esercizio o quesito vogliamo collaudare.</blockquote>
+<p><strong>Controllo del docente:</strong> verificare che la simulazione rimanga uno strumento di test per le consegne e che le risposte simulate siano plausibili rispetto all'esperienza quotidiana d'aula.</p>
+</div>
+
+<div class="exercise-card">
+<h4 class="exercise-title">10. Creare un Tutor Socratico</h4>
+<p><strong>Obiettivo:</strong> trasformare l'IA in un interlocutore che guida lo studente passo dopo passo nella comprensione o nell'analisi, fornendo indizi progressivi senza mai rivelare direttamente la soluzione.</p>
+<p><strong>Quando usarlo:</strong> quando si affida agli studenti un lavoro autonomo al computer (in laboratorio o a casa) e si desidera mettere a disposizione una guida dialogica personalizzata.</p>
+<blockquote class="prompt-box">[ROLE] Sei un Tutor Socratico esperto nell'insegnamento dell'Italiano e del Latino per le scuole superiori.<br>[CONTEXT] Devi guidare uno studente nello svolgimento di un esercizio o nell'analisi di un testo in modalità dialogica.<br>[INSTRUCTION] Il tuo unico scopo è guidare lo studente a comprendere da solo, senza mai sostituirti a lui.<br>Rules:<br>1. NON FORNIRE MAI LA SOLUZIONE: non dare mai la traduzione completa, la parafrasi pronta o la risposta diretta.<br>2. GESTIONE DELLE RICHIESTE DI SOLUZIONE: se lo studente ti chiede "Dimmi la risposta", spiega con cortesia che il tuo compito è aiutarlo ad arrivarci da solo e poni la prima domanda di avvio.<br>3. PROGRESSIONE DEGLI AIUTI: se risponde bene, conferma e prosegui; se sbaglia, fai una domanda sui prerequisiti; se è bloccato, proponi una scelta guidata tra due opzioni.<br>[FORMAT]<br>Interventi brevi: un piccolo indizio o richiamo teorico seguito da UNA SOLA domanda chiara per volta. Inizia salutando lo studente e chiedendogli su quale testo o argomento intende lavorare oggi.</blockquote>
+<p><strong>Controllo del docente:</strong> istruire gli studenti sulle finalità del Tutor Socratico e verificare periodicamente che il modello mantenga il vincolo di non cedere alla tentazione di generare la risposta finale.</p>
+</div>
+
+<div class="exercise-card">
+<h4 class="exercise-title">11. Modificare il prodotto finale (Differenziazione dei linguaggi)</h4>
+<p><strong>Obiettivo:</strong> offrire diverse opzioni di restituzione dell'apprendimento per valorizzare differenti linguaggi ed espressività, mantenendo inalterati gli obiettivi e i criteri di valutazione fondamentali.</p>
+<p><strong>Quando usarlo:</strong> nella progettazione di compiti di sintesi, moduli d'unità didattica o valutazioni autentiche in cui si voglia consentire agli studenti di scegliere la modalità espressiva più consona alle proprie attitudini.</p>
+<blockquote class="prompt-box">[ROLE] Sei un docente della scuola secondaria di secondo grado.<br>[CONTEXT] Devi progettare una valutazione autentica finale consentendo agli studenti di scegliere la forma di restituzione più adatta ai propri linguaggi espressivi.<br>[INSTRUCTION] A partire dal nucleo concettuale fornito, progetta 4 OPZIONI DI PRODOTTO FINALE rigorosamente COMPARABILI rispetto agli obiettivi di conoscenza e capacità di analisi, differenziandosi esclusivamente per il linguaggio utilizzato.<br>[FORMAT]<br>Fornisci per ciascuna opzione la traccia dettagliata e i criteri di qualità disciplinare:<br>- OPZIONE A (Scritta/Argomentativa): saggio breve, articolo d'opinione o scheda d'analisi.<br>- OPZIONE B (Orale/Audio): podcast di 3 minuti o esposizione orale guidata con mappa sintetica.<br>- OPZIONE C (Visivo/Schematica): infografica digitale o mappa concettuale integrata con note esplicative.<br>- OPZIONE D (Creativo/Applicativa): dialogo d'invenzione tra due autori analizzati o trasposizione in una situazione contemporanea.<br><br>[MATERIALE DI PARTENZA]<br>[INSERISCI QUI L'ARGOMENTO O L'UNITÀ DIDATTICA DI RIFERIMENTO]</blockquote>
+<p><strong>Controllo del docente:</strong> accertarsi che le quattro opzioni richiedano lo stesso livello di impegno concettuale e che la griglia di valutazione finale rimanga equa e confrontabile per tutti.</p>
+</div>
+
+<h3 class="phase-title">Modulo 6.3: Controllo di qualità trasversale</h3>
+<p>Prima di distribuire agli studenti qualunque materiale o scheda generata tramite i prompt di questo Cookbook, il docente deve effettuare un rapido controllo basato su cinque criteri fondamentali:</p>
+<div class="flow-box"><pre>┌────────────────────────────────────────────────────────────────────────┐
+│                   CHECKLIST DI CONTROLLO QUALITÀ                       │
+├────────────────────────────────────────────────────────────────────────┤
+│  [ ] 1. CORRETTEZZA   │ L'IA ha introdotto allucinazioni, errori       │
+│                       │ storici, grammaticali o traduzioni imprecise?  │
+│                                                                        │
+│  [ ] 2. COERENZA      │ L'attività mantiene inalterato l'obiettivo     │
+│                       │ didattico fondamentale concordato?             │
+│                                                                        │
+│  [ ] 3. ADEGUATEZZA   │ Il linguaggio e la struttura sono realmente    │
+│                       │ adatti alla fascia d'età e allo studente?      │
+│                                                                        │
+│  [ ] 4. EQUITÀ        │ Le diverse varianti della scheda richiedono    │
+│                       │ la stessa padronanza del nucleo concettuale?   │
+│                                                                        │
+│  [ ] 5. SOSTENIBILITÀ │ Il supporto aiuta l'esecuzione o sostituisce   │
+│                       │ completamente il lavoro cognitivo richiesto?   │
+└────────────────────────────────────────────────────────────────────────┘</pre></div>
+<p>In ultima analisi, personalizzare l'insegnamento non significa preparare venticinque lezioni differenti per venticinque studenti diversi, ma progettare un architrave formativo comune dotato di molteplici punti d'accesso, livelli di supporto, gradi di autonomia e linguaggi di restituzione.</p>
+
+<div class="back-to-top-wrap">
+<a class="back-to-top" href="#page-top">↑ Torna all'inizio</a>
+</div>
+</section>
+
+<!-- ==================== PARTE 7 ==================== -->
+<section class="section-block" id="parte7">
+<span class="section-tag-header lab">Parte 7</span>
+<h2 class="section-title">Laboratorio finale: dalla lezione al percorso personalizzato</h2>
+
+<h3 class="phase-title">Modulo 7.1: L'Ecosistema Didattico Personalizzato</h3>
+<p>Nelle Parti precedenti del corso abbiamo esaminato i principi teorici della personalizzazione e dell'individualizzazione, le metodologie di scaffolding, le dinamiche del dialogo socratico e l'impiego operativo del Prompt Cookbook. Questo laboratorio finale rappresenta il punto di sintesi dell'intero percorso: un'esperienza d'officina didattica in cui il docente non si limita a generare un singolo materiale o un prompt isolato, ma costruisce un vero e proprio <strong>Ecosistema Didattico Personalizzato</strong>.</p>
+<p>Che cosa intendiamo con questa espressione? Un Ecosistema Didattico non è una semplice raccolta di schede stampabili o una sequenza casuale di compiti. È un'architettura di progettazione integrata in cui ogni materiale, ogni supporto informativo e ogni strumento di interazione interagiscono in modo coerente. In questo modello, l'Intelligenza Artificiale opera come un co-progettista metodologico: assiste il docente nell'articolazione di un percorso strutturato, ma lascia al docente stesso la piena regia pedagogica, la validazione scientifica dei contenuti e la decisione finale sulle scelte didattiche.</p>
+<p>L'obiettivo pratico del laboratorio è prendere un'attività reale del proprio lavoro d'aula — una lezione d'autore, un brano d'Italiano, una versione o un passo di Latino — e modellarla attraverso una sequenza iterativa in sei fasi concettuali.</p>
+
+<div class="flow-box"><pre>┌──────────────────────────────────────────────────────────────────────────┐
+│                     FLUSSO DI PROGETTAZIONE COERENTE                     │
+├──────────────────────────────────────────────────────────────────────────┤
+│  FASE 1: OBIETTIVO        → Definizione esplicita del nucleo invariante   │
+│  FASE 2: DIAGNOSI         → Mappatura preventiva degli ostacoli           │
+│  FASE 3: DIFFERENZIAZIONE → Progettazione dei livelli di scaffolding     │
+│  FASE 4: PERCORSI         → Articolazione Recupero / Standard / Pot.      │
+│  FASE 5: TUTORAGGIO       → Configurazione della guida socratica          │
+│  FASE 6: VERIFICA         → Progettazione delle prove ed equivalenti     │
+└──────────────────────────────────────────────────────────────────────────┘</pre></div>
+<p>In questo flusso, ogni fase riceve un input strategico da quella precedente e prepara il terreno per la successiva:</p>
+<div class="rcif-list">
+<ul>
+<li>La FASE 1 fissa l'ancora disciplinare (il nucleo invariante) che nessun adattamento potrà svuotare.</li>
+<li>La FASE 2 analizza quel nucleo specifico per far emergere dove e perché gli studenti potrebbero bloccarsi.</li>
+<li>La FASE 3 trasforma gli ostacoli diagnosticati in supporti mirati (scaffolding).</li>
+<li>La FASE 4 distribuisce questi supporti in tre opzioni d'uso (Recupero, Standard, Potenziamento) per la classe.</li>
+<li>La FASE 5 dota le schede di una guida interattiva e autonoma per il lavoro a casa o in laboratorio.</li>
+<li>La FASE 6 chiude il cerchio misurando se l'obiettivo iniziale della FASE 1 è stato effettivamente raggiunto.</li>
+</ul>
+</div>
+<div class="note-box">🧭 <strong>Nota metodologica per il docente:</strong> l'IA non possiede una sensibilità pedagogica e non conosce la storia personale dei vostri studenti. In ogni momento del processo, l'IA propone strutture e bozze; il docente analizza, seleziona, corregge e decide.</div>
+
+<h3 class="phase-title">Modulo 7.2: Le 6 Fasi del Flusso di Progettazione</h3>
+
+<h4 class="exercise-title">FASE 1 — Obiettivo: definire il nucleo invariante</h4>
+<p><strong>Per quale motivo è fondamentale:</strong> quando si differenzia la didattica, il rischio principale è cadere nel cosiddetto "riduzionismo concettuale": per aiutare chi incontra difficoltà, si finisce per eliminare i concetti complessi o i termini specialistici, impoverendo la disciplina. Per evitarlo, la prima operazione da compiere è distinguere ciò che è invariante (il cuore concettuale e terminologico da garantire a tutti) da ciò che è variabile (il grado di supporto, il tempo d'esecuzione, la complessità sintattica della consegna).</p>
+<p><strong>Che cosa fare con l'IA:</strong> si fornisce all'IA il testo di partenza o l'argomento della lezione chiedendole di scomporlo, isolando i concetti imprescindibili, le competenze d'analisi e il lessico tecnico che non deve essere cancellato.</p>
+<blockquote class="prompt-box"><strong>Il Prompt Operativo (FASE 1)</strong><br><br>[RUOLO]<br>Sei un docente esperto in progettazione curricolare e didattica per le discipline umanistiche (Italiano e Latino) nella scuola secondaria di secondo grado.<br><br>[CONTESTO]<br>Sto progettando un percorso didattico integrato a partire dal materiale inserito in basso. Devo definire gli elementi essenziali che dovranno rimanere fermi e irrinunciabili per tutti gli studenti della classe, a prescindere dai livelli di supporto che applicherò in seguito.<br><br>[OBIETTIVO]<br>Analizza il materiale fornito ed estrai il NUCLEO INVARIANTE dell'attività didattica.<br><br>[ISTRUZIONI DI LAVORO]<br>1. Identifica i concetti chiave che costituiscono l'ossatura concettuale del testo.<br>2. Definisci le competenze analitiche o linguistiche fondamentali che l'attività intende sollecitare.<br>3. Estrai una lista di termini tecnici o parole chiave del lessico specialistico che NON devono essere eliminate o banalizzate nelle eventuali fasi di semplificazione.<br><br>[FORMATO DI OUTPUT]<br>Fornisci una risposta strutturata in questo modo:<br>- NUCLEO CONCETTUALE FONDAMENTALE (3-4 punti chiave imprescindibili)<br>- COMPETENZE SPECIFICHE SOLLECITATE (abilità d'analisi, traduzione o contestualizzazione)<br>- LESSICO E TERMINI TECNICI INVARIANTI (elenco di termini specialistici con breve definizione contestuale)<br><br>[MATERIALE DI PARTENZA]<br>[INSERISCI QUI IL TESTO O IL PASSO DA ANALIZZARE]</blockquote>
+<p><strong>Controllo del docente:</strong></p>
+<div class="rcif-list">
+<ul>
+<li><strong>Accuratezza scientifica:</strong> l'IA ha selezionato i veri snodi concettuali del testo o ha scambiato un dettaglio secondario per un punto fondamentale?</li>
+<li><strong>Tenuta del lessico:</strong> le parole indicate come "invarianti" sono davvero quelle rappresentative della disciplina?</li>
+<li><strong>Precisione del perimetro:</strong> il nucleo definito è sufficientemente circoscritto da essere affrontato in una sessione di lavoro?</li>
+</ul>
+</div>
+
+<h4 class="exercise-title">FASE 2 — Diagnosi: anticipare gli ostacoli cognitivi e linguistici</h4>
+<p><strong>Per quale motivo è fondamentale:</strong> l'IA non può valutare in autonomia i bisogni reali degli studenti della vostra classe. Può tuttavia operare come uno strumento di simulazione preventiva, evidenziando le trappole sintattiche, le ambiguità lessicali o i salti d'astrazione presenti nel materiale di partenza. In questo modo il docente non deve indovinare i punti critici, ma riceve una mappatura sistematica su cui intervenire.</p>
+<p><strong>Che cosa fare con l'IA:</strong> riprendendo il testo e il nucleo invariante definiti nella FASE 1, si chiede all'IA di fare una scansione del brano per individuare le difficoltà morfosintattiche, i riferimenti culturali impliciti e i fraintendimenti semantici tipici.</p>
+<blockquote class="prompt-box"><strong>Il Prompt Operativo (FASE 2)</strong><br><br>[RUOLO]<br>Sei un docente esperto in linguistica applicata e diagnosi dei processi di lettura e comprensione dei testi complessi (Italiano e Latino).<br><br>[CONTESTO]<br>Nella FASE 1 abbiamo stabilito il seguente NUCLEO INVARIANTE:<br>[INCOLLA QUI L'OUTPUT DELLA FASE 1]<br><br>Sulla base di questo nucleo e del testo originale, dobbiamo anticipare le difficoltà di decodifica, comprensione o interpretazione prima di proporre l'attività in classe.<br><br>[OBIETTIVO]<br>Realizza un'analisi diagnostica preventiva delle criticità linguistiche, concettuali e strutturali presenti nel materiale.<br><br>[ISTRUZIONI DI LAVORO]<br>Analizza il testo considerando la fascia d'età (scuola secondaria di secondo grado) ed evidenzia:<br>1. OSTACOLI MORFOSINTATTICI E LESSICALI: strutture sintattiche articolate, costrutti latini complessi, termini arcaici, polisemici o a bassa frequenza.<br>2. OSTACOLI CONCETTUALI E INFERENZIALI: passaggi nei quali la logica dell'autore richiede salti deduttivi o conoscenze di contesto storiche e filosofiche non esplicitate.<br>3. ERRORI TIPICI DI INTERFERENZA: sovrapposizioni errate tra il significato moderno di un termine e quello classico/disciplinare, oppure calchi traduttivi fuorvianti.<br><br>[FORMATO DI OUTPUT]<br>Articola la risposta in 3 sezioni corrispondenti alle tre categorie sopra descritte. Per ogni criticità individuata, indica brevemente il punto esatto del testo in cui si verifica e il motivo per cui può generare un blocco cognitivo.<br><br>[MATERIALE DI PARTENZA]<br>[INSERISCI QUI IL TESTO ORIGINALE]</blockquote>
+<p><strong>Controllo del docente:</strong></p>
+<div class="rcif-list">
+<ul>
+<li><strong>Coerenza con la classe:</strong> gli ostacoli evidenziati dall'IA riflettono i reali blocchi d'apprendimento osservati solitamente nella propria prassi d'aula?</li>
+<li><strong>Pertinenza:</strong> l'IA ha confuso un'ovvietà per una difficoltà o, al contrario, ha sorvolato su una struttura morfosintattica complessa?</li>
+<li><strong>Validazione pedagogica:</strong> correggere o integrare la mappa delle criticità aggiungendo gli elementi specifici legati allo storico degli studenti.</li>
+</ul>
+</div>
+
+<h4 class="exercise-title">FASE 3 — Differenziazione: progettare i livelli di supporto (Scaffolding)</h4>
+<p><strong>Per quale motivo è fondamentale:</strong> lo scaffolding (l'impalcatura didattica) consiste nell'offrire sostegni temporanei e graduati che consentano allo studente di svolgere un compito che non riuscirebbe ad affrontare in piena autonomia. Lo scaffolding non modifica l'obiettivo (fissato nella FASE 1), ma fornisce le strutture intermedie per raggiungerlo. Tali supporti devono essere concepiti secondo il principio del fading: sostegni strutturati che possono essere progressivamente ridotti man mano che l'autonomia dello studente aumenta.</p>
+<p><strong>Che cosa fare con l'IA:</strong> utilizzando il nucleo della FASE 1 e la diagnosi della FASE 2, si richiede all'IA di generare i materiali concreti di supporto: glossari contestualizzati, schemi concettuali e guide all'avvio della produzione scritta.</p>
+<blockquote class="prompt-box"><strong>Il Prompt Operativo (FASE 3)</strong><br><br>[RUOLO]<br>Sei un docente esperto in didattica inclusiva e progettazione di materiali ad alto e medio supporto per le discipline umanistiche.<br><br>[CONTESTO]<br>Abbiamo definito il NUCLEO INVARIANTE (FASE 1):<br>[INCOLLA QUI L'OUTPUT DELLA FASE 1]<br><br>E abbiamo individuato le seguenti CRITICITÀ DIAGNOSTICATE (FASE 2):<br>[INCOLLA QUI L'OUTPUT DELLA FASE 2]<br><br>[OBIETTIVO]<br>Progetta un set integrato di supporti didattici (scaffolding) mirati a superare le criticità individuate, senza ridurre la complessità del nucleo concettuale.<br><br>[ISTRUZIONI DI LAVORO]<br>Genera i seguenti tre materiali didattici pronti all'uso:<br>1. GLOSSARIO ED ELEMENTI ANNOTATI: spiegazione mirata dei termini complessi e brevi note esplicative affiancate alle strutture sintattiche ostiche.<br>2. ORGANIZZATORE ANTICIPATO: una mappa concettuale in formato testuale che illustri lo sviluppo logico o la struttura del testo prima della lettura.<br>3. INCIPIT DI GUIDA DI RISPOSTA (Prompt Stems): 3-4 incipit guidati o frasi da completare per sostenere l'avvio della risposta scritta nelle domande di analisi.<br><br>[VINCOLI]<br>- I supporti devono guidare la comprensione senza fornire direttamente le soluzioni o svolgere l'analisi al posto dello studente.<br>- Mantieni rigorosamente i termini del lessico invariante definiti nella FASE 1.<br><br>[FORMATO DI OUTPUT]<br>Fornisci i tre materiali distinti, contrassegnati da titoli chiari e pronti per essere inseriti o integrati nelle schede di lavoro.</blockquote>
+<p><strong>Controllo del docente:</strong></p>
+<div class="rcif-list">
+<ul>
+<li><strong>Efficacia del supporto:</strong> gli incipit forniti aiutano a focalizzare il pensiero o scivolano nella banalizzazione?</li>
+<li><strong>Tenuta del fading:</strong> il supporto offerto è temporaneo o rischia di creare una dipendenza meccanica dal tracciato guidato?</li>
+<li><strong>Rappresentazione logica:</strong> l'organizzatore anticipato ricostruisce correttamente la struttura argomentativa del brano?</li>
+</ul>
+</div>
+
+<h4 class="exercise-title">FASE 4 — Percorsi: articolare Recupero, Standard e Potenziamento</h4>
+<p><strong>Per quale motivo è fondamentale:</strong> è essenziale chiarire un principio pedagogico centrale: Recupero, Standard e Potenziamento sono livelli di supporto e di approfondimento dell'attività, non etichette rigide apposte agli studenti. Un alunno può necessitare di una scheda di recupero (alto scaffolding) su una struttura sintattica latina complessa, ma lavorare sul percorso di potenziamento (alta autonomia) nella contestualizzazione filosofica o tematica. Il Potenziamento non significa banalmente "dare più esercizi" dello stesso tipo, ma aumentare la complessità cognitiva: richiedere confronti intertestuali, analisi critiche o trasferimenti di concetti in contesti nuovi.</p>
+<p><strong>Che cosa fare con l'IA:</strong> si chiede all'IA di prendere il testo di partenza, il nucleo invariante e i supporti creati nelle FASI 1, 2 e 3, e di ricomporli in tre schede di lavoro parallele.</p>
+<blockquote class="prompt-box"><strong>Il Prompt Operativo (FASE 4)</strong><br><br>[RUOLO]<br>Sei un docente esperto in didattica differenziata e progettazione di materiali multilivello per la scuola secondaria di secondo grado.<br><br>[CONTESTO]<br>Dobbiamo trasformare i materiali elaborati nelle fasi precedenti in tre percorsi di lavoro differenti per livello di supporto e grado di autonomia, incentrati sul medesimo NUCLEO INVARIANTE:<br>[INCOLLA NUCLEO INVARIANTE FASE 1]<br><br>Utilizza gli elementi di supporto previsti nella FASE 3:<br>[INCOLLA SCAFFOLDING FASE 3]<br><br>[OBIETTIVO]<br>Crea tre schede di lavoro parallele sul testo di partenza.<br><br>[ISTRUZIONI DI LAVORO]<br>Sviluppa tre percorsi distinti tenendo conto dei seguenti parametri:<br>1. SCHEDA A — RECUPERO (Scaffolding Alto / Guida Strettamente Strutturata): include il testo corredato da glossario ed elementi annotati; propone domande guidate con incipit di risposta (prompt stems); utilizza domande a risposta chiusa o a completamento per gli snodi sintattici più ostici.<br>2. SCHEDA B — STANDARD (Scaffolding Medio / Guida Essenziale): include il testo originale con note essenziali; domande aperte a risposta sintetica incentrate sul nucleo concettuale; una breve scaletta di punti guida per la stesura del commento.<br>3. SCHEDA C — POTENZIAMENTO (Scaffolding Basso / Alta Autonomia e Complessità): testo originale senza facilitazioni lessicali; consegna d'analisi critica che richiede rielaborazione autonoma, confronto intertestuale o attualizzazione motivata; assenza di tracciati guidati, richiesta di argomentazione strutturata.<br><br>[VINCOLI]<br>Tutte e tre le schede devono verificare la comprensione dei medesimi concetti del NUCLEO INVARIANTE. Nessuna scheda deve snaturare la disciplina.<br><br>[FORMATO DI OUTPUT]<br>Presenta le tre schede in sequenza, complete di consegne chiare, testo e relative domande/tracce di lavoro.</blockquote>
+<p><strong>Controllo del docente:</strong></p>
+<div class="rcif-list">
+<ul>
+<li><strong>Equivalenza sostanziale:</strong> tutte e tre le schede richiedono di comprendere i punti centrali del testo o il percorso A è stato eccessivamente svuotato?</li>
+<li><strong>Qualità del Potenziamento:</strong> la Scheda C propone una vera sfida cognitiva e critica o si limita ad aggiungere un compito esecutivo in più?</li>
+<li><strong>Flessibilità d'uso:</strong> le schede possono essere distribuite in modo fluido all'interno della stessa classe?</li>
+</ul>
+</div>
+
+<h4 class="exercise-title">FASE 5 — Tutoraggio: configurare la guida socratica autonoma</h4>
+<p><strong>Per quale motivo è fondamentale:</strong> quando gli studenti lavorano individualmente a casa o in gruppi di cooperazione a scuola, l'assenza del docente può portare a due rischi opposti: bloccarsi di fronte alla prima difficoltà o ricorrere all'IA per farsi dare la soluzione pronta. Configurare un Tutor Socratico significa fornire al modello di IA istruzioni dettagliate affinché agisca come un facilitatore: un tutor che fa domande orientative, offre piccoli indizi progressivi, aiuta a riflettere sull'errore ma non fornisce mai la risposta direttamente o la traduzione completa.</p>
+<p><strong>Che cosa fare con l'IA:</strong> si costruisce un prompt di sistema specificamente tarato sul brano in esame e sulle schede della FASE 4, da inserire all'interno dell'ambiente di IA utilizzato dagli studenti o da un chatbot personalizzato.</p>
+<blockquote class="prompt-box"><strong>Il Prompt Operativo (FASE 5)</strong><br><br>[RUOLO E IDENTITÀ]<br>Sei un Tutor Socratico di Italiano e Latino. Il tuo compito è guidare lo studente nell'analisi e nella comprensione del testo fornito, aiutandolo a svolgere la scheda di lavoro in modo autonomo.<br><br>[MATERIALE DI RIFERIMENTO]<br>TESTO DI PARTENZA:<br>[INSERISCI TESTO ORIGINALE]<br><br>NUCLEO CONCETTUALE ED ELEMENTI CHIAVE:<br>[INCOLLA OUTPUT FASE 1]<br><br>[REGOLE TASSATIVE DI COMPORTAMENTO]<br>1. DIVIETO DI RISPOSTA DIRETTA: non fornire mai la soluzione degli esercizi, la traduzione completa di frasi o la parafrasi finale.<br>2. UNA DOMANDA ALLA VOLTA: rispondi sempre formulando UNA SOLA domanda guidata o offrendo UN SOLO indizio concettuale alla volta.<br>3. GESTIONE DELL'ERRORE: se lo studente fornisce una risposta errata, non limitarti a dire "è sbagliato". Individua l'origine dell'errore (lessicale, sintattica o concettuale) e formula una domanda che lo aiuti a rileggere il punto specifico del testo.<br>4. ADATTAMENTO DEL SUPPORTO:<br>- Se lo studente dichiara di essere completamente bloccato, fornisci un piccolo indizio (prompt stem o glossario) e chiedigli di fare un tentativo.<br>- Se lo studente dimostra di aver capito, riduci gradualmente il supporto (fading) e sollecitalo a motivare la sua risposta.<br>5. TRASPARENZA E LIMITI: se ti viene posta una domanda estranea al testo o se i dati forniti non sono sufficienti per rispondere con certezza, dichiara la tua incertezza e invita lo studente a consultare il docente o le fonti bibliografiche ufficiali.<br><br>[MESSAGGIO DI AVVIO]<br>Saluta lo studente in modo accogliente, chiedigli quale scheda o esercizio sta affrontando (Recupero, Standard o Potenziamento) e proponigli di iniziare dal primo passaggio del testo.</blockquote>
+<p><strong>Controllo del docente:</strong></p>
+<div class="rcif-list">
+<ul>
+<li><strong>Collaudo del vincolo:</strong> provare il prompt simulando di essere uno studente pigro che chiede: "Mi traduci questa frase?" o "Mi dai la risposta alla domanda 2?". Il sistema mantiene il ruolo o cede?</li>
+<li><strong>Qualità delle domande:</strong> le domande del tutor guidano l'attenzione sui punti grammaticali o concettuali corretti?</li>
+<li><strong>Indicazione dell'incertezza:</strong> il prompt impone al sistema di non inventare informazioni dubbie (allucinazioni) ma di rinviare al docente?</li>
+</ul>
+</div>
+
+<h4 class="exercise-title">FASE 6 — Verifica: progettare prove ed equivalenti forme di restituzione</h4>
+<p><strong>Per quale motivo è fondamentale:</strong> la personalizzazione della didattica richiede di riflettere anche sulle modalità di verifica. Valutare il raggiungimento del nucleo invariante non significa obbligatoriamente sottoporre tutti gli studenti all'unica identica forma di test finale, ma permettere differenti modalità di restituzione (scritta, orale/audio, visivo-concettuale) mantenendo equivalenti i criteri di valutazione disciplinare.</p>
+<p>È fondamentale chiarire cosa si intende per equivalenza: una prova visiva o orale non è un'opzione "più semplice" rispetto a quella scritta. Per garantire il rigore scientifico, qualsiasi forma di restituzione deve misurare l'acquisizione delle competenze e dei concetti stabiliti nella FASE 1. Se uno studente sceglie una modalità visivo-schematica (es. un'infografica), la consegna deve integrare brevissime note esplicative o un commento argomentativo a supporto, impedendo che l'aspetto estetico sostituisca la sostanza concettuale.</p>
+<p><strong>Che cosa fare con l'IA:</strong> si richiede all'IA di strutturare 3 opzioni di verifica della medesima attività e di generare una rubrica di valutazione analitica centrata sull'apprendimento disciplinare e neutrale rispetto al supporto utilizzato.</p>
+<blockquote class="prompt-box"><strong>Il Prompt Operativo (FASE 6)</strong><br><br>[RUOLO]<br>Sei un docente esperto in valutazione scolastica, progettazione di rubriche analitiche e prove di verifica per la scuola secondaria di secondo grado.<br><br>[CONTESTO]<br>Siamo giunti alla fase di verifica dell'Ecosistema Didattico. Dobbiamo valutare se gli studenti hanno assimilato il NUCLEO INVARIANTE definito nella FASE 1:<br>[INCOLLA NUCLEO INVARIANTE FASE 1]<br><br>[OBIETTIVO]<br>Progetta 3 opzioni di restituzione del compito finale (tra loro equivalenti per rigore disciplinare) e costruisci la relativa rubrica di valutazione analitica.<br><br>[ISTRUZIONI DI LAVORO]<br>1. DEFINIZIONE DELLE 3 MODALITÀ DI RESTITUZIONE EQUIVALENTI:<br>- OPZIONE A (Testuale / Scritta): analisi guidata del testo, risposte a quesiti strutturati e breve testo argomentativo.<br>- OPZIONE B (Orale / Audio): registrazione di un podcast esplicativo (2-3 minuti) basato su una scaletta d'analisi rigorosa che tocchi tutti i punti del nucleo invariante.<br>- OPZIONE C (Visiva / Mappa commentata): creazione di una mappa concettuale o infografica complessa integrata da note sintetiche d'analisi o da un breve paragrafo argomentativo a corredo.<br><br>2. RUBRICA DI VALUTAZIONE UNIFICATA:<br>- Progetta una griglia analitica su 4 livelli di padronanza (Iniziale, Essenziale, Intermedio, Avanzato).<br>- I criteri devono valutare: a) Padronanza dei contenuti e del nucleo concettuale invariante; b) Correttezza dell'analisi linguistica / lessicale / sintattica; c) Capacità di rielaborazione critica e argomentazione.<br>- La rubrica deve valutare la sostanza disciplinare, prescindendo dal mezzo digitale o grafico utilizzato.<br><br>[FORMATO DI OUTPUT]<br>Presenta chiaramente le consegne operative per le tre opzioni di verifica e la tabella della rubrica analitica di valutazione.</blockquote>
+<p><strong>Controllo del docente:</strong></p>
+<div class="rcif-list">
+<ul>
+<li><strong>Effettiva equivalenza:</strong> la prova visiva o audio garantisce che lo studente debba dimostrare la stessa comprensione concettuale della prova scritta?</li>
+<li><strong>Neutralità della rubrica:</strong> la griglia premia la sostanza dell'analisi e la padronanza del lessico o finisce per attribuire punteggio all'abilità grafica o all'editing audio?</li>
+<li><strong>Sostenibilità:</strong> le prove previste sono correggibili e valutabili nei tempi ordinari del lavoro docente?</li>
+</ul>
+</div>
+
+<h3 class="phase-title">Modulo 7.3: Esempio pratico completo — Un'officina sul Latino e sull'Italiano</h3>
+<p>Per illustrare il funzionamento concreto del flusso di lavoro, presentiamo una simulazione integrale svolta su un celebre passo di Seneca tratto dal <em>De vita beata</em> (capitolo 16, 1). Questo testo si presta a un lavoro integrato tra lingua latina, analisi letteraria e riflessione filosofico-esistenziale.</p>
+
+<div class="exercise-card">
+<h4 class="exercise-title">1. Il materiale di partenza fornito dal docente</h4>
+<blockquote class="prompt-box">"Beatus est ergo is cui quantumque id est quod pro suo est bonum est; cui ratio totam habitum mentis suae probat."<br>(Seneca, De vita beata, 16, 1)</blockquote>
+
+<h4 class="exercise-title">2. Output della FASE 1 — Obiettivo (Nucleo Invariante)</h4>
+<blockquote class="prompt-box">[ANALISI DEL NUCLEO INVARIANTE]<br><br>1. NUCLEO CONCETTUALE FONDAMENTALE:<br>- La definizione stoica della felicità (beatitudo): la vera felicità non dipende dalla quantità dei beni materiali posseduti, ma dall'autosufficienza interiore (autarkeia).<br>- Il ruolo primario della ragione (ratio): la ragione è lo strumento supremo che valuta, valida e governa la disposizione complessiva dell'animo (habitus mentis).<br><br>2. COMPETENZE SPECIFICHE:<br>- Scomposizione e analisi della struttura sintattica del periodo latino (proposizioni relative coordinate).<br>- Riconoscimento e traduzione corretta dei casi e dei costrutti (dativo di possesso con est; valore del pronome relativo cui).<br>- Contestualizzazione del pensiero etico stoico nel quadro della letteratura filosofica latina.<br><br>3. LESSICO E TERMINI TECNICI INVARIANTI:<br>- Beatitudo / Beatus: lo stato permanente di realizzazione morale del saggio (da non confondere con la felicità come emozione temporanea).<br>- Ratio: la facoltà razionale e il principio ordinatore dell'agire umano.<br>- Habitus mentis: la disposizione stabile dell'animo, l'atteggiamento interiore e la conformazione morale dell'individuo.<br>- Autarkeia (Autosufficienza): la capacità dell'animo di bastare a se stesso indipendentemente dalla fortuna esterna.</blockquote>
+
+<h4 class="exercise-title">3. Output della FASE 2 — Diagnosi (Mappatura degli Ostacoli)</h4>
+<blockquote class="prompt-box">[MAPPATURA DELLE CRITICITÀ DIAGNOSTICATE]<br><br>1. OSTACOLI MORFOSINTATTICI E LESSICALI:<br>- Sintassi di "cui... est": il doppio pronome relativo cui in funzione di dativo di possesso sottinteso con est ("colui al quale appartiene / per il quale... è").<br>- Il blocco "quantumque id est quod pro suo est": struttura idiomatica e densa. Quantumque (indefinito relativo) unito a pro suo est ("ciò che passa per suo bene") genera spesso smarrimento nella scomposizione.<br>- L'accordo e la funzione di "totam habitum mentis suae": habitus è sostantivo della 4ª declinazione (accusativo singolare maschile), concordato con totam e retto dal verbo probat.<br><br>2. OSTACOLI CONCETTUALI E INFERENZIALI:<br>- Il salto logico tra possesso materiale e giudizio morale: capire perché per Seneca ciò che si possiede ha valore solo se "la ragione lo approva".<br><br>3. ERRORI TIPICI DI INTERFERENZA:<br>- Traduzione di "ratio" con il termine generico e riduttivo "ragione", senza comprendere il valore stoico di "giudizio critico ordinatore".<br>- Sovrapposizione semantica del termine "beatus" con l'italiano "beato" (in senso religioso/paradisiaco) o "felice" (come stato d'animo emotivo passeggero).</blockquote>
+
+<h4 class="exercise-title">4. Output della FASE 3 — Differenziazione (Scaffolding Generato)</h4>
+<blockquote class="prompt-box">[SET INTEGRATO DI SCAFFOLDING]<br><br>1. GLOSSARIO ED ELEMENTI ANNOTATI:<br>- Beatus: felice in senso stoico, ovvero realizzato e in pace con se stesso.<br>- Cui... est: a cui... è / per il quale... costituisce (costrutto del dativo di possesso).<br>- Quantumque id est: per quanto poco o molto sia quel bene.<br>- Pro suo est: è considerato di sua proprietà / è ritenuto suo.<br>- Habitus mentis: (sost. IV declinazione) l'atteggiamento complessivo dell'animo, la forma mentale.<br>- Probat: (da probare) valuta, approva, mette alla prova favorevolmente.<br><br>2. ORGANIZZATORE ANTICIPATO (Mappa Testuale):<br>CHI È L'UOMO FELICE PER SENECA?<br>├── 1. Rispetto ai beni esterni: è colui per il quale è bene qualunque cosa possieda (purché gli basti).<br>└── 2. Rispetto alla propria interiorità: è colui la cui RAGIONE (Ratio) approva interamente l'ATTEGGIAMENTO DELLA MENTE (Habitus mentis).<br><br>3. INCIPIT DI RISPOSTA (Prompt Stems):<br>- "Seneca afferma che l'uomo felice è autosufficiente perché di fronte ai beni materiali..."<br>- "La funzione della ragione (ratio) nel brano non è semplicemente quella di pensare, ma di valutare se..."</blockquote>
+
+<h4 class="exercise-title">5. Output della FASE 4 — Percorsi Differenziati (Schede A, B, C)</h4>
+<blockquote class="prompt-box">[SCHEDA A — RECUPERO] (Scaffolding Alto)<br>Consegna: leggi il testo di Seneca aiutandoti con il glossario affiancato e completa le attività.<br><br>Testo e Glossario affiancato:<br>"Beatus est ergo is [È felice dunque colui] cui quantumque id est quod pro suo est bonum est; [per il quale è un bene qualsiasi cosa sia ciò che possiede;] cui ratio totam habitum mentis suae probat." [per il quale la ragione approva l'intero atteggiamento del suo animo.]<br><br>Esercizi guidati:<br>1. Analisi guidata della sintassi: nella seconda frase, il soggetto che compie l'azione di "approvare" (probat) è: [ ] Beatus [ ] Ratio [ ] Habitus mentis<br>2. Riflessione concettuale con incipit: completa: "Per Seneca l'uomo felice (beatus) non è chi possiede tante ricchezze, ma chi lascia che la propria ragione (ratio) guidi il suo..."<br><br>---<br><br>[SCHEDA B — STANDARD] (Scaffolding Medio)<br>Consegna: analizza il passo del De vita beata, rispondi alle domande e svolgi la traduzione sintetica.<br><br>Attività:<br>1. Analisi linguistica: individua nel testo le due proposizioni relative introdotte da cui e spiegane il valore sintattico e il tipo di costrutto.<br>2. Traduzione: fornisci una traduzione italiana fluida del brano, prestando attenzione a rendere in modo appropriato le espressioni quantumque id est e habitus mentis.<br>3. Rielaborazione concettuale: in un paragrafo di massimo 6 righe, spiega quale relazione stabilisce Seneca tra l'uso della ratio e il raggiungimento della vera beatitudo.<br><br>---<br><br>[SCHEDA C — POTENZIAMENTO] (Scaffolding Basso / Alta Autonomia)<br>Consegna: sulla base del testo di Seneca proposto, sviluppa un'analisi critica e argomentata.<br><br>Attività:<br>1. Traduzione critica: traduci il passo fornendo una resa che ne metta in luce la densità filosofica.<br>2. Analisi e confronto: elabora un breve saggio critico (max 300 parole) in cui analizzi la definizione stoica di beatitudo, focalizzandoti sul rapporto tra sfera materiale e sfera etico-razionale, e confronti questa visione della felicità basata sull'autosufficienza (autarkeia) con la concezione contemporanea di "benessere", evidenziando continuità e divergenze.</blockquote>
+
+<h4 class="exercise-title">6. Output della FASE 5 — Tutor Socratico (Configurazione)</h4>
+<blockquote class="prompt-box">[PROMPT PER IL TUTOR SOCRATICO DI SENECA]<br><br>Sei un Tutor Socratico specializzato nella lingua e nella filosofia latina. Devi affiancare uno studente che sta svolgendo la scheda di lavoro sul seguente brano di Seneca (De vita beata, 16, 1):<br>"Beatus est ergo is cui quantumque id est quod pro suo est bonum est; cui ratio totam habitum mentis suae probat."<br><br>REGOLE DI INTERAZIONE:<br>1. Non fornire mai la traduzione integrale o diretta del testo.<br>2. Se lo studente dice di non capire il significato di "cui", chiedigli: "Prova a guardare la parola 'cui': a quale pronome risale e quale caso esprime? Se c'è il verbo 'est', che tipo di costrutto del dativo ti viene in mente?"<br>3. Se lo studente traduce "ratio" semplicemente come "ragione" senza comprenderne il senso, chiedigli: "Nel testo, la 'ratio' fa un'azione precisa nei confronti dell' 'habitus mentis' (lo 'probat'). Che cosa fa esattamente la ragione secondo te per rendere felice l'animo?"<br>4. Rispondi ponendo UNA SOLA DOMANDA orientativa alla volta.<br>5. Se lo studente esprime dubbi filosofici o grammaticali su cui non hai certezza assoluta, consiglialo di segnare il punto e di discuterne direttamente con il professore in classe.</blockquote>
+
+<h4 class="exercise-title">7. Output della FASE 6 — Verifica e Rubrica Analitica</h4>
+<blockquote class="prompt-box">[CONSEGNA DELLA PROVA FINALE MULTIMODALE]<br><br>Scegli una delle seguenti 3 modalità per dimostrare la comprensione del passo di Seneca e del nucleo concettuale stoico:<br>- OPZIONE A (Scritta): rispondi alle domande di analisi sintattico-concettuale e redigi un commento d'analisi di circa 250 parole sul concetto di "habitus mentis".<br>- OPZIONE B (Orale / Podcast): registra un audio esplicativo di 2-3 minuti in cui spieghi ad un tuo pari la struttura della frase di Seneca e illustri perché la felicità stoica dipende dalla "ratio".<br>- OPZIONE C (Visiva / Infografica): realizza uno schema concettuale o un'infografica analitica che rappresenti la struttura sintattica del brano e le relazioni logiche tra "beatus", "ratio" e "habitus mentis", integrando la mappa con brevi note esplicative scritte per ogni snodo.</blockquote>
+
+<div class="table-responsive">
+<table class="summary-table">
+<thead>
+<tr>
+<th>Criterio</th>
+<th>Livello Iniziale (1)</th>
+<th>Livello Essenziale (2)</th>
+<th>Livello Intermedio (3)</th>
+<th>Livello Avanzato (4)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>1. Padronanza del Nucleo Invariante</strong></td>
+<td>Individua in modo frammentario il tema del testo; confonde i concetti chiave di ratio e beatitudo.</td>
+<td>Riconosce l'argomento generale e comprende la definizione base di felicità stoica come autosufficienza.</td>
+<td>Spiega con chiarezza il legame tra la ragione (ratio) e la conformazione dell'animo (habitus mentis).</td>
+<td>Rielabora in modo approfondito il pensiero di Seneca, contestualizzando con precisione il concetto di autarkeia.</td>
+</tr>
+<tr>
+<td><strong>2. Analisi Linguistica e Lessicale</strong></td>
+<td>Commette errori sistematici nell'individuare le funzioni sintattiche (es. scambio di soggetto/oggetto o fraintendimento di cui).</td>
+<td>Riconosce la struttura principale della frase e attribuisce il significato corretto ai termini del lessico invariante.</td>
+<td>Scompone correttamente le relative, motivando i costrutti latini (dativo di possesso) con precisione.</td>
+<td>Analizza con acume la struttura morfosintattica e la scelta stilistica delle parole usate da Seneca.</td>
+</tr>
+<tr>
+<td><strong>3. Efficacia Argomentativa</strong></td>
+<td>Esposizione confusa o priva di collegamenti logici, indipendentemente dal supporto scelto.</td>
+<td>Esposizione lineare e coerente con gli obiettivi richiesti dalla consegna scelta (scritta, orale o visiva).</td>
+<td>Argomentazione ben strutturata, con uso appropriato del lessico specialistico nel formato scelto.</td>
+<td>Discorso o rappresentazione visivo-testuale di spiccata efficacia comunicativa, ricca di spunti critici personali.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<h3 class="phase-title">Modulo 7.4: Matrice di Sintesi dell'Ecosistema Didattico</h3>
+<p>Di seguito viene offerta una vista sinottica dell'intero processo di laboratorio per guidare il docente nell'integrazione e nell'assemblaggio dell'Ecosistema Personalizzato:</p>
+<div class="table-responsive">
+<table class="summary-table">
+<thead>
+<tr>
+<th>Fase del Laboratorio</th>
+<th>Focus Didattico</th>
+<th>Input Richiesto al Docente</th>
+<th>Output Generato dall'IA</th>
+<th>Ruolo di Validazione del Docente</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>1. Obiettivo</strong></td>
+<td>Nucleo Invariante</td>
+<td>Testo originale o argomento della lezione</td>
+<td>Concetti fondamentali, competenze e lessico specialistico invariante</td>
+<td>Verificare la tenuta scientifica e assicurarsi che l'obiettivo sia centrale e irrinunciabile</td>
+</tr>
+<tr>
+<td><strong>2. Diagnosi</strong></td>
+<td>Mappatura Ostacoli</td>
+<td>Output della Fase 1 + Testo originale</td>
+<td>Mappatura delle criticità morfosintattiche, concettuali e di interferenza</td>
+<td>Confrontare gli ostacoli individuati con la reale conoscenza storica della propria classe</td>
+</tr>
+<tr>
+<td><strong>3. Differenziazione</strong></td>
+<td>Scaffolding</td>
+<td>Output delle Fasi 1 e 2</td>
+<td>Glossari annotati, organizzatori anticipati e incipit di risposta</td>
+<td>Accertarsi che gli aiuti guidino il processo senza sostituirsi allo sforzo analitico dell'alunno</td>
+</tr>
+<tr>
+<td><strong>4. Percorsi</strong></td>
+<td>Schede A, B, C</td>
+<td>Selezione dei livelli di supporto</td>
+<td>Tre schede parallele (Recupero, Standard, Potenziamento)</td>
+<td>Garantire l'equivalenza concettuale e verificare che il potenziamento sia di qualità</td>
+</tr>
+<tr>
+<td><strong>5. Tutoraggio</strong></td>
+<td>Guida Socratica</td>
+<td>Testo + Output delle Fasi 1 e 4</td>
+<td>Prompt di configurazione del Tutor Socratico interattivo</td>
+<td>Collaudare i vincoli del prompt verificando che l'IA non fornisca soluzioni dirette</td>
+</tr>
+<tr>
+<td><strong>6. Verifica</strong></td>
+<td>Restituzione ed Equità</td>
+<td>Output della Fase 1 + Opzioni di consegna</td>
+<td>3 modalità di prova equivalenti + Rubrica analitica</td>
+<td>Verificare che la griglia di valutazione misuri i contenuti disciplinari e non il mezzo tecnico</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<h3 class="phase-title">Modulo 7.5: Checklist di Chiusura del Laboratorio</h3>
+<p>Prima di applicare l'Ecosistema Didattico Personalizzato in classe, esegui questa verifica finale sul materiale complessivo prodotto:</p>
+<div class="flow-box"><pre>┌────────────────────────────────────────────────────────────────────────┐
+│                   CHECKLIST DI COERENZA DELL'ECOSISTEMA                │
+├────────────────────────────────────────────────────────────────────────┤
+│  [ ] 1. TENUTA DEL NUCLEO INVARIANTE                                  │
+│         Tutti e tre i percorsi (Recupero, Standard, Potenziamento)     │
+│         permettono di raggiungere i medesimi concetti della Fase 1?    │
+│                                                                        │
+│  [ ] 2. ADERENZA DIAGNOSTICA                                           │
+│         Gli elementi di scaffolding creati nella Fase 3 rispondono     │
+│         alle criticità realmente individuate nella Fase 2?             │
+│                                                                        │
+│  [ ] 3. QUALITÀ DEL POTENZIAMENTO                                      │
+│         La Scheda C aumenta la complessità cognitiva e critica        │
+│         anziché limitarsi ad aggiungere altri esercizi dello stesso tipo?│
+│                                                                        │
+│  [ ] 4. TENUTA DEL TUTOR SOCRATICO                                     │
+│         Il prompt di tutoraggio garantisce il supporto guidato         │
+│         senza mai generare direttamente la soluzione o la traduzione?  │
+│                                                                        │
+│  [ ] 5. EQUIVALENZA DELLE PROVE                                        │
+│         Le diverse opzioni di verifica (scritta, orale, visiva)        │
+│         valutano le medesime competenze con uguale rigore?             │
+│                                                                        │
+│  [ ] 6. ACCURATEZZA E SUPERVISIONE                                     │
+│         Tutti i testi latini, le note grammaticali e i contenuti       │
+│         generati dall'IA sono stati controllati e validati?            │
+└────────────────────────────────────────────────────────────────────────┘</pre></div>
+
+<div class="note-box">🎓 <strong>Conclusioni:</strong> al termine di questo percorso laboratoriale emerge con chiarezza la vera relazione tra Intelligenza Artificiale e professionalità docente. L'IA non personalizza la didattica in modo automatico, né possiede la sensibilità pedagogica necessaria per comprendere i bisogni profondi di un gruppo classe. L'IA agisce piuttosto come un amplificatore della progettualità docente, rendendo sostenibile ed efficiente la produzione di architetture didattiche articolate che richiederebbero altrimenti un tempo di preparazione incompatibile con i ritmi della scuola.<br><br>Personalizzare l'insegnamento nelle discipline umanistiche non significa frammentare la classe in venticinque percorsi isolati, né svuotare di rigore lo studio della letteratura o del latino. Significa costruire una struttura comune dotata di molteplici porte d'accesso, supporti calibrati e forme flessibili di restituzione. È sempre il docente che mantiene la regia pedagogica, stabilisce cosa deve rimanere invariato e sceglie come accompagnare ogni studente verso il massimo sviluppo delle proprie potenzialità.</div>
+
+<div class="back-to-top-wrap">
+<a class="back-to-top" href="#page-top">↑ Torna all'inizio</a>
+</div>
+</section>
+
+<!-- ==================== MATERIALI SCARICABILI ==================== -->
+<section class="section-block" id="downloads">
+<span class="section-tag-header">Materiali scaricabili</span>
+<div class="download-grid">
+<a class="download-card" href="download/documento.pdf" rel="noopener noreferrer" target="_blank">
+<span aria-hidden="true" class="download-icon icon-pdf"><svg viewBox="0 0 24 24"><use href="#icon-doc"></use></svg></span>
+<span class="download-info">
+<span class="download-title">Schema RCIF e Prompt Cookbook completo</span>
+</span>
+<span class="file-badge badge-pdf">PDF</span>
+</a>
+<a class="download-card" href="download/documento.pdf" rel="noopener noreferrer" target="_blank">
+<span aria-hidden="true" class="download-icon icon-pdf"><svg viewBox="0 0 24 24"><use href="#icon-doc"></use></svg></span>
+<span class="download-info">
+<span class="download-title">Template Tutor Socratico da configurare</span>
+</span>
+<span class="file-badge badge-pdf">PDF</span>
+</a>
+<a class="download-card" href="download/documento.pdf" rel="noopener noreferrer" target="_blank">
+<span aria-hidden="true" class="download-icon icon-pdf"><svg viewBox="0 0 24 24"><use href="#icon-doc"></use></svg></span>
+<span class="download-info">
+<span class="download-title">Checklist di controllo qualità dei materiali</span>
+</span>
+<span class="file-badge badge-pdf">PDF</span>
+</a>
+<a class="download-card" href="download/documento.pdf" rel="noopener noreferrer" target="_blank">
+<span aria-hidden="true" class="download-icon icon-pdf"><svg viewBox="0 0 24 24"><use href="#icon-doc"></use></svg></span>
+<span class="download-info">
+<span class="download-title">Guida rapida a NotebookLM per la didattica</span>
+</span>
+<span class="file-badge badge-pdf">PDF</span>
+</a>
+<a class="download-card" href="download/documento.pdf" rel="noopener noreferrer" target="_blank">
+<span aria-hidden="true" class="download-icon icon-ppt"><svg viewBox="0 0 24 24"><use href="#icon-doc"></use></svg></span>
+<span class="download-info">
+<span class="download-title">Slide di sintesi: le 6 fasi dell'Ecosistema Didattico</span>
+</span>
+<span class="file-badge badge-ppt">PPT</span>
+</a>
+<a class="download-card" href="download/documento.pdf" rel="noopener noreferrer" target="_blank">
+<span aria-hidden="true" class="download-icon icon-ppt"><svg viewBox="0 0 24 24"><use href="#icon-doc"></use></svg></span>
+<span class="download-info">
+<span class="download-title">Modello scheda multilivello (Recupero/Standard/Potenziamento)</span>
+</span>
+<span class="file-badge badge-ppt">PPT</span>
+</a>
+<a class="download-card" href="download/documento.pdf" rel="noopener noreferrer" target="_blank">
+<span aria-hidden="true" class="download-icon icon-ppt"><svg viewBox="0 0 24 24"><use href="#icon-doc"></use></svg></span>
+<span class="download-info">
+<span class="download-title">Esempio guidato: l'officina su Seneca</span>
+</span>
+<span class="file-badge badge-ppt">PPT</span>
+</a>
+</div>
+<div class="back-to-top-wrap">
+<a class="back-to-top" href="#page-top">↑ Torna all'inizio</a>
+</div>
+</section>
+
+<!-- ==================== BOTTONI DI NAVIGAZIONE ==================== -->
+<div class="navigation-buttons">
+<a class="btn btn-secondary" href="video.html">← La creazione di griglie e rubriche di valutazione</a>
+<a class="btn btn-primary" href="siti.html">La creazione di siti →</a>
+</div>
+</div>
+</div>
+
+  <footer id="footer-info">
+    <p><span class="footer-logo">LitterAI</span> - a cura del prof. Daniele Virgili - 2026</p>
+  </footer>
+
+  <script>
+    const navbar = document.getElementById('navbar');
+    const navToggle = document.getElementById('navToggle');
+    const navLinks = document.getElementById('navLinks');
+
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 20) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
+    });
+
+    navToggle.addEventListener('click', () => {
+      navToggle.classList.toggle('active');
+      navLinks.classList.toggle('active');
+    });
+
+    document.querySelectorAll('.nav-link-item').forEach(link => {
+      link.addEventListener('click', () => {
+        navToggle.classList.remove('active');
+        navLinks.classList.remove('active');
+      });
+    });
+  </script>
+
+</body>
+</html>
