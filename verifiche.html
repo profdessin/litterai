@@ -1,1 +1,1408 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La creazione di verifiche con l'IA — LitterAI</title>
+<link rel="icon" type="image/png" href="image/logo-sfondo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,500;0,600;0,700;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --color-primary: #0E3A52;   /* Blu Petrolio Scuro: Navbar, Footer, Intestazioni */
+    --color-accent: #19B5E8;    /* Ciano / Blu AI: Dettagli, Link, Pulsanti */
+    --color-secondary: #126A8A; /* Blu Intermedio: Sottotitoli */
+    --color-header: #BEE6F5;    /* Celeste intermedio */
+    --color-bg: #E9F4FA;        /* Sfondo pagina */
+    --color-surface: #F4FAFD;   /* Sfondo dei contenitori */
+    --color-text: #1E293B;      /* Grigio scuro/blu per testi */
+    --color-border: #E2E8F0;    /* Grigio leggero per linee */
+    --radius: 14px;
+    --shadow-soft: 0 8px 24px rgba(14, 58, 82, 0.08);
+  }
 
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+  
+  h1, h2, h3, h4, h5, .logo-text { 
+    font-family: 'Fraunces', serif; 
+    color: var(--color-primary); 
+  }
+  
+  a { text-decoration: none; color: inherit; }
+  ul, ol { margin-bottom: 20px; padding-left: 24px; }
+  li { margin-bottom: 8px; }
+  p { margin-bottom: 16px; }
+
+  .container { 
+    max-width: 960px; 
+    margin: 0 auto; 
+    padding: 0 24px; 
+  }
+
+  /* ---------- NAVBAR ---------- */
+  .navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background: var(--color-primary);
+    border-bottom: 1px solid var(--color-secondary);
+    transition: box-shadow 0.3s ease;
+  }
+  .navbar.scrolled { box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); }
+  
+  .nav-inner { 
+    display: flex; 
+    align-items: center; 
+    justify-content: space-between; 
+    padding: 12px 24px; 
+    max-width: 1150px; 
+    margin: 0 auto; 
+  }
+  
+  .nav-brand img { 
+    height: 40px; 
+    width: auto; 
+    display: block; 
+    filter: brightness(0) invert(1); 
+  }
+  
+  .nav-links { display: flex; gap: 2.2rem; }
+  .nav-links a { 
+    font-size: 0.95rem; 
+    font-weight: 500; 
+    color: #E8F3F8; 
+    position: relative; 
+    padding: 4px 0; 
+    transition: color 0.25s ease; 
+  }
+  .nav-links a::after { 
+    content: ""; 
+    position: absolute; 
+    bottom: -2px; 
+    left: 0; 
+    width: 0; 
+    height: 2px; 
+    background: var(--color-accent); 
+    transition: width 0.3s ease; 
+  }
+  .nav-links a:hover { color: var(--color-accent); }
+  .nav-links a:hover::after { width: 100%; }
+  
+  .nav-toggle { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; z-index: 1001; }
+  .nav-toggle span { width: 26px; height: 2.5px; background: #E8F3F8; border-radius: 2px; transition: all 0.3s ease; }
+
+  /* ---------- PAGE HEADER ---------- */
+  .page-header { 
+    padding: 140px 24px 60px; 
+    background: var(--color-header); 
+    text-align: center; 
+    border-bottom: 1px solid var(--color-border); 
+    scroll-margin-top: 90px;
+  }
+  .page-header h1 { font-size: clamp(2.2rem, 4.5vw, 3.2rem); margin-bottom: 12px; }
+  .page-header p { font-size: 1.15rem; color: var(--color-secondary); font-weight: 500; max-width: 750px; margin: 0 auto; }
+  
+  /* ---------- STILI SEZIONI DIDATTICHE ---------- */
+  .main-wrapper { padding: 60px 0; }
+  
+  .section-block {
+    background: #ffffff;
+    border-radius: var(--radius);
+    padding: 45px;
+    margin-bottom: 50px;
+    box-shadow: var(--shadow-soft);
+    border: 1px solid var(--color-border);
+    scroll-margin-top: 90px;
+  }
+
+  .section-tag-header {
+    display: inline-block;
+    background: var(--color-primary);
+    color: #ffffff;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    padding: 6px 16px;
+    border-radius: 50px;
+    margin-bottom: 25px;
+  }
+
+  .section-tag-header.lab {
+    background: var(--color-secondary);
+  }
+
+  h2.section-title {
+    font-size: 2.1rem;
+    margin-bottom: 25px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--color-bg);
+  }
+
+  h3.phase-title {
+    font-size: 1.5rem;
+    margin: 40px 0 15px;
+    color: var(--color-secondary);
+  }
+
+  h4.sub-phase-title {
+    font-size: 1.2rem;
+    margin: 25px 0 10px;
+    color: var(--color-primary);
+  }
+
+  h4.exercise-title {
+    font-size: 1.1rem;
+    margin: 20px 0 8px;
+    color: var(--color-primary);
+  }
+
+  blockquote.prompt-box {
+    background-color: var(--color-surface);
+    border-left: 4px solid var(--color-accent);
+    padding: 18px 22px;
+    margin: 12px 0 20px;
+    border-radius: 0 var(--radius) var(--radius) 0;
+    font-size: 0.96rem;
+    color: var(--color-text);
+  }
+  blockquote.prompt-box strong { color: var(--color-primary); }
+
+  .note-box {
+    background-color: #EBF8FF;
+    border-left: 4px solid var(--color-accent);
+    padding: 12px 16px;
+    margin: 15px 0 20px;
+    font-size: 0.9rem;
+    color: var(--color-primary);
+    border-radius: 0 8px 8px 0;
+  }
+
+  .rcif-list {
+    background: var(--color-bg);
+    padding: 20px 25px;
+    border-radius: 10px;
+    margin: 15px 0 25px;
+  }
+  .rcif-list ul, .rcif-list ol { margin-bottom: 0; }
+  .rcif-list li:last-child { margin-bottom: 0; }
+  .rcif-list p { margin-bottom: 6px; }
+
+  .exercise-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 25px;
+    margin: 25px 0;
+  }
+
+  .flow-chain {
+    text-align: center;
+    font-weight: 600;
+    color: var(--color-secondary);
+    background: var(--color-bg);
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin: 15px 0 25px;
+    font-size: 1.02rem;
+  }
+
+  /* ---------- TABELLE COMPARATIVE ---------- */
+  .table-responsive {
+    overflow-x: auto;
+    margin: 20px 0 25px;
+  }
+
+  .summary-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+    text-align: left;
+  }
+
+  .summary-table th {
+    background-color: var(--color-primary);
+    color: #ffffff;
+    padding: 12px 14px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .summary-table td {
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--color-border);
+    vertical-align: top;
+  }
+
+  .summary-table tr:nth-child(even) {
+    background-color: var(--color-surface);
+  }
+
+  .summary-table td ul {
+    margin: 0;
+    padding-left: 16px;
+    font-size: 0.86rem;
+  }
+  .summary-table td ul li { margin-bottom: 4px; }
+  .summary-table td ul li:last-child { margin-bottom: 0; }
+
+  .summary-table strong.tool-name {
+    color: var(--color-primary);
+  }
+
+  .tool-cell {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    min-width: 120px;
+  }
+  .tool-icon {
+    width: 26px;
+    height: 26px;
+    flex-shrink: 0;
+  }
+  .tool-icon.letter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 7px;
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: 0.85rem;
+    color: #ffffff;
+  }
+
+  .tag-category {
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    padding: 3px 9px;
+    border-radius: 20px;
+    background: var(--color-bg);
+    color: var(--color-secondary);
+    border: 1px solid var(--color-border);
+  }
+
+  /* ---------- NAV RAPIDA TRA LE PARTI ---------- */
+  .part-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 40px;
+  }
+  .part-nav a {
+    background: var(--color-primary);
+    color: #ffffff;
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 10px 20px;
+    border-radius: 50px;
+    box-shadow: 0 4px 14px rgba(14, 58, 82, 0.15);
+    transition: all 0.25s ease;
+  }
+  .part-nav a:hover {
+    background: var(--color-secondary);
+    transform: translateY(-2px);
+  }
+
+  .back-to-top-wrap {
+    text-align: right;
+    margin-top: 35px;
+  }
+  .back-to-top {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-secondary);
+    border: 1px solid var(--color-border);
+    padding: 8px 16px;
+    border-radius: 50px;
+    transition: all 0.25s ease;
+  }
+  .back-to-top:hover {
+    background: var(--color-bg);
+    color: var(--color-primary);
+    border-color: var(--color-secondary);
+  }
+
+  /* ---------- MATERIALI SCARICABILI ---------- */
+  .download-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+  }
+
+  .download-card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 16px 18px;
+    transition: all 0.25s ease;
+  }
+  .download-card:hover {
+    border-color: var(--color-accent);
+    box-shadow: var(--shadow-soft);
+    transform: translateY(-2px);
+  }
+  .download-card.disabled {
+    opacity: 0.55;
+    pointer-events: none;
+  }
+
+  .download-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .download-icon svg { width: 20px; height: 20px; }
+  .download-icon.icon-pdf { background: #FBE7E7; color: #B91C1C; }
+  .download-icon.icon-ppt { background: #FDECD8; color: #C2680C; }
+
+  .download-info {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+  .download-title {
+    font-weight: 600;
+    color: var(--color-primary);
+    font-size: 0.93rem;
+    line-height: 1.35;
+  }
+
+  .file-badge {
+    flex-shrink: 0;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    padding: 4px 10px;
+    border-radius: 20px;
+  }
+  .file-badge.badge-pdf { background: #B91C1C; color: #ffffff; }
+  .file-badge.badge-ppt { background: #C2680C; color: #ffffff; }
+  .file-badge.badge-soon { background: var(--color-secondary); color: #ffffff; }
+
+  /* ---------- PULSANTI FINALI DI NAVIGAZIONE ---------- */
+  .navigation-buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    margin-top: 40px;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px 28px;
+    font-weight: 600;
+    font-size: 1rem;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    text-align: center;
+  }
+
+  .btn-secondary {
+    background: #ffffff;
+    color: var(--color-primary);
+    border: 2px solid var(--color-primary);
+  }
+  .btn-secondary:hover {
+    background: var(--color-bg);
+    transform: translateY(-2px);
+  }
+
+  .btn-primary {
+    background: var(--color-primary);
+    color: #ffffff;
+    border: 2px solid var(--color-primary);
+    box-shadow: 0 4px 14px rgba(14, 58, 82, 0.2);
+  }
+  .btn-primary:hover {
+    background: var(--color-secondary);
+    border-color: var(--color-secondary);
+    transform: translateY(-2px);
+  }
+
+  /* ---------- FOOTER ---------- */
+  footer { 
+    background: var(--color-primary); 
+    color: #E8F3F8; 
+    text-align: center; 
+    padding: 34px 24px; 
+    border-top: 1px solid var(--color-secondary); 
+  }
+  footer p { font-size: 0.92rem; color: #BFE3F0; letter-spacing: 0.3px; }
+  footer .footer-logo { font-family: 'Fraunces', serif; font-weight: 700; color: var(--color-accent); }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width: 768px) {
+    .nav-links { 
+      position: fixed; top: 0; right: -100%; width: 70%; max-width: 320px; height: 100vh; 
+      background: var(--color-primary); 
+      flex-direction: column; justify-content: center; align-items: center; gap: 2.2rem; 
+      transition: right 0.4s ease; box-shadow: -8px 0 30px rgba(0,0,0,0.25); 
+    }
+    .nav-links.active { right: 0; }
+    .nav-toggle { display: flex; }
+    .nav-toggle.active span:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
+    .nav-toggle.active span:nth-child(2) { opacity: 0; }
+    .nav-toggle.active span:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
+    
+    .section-block { padding: 25px; }
+    .navigation-buttons { flex-direction: column; }
+    .btn { width: 100%; }
+    .back-to-top-wrap { text-align: left; }
+  }
+</style>
+</head>
+<body>
+
+  <!-- ==================== SPRITE ICONE ==================== -->
+  <svg width="0" height="0" style="position:absolute; overflow:hidden" aria-hidden="true">
+    <symbol id="icon-doc" viewBox="0 0 24 24">
+      <path fill="currentColor" d="M6 2a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6H6zm7 1.5L18.5 9H14a1 1 0 0 1-1-1V3.5zM8 13h8v1.5H8V13zm0 3.5h8V19H8v-1.5zm0-7h4V11H8V9.5z"/>
+    </symbol>
+    <symbol id="icon-chatgpt" viewBox="0 0 256 260">
+      <path d="M239.184 106.203a64.716 64.716 0 0 0-5.576-53.103C219.452 28.459 191 15.784 163.213 21.74A65.586 65.586 0 0 0 52.096 45.22a64.716 64.716 0 0 0-43.23 31.36c-14.31 24.602-11.061 55.634 8.033 76.74a64.665 64.665 0 0 0 5.525 53.102c14.174 24.65 42.644 37.324 70.446 31.36a64.72 64.72 0 0 0 48.754 21.744c28.481.025 53.714-18.361 62.414-45.481a64.767 64.767 0 0 0 43.229-31.36c14.137-24.558 10.875-55.423-8.083-76.483Zm-97.56 136.338a48.397 48.397 0 0 1-31.105-11.255l1.535-.87 51.67-29.825a8.595 8.595 0 0 0 4.247-7.367v-72.85l21.845 12.636c.218.111.37.32.409.563v60.367c-.056 26.818-21.783 48.545-48.601 48.601Zm-104.466-44.61a48.345 48.345 0 0 1-5.781-32.589l1.534.921 51.722 29.826a8.339 8.339 0 0 0 8.441 0l63.181-36.425v25.221a.87.87 0 0 1-.358.665l-52.335 30.184c-23.257 13.398-52.97 5.431-66.404-17.803ZM23.549 85.38a48.499 48.499 0 0 1 25.58-21.333v61.39a8.288 8.288 0 0 0 4.195 7.316l62.874 36.272-21.845 12.636a.819.819 0 0 1-.767 0L41.353 151.53c-23.211-13.454-31.171-43.144-17.804-66.405v.256Zm179.466 41.695-63.08-36.63L161.73 77.86a.819.819 0 0 1 .768 0l52.233 30.184a48.6 48.6 0 0 1-7.316 87.635v-61.391a8.544 8.544 0 0 0-4.4-7.213Zm21.742-32.69-1.535-.922-51.619-30.081a8.39 8.39 0 0 0-8.492 0L99.98 99.808V74.587a.716.716 0 0 1 .307-.665l52.233-30.133a48.652 48.652 0 0 1 72.236 50.391v.205ZM88.061 139.097l-21.845-12.585a.87.87 0 0 1-.41-.614V65.685a48.652 48.652 0 0 1 79.757-37.346l-1.535.87-51.67 29.825a8.595 8.595 0 0 0-4.246 7.367l-.051 72.697Zm11.868-25.58 28.138-16.217 28.188 16.218v32.434l-28.086 16.218-28.188-16.218-.052-32.434Z"/>
+    </symbol>
+    <symbol id="icon-gemini" viewBox="0 0 24 24">
+      <path d="M11.04 19.32Q12 21.51 12 24q0-2.49.93-4.68.96-2.19 2.58-3.81t3.81-2.55Q21.51 12 24 12q-2.49 0-4.68-.93a12.3 12.3 0 0 1-3.81-2.58 12.3 12.3 0 0 1-2.58-3.81Q12 2.49 12 0q0 2.49-.96 4.68-.93 2.19-2.55 3.81a12.3 12.3 0 0 1-3.81 2.58Q2.49 12 0 12q2.49 0 4.68.96 2.19.93 3.81 2.55t2.55 3.81"/>
+    </symbol>
+  </svg>
+
+  <header class="navbar" id="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-brand">
+        <img src="image/logo.png" alt="LitterAI">
+      </a>
+      <nav>
+        <ul class="nav-links" id="navLinks">
+          <li><a href="index.html#home" class="nav-link-item">Home</a></li>
+          <li><a href="index.html#lezioni" class="nav-link-item">Lezioni</a></li>
+          <li><a href="#footer-info" class="nav-link-item">Info</a></li>
+        </ul>
+      </nav>
+      <button class="nav-toggle" id="navToggle" aria-label="Apri menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+ <div class="page-header" id="page-top">
+<div class="container">
+<h1>La creazione di verifiche con l'IA</h1>
+<p>Come trasformare l'intelligenza artificiale in un assistente di progettazione didattica: dalla struttura della prova al collaudo, dalla differenziazione alla correzione e al feedback.</p>
+</div>
+</div>
+<div class="main-wrapper">
+<div class="container">
+<!-- ==================== NAV RAPIDA TRA LE PARTI ==================== -->
+<div class="part-nav">
+<a href="#parte1">Progettare la verifica</a>
+<a href="#parte2">Scrivere i quesiti</a>
+<a href="#parte3">Collaudare la prova</a>
+<a href="#parte4">Differenziare e adattare</a>
+<a href="#parte5">Correggere e restituire</a>
+<a href="#parte6">Gli strumenti</a>
+<a href="#parte7">Prompt Cookbook</a>
+<a href="#parte8">Esercizi e laboratorio</a>
+<a href="#downloads">Materiali scaricabili</a>
+</div>
+
+<!-- ==================== PARTE 1 ==================== -->
+<section class="section-block" id="parte1">
+<span class="section-tag-header">Parte 1</span>
+<h2 class="section-title">L'IA come assistente nella progettazione delle verifiche</h2>
+<p>Capire dove l'IA può davvero aiutare il docente.</p>
+
+<h3 class="phase-title">Modulo 1.1: Cosa cambia quando entra l'IA</h3>
+<p>Quando si parla di Intelligenza Artificiale nella scuola, il primo pensiero corre quasi sempre alla generazione automatica: «Chiedo al chatbot di crearmi un test su Dante e in dieci secondi ho la verifica pronta».</p>
+<p>È una prospettiva allettante, soprattutto nei periodi di sovraccarico di lavoro, ma è anche il modo migliore per rimanere delusi. Un test generato con un solo clic è spesso generico, privo di anima didattica e, soprattutto, scollegato dal percorso reale che avete vissuto in classe con i vostri studenti.</p>
+<p>Il vero salto di qualità nell'uso dell'IA non sta nell'assegnarle il ruolo di "sostituto", ma in quello di <strong>assistente di progettazione</strong>. Pensate all'IA come a un tirocinante estremamente veloce, colto e sempre disponibile, ma del tutto privo di sensibilità pedagogica e di conoscenza diretta dei vostri alunni. Se gli chiedete di fare tutto da solo, produrrà un lavoro banale. Se invece lo guidate all'interno di un processo ben definito, diventerà un alleato prezioso in ognuna delle cinque fasi del lavoro docimologico.</p>
+<div class="flow-chain">Progettare → Generare → Trasformare → Controllare → Restituire</div>
+<p>Vediamo la differenza con un esempio pratico tratto dalle nostre discipline.</p>
+<p><strong>Lo scenario:</strong> volete verificare la comprensione e l'analisi del <em>De brevitate vitae</em> di Seneca in una quarta liceo.</p>
+<div class="rcif-list">
+<ul>
+<li><strong>L'approccio delega ("crea tutto tu"):</strong> chiedete all'IA «Creami una verifica su Seneca e il De brevitate vitae». Risultato? Vi restituirà una serie di domande biografiche standard, qualche quesito mnemonico sulla struttura dell'opera e risposte a scelta multipla scontate. La verifica è piatta, non rispecchia l'angolo prospettico con cui avete spiegato l'autore e non sollecita competenze complesse.</li>
+<li><strong>L'approccio affiancamento (il docente guida):</strong> voi stabilite l'obiettivo ("Voglio verificare se sanno riconoscere il concetto di tempo nell'epistolario e nel De brevitate vitae e se sanno analizzare la struttura del periodo senecano"). Usate l'IA prima per strutturare la tipologia di prova, poi per estrapolare due brevi passi a confronto, quindi per formulare una bozza di quesiti analitici e infine per controllare che le consegne non siano ambigue.</li>
+</ul>
+</div>
+<p>Nel primo caso avete ottenuto un modulo prefabbricato; nel secondo avete progettato un'esperienza di verifica su misura, risparmiando tempo sulle operazioni noiose (ricerca dei passi, impaginazione, prima stesura) ma mantenendo il controllo concettuale del percorso.</p>
+
+<h3 class="phase-title">Modulo 1.2: Dalla verifica da creare alla verifica da progettare</h3>
+<p>Perché l'IA possa fornirvi un supporto reale, ha bisogno di confini chiari. Un'IA senza contesto produce banalità; un'IA a cui fornite le coordinate della vostra classe diventa un sarto che taglia la prova su misura.</p>
+<p>Prima di aprire la chat del vostro strumento preferito (ChatGPT, Gemini o Claude), ci sono elementi che solo voi conoscete e che costituiscono l'ossatura della verifica:</p>
+<div class="rcif-list">
+<ol>
+<li><strong>Il contesto:</strong> la classe (es. una terza liceo scientifico alla prima prova di analisi del testo poetico).</li>
+<li><strong>I contenuti reali:</strong> ciò che è stato effettivamente spiegato, analizzato o discusso in aula (non tutto il programma ministeriale, ma quei canti della Divina Commedia o quei capitoli dei Promessi Sposi).</li>
+<li><strong>Gli obiettivi e le competenze:</strong> cosa volete misurare? La mera comprensione letterale, la capacità di parafrasi, l'analisi stilistica, il confronto critico o la traduzione dal Latino?</li>
+<li><strong>I vincoli logistici:</strong> tempo a disposizione (es. 50 minuti), tipologia di quesiti prescelta e distribuzione indicativa dei punteggi.</li>
+</ol>
+</div>
+<p>L'IA può essere interpellata ancora prima di scrivere i singoli quesiti, proprio per ragionare sulla struttura dell'architettura d'esame. Vediamo come cambia il risultato mettendo a confronto due approcci di prompt.</p>
+<h4 class="sub-phase-title">❌ Il prompt generico (poco efficace)</h4>
+<blockquote class="prompt-box">"Creami 5 domande di Italiano sul XII canto dell'Inferno."</blockquote>
+<p><strong>Cosa produce l'IA:</strong> domande generiche e prevalentemente nozionistiche ("Chi incontra Dante nel XII canto?", "Chi sono i Centauri?"). L'IA non sa se la classe ha lavorato sulla figura del Minotauro come simbolo di matta bestialità o sul contrappasso dei violenti contro il prossimo.</p>
+<h4 class="sub-phase-title">✅ Il prompt strutturato (progettuale)</h4>
+<blockquote class="prompt-box">"Sto progettando una verifica sommativa di Italiano per una classe terza liceo. Tempo a disposizione: 1 ora. Contenuto: Inferno XII (I violenti contro il prossimo).<br><br>
+Gli obiettivi della prova sono due:<br>
+1. Verificare la comprensione testuale e la capacità di analisi stilistica del lessico della violenza.<br>
+2. Valutare la capacità di rielaborazione critica sul ruolo dei Centauri come custodi dell'ordine.<br><br>
+Proponimi una struttura di verifica bilanciata che contenga:<br>
+- 3 quesiti a risposta breve per il primo obiettivo (max 5 righe ciascuno);<br>
+- 1 quesito aperto di analisi e sintesi per il secondo obiettivo;<br>
+- Una proposta di attribuzione dei punteggi in trentesimi.<br><br>
+Prima di scrivere le domande, mostrami solo lo schema della struttura per approvazione."</blockquote>
+<p>Notate la differenza: con il secondo prompt l'IA non sta improvvisando. Sta lavorando all'interno della cornice metodologica definita da voi, agendo da vero assistente di progettazione.</p>
+
+<h3 class="phase-title">Modulo 1.3: Generare non significa progettare</h3>
+<p>Uno dei rischi più grandi quando si comincia a usare l'IA per le verifiche è confondere la quantità di testo generato con la qualità della prova. L'IA è in grado di produrre venti domande a risposta multipla in meno di tre secondi, ma questo non garantisce che quei venti quesiti servano a misurare ciò che vi sta a cuore.</p>
+<p>Quando chiediamo all'IA di generare materiale "al buio", cioè senza fornire contesto, ci imbattiamo quasi sempre in quattro problemi ricorrenti:</p>
+<div class="rcif-list">
+<ul>
+<li><strong>Poco pertinenti:</strong> domande che vertono su dettagli marginali del testo o dell'autore solo perché facili da formulare algoritmicamente (es. date esatte di composizione, dettagli eruditi irrilevanti per un liceale).</li>
+<li><strong>Fuori scala (troppo semplici o troppo difficili):</strong> quesiti che richiedono una semplice memoria mnemonica oppure, al contrario, domande che presuppongono competenze critiche da corso universitario.</li>
+<li><strong>Mancanza di aderenza alla didattica d'aula:</strong> l'IA non sa quale interpretazione del testo avete privilegiato durante la lezione, su quali parole chiave vi siete soffermati o quali parallelismi avete tracciato.</li>
+<li><strong>Scarsa significatività didattica:</strong> domande che non mettono alla prova il ragionamento o le competenze di analisi, ma solo la capacità di individuare una parola chiave all'interno di una frase.</li>
+</ul>
+</div>
+<div class="note-box">
+💡 <strong>La regola aurea:</strong> come abbiamo visto nella lezione dedicata al prompting, la qualità dell'output è direttamente proporzionale alla qualità dell'input. L'IA non "pensa" alla vostra verifica; processa le informazioni che le fornite. Se le fornite una descrizione generica, vi restituirà un test generico. Se le fornite gli argomenti specifici trattati, il livello cognitivo richiesto e gli errori più frequenti commessi dai vostri studenti nelle ultime settimane, l'IA diventerà uno strumento di precisione sartoriale.
+</div>
+
+<h3 class="phase-title">Modulo 1.4: Le cinque funzioni dell'IA</h3>
+<p>Per riassumere il ruolo dell'IA nella preparazione delle verifiche e avere una mappa mentale chiara durante tutto il vostro lavoro, possiamo articolare il suo supporto in cinque funzioni chiave. Questo modello vi aiuterà a capire in quale momento del vostro flusso di lavoro ha senso aprire la chat dell'IA e cosa chiederle.</p>
+<div class="rcif-list">
+<ol>
+<li><strong>Progettare:</strong> definire struttura, tempi e bilanciamento dei punteggi.</li>
+<li><strong>Generare:</strong> creare bozze di quesiti, varianti e opzioni di risposta.</li>
+<li><strong>Trasformare:</strong> adattare per BES/DSA, creare file A/B o variare la difficoltà.</li>
+<li><strong>Controllare:</strong> collaudare la prova, cercare ambiguità ed errori.</li>
+<li><strong>Restituire:</strong> predisporre griglie, soluzioni e bozze di feedback formativo.</li>
+</ol>
+</div>
+<h4 class="sub-phase-title">1. Progettare</h4>
+<p>L'IA vi aiuta a definire l'architettura della prova prima ancora di scrivere le domande.</p>
+<p><strong>Esempio d'uso:</strong> chiedere all'IA come distribuire i punteggi e i tempi tra analisi del testo, domande di contestualizzazione e quesiti grammaticali per una prova di Latino di due ore.</p>
+<h4 class="sub-phase-title">2. Generare</h4>
+<p>L'IA produce bozze di quesiti, stimoli, distrattori o testi di supporto a partire dalle vostre indicazioni.</p>
+<p><strong>Esempio d'uso:</strong> fornire all'IA un capitolo del De Catilinae coniuratione di Sallustio e chiederle di generare 4 proposte di domande a risposta aperta mirate alla sintassi dei casi e dei modi.</p>
+<h4 class="sub-phase-title">3. Trasformare</h4>
+<p>L'IA adatta materiale che avete già creato (o che ha generato al punto 2) per esigenze specifiche, senza dover riscrivere tutto da capo.</p>
+<p><strong>Esempio d'uso:</strong> prendere una verifica d'Italiano e chiederle di creare una versione parallela (Fila B) di pari difficoltà, oppure una versione con linguaggio facilitato e impaginazione ad alta accessibilità per studenti con DSA.</p>
+<h4 class="sub-phase-title">4. Controllare</h4>
+<p>L'IA agisce come un revisore critico ("il collega d'ufficio") che legge la prova prima che venga stampata per individuarne i punti deboli.</p>
+<p><strong>Esempio d'uso:</strong> inserire la verifica completa nella chat e chiedere: "Ci sono domande che potrebbero risultare ambigue? Ci sono risposte a scelta multipla dove più di una risposta potrebbe essere considerata corretta?".</p>
+<h4 class="sub-phase-title">5. Restituire</h4>
+<p>L'IA vi supporta nella fase finale della valutazione, aiutandovi a preparare i materiali per la correzione e la restituzione agli studenti.</p>
+<p><strong>Esempio d'uso:</strong> generare la chiave di correzione con le risposte attese commentate o creare modelli di feedback individualizzato basati sugli errori ricorrenti emersi dalla correzione.</p>
+<p>Tenendo a mente questa struttura a cinque fasi, nelle prossime parti della lezione vedremo come passare all'azione pratica, partendo dalla scrittura e dalla calibrazione dei singoli quesiti.</p>
+
+<div class="back-to-top-wrap">
+<a class="back-to-top" href="#page-top">↑ Torna all'inizio</a>
+</div>
+</section>
+
+<!-- ==================== PARTE 2 ==================== -->
+<section class="section-block" id="parte2">
+<span class="section-tag-header">Parte 2</span>
+<h2 class="section-title">Progettare e generare i quesiti</h2>
+<p>Dall'obiettivo didattico alla domanda.</p>
+
+<h3 class="phase-title">Modulo 2.1: Scegliere il quesito giusto</h3>
+<p>Insegnare Italiano e Latino significa muoversi costantemente tra piani diversi: la comprensione letterale, l'analisi morfosintattica, l'interpretazione stilistica e il confronto critico. Uno degli errori più comuni quando si usa l'IA è chiederle genericamente di "fare delle domande", ottenendo quasi sempre una sequenza monotona di quesiti a risposta multipla o di domande aperte troppo ampie.</p>
+<p>La vera forza dell'IA sta nella sua capacità di variare le forme del quesito in base al micro-obiettivo che volete verificare. Per una stessa tematica (ad esempio il concetto di otium in Catullo e Seneca), l'IA può aiutarvi a declinare tipologie di domande molto differenti:</p>
+<div class="rcif-list">
+<ol>
+<li><strong>Scelta multipla e Vero/Falso:</strong> per verificare rapidamente la comprensione di fatti, la conoscenza di nozioni biografico-letterarie o l'individuazione di costrutti sintattici precisi. L'IA è imbattibile nel generare rapidamente opzioni di risposta chiare, ma richiede la nostra guida per evitare che la risposta corretta sia troppo ovvia.</li>
+<li><strong>Risposta breve e Completamento (Cloze test):</strong> utilissimi in Latino per la verifica delle conoscenze morfologiche ("Individua il caso e la funzione di...") o in Italiano per la verifica della conoscenza dei testi ("Riassumi in max 3 righe il significato della similitudine ai vv. 10-15"). Possiamo chiedere all'IA di creare brani con lacune mirate.</li>
+<li><strong>Analisi di testo e Domanda aperta:</strong> per valutare la capacità di rielaborazione, la competenza argomentativa e la sensibilità critica. L'IA aiuta a formulare consegne precise, circoscrivendo richieste spesso troppo ampie ("Parla del pessimismo di Leopardi") in domande mirate ("Analizza come nel Canto notturno il paesaggio lunare rifletta la condizione umana, facendo riferimento esplicito ai vv. 1-20").</li>
+<li><strong>Confronto e Applicazione:</strong> per misurare le competenze cognitive superiori (confrontare due autori, applicare una categoria critica a un testo mai visto). Possiamo chiedere all'IA di affiancare due brevi passi (es. un'epistola di Cicerone e una di Plinio il Giovane) e proporre 3 domande guidate per evidenziare analogie e differenze di stile e di contenuti.</li>
+</ol>
+</div>
+
+<h3 class="phase-title">Modulo 2.2: Generare domande di diversa difficoltà</h3>
+<p>Non tutte le domande pesano allo stesso modo. Quando prepariamo una verifica, abbiamo bisogno di quesiti "di accesso" (per verificare che tutti abbiano compreso le basi) e di quesiti "di eccellenza" (per sollecitare il pensiero critico e premiare chi ha approfondito).</p>
+<p>Senza indicazioni precise, l'IA tende a situarsi su un livello medio-basso. Possiamo però guidarla utilizzando come riferimento teorico la Tassonomia di Bloom, chiedendole esplicitamente di calibrare i quesiti lungo la scala delle operazioni cognitive:</p>
+<div class="flow-chain">Ricordare → Comprendere → Applicare → Analizzare → Valutare/Creare</div>
+<p>Vediamo un esempio progressivo applicato allo stesso contenuto: il sonetto <em>A Zacinto</em> di Ugo Foscolo.</p>
+<div class="rcif-list">
+<ol>
+<li><strong>Livello 1 (Ricordare):</strong> individuare i riferimenti mitologici presenti nel testo.</li>
+<li><strong>Livello 2 (Comprendere):</strong> spiegare il significato della contrapposizione tra Ulisse e il poeta.</li>
+<li><strong>Livello 3 (Analizzare):</strong> riconoscere l'uso dell'enjambement e l'andamento sintattico fluido.</li>
+<li><strong>Livello 4 (Valutare):</strong> confrontare il tema dell'esilio in Foscolo e in Dante.</li>
+</ol>
+</div>
+<p>Per ottenere questo risultato dall'IA, non serve fare una lezione di teoria. Basta inserire nel prompt una richiesta graduale come questa:</p>
+<blockquote class="prompt-box"><strong>Prompt per la gradualità:</strong> "Genera 3 domande sul sonetto 'A Zacinto' di Ugo Foscolo con livelli di difficoltà crescente:<br>
+- Domanda 1 (Livello Base - Comprensione): focalizzata sulla parafrasi dei primi 4 versi.<br>
+- Domanda 2 (Livello Intermedio - Analisi): focalizzata sulla struttura sintattica delle prime tre strofe e sul ruolo delle figure retoriche.<br>
+- Domanda 3 (Livello Avanzato - Rielaborazione/Confronto): chieda allo studente di mettere in relazione il tema del 'sepolcro illacrimato' con la figura di Ulisse, motivando la risposta con riferimenti al testo."</blockquote>
+
+<h3 class="phase-title">Modulo 2.3: Costruire buoni distrattori (l'errore come risorsa)</h3>
+<p>Nella costruzione di domande a scelta multipla, la parte più complessa e dispendiosa in termini di tempo non è formulare la risposta corretta, ma inventare le alternative errate (i cosiddetti distrattori).</p>
+<p>Un buon distrattore non deve essere né assurdo né palesemente falso, altrimenti la domanda diventa un banale indovinello. I distrattori davvero efficaci dal punto di vista didattico sono quelli costruiti a partire dalle misconcezioni tipiche e dagli errori frequenti degli studenti. Nelle nostre discipline, l'IA è uno strumento straordinario per generare questi errori "intelligenti":</p>
+<div class="rcif-list">
+<ul>
+<li><strong>In Latino:</strong> sfruttando i falsi amici o lo scambio tra casi con la stessa terminazione (es. un ablativo singolare scambiato per un nominativo plurale nella I declinazione).</li>
+<li><strong>In Italiano:</strong> sfruttando la confusione tra piani sintattici (es. scambiare una subordinata causale per una dichiarativa) o interpretazioni letterali di metafore complesse.</li>
+</ul>
+</div>
+<p>Esempio pratico per il Latino: invece di chiedere genericamente dei distrattori, diamo all'IA un'istruzione mirata alla didattica dell'errore.</p>
+<blockquote class="prompt-box"><strong>Prompt per distrattori basati su errori tipici:</strong> "Devo creare un quesito a scelta multipla sull'analisi logica/sintattica della frase latina: 'Magno cum gaudio discipuli magistri verba audiebant'. La domanda chiede di individuare la funzione di 'magistri'.<br><br>
+Genera 4 opzioni di risposta:<br>
+1. La risposta corretta (genitivo singolare, complemento di specificazione).<br>
+2. Distrattore A basato su un errore di declinazione tipico: scambiare 'magistri' per un nominativo plurale (soggetto).<br>
+3. Distrattore B basato su un errore di concordanza: considerarlo concordato con 'discipuli'.<br>
+4. Distrattore C basato su un falso amico o errore di senso generale.<br><br>
+Spiegami brevemente perché ciascun distrattore è didatticamente significativo."</blockquote>
+<p>In questo modo, quando lo studente sbaglierà la risposta, il docente saprà esattamente quale corto circuito logico si è verificato nella sua testa.</p>
+
+<h3 class="phase-title">Modulo 2.4: Creare quesiti a partire da un testo o da una fonte</h3>
+<p>Per i docenti di ambito umanistico, la verifica si fonda quasi sempre su un testo: una pagina di prosa d'arte, un canto dantesco, un brano di Cesare o di Cicerone. L'uso più potente dell'IA consiste nel fornirle un testo sorgente (incollandolo direttamente nella chat) e chiederle di ancorare le domande esclusivamente a quel brano. Questo evita che l'IA inventi citazioni o faccia riferimento a parti di testo non incluse nella prova.</p>
+<div class="rcif-list">
+<ol>
+<li>Incollare il testo di partenza (se è in Latino, è bene fornire la versione esatta che intendiamo usare in classe).</li>
+<li>Fissare il perimetro: istruire l'IA affinché faccia domande solo sulle righe o sui versi forniti.</li>
+<li>Chiedere un mix bilanciato di competenze: comprensione, analisi linguistica, contestualizzazione.</li>
+</ol>
+</div>
+<blockquote class="prompt-box"><strong>Esempio di applicazione (Italiano - Analisi del testo):</strong> "Ti fornisco i seguenti versi tratti dal Canto I del Purgatorio (vv. 1-12): [incollare i versi]. Agisci come un docente di letteratura italiana del liceo. Sulla base ESCLUSIVA di questo testo, formula 4 quesiti:<br>
+1. Un quesito sulla metafora della 'navicella del mio ingegno' (Comprensione).<br>
+2. Un quesito sull'invocazione alle Muse e il riferimento a Calliope (Analisi delle figure retoriche e topoi).<br>
+3. Un quesito sull'uso del colore e della luce ('dolce color d'oriental zaffiro') in contrapposizione all'Inferno (Interpretazione e confronto).<br>
+4. Una domanda a risposta breve sul significato della 'morta poesì' al v. 7.<br><br>
+Fornisci per ciascun quesito anche una bozza della risposta ideale attesa."</blockquote>
+<p>Con questo approccio, in meno di due minuti otteniamo un'ossatura d'esame perfettamente aderente al brano scelto. Il nostro compito non sarà più scrivere la verifica da zero, ma selezionare, raffinare e adattare i quesiti proposti.</p>
+
+<div class="back-to-top-wrap">
+<a class="back-to-top" href="#page-top">↑ Torna all'inizio</a>
+</div>
+</section>
+
+<!-- ==================== PARTE 3 ==================== -->
+<section class="section-block" id="parte3">
+<span class="section-tag-header lab">Parte 3</span>
+<h2 class="section-title">L'IA come collaudatore della verifica</h2>
+<p>Non solo creare domande: mettere alla prova quelle che abbiamo scritto.</p>
+
+<h3 class="phase-title">Modulo 3.1: Far controllare una verifica all'IA</h3>
+<p>Nella pratica quotidiana dell'insegnamento, uno dei momenti più delicati è la fase che precede la stampa della verifica. Abbiamo passato ore a formulare quesiti, selezionare passi di autori latini o brani di letteratura italiana, bilanciare punteggi e calcolare i tempi. Tuttavia, quando si è troppo immersi nel proprio lavoro, scappa quasi sempre qualche svista: una consegna formulata in modo involontariamente ambiguo, un riferimento implicito che per noi è scontato ma per uno studente risulta incomprensibile, o due domande che finiscono per sovrapporsi.</p>
+<p>Tradizionalmente, l'unico modo per evitare questi inconvenienti sarebbe far rileggere la prova a un collega di dipartimento. Nella realtà scolastica, però, il tempo per un confronto di questo tipo manca quasi sempre.</p>
+<p>È qui che l'IA rivela uno dei suoi utilizzi più intelligenti e sottoutilizzati: non come generatore di testi, ma come <strong>revisore critico e "collaudatore" (stress tester)</strong>. Fornire all'IA una verifica interamente scritta da noi e chiederle di analizzarla non significa delegarle il nostro giudizio: significa sfruttare un "secondo paio di occhi" instancabile, capace di leggere la prova con distacco logico e segnalarci criticità che a noi potrebbero sfuggire.</p>
+
+<h3 class="phase-title">Modulo 3.2: Cercare ambiguità ed errori</h3>
+<p>Quando sottoponiamo una prova all'IA per un collaudo, dobbiamo guidarla nel cercare difetti specifici. Nelle discipline letterarie e linguistiche, i problemi più frequenti in una verifica riguardano:</p>
+<div class="rcif-list">
+<ul>
+<li><strong>Formulazioni ambigue:</strong> consegne che possono essere interpretate in più modi diversi, portando lo studente a rispondere a qualcosa che non avevamo chiesto.</li>
+<li><strong>Risposte doppie o sovrapposte:</strong> nelle domande a scelta multipla, opzioni errate che, a un'analisi sintattica o concettuale più rigorosa, rivelano sfumature di verità pari a quella considerata corretta.</li>
+<li><strong>Ridondanza:</strong> quesiti diversi che, sotto formulazioni differenti, valutano esattamente la stessa micro-competenza.</li>
+<li><strong>Incoerenza tra domanda e punteggio:</strong> domande che richiedono uno sforzo analitico notevole a fronte di un punteggio irrisorio, o viceversa.</li>
+</ul>
+</div>
+<blockquote class="prompt-box"><strong>Prompt per il collaudo della verifica:</strong> "Agisci come un docente esperto di Italiano e Latino e revisore di prove d'esame. Ti fornisco la bozza di una verifica che ho preparato per una classe quarta liceo su Seneca e il 'De brevitate vitae'. [incollare il testo della verifica con relative opzioni o consegne]<br><br>
+Analizza criticamente la prova e individua:<br>
+1. Eventuali consegne ambigue o formulazioni poco chiare.<br>
+2. Nelle domande a scelta multipla, verifica se ci sono distrattori che potrebbero risultare parzialmente corretti o fuorvianti.<br>
+3. Segnala se ci sono domande ridondanti o sovrapposte.<br>
+4. Verifica se le chiavi di risposta indicate da me sono inoppugnabili o se prestano il fianco a contestazioni.<br><br>
+Non riscrivere la verifica: forniscimi solo un elenco puntato di criticità riscontrate e suggerimenti di miglioramento."</blockquote>
+
+<h3 class="phase-title">Modulo 3.3: «Prova a rispondere come uno studente»</h3>
+<p>Una delle tecniche di collaudo più efficaci e sorprendenti consiste nel chiedere all'IA di simulare l'esecuzione della prova ad opera di uno studente. Possiamo chiedere al chatbot di assumere il ruolo di uno studente di liceo di diverso livello (ad esempio uno studente medio, oppure uno studente che tende ad applicare scorciatoie logiche) e di provare a svolgere la verifica.</p>
+<div class="flow-chain">Verifica del docente → Simulazione IA "studente" → Analisi delle scorciatoie → Miglioramento delle consegne prima della somministrazione</div>
+<p>Questa simulazione permette di scoprire due fenomeni fondamentali:</p>
+<div class="rcif-list">
+<ul>
+<li><strong>Le "scorciatoie" (gaming the test):</strong> l'IA potrebbe riuscire a rispondere correttamente a una domanda aperta o a un quesito d'analisi senza attingere alla conoscenza del testo, ma semplicemente sfruttando indizi grammaticali o concettuali contenuti nel testo della domanda stessa.</li>
+<li><strong>I presupposti impliciti:</strong> l'IA-studente potrebbe bloccarsi di fronte a un quesito perché manca un'informazione di contesto che il docente dava per scontata, ma che non è stata esplicitata nella consegna.</li>
+</ul>
+</div>
+<blockquote class="prompt-box"><strong>Prompt per la simulazione dello studente:</strong> "Mettiti nei panni di uno studente di terza liceo con una preparazione media. Rispondi alle seguenti 5 domande d'analisi sul Canto V dell'Inferno. Mentre rispondi, evidenzia:<br>
+- Quali domande risultano di immediata comprensione e quali generano dubbi su 'cosa vuole esattamente il professore'.<br>
+- Se ci sono domande a cui riesci a rispondere basandoti solo sulla logica della frase o su indizi presenti nelle altre domande, senza conoscere davvero il canto."</blockquote>
+<p>Questa simulazione non sostituisce, ovviamente, l'esperienza reale in classe, ma agisce come un vero e proprio "filtro di sicurezza" prima della somministrazione.</p>
+
+<h3 class="phase-title">Modulo 3.4: Calibrare la difficoltà</h3>
+<p>L'ultima funzione della fase di collaudo riguarda la taratura dell'equilibrio complessivo della prova. Un errore comune nell'assemblare una verifica consiste nel creare un "effetto montagne russe": una sequenza di domande molto facili interrotta improvvisamente da un quesito sproporzionato per complessità sintattica o concettuale, che blocca la maggior parte della classe e scompagina i tempi previsti.</p>
+<p>L'IA può aiutarci a mappare il carico cognitivo complessivo. È fondamentale chiarire una cosa: l'IA non possiede un misuratore scientifico della difficoltà reale, perché non conosce il pregresso pedagogico della vostra classe. Può tuttavia analizzare la complessità strutturale e linguistica dei quesiti proposti. Chiedendo all'IA di valutare la progressione dei quesiti, possiamo verificare se:</p>
+<div class="rcif-list">
+<ul>
+<li>la prova rispetta una curva di difficoltà graduale (dall'accessibile al complesso);</li>
+<li>il tempo stimato per la lettura dei testi e la stesura delle risposte è coerente con il tempo-scuola a disposizione (es. la classica ora di lezione di 50 minuti);</li>
+<li>la ponderazione dei punteggi rispecchia l'effettivo impegno richiesto da ciascun esercizio.</li>
+</ul>
+</div>
+<p>Mostrando la verifica all'IA con questa lente di ingrandimento, ci assicureremo che il giorno della prova non ci siano sorprese e che la valutazione rifletta davvero le competenze degli studenti, senza che l'ostacolo sia rappresentato dalla struttura stessa del test.</p>
+
+<div class="back-to-top-wrap">
+<a class="back-to-top" href="#page-top">↑ Torna all'inizio</a>
+</div>
+</section>
+
+<!-- ==================== PARTE 4 ==================== -->
+<section class="section-block" id="parte4">
+<span class="section-tag-header">Parte 4</span>
+<h2 class="section-title">Differenziare e trasformare una verifica</h2>
+<p>Una prova, più versioni.</p>
+
+<h3 class="phase-title">Modulo 4.1: Modificare una verifica esistente</h3>
+<p>Uno dei miti da sfatare quando si parla di IA a scuola è che debba servire sempre per creare cose nuove da zero. Nella pratica didattica di un docente di Italiano e Latino, il valore aggiunto più grande dell'IA risiede invece nella trasformazione del materiale già esistente.</p>
+<p>Tutti noi conserviamo negli archivi personali verifiche ben collaudate, costruite nel corso degli anni: versioni di Latino analizzate frase per frase, schede di analisi del testo poetico, batterie di domande a risposta aperta sui classici della letteratura. Tuttavia, riutilizzare lo stesso materiale anno dopo anno presenta dei limiti evidenti (dalla circolazione delle prove tra studenti di anni diversi alla necessità di adattare il testo a una classe con caratteristiche differenti).</p>
+<p>L'IA agisce in questo caso come un convertitore intelligente: prende la vostra verifica "storica", ne conserva la struttura pedagogica e la trasforma secondo le vostre esigenze del momento.</p>
+<div class="rcif-list">
+<ul>
+<li><strong>Da domanda aperta a scelta multipla (e viceversa):</strong> trasformare un quesito d'analisi sintattica aperta in un quesito strutturato per una verifica rapida.</li>
+<li><strong>Cambio di registro o di supporto:</strong> inserire un breve brano di contestualizzazione prima di una serie di domande che in origine erano puramente teoriche.</li>
+<li><strong>Aggiornamento del testo guida:</strong> mantenere la stessa struttura di domande d'analisi (es. figure retoriche, metrica, parafrasi), ma applicarla a un'altra lirica dello stesso autore (es. da In morte del fratello Giovanni a A Zacinto).</li>
+</ul>
+</div>
+
+<h3 class="phase-title">Modulo 4.2: Creare versioni equivalenti (File A/B/C)</h3>
+<p>La gestione delle prove in classi numerose richiede spesso la creazione di più file (Fila A, Fila B o persino Fila C) per evitare la copiatura tra banchi vicini. Il problema tradizionale di questa operazione è garantire una reale equivalenza: se nella Fila A inseriamo un quesito sulla sintassi del periodo di Boccaccio e nella Fila B un altro quesito sullo stesso autore, come siamo certi che il grado di difficoltà, il tempo di esecuzione e la complessità concettuale siano identici? Cambiare semplicemente le parole di una domanda non garantisce che le due prove pesino allo stesso modo.</p>
+<p>L'IA eccelle nella creazione di varianti parallele, purché le si chieda esplicitamente di mantenere invariate le coordinate strutturali.</p>
+<div class="rcif-list">
+<ul>
+<li><strong>Prova matrice</strong> → Fila A: Testo X → Domande equivalenti (Livello 1-3) → 30 punti.</li>
+<li><strong>Prova matrice</strong> → Fila B: Testo Y → Domande equivalenti (Livello 1-3) → 30 punti.</li>
+<li><strong>Prova matrice</strong> → Fila C: Testo Z → Domande equivalenti (Livello 1-3) → 30 punti.</li>
+</ul>
+</div>
+<blockquote class="prompt-box"><strong>Prompt per la generazione di File A/B equivalenti:</strong> "Ti fornisco la Fila A di una verifica di sintassi latina per il triennio (composta da 5 frasi da analizzare e tradurre, focalizzate sull'uso del congiuntivo e delle proposizioni completive). [incollare il testo della Fila A]<br><br>
+Crea la Fila B di questa verifica rispettando rigorosamente i seguenti vincoli:<br>
+1. Stesso numero di frasi (5).<br>
+2. Stessa lunghezza e complessità delle strutture sintattiche (stessi costrutti, ad es. una cum narrativo, una finale, una consecutiva).<br>
+3. Vocabolario di livello equivalente (stesso campo semantico o lessico di frequenza simile).<br>
+4. Stessa distribuzione dei punteggi indicati nella Fila A.<br><br>
+Al termine, mostrami un breve prospetto comparativo per dimostrare che le due file richiedono lo stesso tipo di competenze."</blockquote>
+
+<h3 class="phase-title">Modulo 4.3: Semplificare e facilitare (BES e DSA)</h3>
+<p>Adattare una verifica per studenti con Bisogni Educativi Speciali o Disturbi Specifici dell'Apprendimento è un dovere pedagogico e normativo, ma spesso richiede un tempo di rielaborazione grafica e concettuale notevole.</p>
+<p>È fondamentale distinguere tra due operazioni molto diverse: <strong>semplificare</strong> (riduzione del carico: modificare gli obiettivi della prova, ad esempio riducendo il numero di quesiti o eliminando le domande a più alto tasso di astrazione) e <strong>facilitare</strong> (compensazione dell'accessibilità: mantenere intatti gli obiettivi disciplinari, ma agire sul formato, sulla leggibilità e sul carico cognitivo della consegna).</p>
+<p>L'IA è uno strumento straordinario per la facilitazione, perché permette di intervenire sugli aspetti formali senza snaturare il valore della verifica.</p>
+<div class="rcif-list">
+<ol>
+<li><strong>Scomposizione delle consegne complesse:</strong> trasformare un'unica domanda articolata su più punti in una sequenza di domande brevi con risposta guidata.</li>
+<li><strong>Accessibilità linguistica:</strong> sostituire periodi ipotetici complessi nelle istruzioni con frasi lineari (Soggetto-Verbo-Oggetto).</li>
+<li><strong>Punti di appoggio visivo e organizzativo:</strong> organizzare il testo con elenchi puntati, evidenziare in grassetto le parole chiave della domanda (NON, TUTTI, INDICA, CONFRONTA) o prevedere spazi di risposta con limiti chiari.</li>
+</ol>
+</div>
+<p><strong>Esempio di intervento di facilitazione su una domanda di Italiano</strong></p>
+<p><em>Versione standard:</em></p>
+<blockquote class="prompt-box">"Analizza la figura di Renzo nei capitoli II e XXXVI dei Promessi Sposi, mettendo in luce l'evoluzione del suo atteggiamento nei confronti della giustizia umana e divina e supportando l'analisi con riferimenti agli episodi del dottor Azzecca-garbugli e del Lazzaretto."</blockquote>
+<p><em>Versione facilitata dall'IA (stessi obiettivi, accessibilità migliorata):</em></p>
+<blockquote class="prompt-box">"Rifletti sull'evoluzione del personaggio di Renzo nei 'Promessi Sposi'. Rispondi ai seguenti punti:<br>
+1. Capitolo II (Incontro con Azzecca-garbugli): Cosa pensa Renzo della giustizia degli uomini quando va dall'avvocato? (max 3-4 righe)<br>
+2. Capitolo XXXVI (Il Lazzaretto): Come cambia la sua idea di giustizia e di perdono quando incontra di nuovo Don Rodrigo? (max 3-4 righe)<br>
+3. Conclusione: Spiega in una frase qual è la differenza principale tra il Renzo dell'inizio e quello della fine del romanzo."</blockquote>
+
+<h3 class="phase-title">Modulo 4.4: Potenziare (per le eccellenze)</h3>
+<p>Così come l'IA aiuta a rendere accessibili le verifiche per chi si trova in difficoltà, può essere usata specularmente per stimolare gli studenti che mostrano ritmi di apprendimento più rapidi o una particolare inclinazione per la materia.</p>
+<p>Spesso "potenziare" viene scambiato con "aggiungere più esercizi dello stesso tipo" (es. dare due versioni di Latino invece di una). Questo approccio rischia solo di frustrare lo studente. Il vero potenziamento consiste nel proporre quesiti di livello cognitivo superiore, che richiedano:</p>
+<div class="rcif-list">
+<ul>
+<li><strong>Pensiero critico e attualizzazione:</strong> collegare un tema classico (es. la peste in Lucrezio e Tucidide) a dibattiti contemporanei.</li>
+<li><strong>Problem solving linguistico:</strong> identificare un errore di traduzione in una resa italiana d'autore e argomentare il perché la scelta del traduttore sia discutibile o brillante.</li>
+<li><strong>Analisi comparativa multilivello:</strong> mettere a confronto un testo poetico con una sua trasposizione artistica o musicale.</li>
+</ul>
+</div>
+<blockquote class="prompt-box"><strong>Prompt per la creazione di quesiti di potenziamento:</strong> "Partendo dalla verifica d'Italiano su Giacomo Leopardi che ti ho fornito, genera 2 quesiti aggiuntivi opzionali per il potenziamento (destinati agli studenti che terminano in anticipo o che desiderano affrontare una valutazione di eccellenza).<br><br>
+I quesiti non devono richiedere nuove nozioni mnemoniche, ma sollecitare:<br>
+- Un confronto stilistico-concettuale tra 'L'infinito' e un breve passo tratto dallo 'Zibaldone' che ti incollo di seguito.<br>
+- Una riflessione critica motivata sulla concezione della natura."</blockquote>
+<p>L'IA ci permette così di passare da una verifica rigida e monolitica a una prova flessibile e multilivello, capace di adagiarsi sulle reali necessità di ciascun alunno della nostra classe.</p>
+
+<div class="back-to-top-wrap">
+<a class="back-to-top" href="#page-top">↑ Torna all'inizio</a>
+</div>
+</section>
+
+<!-- ==================== PARTE 5 ==================== -->
+<section class="section-block" id="parte5">
+<span class="section-tag-header">Parte 5</span>
+<h2 class="section-title">Dalla verifica alla correzione e al feedback</h2>
+<p>L'IA dopo la somministrazione.</p>
+
+<h3 class="phase-title">Modulo 5.1: Preparare chiavi e soluzioni</h3>
+<p>Una volta somministrata la verifica, inizia la fase di correzione: un lavoro fondamentale ma spesso ripetitivo e gravoso in termini di tempo. L'IA può diventare un grande supporto operativo già a partire dalla preparazione dei materiali di riferimento per la correzione. Prima ancora di aprire i fascicoli degli studenti, possiamo chiedere all'IA di generare una chiave di correzione dettagliata (answer key) a partire dal testo definitivo della verifica.</p>
+<div class="rcif-list">
+<ul>
+<li><strong>Per le risposte chiuse:</strong> il prospetto delle soluzioni corrette affiancato dalle motivazioni spiegate (utilissimo da consegnare agli studenti in fase di restituzione per un'autocorrezione guidata).</li>
+<li><strong>Per le risposte aperte:</strong> una serie di risposte modello strutturate su più livelli (es. risposta completa ed eccellente, risposta sufficiente ma sintetica, risposta parziale o imprecisa).</li>
+<li><strong>Per la traduzione dal Latino:</strong> non una semplice traduzione di servizio, ma una scheda di analisi dei nodi sintattici critici della versione, evidenziando le rese accettabili e quelle da considerare errori gravi.</li>
+</ul>
+</div>
+<blockquote class="prompt-box"><strong>Prompt per la chiave di correzione in Latino:</strong> "Ti fornisco il testo della versione di Latino che ho somministrato oggi in classe (tratta da Livio, 'Ab Urbe Condita'). [incollare il testo del brano]<br><br>
+Prepara per me una scheda docente per la correzione che contenga:<br>
+1. La traduzione italiana fluida ed esatta.<br>
+2. L'elenco dei 5 costrutti sintattici 'snodo' della versione (es. cum narrativo, proposizione relativa impropria, participio congiunto).<br>
+3. Per ciascun costrutto, indica quali rese italiane degli studenti sono da considerare 'corrette', quali 'imprecise' e quali 'errori bloccanti' per la comprensione."</blockquote>
+<div class="note-box">
+📌 <strong>Ricordate sempre:</strong> l'IA genera una bozza di risposta ideale, ma il docente deve verificare che le soluzioni proposte rispecchino rigorosamente quanto spiegato in classe.
+</div>
+
+<h3 class="phase-title">Modulo 5.2: Analizzare gli errori e individuare i pattern</h3>
+<p>La correzione di una verifica non serve solo ad assegnare un voto, ma a capire cosa la classe ha capito e cosa no. Tuttavia, quando abbiamo di fronte venticinque compiti, è facile smarrire la visione d'insieme e concentrarsi solo sull'errore del singolo. L'IA può aiutarci a realizzare un'analisi aggregata degli errori, trasformando la correzione in un momento di indagine didattica.</p>
+<p>Durante la correzione manuale delle risposte aperte o delle traduzioni, non serve trascrivere tutto: basta prendere brevi appunti sui tipi di errore ricorrenti (es. "Molti hanno scambiato la causale per una temporale al rigo 4", "Nella domanda 3 quasi tutti confondono il pessimismo storico con quello cosmico"). Incollando questi appunti sintetici nell'IA, possiamo chiederle di:</p>
+<div class="rcif-list">
+<ul>
+<li><strong>Raggruppare gli errori per categorie concettuali</strong> (es. lacune morfologiche, difetti di comprensione del testo, problemi di formulazione espositiva).</li>
+<li><strong>Individuare la causa radice (misconcezione):</strong> capire perché gli studenti stanno sbagliando (es. "Gli studenti applicano la regola della traduzione letterale senza considerare il contesto della frase").</li>
+<li><strong>Proporre strategie di recupero mirate:</strong> suggerire una mini-lezione di 15 minuti o due esercizi specifici per colmare esattamente quel vuoto rilevato nei compiti.</li>
+</ul>
+</div>
+
+<h3 class="phase-title">Modulo 5.3: Generare feedback formativo e personalizzato</h3>
+<p>Un voto numerico (es. 6½ o 8) dice allo studente dove si trova, ma non gli spiega come migliorare. Il feedback formativo è lo strumento più potente per far crescere i ragazzi, ma scriverne uno articolato e individuale per ogni alunno richiede un tempo di cui i docenti raramente dispongono. L'IA è straordinariamente efficace nel trasformare le nostre annotazioni sintetiche in commenti restitutivi chiari, empatici e costruttivi.</p>
+<div class="flow-chain">Annotazioni sintetiche del docente → IA con prompt formativo → Feedback individuale allo studente</div>
+<blockquote class="prompt-box"><strong>Prompt per la generazione di feedback:</strong> "Agisci come un docente di Italiano incoraggiante ma rigoroso. Devo restituire la prova di analisi del testo poetico allo studente Marco.<br><br>
+Ecco le mie note di correzione:<br>
+- Parafrasi: molto buona e precisa.<br>
+- Analisi delle figure retoriche: ha individuato le metafore ma ha saltato gli enjambement.<br>
+- Quesito di contestualizzazione storica: confuso, ha citato eventi errati.<br>
+- Sintassi e registro della produzione: linguaggio corretto ma un po' conciso.<br><br>
+Genera un breve testo di feedback (4-5 righe) da consegnare a Marco che:<br>
+1. Riconosca i punti di forza del suo lavoro (parafrasi).<br>
+2. Evidenzi in modo chiaro su cosa deve lavorare per la prossima volta (contestualizzazione e analisi metrica).<br>
+3. Gli dia un consiglio pratico per lo studio."</blockquote>
+<p>Con questo sistema, in pochi secondi possiamo offrire a ciascun alunno una restituzione di alto valore pedagogico, personalizzata e orientata al miglioramento.</p>
+
+<h3 class="phase-title">Modulo 5.4: Il docente resta il valutatore</h3>
+<p>In questa fase della lezione è fondamentale ribadire un principio etico e professionale non negoziabile: <strong>l'IA non valuta gli studenti</strong>. La valutazione è un atto umano, pedagogico e giuridico che appartiene esclusivamente al docente. L'IA è uno strumento di calcolo, sintesi e redazione. Non conosce la storia personale dell'alunno, non sa se quel giorno era emotivamente bloccato, non conosce il percorso di crescita compiuto dall'inizio dell'anno e non possiede l'empatia necessaria per misurare il valore del lavoro d'un essere umano.</p>
+<div class="rcif-list">
+<ol>
+<li><strong>L'IA propone, il docente dispone:</strong> qualsiasi scheda, punteggio o feedback generato dall'IA deve passare al vaglio della vostra sensibilità prima di essere condiviso con la classe.</li>
+<li><strong>Nessun automatismo sul voto:</strong> l'IA può aiutare a calcolare una somma di punteggi parziali, ma la conversione in un giudizio o voto finale spetta a voi.</li>
+<li><strong>Tutela della privacy:</strong> durante l'uso dell'IA per l'analisi degli errori o la stesura dei feedback, non inserite mai i cognomi o i dati identificativi reali degli studenti nei prompt. Usate nomi di fantasia (es. Studente A, Marco) o codici anonimi.</li>
+</ol>
+</div>
+<p>L'IA vi supporta nel lavoro pesante di cancelleria e prima stesura, liberando il vostro tempo affinché possiate dedicarvi a ciò che conta davvero: il dialogo educativo con lo studente durante la restituzione.</p>
+
+<div class="back-to-top-wrap">
+<a class="back-to-top" href="#page-top">↑ Torna all'inizio</a>
+</div>
+</section>
+
+<!-- ==================== PARTE 6 ==================== -->
+<section class="section-block" id="parte6">
+<span class="section-tag-header">Parte 6</span>
+<h2 class="section-title">I tool per creare verifiche</h2>
+<p>Dai chatbot generalisti agli strumenti specializzati.</p>
+
+<h3 class="phase-title">Modulo 6.1: Chatbot generalisti: ChatGPT, Gemini e Claude</h3>
+<p>I chatbot ad uso generale rappresentano quasi sempre il punto di partenza ideale per la progettazione delle verifiche. A differenza dei tool verticali, non vi incanalano in strutture rigide, ma vi permettono di seguire l'intero processo docimologico: dalla definizione dell'architettura della prova fino al collaudo, alla differenziazione e alla stesura dei feedback.</p>
+<div class="table-responsive">
+<table class="summary-table">
+<thead>
+<tr>
+<th>Strumento</th>
+<th>Punti di forza</th>
+<th>Limiti</th>
+<th>Ideale per</th>
+<th>Fasi consigliate</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<div class="tool-cell">
+<svg class="tool-icon" viewBox="0 0 24 24" style="color:#0E3A52;"><use href="#icon-chatgpt"></use></svg>
+<strong class="tool-name">ChatGPT (OpenAI)</strong>
+<span class="tag-category">Chatbot generalista</span>
+</div>
+</td>
+<td><ul><li>Elevata flessibilità: si adatta a prompt strutturati e complessi</li><li>Ottimo "collaudatore": simula in modo efficace il comportamento degli studenti</li></ul></td>
+<td><ul><li>Formattazione di base: richiede lavoro manuale di impaginazione</li><li>Integrazione limitata con piattaforme di test interattivi</li></ul></td>
+<td>Progettazione strutturata, collaudo della prova, facilitazione BES/DSA, generazione di distrattori basati su errori tipici.</td>
+<td><ul><li>Progettare</li><li>Controllare</li></ul></td>
+</tr>
+<tr>
+<td>
+<div class="tool-cell">
+<svg class="tool-icon" viewBox="0 0 24 24" style="color:#126A8A;"><use href="#icon-gemini"></use></svg>
+<strong class="tool-name">Gemini (Google)</strong>
+<span class="tag-category">Chatbot generalista</span>
+</div>
+</td>
+<td><ul><li>Integrazione nativa: esportazione diretta in Google Documenti e Fogli</li><li>Multimodale: ottimo per analizzare ed estrapolare domande da immagini o scansioni</li></ul></td>
+<td><ul><li>Meno rigoroso nel collaudo, talvolta troppo compiacente</li><li>Variabilità dell'output, richiede più passaggi di affinamento</li></ul></td>
+<td>Docenti che lavorano quotidianamente con Google Workspace e vogliono trasformare una scaletta in un documento o in un Google Modulo.</td>
+<td><ul><li>Generare</li><li>Trasformare</li></ul></td>
+</tr>
+<tr>
+<td>
+<div class="tool-cell">
+<span class="tool-icon letter" style="background: var(--color-accent);">C</span>
+<strong class="tool-name">Claude (Anthropic)</strong>
+<span class="tag-category">Chatbot generalista</span>
+</div>
+</td>
+<td><ul><li>Qualità del testo eccellente: registro stilistico formale, analisi testuale di alto livello</li><li>Ampia finestra di contesto: analizza interi capitoli o lunghe fonti latine senza perdere il filo</li></ul></td>
+<td><ul><li>Limiti nella versione gratuita: restrizioni sul numero di messaggi</li><li>Nessuna integrazione diretta con i software gestionali della scuola</li></ul></td>
+<td>Docenti di Italiano e Latino che lavorano su analisi di brani d'autore molto estesi, versioni complesse e sfumature stilistico-letterarie.</td>
+<td><ul><li>Generare</li><li>Controllare</li></ul></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<h3 class="phase-title">Modulo 6.2: Tool per quiz e verifiche interattive</h3>
+<p>Oltre ai chatbot generici, esistono piattaforme specializzate che integrano moduli di Intelligenza Artificiale per velocizzare la creazione di quiz digitali o per trasformare la verifica in un'attività interattiva e formativa.</p>
+
+<div class="exercise-card">
+<h4 class="exercise-title">1. Quizizz</h4>
+<p>Una delle piattaforme più complete per la creazione di quiz digitali. La sua componente IA permette di generare batterie di domande a partire da un testo incollando un link, un file PDF o un argomento.</p>
+<p><strong>Ideale per:</strong> verifiche formative rapide, monitoraggio in tempo reale, recupero/ripasso dinamico e assegnazione di compiti a casa con correzione automatica.</p>
+<div class="table-responsive">
+<table class="summary-table">
+<thead><tr><th>Pro</th><th>Contro</th></tr></thead>
+<tbody>
+<tr><td>Generazione da fonti: crea quiz automatici partendo direttamente da file PDF o brani incollati.</td><td>Rigidità delle tipologie di domanda: predilige risposte chiuse o brevi, poco adatto a saggi o analisi complesse.</td></tr>
+<tr><td>Reportistica immediata: offre analisi dettagliate sugli errori individuali e della classe.</td><td>Funzionalità avanzate a pagamento: le funzioni IA più potenti richiedono un abbonamento Pro.</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div class="exercise-card">
+<h4 class="exercise-title">2. Kahoot! (con IA)</h4>
+<p>Celebre piattaforma di gamification che ha integrato funzionalità di IA per generare istantaneamente sfide a risposta multipla basate su argomenti o testi forniti dal docente.</p>
+<p><strong>Ideale per:</strong> attività di warm-up a inizio lezione, ripasso giocoso prima di una verifica sommativa e verifica immediata della comprensione di base.</p>
+<div class="table-responsive">
+<table class="summary-table">
+<thead><tr><th>Pro</th><th>Contro</th></tr></thead>
+<tbody>
+<tr><td>Altissimo coinvolgimento: aumenta la motivazione e la partecipazione della classe.</td><td>Eccessiva semplificazione: adatto solo per quesiti nozionistici o di comprensione immediata.</td></tr>
+<tr><td>Creazione velocissima: l'IA genera il Kahoot in pochi secondi a partire da un tema.</td><td>Pressione del tempo: la logica a punti e tempo può penalizzare gli studenti con ritmi più lenti o BES.</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div class="exercise-card">
+<h4 class="exercise-title">3. MagicSchool AI / EduAide.AI</h4>
+<p>Piattaforme verticali nate specificamente per il mondo della scuola. Racchiudono decine di "assistant" dedicati, tra cui generatori di test, creatori di domande di comprensione e sviluppatori di rubriche.</p>
+<p><strong>Ideale per:</strong> il docente che cerca un ambiente "tutto in uno" con modelli di prompt già pronti e pensati per le diverse esigenze didattiche quotidiane.</p>
+<div class="table-responsive">
+<table class="summary-table">
+<thead><tr><th>Pro</th><th>Contro</th></tr></thead>
+<tbody>
+<tr><td>Interfaccia pensata per i docenti: non richiede competenze di prompting complesso.</td><td>Poco flessibile per le specificità del Latino: i modelli preconfezionati sono tarati sulla didattica anglosassone.</td></tr>
+<tr><td>Ricchezza di strumenti: include generatori di verifiche, adattatori per BES e rubriche.</td><td>Interfaccia e output in italiano talvolta da revisionare: alcune sezioni mantengono traduzioni automatiche rigide.</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<h3 class="phase-title">Modulo 6.3: Dalla domanda al prodotto interattivo: Llama Coder e gli ambienti di codice</h3>
+<p>Per i docenti che desiderano fare un passo in più e trasformare una verifica testuale in un applicativo digitalizzato su misura (ad esempio un'esercitazione interattiva di Latino con riscontro visivo immediato o una mappa di analisi del testo dinamica), esistono strumenti basati su IA come Llama Coder (o ambienti di generazione di codice/artifact come quelli di Claude e ChatGPT).</p>
+<p>Questi strumenti non servono a "scrivere le domande", ma prendono la struttura della verifica ideata dal docente e la trasformano in un piccolo prodotto digitale interattivo (HTML/JS) pronto da distribuire agli studenti o da incorporare in un sito web della classe.</p>
+<p><strong>Ideale per:</strong> creare schede esercitative interattive personalizzate, piccoli laboratori di traduzione guidata e risorse digitali fruibili da browser.</p>
+<div class="table-responsive">
+<table class="summary-table">
+<thead><tr><th>Pro</th><th>Contro</th></tr></thead>
+<tbody>
+<tr><td>Personalizzazione totale: permette di creare oggetti didattici digitali unici senza saper programmare.</td><td>Curva di apprendimento più alta: richiede una guida chiara nelle istruzioni da fornire all'IA.</td></tr>
+<tr><td>Nessun vincolo di piattaforma: il codice generato è vostro e può essere salvato o pubblicato liberamente.</td><td>Necessità di collaudo tecnico: occorre testare che pulsanti e interazioni web funzionino correttamente.</td></tr>
+</tbody>
+</table>
+</div>
+
+<h4 class="sub-phase-title">Tabella riassuntiva comparativa</h4>
+<p>La seguente tabella offre una panoramica sintetica dei principali strumenti analizzati, per orientare la scelta del docente in base all'obiettivo didattico della lezione o della verifica.</p>
+<div class="table-responsive">
+<table class="summary-table">
+<thead>
+<tr>
+<th>Strumento</th>
+<th>Categoria</th>
+<th>Focus principale</th>
+<th>Personalizzazione</th>
+<th>Integrazione</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><div class="tool-cell"><svg class="tool-icon" viewBox="0 0 24 24" style="color:#0E3A52;"><use href="#icon-chatgpt"></use></svg><strong class="tool-name">ChatGPT</strong></div></td>
+<td>Chatbot generalista</td>
+<td>Progettazione, collaudo, trasformazione e scrittura da prompt complessi.</td>
+<td>🔴 Massimo</td>
+<td>🟡 Medio (copia/incolla o API)</td>
+</tr>
+<tr>
+<td><div class="tool-cell"><svg class="tool-icon" viewBox="0 0 24 24" style="color:#126A8A;"><use href="#icon-gemini"></use></svg><strong class="tool-name">Gemini</strong></div></td>
+<td>Chatbot generalista</td>
+<td>Progettazione rapida e integrazione immediata con la suite Google.</td>
+<td>🔴 Massimo</td>
+<td>🟢 Nativo (Workspace Google)</td>
+</tr>
+<tr>
+<td><div class="tool-cell"><span class="tool-icon letter" style="background: var(--color-accent);">C</span><strong class="tool-name">Claude</strong></div></td>
+<td>Chatbot generalista</td>
+<td>Analisi di testi complessi, versioni di Latino e qualità di scrittura.</td>
+<td>🔴 Massimo</td>
+<td>🟡 Medio (copia/incolla)</td>
+</tr>
+<tr>
+<td><div class="tool-cell"><span class="tool-icon letter" style="background:#7C3AED;">Q</span><strong class="tool-name">Quizizz</strong></div></td>
+<td>Piattaforma quiz</td>
+<td>Verifiche formative digitali, somministrazione rapida e reportistica.</td>
+<td>🟡 Medio</td>
+<td>🟢 Buono (Google Classroom, LMS)</td>
+</tr>
+<tr>
+<td><div class="tool-cell"><span class="tool-icon letter" style="background:#46178F;">K</span><strong class="tool-name">Kahoot!</strong></div></td>
+<td>Gamification</td>
+<td>Ripasso giocoso, verifica dei prerequisiti e coinvolgimento rapido.</td>
+<td>🔵 Basso/Standard</td>
+<td>🟢 Buono (LMS, web)</td>
+</tr>
+<tr>
+<td><div class="tool-cell"><span class="tool-icon letter" style="background:#FF7A59;">M</span><strong class="tool-name">MagicSchool AI</strong></div></td>
+<td>Piattaforma docenti</td>
+<td>Generazione guidata con modelli pronti (test, BES, rubriche).</td>
+<td>🟡 Medio</td>
+<td>🟡 Medio (esportazione testo)</td>
+</tr>
+<tr>
+<td><div class="tool-cell"><span class="tool-icon letter" style="background:#0EA5E9;">L</span><strong class="tool-name">Llama Coder</strong></div></td>
+<td>Code generator</td>
+<td>Trasformazione della verifica in applicativo o pagina web interattiva.</td>
+<td>🔴 Massimo</td>
+<td>🟢 Avanzato (codice web libero)</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div class="back-to-top-wrap">
+<a class="back-to-top" href="#page-top">↑ Torna all'inizio</a>
+</div>
+</section>
+
+<!-- ==================== PARTE 7 ==================== -->
+<section class="section-block" id="parte7">
+<span class="section-tag-header lab">Parte 7</span>
+<h2 class="section-title">Prompt Cookbook</h2>
+<p>Prompt pronti e a riempimento per progettare e gestire le verifiche. Questo ricettario raccoglie una selezione di prompt ottimizzati per le diverse fasi del lavoro docimologico. Per ogni obiettivo troverete sia modelli a riempimento (flessibili, da personalizzare inserendo i propri parametri tra parentesi quadre) sia prompt già pronti (subito eseguibili in classe o nella preparazione delle prove).</p>
+
+<h3 class="phase-title">🧩 1. Progettare la verifica</h3>
+<p>Definire la struttura, bilanciare i quesiti e calibrare la difficoltà della prova.</p>
+<h4 class="sub-phase-title">Modello a riempimento: architettura bilanciata della prova</h4>
+<blockquote class="prompt-box"><strong>Ruolo:</strong> agisci come un docente esperto di [DISCIPLINA] del Liceo Scientifico.<br>
+<strong>Contesto:</strong> devo progettare una verifica sommativa di [DURATA] minuti per una classe [CLASSE, es. 3ª Liceo] sugli argomenti: [ELENCO ARGOMENTI].<br>
+<strong>Richiesta:</strong> progetta l'architettura della prova articolandola in 3 sezioni con pesi differenti:<br>
+- Sezione A (Conoscenza e Comprensione): [NUMERO] domande a risposta chiusa/breve per verificare concetti chiave e lessico specifico.<br>
+- Sezione B (Applicazione e Analisi): [NUMERO] quesiti su testo o problema guidato per testare la capacità espositiva e analitica.<br>
+- Sezione C (Sintesi e Rielaborazione critica): [NUMERO] domanda aperta a risposta articolata (max [N] righe).<br>
+<strong>Vincolo:</strong> per ogni quesito indica l'obiettivo didattico associato (Tassonomia di Bloom) e il tempo stimato di risoluzione per uno studente medio. Non generare griglie di valutazione o punteggi.</blockquote>
+<h4 class="sub-phase-title">Prompt già pronto: varianti di verifica per file parallele</h4>
+<blockquote class="prompt-box">Agisci come un docente di Italiano. Ho bisogno di creare due versioni equivalenti (Fila A e Fila B) per una verifica di controllo sulla prosa del Seicento e del Settecento (Galilei e Beccaria).<br><br>
+Prendi questo quesito di Fila A: "Analizza la struttura argomentativa del brano del 'Saggiatore' fornito, evidenziando l'uso dell'analogia e del registro ironico."<br><br>
+Genera un quesito equivalente per la Fila B basato su un brano estratto da 'Dei delitti e delle pene', mantenendo identici il livello di difficoltà, il tempo di svolgimento e il tipo di competenze analitiche richieste (analisi dell'argomentazione e delle scelte stilistiche).</blockquote>
+
+<h3 class="phase-title">✏️ 2. Generare i quesiti</h3>
+<p>Creare tracce, domande a risposta aperta o chiusa e prove complesse.</p>
+<h4 class="sub-phase-title">Modello a riempimento: quesiti a risposta multipla con distrattori plausibili</h4>
+<blockquote class="prompt-box"><strong>Contesto:</strong> sto preparando un test a risposta multipla su [ARGOMENTO/TESTO] per una classe [CLASSE].<br>
+<strong>Richiesta:</strong> genera [NUMERO] domande a risposta multipla. Ogni domanda deve avere 4 opzioni di risposta (A, B, C, D).<br><br>
+<strong>Istruzioni per i distrattori:</strong><br>
+- 1 opzione è la risposta corretta.<br>
+- 1 distrattore deve basarsi su un errore di comprensione frequente tra gli studenti (es. [ESEMPIO ERRORE TIPICO]).<br>
+- 1 distrattore deve essere parzialmente corretto ma incompleto.<br>
+- 1 distrattore deve essere palesemente errato ma concettualmente legato al tema.<br><br>
+<strong>Output:</strong> fornisci le domande seguite, in una sezione separata, dalle risposte corrette spiegate sinteticamente.</blockquote>
+<h4 class="sub-phase-title">🌟 Prompt già pronto: traccia completa Tipologia A — Prima Prova Esame di Stato</h4>
+<blockquote class="prompt-box">Agisci come un membro della Commissione del Ministero dell'Istruzione incaricato di elaborare le tracce per la Prima Prova scritta dell'Esame di Stato (Maturità).<br><br>
+<strong>Task:</strong> elabora una traccia completa di Tipologia A (Analisi e interpretazione di un testo letterario italiano) basata su un estratto significativo (circa 20-30 versi se poesia, o 300-400 parole se prosa) di un autore compreso tra l'Unità d'Italia e il Novecento [es. Giuseppe Ungaretti / Luigi Pirandello].<br><br>
+Struttura la scheda della prova esattamente secondo lo standard ministeriale:<br>
+1. <strong>Testo di riferimento:</strong> inserisci il brano prescelto con le relative note esplicative per i termini arcaici o complessi.<br>
+2. <strong>Comprensione e Analisi:</strong> formula 4-5 domande guidate e numerate che chiedano di sintetizzare il contenuto, individuare le scelte formali/metriche/stilistiche/lessicali e contestualizzare il passo nell'opera o nella poetica dell'autore.<br>
+3. <strong>Interpretazione:</strong> proponi una traccia per un commento motivato e una riflessione critica approfondita, chiedendo di collegare i temi del brano ad altre opere dello stesso autore, al contesto storico-culturale dell'epoca o ad altre esperienze di studio e lettura.</blockquote>
+
+<h3 class="phase-title">🔄 3. Trasformare e riadattare</h3>
+<p>Semplificare testi per DSA/BES, modificare registri o riadattare brani d'autore.</p>
+<h4 class="sub-phase-title">Modello a riempimento: adattamento di un testo per studenti con DSA/BES</h4>
+<blockquote class="prompt-box"><strong>Ruolo:</strong> sei un docente esperto di didattica inclusiva e compensativa.<br>
+<strong>Task:</strong> prendi il seguente testo/quesito: "[INSERIRE TESTO O QUESITO]".<br><br>
+<strong>Modifiche richieste:</strong><br>
+- Semplifica la struttura sintattica (usa frasi brevi, coordinate anziché subordinate complesse, forma attiva).<br>
+- Evidenzia in grassetto le parole chiave e i concetti operativi fondamentali.<br>
+- Sostituisci i termini specialistici meno noti con sinonimi ad alta frequenza o aggiungi una breve glossa tra parentesi.<br>
+- Riorganizza il testo in punti elenco per facilitare la scansione visiva, senza ridurne il rigore concettuale.</blockquote>
+<h4 class="sub-phase-title">🌟 Prompt già pronto: riadattamento e didattizzazione di una versione di Latino</h4>
+<blockquote class="prompt-box">Agisci come un docente di Lingua e Cultura Latina del Liceo Scientifico.<br>
+<strong>Contesto:</strong> ho selezionato il seguente passo originale di [AUTORE, es. Seneca, Epistulae ad Lucilium] destinato a una verifica di traduzione in una classe [es. 2ª o 3ª Liceo]: "[INSERIRE IL BRANO IN LATINO]"<br><br>
+<strong>Richiesta:</strong> riadatta e didattizza questo passo per renderlo idoneo a una prova di traduzione di 60 minuti, seguendo questi criteri:<br>
+1. Semplifica le strutture sintattiche eccessivamente contorte, mantenendo però inalterato lo stile dell'autore e il lessico fondamentale.<br>
+2. Calibra il testo finale affinché sia lungo circa [es. 100-120] parole.<br>
+3. Fornisci un titolo in italiano, un breve pretesto introduttivo (2-3 righe) e un glossario a piè di pagina per i termini rari o i costrutti particolari.<br>
+4. Mostra, in una sezione finale riservata al docente, l'elenco dei tagli o delle modifiche sintattiche apportate rispetto al testo originale.</blockquote>
+
+<h3 class="phase-title">🔍 4. Controllare e collaudare</h3>
+<p>Effettuare lo stress test della prova, individuare ambiguità e prevedere le risposte.</p>
+<h4 class="sub-phase-title">Modello a riempimento: simulation &amp; stress test del quesito</h4>
+<blockquote class="prompt-box"><strong>Ruolo:</strong> agisci come uno studente di liceo di livello [MEDIO / ECCELLENTE / IN DIFFICOLTÀ].<br>
+<strong>Task:</strong> leggi ed esegui la seguente verifica che ho preparato: "[INSERIRE IL TESTO DELLA VERIFICA]"<br>
+<strong>Obiettivo:</strong> rispondi a ciascun quesito esplicitando il tuo ragionamento (think-aloud).<br><br>
+<strong>Analisi critica finale:</strong> al termine dello svolgimento, esci dal ruolo di studente e segnalami eventuali domande ambigue, quesiti la cui lunghezza o complessità supera il tempo stimato, e passaggi in cui le istruzioni della consegna non risultano chiare.</blockquote>
+<h4 class="sub-phase-title">Prompt già pronto: verifica di neutralità e assenza di indizi (cues)</h4>
+<blockquote class="prompt-box">Analizza questo test a risposta multipla di sintassi latina e italiana che intendo somministrare.<br><br>
+Verifica se nelle opzioni di risposta sono presenti "indizi grammaticali" involontari (ad esempio: l'opzione corretta è nettamente più lunga delle altre, contiene un'eco lessicale della domanda, o è l'unica sintatticamente concordante con il testo del quesito).<br><br>
+Se trovi difetti di questo tipo, segnalali e riscrivi l'opzione difettosa per renderla omogenea alle altre.</blockquote>
+
+<h3 class="phase-title">💬 5. Correggere e restituire il feedback</h3>
+<p>Generare commenti orientativi, stimolare l'autocorrezione e formulare restituzioni qualitative.</p>
+<h4 class="sub-phase-title">Modello a riempimento: feedback formativo orientativo (senza voto)</h4>
+<blockquote class="prompt-box"><strong>Ruolo:</strong> agisci come un docente che adotta una valutazione formativa e orientativa.<br>
+<strong>Contesto:</strong> uno studente della classe [CLASSE] ha consegnato la seguente risposta al quesito [NOME/TESTO QUESITO]: "[INSERIRE IL TESTO DELLA RISPOSTA]"<br><br>
+<strong>Richiesta:</strong> genera un feedback scritto diretto allo studente (usando il "tu") articolato in 3 punti:<br>
+1. Punto di forza: indica esattamente cosa ha compreso ed espresso bene.<br>
+2. Punto di caduta/errore: segnala l'inesattezza o la lacuna concettuale senza fornire subito la soluzione corretta.<br>
+3. Domanda guida / azione di recupero: poni una domanda stimolo o suggerisci un'azione concreta sui testi da rileggere per guidarlo nell'autocorrezione del passo errato.</blockquote>
+<h4 class="sub-phase-title">Prompt già pronto: sintesi dei quadri di errore della classe per la restituzione</h4>
+<blockquote class="prompt-box">Ho raccolto gli errori più frequenti commessi dalla classe durante l'ultima verifica di analisi del testo su Dante (Inferno). Ecco la lista delle principali inesattezze riscontrate: [INSERIRE ELENCO APPUNTI/ERRORI RICORRENTI]<br><br>
+Prepara una scaletta sintetizzata per la lezione di restituzione della verifica in classe (durata 15-20 minuti). La scaletta deve evidenziare i 3 "falsi amici" concettuali o strutturali che hanno tratto in inganno la maggior parte degli studenti, fornendo per ciascuno un esempio pratico e un contro-esempio chiarificatore da mostrare alla LIM.</blockquote>
+
+<div class="back-to-top-wrap">
+<a class="back-to-top" href="#page-top">↑ Torna all'inizio</a>
+</div>
+</section>
+
+<!-- ==================== PARTE 8 ==================== -->
+<section class="section-block" id="parte8">
+<span class="section-tag-header lab">Parte 8</span>
+<h2 class="section-title">Esercizi e laboratorio pratico</h2>
+<p>Mettere alla prova l'IA su una verifica reale. La teoria e i modelli di prompt acquisiscono valore reale solo quando vengono messi alla prova sul campo. In questa sezione finale vi proponiamo un percorso di quattro esercizi progressivi e un laboratorio integrato per sperimentare l'uso dell'IA direttamente su materiali che insegnate quotidianamente.</p>
+
+<h3 class="phase-title">🏋️ Esercizi progressivi</h3>
+
+<div class="exercise-card">
+<h4 class="exercise-title">Esercizio 1 — Genera (dall'argomento al primo abbozzo)</h4>
+<p>Selezionate un argomento che dovrete spiegare o verificare nelle prossime settimane (es. La poesia comico-realistica di Cecco Angiolieri oppure Le proposizioni completive in Latino).</p>
+<div class="rcif-list">
+<ol>
+<li>Aprite la chat del vostro strumento generalista preferito (ChatGPT, Gemini o Claude).</li>
+<li>Fornite un prompt essenziale che specifichi classe, tempo e argomento.</li>
+<li>Chiedete di generare una prima batteria di 5 quesiti di tipologie differenti.</li>
+</ol>
+</div>
+<p><strong>Obiettivo dell'esercizio:</strong> valutare criticamente la prima risposta dell'IA — quante domande sono utilizzabili così come sono? Quante risultano generiche o banali?</p>
+</div>
+
+<div class="exercise-card">
+<h4 class="exercise-title">Esercizio 2 — Migliora (raffinare il prompt)</h4>
+<p>Scegliete una delle domande generate nell'Esercizio 1 che ritenete troppo superficiale o poco adatta alla vostra classe.</p>
+<div class="rcif-list">
+<ol>
+<li>Riformulate il prompt applicando le tecniche viste nella Parte 2: specificate il livello cognitivo richiesto (Tassonomia di Bloom) o chiedete di inserire distrattori basati sugli errori tipici della vostra classe.</li>
+<li>Confrontate la nuova domanda generata con la prima versione.</li>
+</ol>
+</div>
+<p><strong>Obiettivo dell'esercizio:</strong> sperimentare in prima persona come la precisione dell'input determini direttamente il salto di qualità dell'output.</p>
+</div>
+
+<div class="exercise-card">
+<h4 class="exercise-title">Esercizio 3 — Collauda (stress test di una verifica reale)</h4>
+<p>Prendete una verifica d'Italiano o di Latino che avete già somministrato in passato (una di quelle presenti nel vostro archivio personale).</p>
+<div class="rcif-list">
+<ol>
+<li>Incollate il testo della verifica nell'IA e utilizzate il Prompt di Collaudo della Parte 3 o della Parte 7.</li>
+<li>Chiedete all'IA di individuare eventuali ambiguità, opzioni di risposta sovrapposte o domande ridondanti.</li>
+<li>Chiedetele di simulare la risposta di uno studente medio per individuare eventuali "scorciatoie" nella formulazione delle consegne.</li>
+</ol>
+</div>
+<p><strong>Obiettivo dell'esercizio:</strong> verificare la capacità dell'IA di agire come revisore critico (secondo paio di occhi) su un testo esistente.</p>
+</div>
+
+<div class="exercise-card">
+<h4 class="exercise-title">Esercizio 4 — Differenziare (creare varianti equivalenti e adatte)</h4>
+<p>Prendete una sezione della verifica usata nell'Esercizio 3.</p>
+<div class="rcif-list">
+<ol>
+<li>Chiedete all'IA di creare una Fila B equivalente per struttura, difficoltà e tempi, mantenendo identici gli obiettivi e la ponderazione dei punteggi.</li>
+<li>Chiedete successivamente di trasformare uno dei quesiti a risposta aperta della stessa prova in una versione facilitata per studenti con DSA, agendo sulla scomposizione della consegna e sulla leggibilità.</li>
+</ol>
+</div>
+<p><strong>Obiettivo dell'esercizio:</strong> padroneggiare la flessibilità dell'IA nella personalizzazione dei materiali didattici senza dover riscrivere da capo la prova.</p>
+</div>
+
+<h3 class="phase-title">🧪 Laboratorio finale: dalla progettazione alla verifica completa</h3>
+<p>Il laboratorio sintetizza l'intero percorso svolto durante la lezione. L'obiettivo è costruire da zero — o ristrutturare completamente — una verifica sommativa completa per la vostra classe, attraversando in sequenza tutte le fasi del ciclo di progettazione assistita da IA.</p>
+
+<div class="exercise-card">
+<h4 class="exercise-title">Passo 1 — Definisci la cornice della prova: contesto e vincoli operativi</h4>
+<p>Senza aprire ancora l'IA, annotate su un foglio le coordinate della verifica: materia e classe (es. Latino, 2ª Liceo Scientifico); contenuti specifici (es. sintassi dei casi: doppio dativo, ablativo di prezzo/stima e testo di Cesare); tempo a disposizione (es. 50 minuti); obiettivi chiave — cosa volete misurare esattamente?</p>
+</div>
+<div class="exercise-card">
+<h4 class="exercise-title">Passo 2 — Progetta la struttura con l'IA: definizione dell'architettura</h4>
+<p>Aprite la chat e utilizzate il prompt di progettazione. Chiedete all'IA di proporre la suddivisione delle sezioni (es. comprensione, analisi sintattica, traduzione guidata) e la stima dei tempi di svolgimento per sezione. Rivedete e approvate lo schema prima di procedere.</p>
+</div>
+<div class="exercise-card">
+<h4 class="exercise-title">Passo 3 — Genera e seleziona i quesiti: bozza dei contenuti e ancoraggio ai testi</h4>
+<p>Incollate il testo di partenza (il brano latino o il testo letterario) e chiedete all'IA di generare le bozze dei quesiti per ciascuna sezione, applicando i prompt del Cookbook per distrattori plausibili o domande a risposta aperta legate al testo.</p>
+</div>
+<div class="exercise-card">
+<h4 class="exercise-title">Passo 4 — Sottoponi la prova a collaudo (stress test): revisione critica</h4>
+<p>Incollate la bozza completa della verifica in una nuova sessione di chat. Chiedete all'IA di analizzarla nei panni di uno studente per individuare consegne ambigue, imprecisioni o squilibri nei tempi previsti.</p>
+</div>
+<div class="exercise-card">
+<h4 class="exercise-title">Passo 5 — Crea varianti e adattamenti: Fila B e supporto inclusivo</h4>
+<p>Una volta approvata la versione definitiva, chiedete all'IA di generare la Fila B parallela ed equivalente e, se necessario, la versione ad alta accessibilità (BES/DSA) con consegne scomposte e linguaggio facilitato.</p>
+</div>
+<div class="exercise-card">
+<h4 class="exercise-title">Passo 6 — Prepara i materiali per la restituzione: chiavi di risposta e bozze di feedback</h4>
+<p>Generate la chiave di risposta commentata e un modello di scheda per l'analisi degli errori frequenti, da utilizzare al momento della correzione e della restituzione in classe.</p>
+</div>
+
+<h4 class="sub-phase-title">📌 Conclusione della lezione</h4>
+<p>Giunti al termine di questo percorso, il principio fondamentale da portare in classe e nella propria pratica professionale quotidiana si riassume in una regola d'oro:</p>
+<div class="note-box">
+🎓 <strong>Regola d'oro:</strong> non chiedere all'IA di preparare una verifica al posto tuo. Utilizzala per migliorare, collaudare e personalizzare una verifica che avresti comunque progettato tu.
+</div>
+<p>L'Intelligenza Artificiale non possiede la sensibilità pedagogica, la conoscenza profonda dei vostri studenti né la responsabilità etica del giudizio valutativo. È tuttavia uno straordinario moltiplicatore di tempo e di possibilità: un assistente di progettazione capace di svolgere il lavoro pesante, lasciando a voi ciò che nessun algoritmo potrà mai sostituire — il rigore della scelta didattica e la cura della relazione educativa con la classe.</p>
+
+<div class="back-to-top-wrap">
+<a class="back-to-top" href="#page-top">↑ Torna all'inizio</a>
+</div>
+</section>
+
+<!-- ==================== MATERIALI SCARICABILI ==================== -->
+<section class="section-block" id="downloads">
+<span class="section-tag-header">Risorse e Download</span>
+<div class="download-grid">
+<a class="download-card" href="download/verifiche.pdf" rel="noopener noreferrer" target="_blank">
+<span aria-hidden="true" class="download-icon icon-pdf"><svg viewBox="0 0 24 24"><use href="#icon-doc"></use></svg></span>
+<span class="download-info">
+<span class="download-title">Foglio di riepilogo stampabile sulla generazione delle verifiche</span>
+</span>
+<span class="file-badge badge-pdf">PDF</span>
+</a>
+<a class="download-card" href="download/verifiche-modifica.pdf" rel="noopener noreferrer" target="_blank">
+<span aria-hidden="true" class="download-icon icon-pdf"><svg viewBox="0 0 24 24"><use href="#icon-doc"></use></svg></span>
+<span class="download-info">
+<span class="download-title">Foglio di riepilogo stampabile sulla modifica e correzione delle verifiche</span>
+</span>
+<span class="file-badge badge-pdf">PDF</span>
+</a>
+<a class="download-card" href="download/verifiche-tool.pdf" rel="noopener noreferrer" target="_blank">
+<span aria-hidden="true" class="download-icon icon-pdf"><svg viewBox="0 0 24 24"><use href="#icon-doc"></use></svg></span>
+<span class="download-info">
+<span class="download-title">Foglio di riepilogo stampabile sui vari tool per la creazione delle verifiche</span>
+</span>
+<span class="file-badge badge-pdf">PDF</span>
+</a>
+<a class="download-card" href="download/video-cookbook.pdf" rel="noopener noreferrer" target="_blank">
+<span aria-hidden="true" class="download-icon icon-pdf"><svg viewBox="0 0 24 24"><use href="#icon-doc"></use></svg></span>
+<span class="download-info">
+<span class="download-title">Foglio di riepilogo stampabile con il prompt cookbook</span>
+</span>
+<span class="file-badge badge-pdf">PDF</span>
+</a>
+<a class="download-card" href="download/video-esercizi.pdf" rel="noopener noreferrer" target="_blank">
+<span aria-hidden="true" class="download-icon icon-pdf"><svg viewBox="0 0 24 24"><use href="#icon-doc"></use></svg></span>
+<span class="download-info">
+<span class="download-title">Foglio di riepilogo stampabile con gli esercizi</span>
+</span>
+<span class="file-badge badge-pdf">PDF</span>
+</a>
+<a class="download-card" href="download/video-presentazione.pdf" rel="noopener noreferrer" target="_blank">
+<span aria-hidden="true" class="download-icon icon-pdf"><svg viewBox="0 0 24 24"><use href="#icon-doc"></use></svg></span>
+<span class="download-info">
+<span class="download-title">Presentazione sulla generazione e correzione delle verifiche</span>
+</span>
+<span class="file-badge badge-pdf">PDF</span>
+</a>
+<a class="download-card" href="download/video-tool-presentazione.pdf" rel="noopener noreferrer" target="_blank">
+<span aria-hidden="true" class="download-icon icon-pdf"><svg viewBox="0 0 24 24"><use href="#icon-doc"></use></svg></span>
+<span class="download-info">
+<span class="download-title">Presentazione sul confronto tra vari tool</span>
+</span>
+<span class="file-badge badge-pdf">PDF</span>
+</a>
+<a class="download-card disabled" href="#" aria-disabled="true">
+<span aria-hidden="true" class="download-icon icon-pdf"><svg viewBox="0 0 24 24"><use href="#icon-doc"></use></svg></span>
+<span class="download-info">
+<span class="download-title">Presentazione sugli esercizi (in preparazione)</span>
+</span>
+<span class="file-badge badge-soon">A BREVE</span>
+</a>
+</div>
+<div class="back-to-top-wrap">
+<a class="back-to-top" href="#page-top">↑ Torna all'inizio</a>
+</div>
+</section>
+
+<!-- ==================== BOTTONI DI NAVIGAZIONE ==================== -->
+<div class="navigation-buttons">
+<a class="btn btn-secondary" href="video.html">← Lezione precedente: La creazione di video</a>
+<a class="btn btn-primary" href="griglie.html">Lezione successiva: La creazione di griglie e di rubriche di valutazione →</a>
+</div>
+</div>
+</div>
+
+  <footer id="footer-info">
+    <p><span class="footer-logo">LitterAI</span> - a cura del prof. Daniele Virgili - 2026</p>
+  </footer>
+
+  <script>
+    const navbar = document.getElementById('navbar');
+    const navToggle = document.getElementById('navToggle');
+    const navLinks = document.getElementById('navLinks');
+
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 20) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
+    });
+
+    navToggle.addEventListener('click', () => {
+      navToggle.classList.toggle('active');
+      navLinks.classList.toggle('active');
+    });
+
+    document.querySelectorAll('.nav-link-item').forEach(link => {
+      link.addEventListener('click', () => {
+        navToggle.classList.remove('active');
+        navLinks.classList.remove('active');
+      });
+    });
+  </script>
+
+</body>
+</html>
