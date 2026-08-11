@@ -345,6 +345,13 @@
     transform: translateY(-2px);
   }
 
+  .download-card.disabled {
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+.file-badge.badge-soon { background: var(--color-secondary); color: #ffffff; }
+
   .download-icon {
     width: 42px;
     height: 42px;
@@ -497,19 +504,19 @@
 <div class="container">
 <!-- ==================== NAV RAPIDA TRA LE PARTI ==================== -->
 <div class="part-nav">
-<a href="#parte1">1. Percorsi personalizzati</a>
-<a href="#parte2">2. Conoscere le difficoltà</a>
-<a href="#parte3">3. Differenziare i materiali</a>
-<a href="#parte4">4. Il Tutor Socratico</a>
-<a href="#parte5">5. NotebookLM</a>
-<a href="#parte6">6. Prompt Cookbook</a>
-<a href="#parte7">7. Laboratorio finale</a>
+<a href="#parte1">Percorsi personalizzati</a>
+<a href="#parte2">Conoscere le difficoltà</a>
+<a href="#parte3">Differenziare i materiali</a>
+<a href="#parte4">Il Tutor Socratico</a>
+<a href="#parte5">NotebookLM</a>
+<a href="#parte6">Prompt Cookbook</a>
+<a href="#parte7">Laboratorio finale</a>
 <a href="#downloads">Materiali scaricabili</a>
 </div>
 
 <!-- ==================== PARTE 1 ==================== -->
 <section class="section-block" id="parte1">
-<span class="section-tag-header">Parte 1</span>
+<span class="section-tag-header">Parte 1 - Percorsi personalizzati</span>
 <h2 class="section-title">Dalla didattica uguale per tutti ai percorsi personalizzati</h2>
 <p>Nella prassi quotidiana ci troviamo di fronte a classi con livelli di preparazione, ritmi di lavoro e bisogni di supporto estremamente disomogenei. Personalizzare la didattica, tuttavia, non significa progettare 25 lezioni diverse per 25 studenti: un'operazione del genere sarebbe insostenibile per chiunque.</p>
 
@@ -567,7 +574,7 @@
 
 <!-- ==================== PARTE 2 ==================== -->
 <section class="section-block" id="parte2">
-<span class="section-tag-header">Parte 2</span>
+<span class="section-tag-header">Parte 2 - Conoscere le difficoltà</span>
 <h2 class="section-title">Conoscere meglio le difficoltà degli studenti</h2>
 <p>Quando correggiamo una verifica o osserviamo un'attività in classe, notiamo spesso errori che si ripetono. Tuttavia, un errore è quasi sempre soltanto un sintomo: la vera sfida didattica consiste nell'individuare il nodo concettuale, la lacuna nei prerequisiti o il passaggio di ragionamento che lo ha generato.</p>
 
@@ -631,7 +638,7 @@
 
 <!-- ==================== PARTE 3 ==================== -->
 <section class="section-block" id="parte3">
-<span class="section-tag-header lab">Parte 3</span>
+<span class="section-tag-header lab">Parte 3 - Differenziare i materiali</span>
 <h2 class="section-title">Differenziare materiali e attività</h2>
 <p>In didattica, il termine <em>scaffolding</em> (impalcatura) indica l'insieme di sostegni temporanei forniti agli studenti durante il processo di apprendimento.</p>
 
@@ -735,8 +742,8 @@ Attività 3: Consegna sintetica d'analisi da svolgere in autonomia.</pre></div>
 
 <!-- ==================== PARTE 4 ==================== -->
 <section class="section-block" id="parte4">
-<span class="section-tag-header">Parte 4</span>
-<h2 class="section-title">Il Tutor Socratico</h2>
+<span class="section-tag-header">Parte 4 - Il Tutor Socratico</span>
+<h2 class="section-title">Il Tutor Socratico: arrivare alla conoscenza ragionando</h2>
 <p>L'uso più istintivo dell'intelligenza artificiale in ambito scolastico è quello consultivo: porre una domanda per ottenere una risposta o un testo completo. Ricevere un prodotto finito può risultare utile in determinate fasi di lavoro, ma rischia di ridurre lo spazio per la rielaborazione autonoma se lo studente utilizza l'IA per sostituire il proprio processo di pensiero.</p>
 
 <h3 class="phase-title">Modulo 4.1: Dall'IA che risponde all'IA che fa ragionare</h3>
@@ -841,8 +848,8 @@ Attività 3: Consegna sintetica d'analisi da svolgere in autonomia.</pre></div>
 
 <!-- ==================== PARTE 5 ==================== -->
 <section class="section-block" id="parte5">
-<span class="section-tag-header lab">Parte 5</span>
-<h2 class="section-title">Creare assistenti di studio personalizzati con NotebookLM</h2>
+<span class="section-tag-header lab">Parte 5 - NotebookLM</span>
+<h2 class="section-title">Creare un ambiente di studio con NotebookLM</h2>
 <p>Nelle Parti precedenti abbiamo esaminato come utilizzare l'intelligenza artificiale per comprendere le difficoltà degli studenti (Parte 2), differenziare i materiali (Parte 3) e impostare un dialogo di tipo socratico (Parte 4). Quando si lavora con assistenti conversazionali generici, tuttavia, si incontra un limite strutturale significativo: il modello attinge dall'intero corpus di addestramento raccolto sul web, con il rischio di introdurre nozioni non previste dal programma o vere e proprie inesattezze concettuali.</p>
 
 <h3 class="phase-title">Modulo 5.1: Perché NotebookLM per la personalizzazione?</h3>
@@ -957,7 +964,7 @@ Attività 3: Consegna sintetica d'analisi da svolgere in autonomia.</pre></div>
 <!-- ==================== PARTE 6 ==================== -->
 <section class="section-block" id="parte6">
 <span class="section-tag-header lab">Parte 6</span>
-<h2 class="section-title">Prompt Cookbook: personalizzare con l'IA</h2>
+<h2 class="section-title">Prompt Cookbook: ricette per personalizzare con l'IA</h2>
 
 <h3 class="phase-title">Modulo 6.1: Come utilizzare questo Cookbook</h3>
 <p>Nelle Parti precedenti abbiamo analizzato i principi pedagogici della personalizzazione, lo scaffolding, il dialogo socratico e l'analisi dell'errore. Questa sezione costituisce una raccolta operativa di prompt pronti all'uso, pensata come un ricettario pratico per il lavoro quotidiano del docente.</p>
@@ -1105,7 +1112,7 @@ Attività 3: Consegna sintetica d'analisi da svolgere in autonomia.</pre></div>
 
 <!-- ==================== PARTE 7 ==================== -->
 <section class="section-block" id="parte7">
-<span class="section-tag-header lab">Parte 7</span>
+<span class="section-tag-header lab">Parte 7 - Laboratorio</span>
 <h2 class="section-title">Laboratorio finale: dalla lezione al percorso personalizzato</h2>
 
 <h3 class="phase-title">Modulo 7.1: L'Ecosistema Didattico Personalizzato</h3>
@@ -1381,55 +1388,79 @@ Attività 3: Consegna sintetica d'analisi da svolgere in autonomia.</pre></div>
 <section class="section-block" id="downloads">
 <span class="section-tag-header">Materiali scaricabili</span>
 <div class="download-grid">
-<a class="download-card" href="download/documento.pdf" rel="noopener noreferrer" target="_blank">
+  
+<a class="download-card" href="download/personalizza.pdf" rel="noopener noreferrer" target="_blank">
 <span aria-hidden="true" class="download-icon icon-pdf"><svg viewBox="0 0 24 24"><use href="#icon-doc"></use></svg></span>
 <span class="download-info">
-<span class="download-title">Schema RCIF e Prompt Cookbook completo</span>
+<span class="download-title">Foglio di riepilogo - Percorsi personalizzati</span>
 </span>
 <span class="file-badge badge-pdf">PDF</span>
 </a>
-<a class="download-card" href="download/documento.pdf" rel="noopener noreferrer" target="_blank">
+  
+<a class="download-card" href="download/personalizza-difficolta.pdf" rel="noopener noreferrer" target="_blank">
 <span aria-hidden="true" class="download-icon icon-pdf"><svg viewBox="0 0 24 24"><use href="#icon-doc"></use></svg></span>
 <span class="download-info">
-<span class="download-title">Template Tutor Socratico da configurare</span>
+<span class="download-title">Foglio di riepilogo - Conoscere le difficoltà</span>
 </span>
 <span class="file-badge badge-pdf">PDF</span>
 </a>
-<a class="download-card" href="download/documento.pdf" rel="noopener noreferrer" target="_blank">
+  
+<a class="download-card" href="download/personalizza-differenziare.pdf" rel="noopener noreferrer" target="_blank">
 <span aria-hidden="true" class="download-icon icon-pdf"><svg viewBox="0 0 24 24"><use href="#icon-doc"></use></svg></span>
 <span class="download-info">
-<span class="download-title">Checklist di controllo qualità dei materiali</span>
+<span class="download-title">Foglio di riepilogo - Differenziare i materiali</span>
 </span>
 <span class="file-badge badge-pdf">PDF</span>
 </a>
-<a class="download-card" href="download/documento.pdf" rel="noopener noreferrer" target="_blank">
+  
+<a class="download-card" href="download/personalizza-tutor.pdf" rel="noopener noreferrer" target="_blank">
 <span aria-hidden="true" class="download-icon icon-pdf"><svg viewBox="0 0 24 24"><use href="#icon-doc"></use></svg></span>
 <span class="download-info">
-<span class="download-title">Guida rapida a NotebookLM per la didattica</span>
+<span class="download-title">Foglio di riepilogo - Il Tutor Socratico</span>
 </span>
 <span class="file-badge badge-pdf">PDF</span>
 </a>
-<a class="download-card" href="download/documento.pdf" rel="noopener noreferrer" target="_blank">
+
+<a class="download-card" href="download/personalizza-notebooklm.pdf" rel="noopener noreferrer" target="_blank">
+<span aria-hidden="true" class="download-icon icon-pdf"><svg viewBox="0 0 24 24"><use href="#icon-doc"></use></svg></span>
+<span class="download-info">
+<span class="download-title">Foglio di riepilogo - NotebookLM</span>
+</span>
+<span class="file-badge badge-pdf">PDF</span>
+</a>
+
+<a class="download-card" href="download/personalizza-cookbook.pdf" rel="noopener noreferrer" target="_blank">
+<span aria-hidden="true" class="download-icon icon-pdf"><svg viewBox="0 0 24 24"><use href="#icon-doc"></use></svg></span>
+<span class="download-info">
+<span class="download-title">Foglio di riepilogo - Prompt Cookbook</span>
+</span>
+<span class="file-badge badge-pdf">PDF</span>
+</a>
+
+<a class="download-card" href="download/personalizza-laboratorio.pdf" rel="noopener noreferrer" target="_blank">
+<span aria-hidden="true" class="download-icon icon-pdf"><svg viewBox="0 0 24 24"><use href="#icon-doc"></use></svg></span>
+<span class="download-info">
+<span class="download-title">Foglio di riepilogo - Laboratorio</span>
+</span>
+<span class="file-badge badge-pdf">PDF</span>
+</a>
+  
+<a class="download-card" href="download/personalizza-presentazione.pdf" rel="noopener noreferrer" target="_blank">
 <span aria-hidden="true" class="download-icon icon-ppt"><svg viewBox="0 0 24 24"><use href="#icon-doc"></use></svg></span>
 <span class="download-info">
-<span class="download-title">Slide di sintesi: le 6 fasi dell'Ecosistema Didattico</span>
+<span class="download-title">Presentazione - Personalizzare la didattica</span>
 </span>
 <span class="file-badge badge-ppt">PPT</span>
 </a>
-<a class="download-card" href="download/documento.pdf" rel="noopener noreferrer" target="_blank">
+  
+<a class="download-card disabled" href="#" aria-disabled="true">
 <span aria-hidden="true" class="download-icon icon-ppt"><svg viewBox="0 0 24 24"><use href="#icon-doc"></use></svg></span>
 <span class="download-info">
-<span class="download-title">Modello scheda multilivello (Recupero/Standard/Potenziamento)</span>
+<span class="download-title">Presentazione - Laboratorio</span>
 </span>
-<span class="file-badge badge-ppt">PPT</span>
+<span class="file-badge badge-soon">A BREVE</span>
 </a>
-<a class="download-card" href="download/documento.pdf" rel="noopener noreferrer" target="_blank">
-<span aria-hidden="true" class="download-icon icon-ppt"><svg viewBox="0 0 24 24"><use href="#icon-doc"></use></svg></span>
-<span class="download-info">
-<span class="download-title">Esempio guidato: l'officina su Seneca</span>
-</span>
-<span class="file-badge badge-ppt">PPT</span>
-</a>
+  
 </div>
 <div class="back-to-top-wrap">
 <a class="back-to-top" href="#page-top">↑ Torna all'inizio</a>
@@ -1438,8 +1469,8 @@ Attività 3: Consegna sintetica d'analisi da svolgere in autonomia.</pre></div>
 
 <!-- ==================== BOTTONI DI NAVIGAZIONE ==================== -->
 <div class="navigation-buttons">
-<a class="btn btn-secondary" href="video.html">← La creazione di griglie e rubriche di valutazione</a>
-<a class="btn btn-primary" href="siti.html">La creazione di siti →</a>
+<a class="btn btn-secondary" href="video.html">← Lezione precedente: La creazione di griglie e rubriche di valutazione</a>
+<a class="btn btn-primary" href="siti.html">Lezione successiva: La creazione di siti →</a>
 </div>
 </div>
 </div>
