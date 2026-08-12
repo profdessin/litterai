@@ -1,1 +1,1321 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Creare siti e ambienti didattici con l'IA — LitterAI</title>
+<link rel="icon" type="image/png" href="image/logo-sfondo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,500;0,600;0,700;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --color-primary: #0E3A52;
+    --color-accent: #19B5E8;
+    --color-secondary: #126A8A;
+    --color-header: #BEE6F5;
+    --color-bg: #E9F4FA;
+    --color-surface: #F4FAFD;
+    --color-text: #1E293B;
+    --color-border: #E2E8F0;
+    --radius: 14px;
+    --shadow-soft: 0 8px 24px rgba(14, 58, 82, 0.08);
+  }
 
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4, h5, .logo-text {
+    font-family: 'Fraunces', serif;
+    color: var(--color-primary);
+  }
+
+  a { text-decoration: none; color: inherit; }
+  ul, ol { margin-bottom: 20px; padding-left: 24px; }
+  li { margin-bottom: 8px; }
+  p { margin-bottom: 16px; }
+  code { background: var(--color-surface); padding: 2px 6px; border-radius: 5px; font-size: 0.92em; color: var(--color-secondary); }
+
+  .container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* ---------- NAVBAR ---------- */
+  .navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background: var(--color-primary);
+    border-bottom: 1px solid var(--color-secondary);
+    transition: box-shadow 0.3s ease;
+  }
+  .navbar.scrolled { box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); }
+
+  .nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 24px;
+    max-width: 1150px;
+    margin: 0 auto;
+  }
+
+  .nav-brand img {
+    height: 40px;
+    width: auto;
+    display: block;
+    filter: brightness(0) invert(1);
+  }
+
+  .nav-links { display: flex; gap: 2.2rem; }
+  .nav-links a {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #E8F3F8;
+    position: relative;
+    padding: 4px 0;
+    transition: color 0.25s ease;
+  }
+  .nav-links a::after {
+    content: "";
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--color-accent);
+    transition: width 0.3s ease;
+  }
+  .nav-links a:hover { color: var(--color-accent); }
+  .nav-links a:hover::after { width: 100%; }
+
+  .nav-toggle { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; z-index: 1001; }
+  .nav-toggle span { width: 26px; height: 2.5px; background: #E8F3F8; border-radius: 2px; transition: all 0.3s ease; }
+
+  /* ---------- PAGE HEADER ---------- */
+  .page-header {
+    padding: 140px 24px 60px;
+    background: var(--color-header);
+    text-align: center;
+    border-bottom: 1px solid var(--color-border);
+    scroll-margin-top: 90px;
+  }
+  .page-header h1 { font-size: clamp(2.2rem, 4.5vw, 3.2rem); margin-bottom: 12px; }
+  .page-header p { font-size: 1.15rem; color: var(--color-secondary); font-weight: 500; max-width: 750px; margin: 0 auto; }
+
+  /* ---------- STILI SEZIONI DIDATTICHE ---------- */
+  .main-wrapper { padding: 60px 0; }
+
+  .section-block {
+    background: #ffffff;
+    border-radius: var(--radius);
+    padding: 45px;
+    margin-bottom: 50px;
+    box-shadow: var(--shadow-soft);
+    border: 1px solid var(--color-border);
+    scroll-margin-top: 90px;
+  }
+
+  .section-tag-header {
+    display: inline-block;
+    background: var(--color-primary);
+    color: #ffffff;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    padding: 6px 16px;
+    border-radius: 50px;
+    margin-bottom: 25px;
+  }
+
+  .section-tag-header.lab {
+    background: var(--color-secondary);
+  }
+
+  h2.section-title {
+    font-size: 2.1rem;
+    margin-bottom: 25px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--color-bg);
+  }
+
+  h3.phase-title {
+    font-size: 1.5rem;
+    margin: 40px 0 15px;
+    color: var(--color-secondary);
+  }
+
+  h4.sub-phase-title {
+    font-size: 1.2rem;
+    margin: 25px 0 10px;
+    color: var(--color-primary);
+  }
+
+  h4.exercise-title {
+    font-size: 1.1rem;
+    margin: 20px 0 8px;
+    color: var(--color-primary);
+  }
+
+  blockquote.prompt-box {
+    background-color: var(--color-surface);
+    border-left: 4px solid var(--color-accent);
+    padding: 18px 22px;
+    margin: 12px 0 20px;
+    border-radius: 0 var(--radius) var(--radius) 0;
+    font-size: 0.96rem;
+    color: var(--color-text);
+  }
+  blockquote.prompt-box strong { color: var(--color-primary); }
+  blockquote.prompt-box code { display: block; margin-top: 6px; white-space: pre-wrap; }
+
+  .note-box {
+    background-color: #EBF8FF;
+    border-left: 4px solid var(--color-accent);
+    padding: 12px 16px;
+    margin: 15px 0 20px;
+    font-size: 0.9rem;
+    color: var(--color-primary);
+    border-radius: 0 8px 8px 0;
+  }
+
+  .rcif-list {
+    background: var(--color-bg);
+    padding: 20px 25px;
+    border-radius: 10px;
+    margin: 15px 0 25px;
+  }
+  .rcif-list ul, .rcif-list ol { margin-bottom: 0; }
+  .rcif-list li:last-child { margin-bottom: 0; }
+
+  .exercise-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 25px;
+    margin: 25px 0;
+  }
+
+  /* ---------- TABELLE COMPARATIVE ---------- */
+  .table-responsive {
+    overflow-x: auto;
+    margin: 20px 0 25px;
+  }
+
+  .summary-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+    text-align: left;
+  }
+
+  .summary-table th {
+    background-color: var(--color-primary);
+    color: #ffffff;
+    padding: 12px 14px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .summary-table td {
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--color-border);
+    vertical-align: top;
+  }
+
+  .summary-table tr:nth-child(even) {
+    background-color: var(--color-surface);
+  }
+
+  .summary-table td ul {
+    margin: 0;
+    padding-left: 16px;
+    font-size: 0.86rem;
+  }
+  .summary-table td ul li { margin-bottom: 4px; }
+  .summary-table td ul li:last-child { margin-bottom: 0; }
+
+  .summary-table strong.tool-name {
+    color: var(--color-primary);
+  }
+
+  .tool-cell {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    min-width: 120px;
+  }
+
+  .tag-category {
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    padding: 3px 9px;
+    border-radius: 20px;
+    background: var(--color-bg);
+    color: var(--color-secondary);
+    border: 1px solid var(--color-border);
+  }
+
+  /* ---------- NAV RAPIDA TRA LE PARTI ---------- */
+  .part-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 40px;
+  }
+  .part-nav a {
+    background: var(--color-primary);
+    color: #ffffff;
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 10px 20px;
+    border-radius: 50px;
+    box-shadow: 0 4px 14px rgba(14, 58, 82, 0.15);
+    transition: all 0.25s ease;
+  }
+  .part-nav a:hover {
+    background: var(--color-secondary);
+    transform: translateY(-2px);
+  }
+
+  .back-to-top-wrap {
+    text-align: right;
+    margin-top: 35px;
+  }
+  .back-to-top {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-secondary);
+    border: 1px solid var(--color-border);
+    padding: 8px 16px;
+    border-radius: 50px;
+    transition: all 0.25s ease;
+  }
+  .back-to-top:hover {
+    background: var(--color-bg);
+    color: var(--color-primary);
+    border-color: var(--color-secondary);
+  }
+
+  /* ---------- MATERIALI SCARICABILI ---------- */
+  .download-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+  }
+
+  .download-card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 16px 18px;
+    transition: all 0.25s ease;
+  }
+  .download-card:hover {
+    border-color: var(--color-accent);
+    box-shadow: var(--shadow-soft);
+    transform: translateY(-2px);
+  }
+
+  .download-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .download-icon svg { width: 20px; height: 20px; }
+  .download-icon.icon-pdf { background: #FBE7E7; color: #B91C1C; }
+  .download-icon.icon-ppt { background: #FDECD8; color: #C2680C; }
+
+  .download-info {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+  .download-title {
+    font-weight: 600;
+    color: var(--color-primary);
+    font-size: 0.93rem;
+    line-height: 1.35;
+  }
+
+  .file-badge {
+    flex-shrink: 0;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    padding: 4px 10px;
+    border-radius: 20px;
+  }
+  .file-badge.badge-pdf { background: #B91C1C; color: #ffffff; }
+  .file-badge.badge-ppt { background: #C2680C; color: #ffffff; }
+
+  /* ---------- PULSANTI FINALI DI NAVIGAZIONE ---------- */
+  .navigation-buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    margin-top: 40px;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px 28px;
+    font-weight: 600;
+    font-size: 1rem;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    text-align: center;
+  }
+
+  .btn-secondary {
+    background: #ffffff;
+    color: var(--color-primary);
+    border: 2px solid var(--color-primary);
+  }
+  .btn-secondary:hover {
+    background: var(--color-bg);
+    transform: translateY(-2px);
+  }
+
+  .btn-primary {
+    background: var(--color-primary);
+    color: #ffffff;
+    border: 2px solid var(--color-primary);
+    box-shadow: 0 4px 14px rgba(14, 58, 82, 0.2);
+  }
+  .btn-primary:hover {
+    background: var(--color-secondary);
+    border-color: var(--color-secondary);
+    transform: translateY(-2px);
+  }
+
+  /* ---------- FOOTER ---------- */
+  footer {
+    background: var(--color-primary);
+    color: #E8F3F8;
+    text-align: center;
+    padding: 34px 24px;
+    border-top: 1px solid var(--color-secondary);
+  }
+  footer p { font-size: 0.92rem; color: #BFE3F0; letter-spacing: 0.3px; }
+  footer .footer-logo { font-family: 'Fraunces', serif; font-weight: 700; color: var(--color-accent); }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width: 768px) {
+    .nav-links {
+      position: fixed; top: 0; right: -100%; width: 70%; max-width: 320px; height: 100vh;
+      background: var(--color-primary);
+      flex-direction: column; justify-content: center; align-items: center; gap: 2.2rem;
+      transition: right 0.4s ease; box-shadow: -8px 0 30px rgba(0,0,0,0.25);
+    }
+    .nav-links.active { right: 0; }
+    .nav-toggle { display: flex; }
+    .nav-toggle.active span:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
+    .nav-toggle.active span:nth-child(2) { opacity: 0; }
+    .nav-toggle.active span:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
+
+    .section-block { padding: 25px; }
+    .navigation-buttons { flex-direction: column; }
+    .btn { width: 100%; }
+    .back-to-top-wrap { text-align: left; }
+  }
+</style>
+</head>
+<body>
+
+  <!-- ==================== SPRITE ICONE ==================== -->
+  <svg width="0" height="0" style="position:absolute; overflow:hidden" aria-hidden="true">
+    <symbol id="icon-doc" viewBox="0 0 24 24">
+      <path fill="currentColor" d="M6 2a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6H6zm7 1.5L18.5 9H14a1 1 0 0 1-1-1V3.5zM8 13h8v1.5H8V13zm0 3.5h8V19H8v-1.5zm0-7h4V11H8V9.5z"/>
+    </symbol>
+  </svg>
+
+  <header class="navbar" id="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-brand">
+        <img src="image/logo.png" alt="LitterAI">
+      </a>
+      <nav>
+        <ul class="nav-links" id="navLinks">
+          <li><a href="index.html#home" class="nav-link-item">Home</a></li>
+          <li><a href="index.html#lezioni" class="nav-link-item">Lezioni</a></li>
+          <li><a href="#footer-info" class="nav-link-item">Info</a></li>
+        </ul>
+      </nav>
+      <button class="nav-toggle" id="navToggle" aria-label="Apri menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+ <div class="page-header" id="page-top">
+<div class="container">
+<h1>Creare siti e ambienti didattici con l'IA</h1>
+<p>La lezione conclusiva del corso: dal prompt al prototipo, fino a un vero ambiente digitale di apprendimento costruito e pubblicato con il supporto dell'Intelligenza Artificiale.</p>
+</div>
+</div>
+<div class="main-wrapper">
+<div class="container">
+<!-- ==================== NAV RAPIDA TRA LE PARTI ==================== -->
+<div class="part-nav">
+<a href="#parte1">1. Dall'idea al sito</a>
+<a href="#parte2">2. Il linguaggio del web</a>
+<a href="#parte3">3. Strumenti No-Code</a>
+<a href="#parte4">4. Progettare il sito</a>
+<a href="#parte5">5. L'ambiente didattico</a>
+<a href="#parte6">6. Prompt Cookbook</a>
+<a href="#parte7">7. Laboratorio pratico</a>
+<a href="#downloads">Materiali</a>
+</div>
+<!-- ==================== PARTE 1 ==================== -->
+<section class="section-block" id="parte1">
+<span class="section-tag-header">Parte 1 · Fondamenti</span>
+<h2 class="section-title">Dall'idea al sito: cosa può fare oggi l'IA</h2>
+<p>Fino a poco tempo fa, realizzare un sito web per la propria classe richiedeva due strade alternative: affidarsi a piattaforme rigide e preconfigurate, oppure possedere competenze tecniche verticali da sviluppatore. Oggi l'Intelligenza Artificiale ha cambiato questo scenario, e in questa lezione conclusiva vedremo come trasformare tutto ciò che avete imparato nel corso — testi, prompt, immagini, mappe, audio, video, verifiche, griglie — in un vero ambiente didattico digitale.</p>
+
+<h3 class="phase-title">Modulo 1.1: Il nuovo paradigma: dall'idea al prototipo in tempi rapidi</h3>
+<h4 class="sub-phase-title">Da un percorso lineare a una collaborazione con l'IA</h4>
+<p>Il processo tradizionale era lineare, complesso e spesso frustrante per un docente non specializzato:</p>
+<div class="rcif-list">
+<p style="margin-bottom:0;"><strong>Idea</strong> ⟶ <strong>Progettazione</strong> ⟶ <strong>Scrittura codice (HTML/CSS/JS)</strong> ⟶ <strong>Test</strong> ⟶ <strong>Pubblicazione</strong></p>
+</div>
+<p>Oggi l'IA ha scardinato questo flusso, introducendo un nuovo paradigma di collaborazione:</p>
+<div class="rcif-list">
+<p style="margin-bottom:0;"><strong>Idea</strong> ⟶ <strong>Descrizione (Prompt)</strong> ⟶ <strong>IA (Generazione)</strong> ⟶ <strong>Prototipo</strong> ⟶ <strong>Revisione e Iterazione</strong> ⟶ <strong>Pubblicazione</strong></p>
+</div>
+<p>In questo nuovo modello, il docente non è più colui che scrive faticosamente ogni riga di codice, ma assume il ruolo di <strong>regista e architetto del progetto</strong>. L'IA diventa un assistente tecnico sempre disponibile, capace di tradurre un'idea espressa in italiano semplice in una prima versione del progetto in tempi molto rapidi.</p>
+
+<h4 class="sub-phase-title">Il valore del processo iterativo e della progettazione</h4>
+<p>Un errore frequente è pensare che, poiché l'IA risponde in pochi istanti, la creazione di un sito si riduca a un singolo passaggio magico: Idea → Prompt → Sito finito. La realtà è diversa: la prima generazione è solo il punto di partenza. Tutto si basa sull'iterazione, un dialogo continuo fatto di passaggi progressivi:</p>
+<div class="rcif-list">
+<p style="margin-bottom:0;"><strong>Idea</strong> ⟶ <strong>Prompt</strong> ⟶ <strong>Prima versione</strong> ⟶ <strong>Osservazione</strong> ⟶ <strong>Modifica</strong> ⟶ <strong>Verifica</strong> ⟶ <strong>Nuova versione</strong></p>
+</div>
+<p>L'IA è uno straordinario esecutore, ma non conosce i vostri studenti, non conosce i vostri obiettivi di apprendimento e non possiede il vostro senso pedagogico. Un ambiente didattico efficace nasce prima di tutto da scelte umane e didattiche chiare:</p>
+<div class="rcif-list">
+<ol>
+<li><strong>Obiettivi:</strong> cosa devono fare gli studenti su questo sito? Ripassare, esplorare materiali, svolgere esercizi o consultare risorse?</li>
+<li><strong>Destinatari:</strong> il sito è pensato per la scuola secondaria di primo grado, per un triennio di liceo o come hub informativo per i genitori?</li>
+<li><strong>Organizzazione dei contenuti:</strong> c'è una gerarchia chiara tra sezioni, moduli e capitoli?</li>
+<li><strong>Esperienza utente (UX):</strong> la navigazione è semplice? I materiali si trovano in massimo due clic?</li>
+<li><strong>Scelta della forma:</strong> serve una singola pagina scorrevole (one-page) o un portale articolato su più pagine?</li>
+</ol>
+</div>
+<p>L'IA vi solleva dal lavoro manuale della scrittura del codice, restituendovi il tempo per concentrarvi su ciò che sapete fare meglio: progettare l'esperienza di apprendimento.</p>
+
+<h3 class="phase-title">Modulo 1.2: Il vocabolario minimo del docente</h3>
+<p>Per poter guidare l'IA e chiedere modifiche con precisione, non dovete diventare programmatori, ma acquisire quella che possiamo definire un'<strong>alfabetizzazione web minima</strong>: pensate a questo vocabolario come alle "istruzioni di volo" per dialogare con il vostro assistente virtuale.</p>
+
+<h4 class="sub-phase-title">1. Codice Sorgente</h4>
+<p>È il testo che descrive dettagliatamente come è costruita una pagina web: il "dietro le quinte" che il browser (Chrome, Edge, Safari) legge e traduce nella grafica che vedete sullo schermo. Quando chiediamo a un chatbot di creare una pagina, la risposta conterrà proprio il codice sorgente (in HTML, CSS o JavaScript) necessario a realizzarla.</p>
+<blockquote class="prompt-box"><strong>Esempio pratico:</strong> se sul sito vedete una scheda con scritto "Unità 1: Il Romanzo Storico", dietro c'è una sequenza di testo simile a <code>&lt;div class="card"&gt;&lt;h3&gt;Unità 1: Il Romanzo Storico&lt;/h3&gt;&lt;/div&gt;</code>. Non dovete scriverlo voi: sarà il chatbot a fornirvelo pronto da copiare, incollare o modificare.</blockquote>
+
+<h4 class="sub-phase-title">2. HTML (La struttura)</h4>
+<p>L'HTML (HyperText Markup Language) è lo scheletro del sito: definisce cosa c'è nella pagina — un titolo, un paragrafo, un pulsante, una colonna, una tabella o un elenco.</p>
+<div class="note-box">🏠 <strong>L'analogia:</strong> in una casa, l'HTML corrisponde ai muri portanti, alle porte e alle finestre. Come ne parlate all'IA: <em>"Inserisci un titolo di livello 1 in cima"</em> oppure <em>"Crea una sezione HTML con due colonne"</em>.</div>
+<blockquote class="prompt-box"><strong>Esempio pratico:</strong> "Inserisci un elemento HTML con l'elenco puntato dei 5 capitoli dedicati ai Promessi Sposi e sotto aggiungi un pulsante HTML per scaricare il PDF della lezione."</blockquote>
+
+<h4 class="sub-phase-title">3. CSS (Lo stile)</h4>
+<p>Il CSS (Cascading Style Sheets) è il vestito del sito: definisce colori di sfondo, font, distanze tra i paragrafi, ombre dei pulsanti e disposizione grafica.</p>
+<div class="note-box">🎨 <strong>L'analogia:</strong> in una casa, il CSS è la pittura alle pareti, i mobili, le tende e il pavimento. Come ne parlate all'IA: <em>"Cambia il colore dei pulsanti in blu avio"</em> oppure <em>"Aumenta la dimensione del testo a 18px"</em>.</div>
+<blockquote class="prompt-box"><strong>Esempio pratico:</strong> "Modifica il CSS: applica uno sfondo grigio molto chiaro (#f4f4f9), rendi il testo principale di colore scuro per facilitare la lettura e fai in modo che le schede dei moduli abbiano angoli arrotondati e una leggera ombra."</blockquote>
+
+<h4 class="sub-phase-title">4. JavaScript (L'interattività)</h4>
+<p>Se l'HTML è lo scheletro e il CSS l'aspetto, JavaScript (JS) è il sistema nervoso: permette di aggiungere comportamenti, logica e dinamismo — un quiz con feedback immediato, un menu a comparsa, un timer, una mappa interattiva.</p>
+<div class="note-box">⚡ <strong>L'analogia:</strong> in una casa, JavaScript è l'impianto domotico che apre la porta quando suonate o accende la luce al vostro passaggio. Come ne parlate all'IA: <em>"Aggiungi un codice JavaScript che mostri un messaggio di congratulazioni quando lo studente sceglie la risposta corretta."</em></div>
+<blockquote class="prompt-box"><strong>Esempio pratico:</strong> chiedete al chatbot di generare lo script per un quiz a 3 domande in cui, cliccando su "Verifica", vengano calcolate automaticamente le risposte corrette.</blockquote>
+
+<h4 class="sub-phase-title">5. Responsive Design (Adattabilità)</h4>
+<p>Un sito è <strong>responsive</strong> quando riorganizza automaticamente la propria grafica per risultare bello e leggibile su qualsiasi dispositivo: dal PC allo smartphone. È fondamentale a scuola, perché la maggior parte degli studenti consulterà i materiali dal telefono. Come ne parlate all'IA: <em>"Assicurati che la griglia dei moduli diventi a colonna singola quando la pagina viene vista da cellulare."</em></p>
+<blockquote class="prompt-box"><strong>Esempio pratico:</strong> su PC avete tre schede affiancate (Modulo 1, 2, 3); su smartphone, grazie al responsive design, si impileranno automaticamente una sotto l'altra.</blockquote>
+
+<h4 class="sub-phase-title">6. Link, Immagini e Incorporamento (Embed)</h4>
+<div class="rcif-list">
+<ul>
+<li><strong>Link:</strong> rimanda a un'altra pagina o risorsa esterna (es. "Clicca qui per consultare l'enciclopedia Treccani").</li>
+<li><strong>Immagine:</strong> un file grafico (JPG, PNG) mostrato direttamente nella pagina (es. il ritratto di Alessandro Manzoni nella biografia).</li>
+<li><strong>Incorporamento (Embed):</strong> permette di usare, dentro la vostra pagina, un contenuto esterno senza far uscire lo studente dal sito — un video YouTube, un podcast Spotify, un modulo Google, una mappa interattiva.</li>
+</ul>
+</div>
+
+<h4 class="sub-phase-title">7. Pubblicazione (Hosting e Dominio)</h4>
+<p>Creare il codice sul proprio computer non lo rende visibile agli altri. Pubblicare significa caricare i file su un server sempre connesso alla rete, assegnandogli un indirizzo web (dominio o URL) che chiunque può digitare per navigare tra i contenuti.</p>
+<blockquote class="prompt-box"><strong>Esempio pratico:</strong> sul vostro PC il link è <code>C:/Documenti/MioSito/index.html</code> e funziona solo lì. Dopo la pubblicazione riceverete un link pubblico come <code>https://laboratorio-letteratura.vercel.app</code>, da inviare via registro elettronico o inserire in un QR code per gli studenti.</blockquote>
+
+<div class="note-box">💡 <strong>L'idea chiave da ricordare:</strong> non serve saper scrivere il codice a memoria per creare un ambiente digitale con l'IA. È sufficiente conoscere il nome delle cose per poter dire all'IA cosa fare, come correggerlo e dove intervenire.</div>
+
+<div class="back-to-top-wrap">
+<a class="back-to-top" href="#page-top">↑ Torna all'inizio</a>
+</div>
+</section>
+
+<!-- ==================== PARTE 2 ==================== -->
+<section class="section-block" id="parte2">
+<span class="section-tag-header">Parte 2 · Il codice</span>
+<h2 class="section-title">Il minimo di HTML, CSS e JavaScript che serve al docente</h2>
+<p>Abbiamo visto che HTML, CSS e JavaScript svolgono funzioni diverse. Ora facciamo un passo avanti: l'obiettivo non è imparare a scrivere questo codice da zero, ma riconoscere alcune strutture ricorrenti nel codice restituito dal chatbot, per intervenire su di esse e richiedere modifiche consapevoli. Non dovete rispondere alla domanda "Come si programma?", ma a "Come faccio a manipolare il codice che l'IA mi ha generato?"</p>
+
+<h3 class="phase-title">Modulo 2.1: HTML: riconoscere l'ossatura</h3>
+<p>Non dovete comprendere il codice generato dall'IA in ogni dettaglio, ma abituare l'occhio a riconoscere le forme che ricorrono più spesso. L'HTML utilizza dei marcatori (i <strong>tag</strong>) per ingabbiare i contenuti. I mattoni che incontrerete continuamente sono questi:</p>
+<div class="rcif-list">
+<ul>
+<li><code>&lt;h1&gt;Titolo principale&lt;/h1&gt;</code>: definisce un titolo.</li>
+<li><code>&lt;p&gt;Questo è un paragrafo.&lt;/p&gt;</code>: definisce un blocco di testo normale.</li>
+<li><code>&lt;a href="scheda.html"&gt;Apri la scheda&lt;/a&gt;</code>: crea un collegamento verso un'altra pagina.</li>
+<li><code>&lt;img src="manzoni.jpg"&gt;</code>: inserisce un'immagine prelevando il file indicato.</li>
+<li><code>&lt;section&gt; ... &lt;/section&gt;</code>: raggruppa un insieme di elementi in una sezione tematica.</li>
+<li><code>&lt;div&gt; ... &lt;/div&gt;</code>: un contenitore generico, usato per raggruppare elementi in "scatole" invisibili, da colorare o spostare facilmente.</li>
+</ul>
+</div>
+
+<h4 class="sub-phase-title">Tag di apertura e di chiusura</h4>
+<p>Quasi tutti gli elementi funzionano "a scatola": hanno un tag di apertura (<code>&lt;a&gt;</code>) e uno di chiusura con la barra obliqua (<code>&lt;/a&gt;</code>). Non serve conoscere tutte le regole dell'HTML, ma riconoscere questa dinamica per capire se un codice è monco. Se manca il tag di chiusura, ad esempio in <code>&lt;a href="lezione.html"&gt;Vai alla lezione</code>, la struttura risulta incompleta: il browser potrebbe interpretare tutto il testo successivo come un enorme link cliccabile.</p>
+
+<h4 class="sub-phase-title">Identificare gli elementi: Classi e ID</h4>
+<p>Spesso, dentro i tag di apertura, troverete due parole chiave importanti: <code>class</code> e <code>id</code>. Servono a dare un "nome" a uno specifico elemento, per distinguerlo dagli altri:</p>
+<blockquote class="prompt-box"><code>&lt;div class="scheda" id="introduzione"&gt;<br>&nbsp;&nbsp;&lt;h2&gt;Giacomo Leopardi&lt;/h2&gt;<br>&lt;/div&gt;</code></blockquote>
+<p>Questa competenza è fondamentale quando dialogate con l'IA. Se conoscete l'etichetta di un elemento, potete essere precisi:</p>
+<div class="note-box">🎯 "Modifica solo la classe <code>.scheda</code> rendendo lo sfondo leggermente grigio e lasciando invariato tutto il resto del codice."</div>
+
+<h3 class="phase-title">Modulo 2.2: CSS: riconoscere l'abito</h3>
+<p>Nel codice CSS, le regole hanno un aspetto riconoscibile: indicano l'elemento da modificare e, tra parentesi graffe, l'elenco delle proprietà visive:</p>
+<blockquote class="prompt-box"><code>h1 {<br>&nbsp;&nbsp;color: darkblue;<br>&nbsp;&nbsp;font-size: 32px;<br>}</code></blockquote>
+<p>Il docente non deve saper scrivere a memoria <code>font-size</code>, ma usare questa struttura per descrivere al chatbot cosa cambiare:</p>
+<div class="rcif-list">
+<ul>
+<li>"Rendi tutti gli h1 più grandi."</li>
+<li>"Modifica solo il colore dell'h1 facendolo diventare rosso scuro."</li>
+<li>"Lascia invariato il layout e cambia esclusivamente il colore dello sfondo."</li>
+</ul>
+</div>
+
+<h4 class="sub-phase-title">La "modifica mirata" (evitare che l'IA riscriva tutto)</h4>
+<p>Un problema frequente: il modello, per eccesso di zelo, tende a riscrivere l'intera pagina, a volte dimenticando pezzi o modificando elementi che andavano bene. Per ovviare a questo, usate le classi e siate perentori:</p>
+<div class="rcif-list">
+<ul>
+<li>"Modifica esclusivamente la sezione X."</li>
+<li>"Non modificare il resto del codice."</li>
+<li>"Restituisci l'intero file aggiornato mantenendo invariato tutto ciò che non riguarda questa modifica."</li>
+</ul>
+</div>
+
+<h3 class="phase-title">Modulo 2.3: JavaScript: delegare il comportamento</h3>
+<p>Con JavaScript il rapporto operativo è ancora più netto: non dovete quasi mai leggerne il codice. Il flusso è semplicissimo:</p>
+<div class="rcif-list">
+<p style="margin-bottom:0;"><strong>Voglio ottenere un comportamento</strong> ⟶ <strong>Descrivo il comportamento</strong> ⟶ <strong>Il chatbot genera o modifica JavaScript</strong> ⟶ <strong>Provo il risultato</strong></p>
+</div>
+<p>Potete delegare interamente all'IA la parte logica e interattiva della pagina, chiedendo in linguaggio naturale:</p>
+<div class="rcif-list">
+<ul>
+<li>"Aggiungi uno script: quando clicco sul pulsante 'Mostra risposta', visualizza la soluzione nascosta in fondo alla pagina."</li>
+<li>"Inserisci un quiz a tre domande: l'utente seleziona le opzioni e, cliccando su 'Verifica', il sistema evidenzia di verde le risposte corrette e di rosso quelle errate."</li>
+</ul>
+</div>
+<p>Il modello scriverà il codice, voi dovrete solo copiarlo, incollarlo e testare se l'interazione funziona.</p>
+
+<h3 class="phase-title">Modulo 2.4: Diagnostica: quando il codice si rompe</h3>
+<p>Il codice generato dall'IA non è infallibile: a volte il modello si interrompe a metà, a volte fa confusione con i nomi. Anche un singolo carattere mancante può causare problemi di visualizzazione o parti della pagina che smettono di funzionare.</p>
+<p><strong>Codice errato:</strong></p>
+<blockquote class="prompt-box"><code>.card {<br>&nbsp;&nbsp;padding: 20px;<br>&nbsp;&nbsp;background: white;</code></blockquote>
+<p><strong>Codice corretto:</strong></p>
+<blockquote class="prompt-box"><code>.card {<br>&nbsp;&nbsp;padding: 20px;<br>&nbsp;&nbsp;background: white;<br>}</code></blockquote>
+<p>L'assenza della parentesi graffa finale manderà in confusione il browser, che applicherà male i colori o le spaziature. Gli errori più frequenti sono:</p>
+<div class="rcif-list">
+<ul>
+<li>Parentesi graffe mancanti;</li>
+<li>Tag HTML non chiusi;</li>
+<li>Virgolette o parentesi tonde mancanti;</li>
+<li>Nomi di classi incoerenti (es. l'IA chiama la classe <code>.bottone-rosso</code> nel CSS ma <code>.pulsante-rosso</code> nell'HTML);</li>
+<li>Collegamenti a file (es. immagini) inesistenti.</li>
+</ul>
+</div>
+
+<h4 class="sub-phase-title">Il debug con l'IA: una procedura in 7 passi</h4>
+<p>Il chatbot non serve solo a generare codice: serve anche a leggerlo, spiegarlo, controllarlo e correggerlo. Quando qualcosa non va, applicate questa procedura di debug assistito:</p>
+<div class="rcif-list">
+<ol>
+<li><strong>Osserva il problema:</strong> notate cosa c'è di strano nella pagina (es. il testo sborda, il bottone non clicca).</li>
+<li><strong>Descrivi ciò che dovrebbe accadere:</strong> "Il pulsante dovrebbe far apparire il testo."</li>
+<li><strong>Descrivi ciò che invece accade:</strong> "Quando clicco, non succede nulla."</li>
+<li><strong>Fornisci il codice al chatbot:</strong> copiate e incollate la parte incriminata (o l'intero file) in chat.</li>
+<li><strong>Chiedi di individuare la causa:</strong> "Individua l'errore e spiegami perché si verifica."</li>
+<li><strong>Chiedi una correzione:</strong> "Restituiscimi il codice corretto."</li>
+<li><strong>Testa nuovamente il risultato:</strong> sostituite il vecchio codice con quello nuovo e aggiornate la pagina.</li>
+</ol>
+</div>
+
+<div class="back-to-top-wrap">
+<a class="back-to-top" href="#page-top">↑ Torna all'inizio</a>
+</div>
+</section>
+
+<!-- ==================== PARTE 3 ==================== -->
+<section class="section-block" id="parte3">
+<span class="section-tag-header lab">Parte 3 · Strumenti</span>
+<h2 class="section-title">Generazione Automatica No-Code & Low-Code e il Chatbot come Web Designer</h2>
+<p>Nel percorso di costruzione di un ambiente digitale, la prima strada percorribile è l'uso di piattaforme No-Code e Low-Code basate su IA: strumenti trasversali che consentono al docente di descrivere con un prompt l'argomento, la struttura o le finalità del sito, lasciando che sia la piattaforma a generare automaticamente l'intero impianto: grafica, layout responsive, testi di base e componenti visivi.</p>
+<div class="note-box">📅 <strong>Avviso di contesto (aggiornato ad agosto 2026):</strong> gli strumenti e i modelli di pricing descritti in questo modulo rispecchiano le funzionalità, le quote di utilizzo e le condizioni dei piani gratuiti attivi nell'agosto 2026. Il panorama degli strumenti IA evolve rapidamente: le metriche dei token, i crediti di avvio o le opzioni di pubblicazione potrebbero cambiare nel tempo.</div>
+
+<h3 class="phase-title">Modulo 3.1: Le piattaforme di generazione automatica</h3>
+<p>Cinque strumenti tra i più utilizzabili oggi da un docente per generare un sito a partire da un semplice prompt di testo:</p>
+<div class="table-responsive">
+<table class="summary-table">
+<thead>
+<tr>
+<th>Strumento</th>
+<th>Ideale per</th>
+<th>Pro</th>
+<th>Crediti / Limiti (Piano Free)</th>
+<th>Contro</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<div class="tool-cell">
+<strong class="tool-name">Gamma App</strong>
+<span class="tag-category">No-Code visivo</span>
+</div>
+</td>
+<td><ul><li>Siti per una singola unità didattica</li><li>Webquest guidate</li><li>Hub di moduli didattici</li></ul></td>
+<td><ul><li>Generazione immediata e resa grafica curata</li><li>Editing visivo a blocchi intuitivo</li><li>Layout automaticamente responsive</li></ul></td>
+<td>400 crediti una tantum all'iscrizione (non si rigenerano); un sito completo ≈ 40 crediti, ogni modifica in chat ≈ 5 crediti.</td>
+<td><ul><li>I crediti non si rigenerano mensilmente</li><li>Filigrana "Made with Gamma" nel piano free</li><li>Personalizzazione avanzata limitata</li></ul></td>
+</tr>
+<tr>
+<td>
+<div class="tool-cell">
+<strong class="tool-name">Durable AI</strong>
+<span class="tag-category">Sito lampo</span>
+</div>
+</td>
+<td><ul><li>Sito vetrina per eventi scolastici</li><li>Mostre o giornalino d'istituto</li><li>Portfolio digitale di classe</li></ul></td>
+<td><ul><li>Il più veloce nella prima generazione (30 secondi)</li><li>Interfaccia essenziale e pulita</li></ul></td>
+<td>Generazione e personalizzazione illimitate in anteprima; la pubblicazione online richiede un piano a pagamento.</td>
+<td><ul><li>Pubblicazione effettiva a pagamento</li><li>Meno adatto a strutture complesse</li></ul></td>
+</tr>
+<tr>
+<td>
+<div class="tool-cell">
+<strong class="tool-name">Framer AI</strong>
+<span class="tag-category">Design professionale</span>
+</div>
+</td>
+<td><ul><li>Portali scolastici coordinati</li><li>Progetti di comunicazione istituzionale</li></ul></td>
+<td><ul><li>Estetica, tipografia e animazioni di livello professionale</li><li>Hosting gratuito su dominio Framer</li></ul></td>
+<td>Crediti/prompt gratuiti limitati; pubblicazione gratuita fino a 2 siti su sottodominio .framer.media.</td>
+<td><ul><li>Curva di apprendimento più ripida</li><li>Richiede familiarità con la grafica web</li></ul></td>
+</tr>
+<tr>
+<td>
+<div class="tool-cell">
+<strong class="tool-name">Bolt.new</strong>
+<span class="tag-category">Web-app full-stack</span>
+</div>
+</td>
+<td><ul><li>Web-app didattiche interattive</li><li>Calcolatori, quiz complessi, simulazioni</li></ul></td>
+<td><ul><li>1 milione di token mensili gratuiti, con rinnovo</li><li>Deploy immediato in cloud con un clic</li></ul></td>
+<td>1.000.000 token/mese, limite giornaliero di 300.000 token (2-5 prototipi al mese).</td>
+<td><ul><li>Interfaccia da ambiente di sviluppo, può spaventare</li><li>Limite giornaliero di token</li></ul></td>
+</tr>
+<tr>
+<td>
+<div class="tool-cell">
+<strong class="tool-name">v0 by Vercel</strong>
+<span class="tag-category">Prompt-to-UI</span>
+</div>
+</td>
+<td><ul><li>Prototipi visivi di pagine web</li><li>Mappe concettuali e componenti essenziali</li></ul></td>
+<td><ul><li>Crediti gratuiti rinnovati ogni mese (5$/mese)</li><li>Qualità visiva pulita e professionale</li><li>Pubblicazione immediata sull'ecosistema Vercel</li></ul></td>
+<td>5$ di crediti mensili (si azzerano); circa 7 messaggi/prompt al giorno (30-50 generazioni al mese).</td>
+<td><ul><li>Limite fisso di ≈7 prompt al giorno</li><li>Prompt complessi consumano i crediti più in fretta</li></ul></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<h3 class="phase-title">Modulo 3.2: Il Chatbot come "Web Designer" (HTML/CSS guidato)</h3>
+<p>Accanto alle piattaforme automatiche No-Code, esiste un secondo approccio versatile: utilizzare i classici chatbot (ChatGPT, Claude, Gemini) come veri e propri programmatori personali. Il docente mantiene il pieno controllo del progetto e usa l'italiano per dettare le istruzioni: il chatbot scrive il codice, spiega come applicarlo e fornisce i file necessari.</p>
+<div class="rcif-list">
+<ol>
+<li><strong>L'HTML è l'ossatura:</strong> serve a inserire testi, titoli, tabelle, immagini, video e pulsanti.</li>
+<li><strong>Il CSS è l'abito:</strong> serve a scegliere colori, sfondi, font, margini e spaziature.</li>
+<li><strong>Il Chatbot fa il lavoro pesante:</strong> voi spiegate l'idea in italiano, l'IA fornisce il codice corretto e voi eseguite un semplice copia & incolla.</li>
+</ol>
+</div>
+
+<h4 class="sub-phase-title">Livello Base: integrazione in Google Sites (100% gratuito)</h4>
+<p>Non richiede di creare o gestire file sul computer. Se la scuola utilizza Google Workspace e avete un sito su Google Sites, potete usare il chatbot per creare elementi speciali che Sites non possiede di serie (un box pieghevole, una tabella colorata, un piccolo calcolatore).</p>
+<div class="rcif-list">
+<ol>
+<li>Chiedete al chatbot: "Generami il codice HTML/CSS per una scheda pieghevole con un pulsante 'Mostra Soluzione'."</li>
+<li>Copiate il codice fornito dall'IA.</li>
+<li>Nel vostro Google Sites, andate su Inserisci → Incorpora → Inserisci codice.</li>
+<li>Incollate il codice e confermate: l'elemento apparirà immediatamente nella pagina.</li>
+</ol>
+</div>
+
+<h4 class="sub-phase-title">Livello Intermedio: il file HTML locale (senza server)</h4>
+<p>In questo livello si crea una pagina web autonoma gestita come un normale documento del computer, perfetta per la consultazione offline.</p>
+<div class="rcif-list">
+<ol>
+<li>Chiedete al chatbot: "Genera il codice HTML e CSS completo per una lezione di storia a pagina singola."</li>
+<li>Copiate il codice generato.</li>
+<li>Aprite un editor di testo semplice (Blocco Note su Windows, TextEdit su Mac).</li>
+<li>Incollate il codice e salvate il file come <code>pagina.html</code> (selezionando "Tutti i file" come tipo, non .txt).</li>
+<li>Fate doppio clic sul file salvato: si aprirà nel browser mostrando la pagina web pronta.</li>
+</ol>
+</div>
+<div class="note-box">🎓 <strong>Vantaggio didattico:</strong> perfetto per la consultazione offline, per distribuire lezioni via chiavetta USB o lavorare in laboratori privi di connessione stabile.</div>
+
+<h4 class="sub-phase-title">Livello Avanzato: il flusso GitHub + Vercel</h4>
+<p>È la combinazione usata dagli sviluppatori web moderni per pubblicare siti reali in cloud, a costo zero e con standard professionali:</p>
+<div class="rcif-list">
+<ol>
+<li><strong>Generazione:</strong> il docente fa generare il codice completo (index.html ed eventuali file CSS/JS/immagini) dal chatbot di fiducia o da strumenti come v0 e Bolt.</li>
+<li><strong>Repository (GitHub):</strong> si crea un account gratuito su GitHub e una Repository in cui caricare i file del sito.</li>
+<li><strong>Deploy automatico (Vercel):</strong> si registra un account gratuito su Vercel, lo si collega a GitHub e in pochi secondi il sito diventa attivo e visibile in tutto il mondo, con un link HTTPS sicuro.</li>
+</ol>
+</div>
+<div class="rcif-list">
+<ul>
+<li><strong>Aggiornamenti automatici (CI/CD):</strong> ogni modifica su GitHub aggiorna il sito online in tempo reale.</li>
+<li><strong>Gestione delle versioni:</strong> se il codice si "rompe", GitHub mantiene lo storico e permette di tornare alla versione funzionante.</li>
+<li><strong>Dominio personalizzato:</strong> è possibile collegare gratuitamente un indirizzo web fornito dalla scuola o acquistato per il progetto.</li>
+<li><strong>Progetti con gli studenti:</strong> è una modalità straordinaria per laboratori di competenze digitali e PCTO, in cui gli studenti sperimentano un vero flusso di sviluppo software guidati dall'IA.</li>
+</ul>
+</div>
+<div class="note-box">💡 <strong>L'idea chiave da ricordare:</strong> dalla singola scheda incorporata nel sito scolastico fino al portale pubblicato in cloud, l'IA agisce come il vostro sviluppatore personale. Voi mantenete la regia didattica e la scelta dei contenuti; il chatbot traduce la vostra visione in codice funzionante.</div>
+
+<div class="back-to-top-wrap">
+<a class="back-to-top" href="#page-top">↑ Torna all'inizio</a>
+</div>
+</section>
+
+<!-- ==================== PARTE 4 ==================== -->
+<section class="section-block" id="parte4">
+<span class="section-tag-header">Parte 4 · Progettazione</span>
+<h2 class="section-title">Progettare un sito didattico con l'IA</h2>
+<p>Ora che possediamo un vocabolario minimo per comprendere il codice, conosciamo i comandi di base e abbiamo una panoramica degli strumenti disponibili, possiamo concentrarci sul cuore dell'intero percorso: la progettazione didattica. Avventurarsi nella creazione di un ambiente web lanciando al chatbot un prompt generico ("Fammi un sito sulla Divina Commedia") porta quasi sempre a prodotti anonimi, disordinati o privi di valore pedagogico. L'IA è un esecutore tecnico straordinario, ma non possiede la visione del percorso di apprendimento.</p>
+<div class="note-box">🎯 <strong>Il messaggio fondamentale:</strong> prima si progetta l'esperienza didattica, poi si chiede all'IA di trasformarla in un ambiente digitale. Il metodo si articola in 7 passaggi chiave.</div>
+
+<h3 class="phase-title">Modulo 4.1: Definire il pubblico</h3>
+<p>Definire i destinatari non significa soltanto indicare la classe o l'età, ma analizzare il contesto operativo in cui gli studenti si muoveranno:</p>
+<div class="rcif-list">
+<ul>
+<li><strong>Conoscenze pregresse:</strong> hanno già le basi o serve un glossario di supporto?</li>
+<li><strong>Autonomia e familiarità digitale:</strong> sono capaci di orientarsi tra schede complesse o serve un percorso lineare e guidato?</li>
+<li><strong>Dispositivo prevalente:</strong> consulteranno i materiali dallo smartphone o dai PC dell'aula di informatica?</li>
+<li><strong>Gestione del carico di testo:</strong> quanta lettura autonoma serve prima di passare a un'attività pratica?</li>
+<li><strong>Esigenze di accessibilità:</strong> servono font ad alta leggibilità, contrasti accentuati o un'impaginazione essenziale per studenti con DSA?</li>
+</ul>
+</div>
+<blockquote class="prompt-box"><strong>Esempio pratico:</strong> progettare un modulo sul Decadentismo per una quarta liceo scientifico richiede di considerare che gli studenti lavoreranno soprattutto da smartphone per il ripasso pomeridiano, necessitano di confronti sintetici tra autori e traggono beneficio da sezioni espandibili che non intasino lo schermo.</blockquote>
+
+<h3 class="phase-title">Modulo 4.2: Definire l'obiettivo didattico</h3>
+<p>Un errore frequente consiste nel confondere l'<strong>argomento</strong> del sito con l'<strong>obiettivo didattico</strong>. L'argomento è la materia trattata; l'obiettivo è ciò che lo studente deve saper fare al termine della fruizione dell'ambiente digitale.</p>
+<blockquote class="prompt-box">❌ <strong>Argomento (non è un obiettivo):</strong> "Il sito parla di Giacomo Leopardi e del Canto notturno."<br><br>✅ <strong>Obiettivo (operativo e misurabile):</strong> "Al termine del percorso lo studente sarà in grado di analizzare la struttura del Canto notturno, individuare le tematiche del pessimismo cosmico e verificare la propria comprensione con una scheda di autovalutazione interattiva."</blockquote>
+<p>L'IA può generare il contenitore grafico in pochi secondi, ma è il docente a dover stabilire la meta dell'apprendimento: è l'obiettivo a chiarire se nel sito serviranno più testi d'autore, mappe riassuntive, schede di confronto o quiz di verifica.</p>
+
+<h3 class="phase-title">Modulo 4.3: Definire la struttura (l'architettura dell'informazione)</h3>
+<p>Una volta chiarito lo scopo, occorre organizzare i contenuti in una mappa concettuale della pagina. La forma deve sempre seguire la funzione didattica:</p>
+<div class="rcif-list">
+<ul>
+<li><strong>La Single Page (One-Page):</strong> un'unica pagina scorrevole suddivisa in sezioni chiare, ideale per un'unità didattica breve o una lezione laboratoriale.</li>
+<li><strong>Il sito multipagina:</strong> con menu principale e sezioni dedicate, perfetto per un intero modulo tematico (Home → Contesto → Autori → Opere → Attività).</li>
+<li><strong>L'Hub di risorse:</strong> una pagina vetrina che raccoglie e organizza materiali esterni (PDF, video, podcast, mappe).</li>
+<li><strong>Il percorso a bivi (o guidato):</strong> un'organizzazione sequenziale in cui lo studente completa un passaggio prima di accedere allo snodo successivo.</li>
+</ul>
+</div>
+<p>Il docente deve imparare a scegliere il modello strutturale in base all'attività da svolgere, evitando di adagiarsi sul primo modello grafico proposto dal chatbot.</p>
+
+<h3 class="phase-title">Modulo 4.4: Definire l'esperienza utente (UX) e le interazioni</h3>
+<p>Un ambiente digitale scolastico non deve essere una semplice fotocopia di un libro di testo trasposta su schermo. Ogni componente interattivo deve rispondere a una precisa funzione didattica, non alla sola ricerca dell'effetto visivo:</p>
+<div class="table-responsive">
+<table class="summary-table">
+<thead>
+<tr>
+<th>Elemento interattivo</th>
+<th>Funzione didattica concreta</th>
+</tr>
+</thead>
+<tbody>
+<tr><td>Sezioni espandibili (Accordion)</td><td>Nascondere la parafrasi o note brevi per incentivare la prima lettura</td></tr>
+<tr><td>Timeline cronologica</td><td>Riordinare visivamente gli eventi della vita di un autore o della storia</td></tr>
+<tr><td>Schede affiancate (Card)</td><td>Mettere a confronto due testi o due poetiche (es. Pascoli vs D'Annunzio)</td></tr>
+<tr><td>Quiz interattivo</td><td>Fornire un feedback immediato durante la fase di autoverifica</td></tr>
+</tbody>
+</table>
+</div>
+<div class="note-box">⚠️ <strong>Attenzione al sovraccarico cognitivo:</strong> aggiungere effetti, animazioni o pulsanti superflui solo perché l'IA è in grado di generarli finisce per distrarre lo studente dal contenuto di studio.</div>
+
+<h3 class="phase-title">Modulo 4.5: Definire lo stile visivo e la coerenza</h3>
+<p>L'aspetto grafico contribuisce alla leggibilità e trasmette il tono dell'attività. Invece di accettare i colori casuali proposti dal chatbot, il docente deve richiedere un'identità visiva minima e coerente, specificando:</p>
+<div class="rcif-list">
+<ul>
+<li><strong>Palette colori:</strong> massimo 2-3 colori principali (es. blu scuro per le intestazioni, grigio neutro per gli sfondi, un colore d'accento per i pulsanti).</li>
+<li><strong>Tipografia:</strong> font leggibili, evitando caratteri troppo decorativi.</li>
+<li><strong>Gerarchia visiva:</strong> titoli ben distinguibili dal testo, spaziature generose, pulsanti d'azione ben evidenziati.</li>
+</ul>
+</div>
+<p>Fornire all'IA queste indicazioni è indispensabile soprattutto nei progetti multipagina: garantisce che la pagina "Opere" mantenga la stessa grafica, gli stessi font e la stessa impostazione visiva della Home.</p>
+
+<h3 class="phase-title">Modulo 4.6: Generare la prima versione: il "Brief del progetto"</h3>
+<p>Solo dopo aver definito pubblico, obiettivo, struttura, interazioni e stile, il docente possiede tutti gli elementi per interagire con il chatbot o con la piattaforma scelta. Invece di lanciare una richiesta estemporanea, la strategia migliore è inviare all'IA un vero e proprio <strong>Brief del progetto</strong>: un testo strutturato che raccoglie tutte le decisioni prese.</p>
+<blockquote class="prompt-box"><strong>Esempio di Brief del progetto (prompt completo):</strong><br><br>"Agisci come un Web Designer specializzato in didattica digitale. Progetta il codice HTML/CSS di una pagina web destinata a studenti di quarta liceo per il ripasso del Decadentismo.<br><br><strong>Pubblico:</strong> studenti di 17 anni, consultazione prevalente da smartphone.<br><strong>Obiettivo:</strong> consentire l'analisi comparata tra Pascoli e D'Annunzio e la verifica autonoma dei concetti.<br><strong>Struttura (One-page):</strong> 1) Intestazione con titolo e breve introduzione. 2) Sezione 'Contesto Storico' con box espandibile. 3) Sezione 'Autori a confronto' su due colonne (Card per Pascoli e D'Annunzio). 4) Sezione 'Autoverifica' con quiz interattivo a 3 domande in JavaScript.<br><strong>Stile:</strong> palette sobria (sfondo #f8f9fa, titoli blu notte #1a2a3a, accenti blu chiaro), font sans-serif ad alta leggibilità, angoli arrotondati e ampie spaziature.<br><br>Genera il codice completo e pronto da incollare."</blockquote>
+<p>La qualità del codice fornito dall'IA sarà direttamente proporzionale alla precisione del Brief fornito dal docente.</p>
+
+<h3 class="phase-title">Modulo 4.7: Iterare e Verificare: il vero cuore del lavoro con l'IA</h3>
+<p>Raramente la prima versione restituita dal modello sarà perfetta. La creazione di un sito con l'IA non è un atto unico, ma un processo circolare e incrementale:</p>
+<div class="rcif-list">
+<p style="margin-bottom:0;"><strong>Genera</strong> ⟶ <strong>Osserva</strong> ⟶ <strong>Individua un punto</strong> ⟶ <strong>Chiedi una modifica mirata</strong> ⟶ <strong>Verifica</strong> ⟶ <strong>Ripeti</strong></p>
+</div>
+<p>Sfruttando la capacità di riconoscere le classi o la struttura del codice, il docente non deve chiedere di riscrivere tutto, ma eseguire modifiche chirurgiche:</p>
+<div class="rcif-list">
+<ol>
+<li><strong>Prima iterazione (Struttura):</strong> "Aumenta lo spazio tra la sezione degli autori e il quiz finale."</li>
+<li><strong>Seconda iterazione (Interattività):</strong> "Nel quiz in JavaScript, fai in modo che quando lo studente sbaglia risposta appaia un suggerimento per ripassare il testo."</li>
+<li><strong>Terza iterazione (Stile e Responsive):</strong> "Rendi le due schede degli autori sovrapposte a colonna singola quando la pagina viene vista da uno schermo stretto come quello dello smartphone."</li>
+</ol>
+</div>
+<p>Prima di distribuire il link o il file alla classe, il docente deve effettuare una doppia verifica sul prototipo ottenuto:</p>
+<div class="table-responsive">
+<table class="summary-table">
+<thead>
+<tr>
+<th>Verifica tecnica</th>
+<th>Verifica didattica</th>
+</tr>
+</thead>
+<tbody>
+<tr><td>I link e i pulsanti funzionano?</td><td>Il linguaggio è adeguato alla classe?</td></tr>
+<tr><td>La pagina è leggibile da telefono?</td><td>I contenuti sono esatti e curati?</td></tr>
+<tr><td>Il quiz calcola il punteggio?</td><td>L'attività aiuta davvero l'obiettivo?</td></tr>
+<tr><td>Le immagini si caricano correttamente?</td><td>Le interazioni servono o distraggono?</td></tr>
+</tbody>
+</table>
+</div>
+<p>Un ambiente digitale può risultare tecnicamente ineccepibile, ma rivelarsi didatticamente inefficace se la navigazione è confusa o i contenuti sono superficiali. La regia del docente rimane il filtro decisivo tra un esercizio di stile e un reale strumento di apprendimento.</p>
+
+<div class="back-to-top-wrap">
+<a class="back-to-top" href="#page-top">↑ Torna all'inizio</a>
+</div>
+</section>
+
+<!-- ==================== PARTE 5 ==================== -->
+<section class="section-block" id="parte5">
+<span class="section-tag-header lab">Parte 5 · Dal sito all'ambiente</span>
+<h2 class="section-title">Quando il sito diventa un ambiente didattico</h2>
+<p>Costruire un sito con l'Intelligenza Artificiale è un processo ormai accessibile. Tuttavia, la disponibilità di codice generato in pochi secondi porta con sé un rischio: trasformare la pagina web nell'ennesimo contenitore passivo di materiali, una sorta di "bacheca digitale" in cui accumulare link, slide e file PDF.</p>
+<div class="note-box">🔑 Un semplice <strong>sito informativo</strong> comunica: "Qui trovi dei contenuti da leggere o da scaricare." Un <strong>ambiente didattico</strong> guida lo studente in un percorso in cui può esplorare, svolgere attività pratiche, ricevere feedback immediati, analizzare fonti, verificare quanto appreso e riflettere sul proprio percorso di studio. Un sito diventa utile non quando contiene molti elementi, ma quando organizza contenuti, attività, strumenti e percorsi intorno a un'esperienza di apprendimento intenzionale.</div>
+
+<h3 class="phase-title">Modulo 5.1: Le tipologie di ambienti didattici digitali</h3>
+<p>A seconda dell'impostazione metodologica e degli obiettivi concordati, un sito web non deve necessariamente seguire una struttura standard. Ecco alcune delle configurazioni più efficaci per la didattica delle discipline letterarie e umanistiche:</p>
+
+<div class="exercise-card">
+<h4 class="exercise-title">📘 1. Percorso di ripasso e autoverifica</h4>
+<p><strong>A cosa serve:</strong> accompagnare lo studente nello studio autonomo o nella preparazione a una prova strutturata.</p>
+<p><strong>Come si organizza:</strong> Spiegazione sintetica → Materiali di supporto → Esercizi guidati → Quiz di autoverifica → Feedback immediato.</p>
+<p><strong>Esempio:</strong> un percorso sul Decadentismo con linea del tempo interattiva, schede di confronto Pascoli/D'Annunzio, analisi testuale guidata e quiz finale con spiegazione degli errori.</p>
+</div>
+
+<div class="exercise-card">
+<h4 class="exercise-title">🧭 2. WebQuest e Didattica per Problemi</h4>
+<p><strong>A cosa serve:</strong> promuovere la ricerca autonoma, lo spirito critico e il lavoro collaborativo su un tema complesso.</p>
+<p><strong>Come si organizza:</strong> Introduzione e Scenario → Compito sfidante (Task) → Selezione di risorse e fonti → Guida al processo → Criteri di valutazione.</p>
+<p><strong>Esempio:</strong> una ricerca guidata sulla natura nella poesia del Primo Novecento, dove gli studenti (critici, storici, illustratori) analizzano testi digitali e producono un saggio finale.</p>
+</div>
+
+<div class="exercise-card">
+<h4 class="exercise-title">🖼️ 3. Mostra o Museo Digitale</h4>
+<p><strong>A cosa serve:</strong> valorizzare i prodotti realizzati dagli studenti in un laboratorio di scrittura, lettura o analisi visiva.</p>
+<p><strong>Come si organizza:</strong> Pagina d'ingresso → Sale espositive tematiche → Schede d'opera approfondite → Audio-guide o contributi multimediali.</p>
+<p><strong>Esempio:</strong> una "Galleria dei Promessi Sposi" di classe, dove ogni scheda personaggio contiene analisi, rielaborazione visiva e commento audio registrato dagli studenti.</p>
+</div>
+
+<div class="exercise-card">
+<h4 class="exercise-title">🗂️ 4. Archivio ragionato di classe</h4>
+<p><strong>A cosa serve:</strong> raccogliere e rendere consultabile la memoria didattica di un intero anno o di un modulo di lavoro.</p>
+<p><strong>Come si organizza:</strong> Indice per nuclei tematici → Cronologia delle lezioni → Schede sintetiche prodotte dai ragazzi → Repository di risorse selezionate.</p>
+<p><strong>Esempio:</strong> un portale dedicato al '900 letterario che raccoglie i contributi, le mappe concettuali e i riassunti elaborati dai gruppi di lavoro durante l'anno.</p>
+</div>
+
+<div class="exercise-card">
+<h4 class="exercise-title">📁 5. Portfolio delle competenze</h4>
+<p><strong>A cosa serve:</strong> documentare il percorso di crescita personale dello studente, favorendo l'autovalutazione e la metacognizione.</p>
+<p><strong>Come si organizza:</strong> Profilo dello studente → Selezione dei lavori migliori → Schede di autovalutazione → Riflessione sui traguardi raggiunti.</p>
+<p><strong>Esempio:</strong> uno spazio digitale in cui lo studente raccoglie le proprie analisi del testo scritte durante l'anno, evidenziando i progressi tra la prima e l'ultima stesura.</p>
+</div>
+
+<div class="exercise-card">
+<h4 class="exercise-title">🤝 6. Progetto interdisciplinare e PCTO</h4>
+<p><strong>A cosa serve:</strong> rendicontare e presentare un percorso complesso che attraversa più discipline o esperienze con enti esterni.</p>
+<p><strong>Come si organizza:</strong> Presentazione del progetto → Diario di bordo → Elaborati e prodotti finali → Impatto e documentazione.</p>
+<p><strong>Esempio:</strong> un sito di classe che documenta un percorso di valorizzazione dei beni culturali del territorio, integrando letteratura, storia locale, informatica e comunicazione.</p>
+</div>
+
+<div class="exercise-card">
+<h4 class="exercise-title">🎓 7. Supporto per l'Esame di Stato</h4>
+<p><strong>A cosa serve:</strong> fornire una mappa di sintesi per orientarsi nell'intreccio dei contenuti del quinto anno in vista del colloquio orale.</p>
+<p><strong>Come si organizza:</strong> Nodi concettuali trasversali → Percorsi tematici → Fonti e testi correlati → Spunti di collegamento interdisciplinare.</p>
+<p><strong>Esempio:</strong> un hub organizzato per grandi temi (es. "La crisi dell'io", "Macchina e natura", "Il tempo") che collega letteratura italiana, latina, storia e filosofia.</p>
+</div>
+
+<p>Questi modelli non sono categorie rigide: un singolo sito può combinare più funzioni, ad esempio un percorso di ripasso può contenere elementi di archivio di classe e una sezione finale di portfolio. Spetta al docente scegliere la combinazione più adatta alle esigenze formative.</p>
+
+<h3 class="phase-title">Modulo 5.2: Il punto di convergenza del percorso: integrare i contenuti</h3>
+<p>Durante il corso abbiamo esplorato come l'IA possa supportare la creazione di singoli materiali: testi, prompt, immagini, mappe, tracce audio o risorse video. Il sito web non è la "fase finale obbligatoria" in cui inserire a tutti i costi quanto prodotto con l'IA: è semplicemente un punto di convergenza possibile, il luogo in cui materiali diversi — tradizionali, digitali o generati con l'IA — vengono integrati in un unico percorso coerente.</p>
+<div class="rcif-list">
+<ul>
+<li><strong>Contenuti multimediali:</strong> immagini e illustrazioni, mappe concettuali, audio e podcast, video e pillole spiegative.</li>
+<li><strong>Strumenti di valutazione:</strong> verifiche e quiz, griglie e rubriche, attività differenziate, materiali di recupero.</li>
+</ul>
+</div>
+<p>Quando decidiamo di inserire un elemento multimediale, la domanda fondamentale non è "Come si fa a incorporarlo?", ma "Che funzione svolge questo elemento nel percorso di apprendimento?"</p>
+<div class="rcif-list">
+<ul>
+<li><strong>Mappe concettuali e schemi:</strong> collocati all'apertura di un modulo, forniscono una visione d'insieme e un'anticipazione della struttura concettuale.</li>
+<li><strong>Immagini e risorse visive:</strong> non devono essere semplice decorazione, ma oggetto di analisi o termine di paragone con il testo.</li>
+<li><strong>Audio, podcast e recitazioni:</strong> integrano la lettura del testo scritto, utili per lo studio autonomo e per studenti con DSA o stili di apprendimento uditivi.</li>
+<li><strong>Video e pillole spiegate:</strong> efficaci per introdurre il contesto storico-culturale, a patto che siano accompagnati da domande guida.</li>
+<li><strong>Verifiche, rubriche e percorsi differenziati:</strong> rendono visibile allo studente il proprio livello di comprensione, trasformando la verifica in un momento di studio attivo.</li>
+</ul>
+</div>
+<div class="note-box">🏅 <strong>Regola d'oro:</strong> non tutto deve essere interattivo. Ogni elemento deve rispondere a un'esigenza specifica: "Questo componente aiuta davvero lo studente a comprendere, esercitarsi, esplorare o verificare?" Se la risposta è no, si tratta di una distrazione superflua.</div>
+
+<h4 class="sub-phase-title">La personalizzazione: progettare percorsi differenziati</h4>
+<p>L'organizzazione dei contenuti facilita la personalizzazione della didattica, offrendo percorsi di fruizione graduati:</p>
+<div class="rcif-list">
+<ul>
+<li><strong>Percorso essenziale:</strong> concentrato sui concetti fondanti, con glossari, mappe e verifiche d'impatto, utile per consolidare i prerequisiti.</li>
+<li><strong>Percorso di approfondimento:</strong> destinato a chi vuole estendere le conoscenze con fonti primarie, saggi critici e attività d'analisi avanzate.</li>
+<li><strong>Percorso di recupero o supporto:</strong> con spiegazioni guidate, schemi semplificati, parafrasi a fronte e audio-spiegazioni per gli studenti con Bisogni Educativi Speciali.</li>
+</ul>
+</div>
+
+<h4 class="sub-phase-title">Esempio di un "Ecosistema Didattico" integrato</h4>
+<div class="rcif-list">
+<ol>
+<li><strong>Home Page:</strong> introduzione al modulo, obiettivi e guida alla navigazione.</li>
+<li><strong>Orientarsi:</strong> mappa concettuale complessiva + linea del tempo.</li>
+<li><strong>Conoscere:</strong> schede d'autore con testo, contestualizzazione e audio-lettura.</li>
+<li><strong>Analizzare:</strong> testi poetici con parafrasi espandibile e domande guida.</li>
+<li><strong>Allenarsi:</strong> esercizi graduali, analisi del testo a scelta e quiz.</li>
+<li><strong>Riflettere:</strong> griglia di autovalutazione finale e spazio per commenti.</li>
+</ol>
+</div>
+<p>L'efficacia di questa struttura non risiede nell'impiego massiccio di tecnologia, ma nel modo in cui strumenti diversi (testi, audio, schemi, quiz) collaborano al servizio di un unico percorso didattico coordinato. Il valore di un sito didattico non dipende dal numero di pagine, dalle animazioni o dalla quantità di contenuti che ospita, ma dalla qualità delle relazioni che riesce a costruire tra contenuti, attività e studenti.</p>
+
+<div class="back-to-top-wrap">
+<a class="back-to-top" href="#page-top">↑ Torna all'inizio</a>
+</div>
+</section>
+
+<!-- ==================== PARTE 6 ==================== -->
+<section class="section-block" id="parte6">
+<span class="section-tag-header">Parte 6 · Cookbook</span>
+<h2 class="section-title">Prompt Cookbook: modelli pronti per ogni fase del progetto</h2>
+<p>Questo ricettario raccoglie modelli di prompt pronti all'uso, pensati per accompagnare ogni fase dello sviluppo di un sito web didattico: dalla progettazione alla pubblicazione.</p>
+<div class="note-box">📖 <strong>Come utilizzare questo ricettario:</strong> i prompt riportati di seguito sono modelli operativi flessibili e non formule rigide da copiare alla lettera. Gli elementi racchiusi tra parentesi quadre — come <code>[INSERISCI CODICE]</code> o <code>[ARGOMENTO]</code> — vanno sempre personalizzati con i dati specifici della vostra lezione. Ricordate inoltre che il primo risultato generato dall'IA è solo una bozza: l'efficacia del sito nasce dal lavoro di affinamento e iterazione successiva.</div>
+
+<h3 class="phase-title">1. Progettazione e Architettura dei Contenuti</h3>
+<p>I prompt di questa categoria aiutano a definire la mappa del sito, la navigazione e la gerarchia visiva prima ancora di generare qualsiasi riga di codice.</p>
+<blockquote class="prompt-box"><strong>Prompt — Mappa di un sito didattico monografico:</strong> "Agisci come un esperto di Didattica Digitale e Web Design. Devo progettare un sito web scolastico destinato a studenti di una quarta liceo per un'unità didattica sul Decadentismo e Gabriele D'Annunzio. Proponi una mappa del sito dettagliata con un menu di navigazione chiaro (Home, Contesto, Autore, Opere, Laboratori, Ripasso). Per ogni pagina, indica la struttura dei contenuti, gli elementi visuali raccomandati e il tipo di interattività suggerito (es. timeline, schede espandibili, quiz)."</blockquote>
+
+<h3 class="phase-title">2. Generazione della Struttura e del Codice</h3>
+<p>Prompt per richiedere la generazione dell'ossatura e dell'impostazione stilistica di una pagina completa, specificando fin da subito destinatari, obiettivi e stile.</p>
+<blockquote class="prompt-box"><strong>Prompt — Generazione di una Home Page didattica completa:</strong> "Genera il codice HTML e CSS integrato (in un unico blocco pronto all'uso) per la Home Page di un sito scolastico dedicato all'Eneide e al viaggio di Enea, pensato per studenti di un liceo. L'obiettivo didattico è guidare gli studenti nell'esplorazione delle tappe principali del poema. La pagina deve includere: 1) Un'intestazione visiva (Hero section) con titolo, sottotitolo e un pulsante d'azione ('Esplora il viaggio'); 2) Una sezione con 3 schede sintetiche ('I Libri', 'I Personaggi', 'I Temi'); 3) Un piè di pagina con i crediti del corso. Utilizza un layout pulito, elegante, totalmente responsive e ottimizzato per la lettura da smartphone."</blockquote>
+
+<h3 class="phase-title">3. Design, Stile e Layout</h3>
+<p>Prompt per affinare la resa estetica, i colori, la tipografia e la disposizione visiva degli elementi.</p>
+<blockquote class="prompt-box"><strong>Prompt — Definizione di una palette e tipografia classica:</strong> "Modifica il CSS della pagina web precedente applicando uno stile visivo raffinato ed elegante, adatto a un sito di letteratura classica. Utilizza una palette basata sulle tonalità dell'ardesia, dell'avorio e del bordeaux per gli elementi in evidenza. Applica caratteri leggibili per la lettura prolungata di testi lunghi (ad esempio un font Serif per i titoli e uno Sans-Serif per il corpo del testo). Mantieni un contrasto elevato per garantire l'accessibilità."</blockquote>
+
+<h3 class="phase-title">4. Componenti Interattivi</h3>
+<p>Prompt per integrare funzionalità dinamiche e piccoli strumenti di consultazione senza dover scrivere manualmente lo script.</p>
+<blockquote class="prompt-box"><strong>Prompt — Creazione di una fisarmonica (Accordion) per l'analisi del testo:</strong> "Aggiungi alla mia pagina HTML una sezione interattiva a fisarmonica (accordion) per l'analisi di un brano di Giacomo Leopardi. La sezione deve essere organizzata in diversi pannelli: ciascun pannello mostrerà una breve strofa o segmento del testo e, quando lo studente fa clic sopra, si aprirà un riquadro sottostante con la parafrasi, l'analisi delle figure retoriche e le note lessicali. Fornisci il codice HTML, CSS e lo script JavaScript necessario."</blockquote>
+
+<h3 class="phase-title">5. Modifica Selettiva</h3>
+<p>Prompt per richiedere modifiche puntuali a una singola porzione del sito senza alterare la struttura generale già funzionante.</p>
+<blockquote class="prompt-box"><strong>Prompt — Modifica mirata di una singola sezione:</strong> "Ecco il codice HTML della mia pagina: <code>[INSERISCI CODICE]</code>. Senza modificare la barra di navigazione né il piè di pagina, sostituisci la sezione 'Autori' trasformando l'elenco puntato in una griglia di schede (cards) affiancate, ciascuna contenente un'immagine, un breve testo descrittivo e un pulsante 'Leggi la biografia'."</blockquote>
+
+<h3 class="phase-title">6. Debugging e Correzione Errori</h3>
+<p>Prompt da utilizzare quando la pagina presenta problemi di visualizzazione o un elemento interattivo smette di rispondere.</p>
+<blockquote class="prompt-box"><strong>Prompt — Ricerca e risoluzione dell'errore:</strong> "Questo codice non funziona come previsto: la barra di navigazione si sovrappone al testo sottostante e il pulsante della sezione interattiva non risponde al clic: <code>[INSERISCI CODICE]</code>. Analizza il codice, individua l'errore, spiegami in termini semplici perché si verificava e restituiscimi il codice interamente corretto e pronto da copiare."</blockquote>
+
+<h3 class="phase-title">7. Spiegazione del Codice</h3>
+<p>Prompt per farsi illustrare il funzionamento di una struttura o di uno script generato dall'IA.</p>
+<blockquote class="prompt-box"><strong>Prompt — Spiegazione divulgativa del codice:</strong> "Analizza questo blocco di codice JavaScript: <code>[INSERISCI CODICE]</code>. Spiegami in italiano semplice e senza gergo informatico avanzato che cosa fa ogni blocco di istruzioni. Usa una metafora (ad esempio una ricetta di cucina o un regolamento scolastico) per farmi capire la logica con cui risponde alle azioni dello studente."</blockquote>
+
+<h3 class="phase-title">8. Responsive Design e Accessibilità</h3>
+<p>Prompt dedicati all'ottimizzazione della pagina per dispositivi mobili e alla fruibilità da parte di tutti gli studenti.</p>
+<blockquote class="prompt-box"><strong>Prompt — Ottimizzazione per dispositivi mobili e accessibilità:</strong> "Rivedi il seguente codice per garantire che: 1) Il menu si adatti perfettamente agli schermi di uno smartphone; 2) Tutte le immagini abbiano l'attributo 'alt' descrittivo per i lettori di schermo; 3) Il contrasto tra testo e sfondo rispetti le linee guida sull'accessibilità web (WCAG): <code>[INSERISCI CODICE]</code>."</blockquote>
+
+<h3 class="phase-title">9. Prompt specifici per v0 e Bolt.new</h3>
+<p>Strumenti come <strong>v0</strong> e <strong>Bolt.new</strong> appartengono alla categoria dei generatori avanzati di interfacce e web-app. A differenza dei chatbot generalisti, i prompt per questi strumenti non chiedono frammenti di codice isolati, ma descrivono l'esperienza utente complessiva, la struttura dei componenti e le interazioni dell'applicazione.</p>
+<blockquote class="prompt-box"><strong>Prompt per v0 — Dashboard didattica di ripasso:</strong> "Create a clean, elegant educational dashboard for high school students studying Dante's Inferno. Include a progress tracker for Canti completed, an interactive timeline of Dante's journey, an audio player component for listening to cantos, and a collapsible sidebar with notes and key vocabulary. Use Tailwind CSS, clean typography, and accessible high-contrast colors."</blockquote>
+<blockquote class="prompt-box"><strong>Prompt per Bolt.new — Web-App interattiva per l'esercizio della sintassi latina:</strong> "Build a single-page interactive quiz web application for high school Latin grammar review (focusing on ablative absolutes). Include a start screen, a 5-question multiple choice test with immediate visual feedback, an option to view detailed grammar explanations after each response, and a final score summary page with recommended review topics."</blockquote>
+
+<h3 class="phase-title">10. Prompt per Guida Passo-Passo su GitHub e Vercel</h3>
+<p>Prompt per farsi guidare dall'IA nelle fasi di caricamento e pubblicazione online, senza doversi orientare da soli tra i menu dei servizi tecnici.</p>
+<blockquote class="prompt-box"><strong>Prompt — Guida operativa alla pubblicazione:</strong> "Voglio pubblicare il mio sito didattico su Vercel partendo da un repository GitHub. Ho già creato un account su entrambi i servizi. Guidami passo dopo passo come faresti con un principiante assoluto: dimmi esattamente quali pulsanti premere, come caricare i miei file index.html e style.css nel repository e come collegarlo a Vercel per ottenere il link pubblico del sito."</blockquote>
+
+<div class="back-to-top-wrap">
+<a class="back-to-top" href="#page-top">↑ Torna all'inizio</a>
+</div>
+</section>
+
+<!-- ==================== PARTE 7 ==================== -->
+<section class="section-block" id="parte7">
+<span class="section-tag-header lab">Parte 7 · Laboratorio</span>
+<h2 class="section-title">Esercizi e Laboratorio Pratico</h2>
+<p>Il laboratorio che segue rappresenta la sintesi dell'intera lezione e la chiusura dell'intero percorso formativo. Attraverso una sequenza progressiva di sei attività, sarete guidati passo dopo passo nel passaggio dall'idea iniziale alla realizzazione di un ambiente digitale completo.</p>
+<div class="rcif-list">
+<p style="margin-bottom:0;"><strong>Es 1: Progetta</strong> ➔ <strong>Es 2: Genera</strong> ➔ <strong>Es 3: Comprendi</strong> ➔ <strong>Es 4: Itera</strong> ➔ <strong>Es 5: Pubblica (facoltativo)</strong> ➔ <strong>Es 6: Integra i contenuti</strong></p>
+</div>
+<p>I primi quattro esercizi costituiscono il percorso fondamentale, pensato per essere affrontato anche da chi non ha alcuna competenza tecnica. Il quinto esercizio propone un approfondimento avanzato e facoltativo, dedicato alla pubblicazione sul web professionale. L'esercizio finale ricongiunge tutti i tasselli, mostrando come trasformare la pagina realizzata nella "casa" dei contenuti digitali prodotti durante il corso.</p>
+
+<div class="exercise-card">
+<h4 class="exercise-title">🧭 Esercizio 1 — Progettare l'Architettura</h4>
+<p><strong>Obiettivo:</strong> definire con chiarezza il perimetro pedagogico della pagina prima di chiedere all'IA di generare il codice o l'interfaccia.</p>
+<p><strong>Azione:</strong> individuate un tema specifico del vostro programma (es. Il pessimismo di Leopardi, Le orazioni di Cicerone, Intelligenza Artificiale ed Etica della comunicazione).</p>
+<p><strong>Consegna:</strong> prima di aprire qualsiasi strumento, compilate una scheda cartacea o digitale con:</p>
+<div class="rcif-list">
+<ul>
+<li><strong>Destinatari:</strong> classe e modalità di fruizione prevalente (es. quarta, da smartphone a casa).</li>
+<li><strong>Obiettivo operativo:</strong> cosa dovrà saper fare lo studente al termine della navigazione.</li>
+<li><strong>Struttura della pagina:</strong> 4-5 sezioni fondamentali (es. Introduzione, Testi a confronto, Approfondimento audio, Autoverifica).</li>
+<li><strong>Identità visiva:</strong> due colori guida e il tono di voce generale della pagina.</li>
+</ul>
+</div>
+</div>
+
+<div class="exercise-card">
+<h4 class="exercise-title">🚀 Esercizio 2 — Generare il Primo Prototipo</h4>
+<p><strong>Obiettivo:</strong> utilizzare lo strumento IA più adatto alle proprie esigenze per trasformare la scheda progettuale in un primo prototipo visibile.</p>
+<p><strong>Azione:</strong> scegliete una tra le opzioni operative viste nella Parte 3:</p>
+<div class="rcif-list">
+<ul>
+<li><strong>Opzione A (No-Code visivo):</strong> aprite Gamma o Framer e inserite il vostro piano di lavoro per generare una pagina web navigabile.</li>
+<li><strong>Opzione B (Generazione codice via chatbot):</strong> copiate il Brief del Progetto ed elaborato nell'esercizio 1 e chiedete a ChatGPT, Gemini o Claude di generare l'intero codice HTML/CSS in un unico blocco.</li>
+<li><strong>Opzione C (Interfaccia con v0 o Bolt):</strong> inserite la descrizione dettagliata dell'ambiente in v0.dev o Bolt.new per ottenere una prima struttura interattiva.</li>
+</ul>
+</div>
+<p><strong>Consegna:</strong> salvate il risultato ottenuto o il codice generato per poterci lavorare nelle fasi successive.</p>
+</div>
+
+<div class="exercise-card">
+<h4 class="exercise-title">🔍 Esercizio 3 — Comprendere e Correggere il Codice</h4>
+<p><strong>Obiettivo:</strong> prendere confidenza con la struttura del codice generato, distinguere i suoi componenti e imparare a gestire gli errori con il supporto dell'IA.</p>
+<div class="rcif-list">
+<ol>
+<li><strong>Esplorazione visiva:</strong> aprite il file HTML generato o osservatelo in chat. Individuate a occhio nudo titoli (<code>&lt;h1&gt;</code>), paragrafi (<code>&lt;p&gt;</code>), link (<code>&lt;a&gt;</code>) e blocchi di contenuto (<code>&lt;div&gt;</code> o <code>&lt;section&gt;</code>).</li>
+<li><strong>Salvataggio di sicurezza:</strong> prima di apportare modifiche manuali, duplicate il file o copiate il codice originale in un documento separato. Sarà la vostra "ancora di salvezza" se il codice si rompe.</li>
+<li><strong>Simulazione di un errore:</strong> nel codice di prova eliminate volontariamente un tag di chiusura (es. <code>&lt;/div&gt;</code> o <code>&lt;/a&gt;</code>) o una parentesi graffa <code>}</code> in una regola CSS. Salvate e osservate le anomalie.</li>
+<li><strong>Correzione guidata:</strong> copiate il codice alterato, incollatelo in chat e chiedete all'IA di individuare l'errore, spiegarne la causa e restituire la versione corretta. Sostituite il codice e ricaricate la pagina.</li>
+</ol>
+</div>
+</div>
+
+<div class="exercise-card">
+<h4 class="exercise-title">🔄 Esercizio 4 — Iterare e Affinare</h4>
+<p><strong>Obiettivo:</strong> applicare un metodo di revisione progressiva e controllata per perfezionare la pagina senza compromettere il lavoro già svolto.</p>
+<p><strong>Azione:</strong> sul prototipo funzionante, richiedete all'IA tre modifiche successive, applicando la regola dell'iterazione a singolo passo:</p>
+<div class="rcif-list">
+<ol>
+<li><strong>Modifica 1 (Estetica/Stile):</strong> "Cambia il colore di sfondo della sezione 'Testi' e rendi i titoli di colore blu scuro." Verificate che il resto della pagina resti inalterato.</li>
+<li><strong>Modifica 2 (Strutturale):</strong> "Inserisci sotto la biografia una griglia a due colonne per confrontare due opere." Verificate che la nuova sezione si integri correttamente.</li>
+<li><strong>Modifica 3 (Interattiva):</strong> "Trasforma la sezione delle note in un pannello a fisarmonica espandibile tramite clic." Testate il meccanismo e la tenuta complessiva della pagina.</li>
+</ol>
+</div>
+</div>
+
+<div class="exercise-card">
+<h4 class="exercise-title">🌐 Esercizio 5 — Pubblicare Online (percorso avanzato, facoltativo)</h4>
+<p><em>Riservato a chi desidera sperimentare il flusso di pubblicazione professionale usato nel web moderno. Se preferite limitarvi ai file sul computer o alle piattaforme No-Code, questo passaggio è del tutto opzionale.</em></p>
+<p><strong>Obiettivo:</strong> sperimentare il flusso di pubblicazione su GitHub e Vercel con la guida costante dell'IA, per ottenere un URL pubblico da condividere con gli studenti.</p>
+<div class="rcif-list">
+<ol>
+<li><strong>Preparazione del Repository:</strong> aprite un account su GitHub e create una nuova Repository. Caricate i file del sito (index.html ed eventuali CSS/JS).</li>
+<li><strong>Connessione con Vercel:</strong> accedete a Vercel con l'account GitHub. Importate il repository e avviate il Deploy.</li>
+<li><strong>Verifica dell'URL:</strong> in pochi secondi Vercel restituirà un indirizzo pubblico (es. <code>nome-progetto.vercel.app</code>). Apritelo da uno smartphone per verificare che sia raggiungibile.</li>
+<li><strong>Gestione degli aggiornamenti:</strong> modificate un testo nel file su GitHub e osservate come Vercel aggiorni automaticamente la pagina online. In ogni fase potete chiedere all'IA: "Cosa devo cliccare adesso per completare il passaggio?"</li>
+</ol>
+</div>
+</div>
+
+<div class="exercise-card">
+<h4 class="exercise-title">🧩 Esercizio 6 — Integrare i Contenuti Multimediali Didattici</h4>
+<p><strong>Obiettivo:</strong> trasformare la pagina web in un reale ambiente di apprendimento, facendo convergere al suo interno le risorse digitali realizzate nei diversi moduli del corso.</p>
+<p><strong>Il vostro compito:</strong> non riempire la pagina di collegamenti casuali, ma assegnare a ciascun contenuto prodotto con l'IA una precisa funzione pedagogica:</p>
+<div class="rcif-list">
+<ul>
+<li>☐ <strong>Un'immagine IA:</strong> inseritela per visualizzare il contesto e introdurre l'argomento.</li>
+<li>☐ <strong>Una mappa concettuale:</strong> collocatela come anticipatore cognitivo all'apertura del modulo.</li>
+<li>☐ <strong>Un audio o un video:</strong> integrateli come supporto allo studio autonomo, accompagnati da una breve domanda guida.</li>
+<li>☐ <strong>Una verifica o una griglia:</strong> chiudete il percorso con uno strumento di autovalutazione che dia un feedback immediato.</li>
+</ul>
+</div>
+</div>
+
+<h4 class="sub-phase-title">✅ Checklist di autovalutazione del laboratorio</h4>
+<div class="table-responsive">
+<table class="summary-table">
+<thead>
+<tr>
+<th>Esercizio</th>
+<th>Competenza sviluppata</th>
+<th>Esito atteso</th>
+</tr>
+</thead>
+<tbody>
+<tr><td>1. Progetta</td><td>Progettazione didattica prima del prompt</td><td>Scheda di progetto compilata</td></tr>
+<tr><td>2. Genera</td><td>Uso consapevole degli strumenti IA</td><td>Prototipo salvato</td></tr>
+<tr><td>3. Comprendi</td><td>Lettura e debug del codice</td><td>Errore individuato e corretto</td></tr>
+<tr><td>4. Itera</td><td>Modifica mirata e controllata</td><td>Tre revisioni applicate con successo</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="back-to-top-wrap">
+<a class="back-to-top" href="#page-top">↑ Torna all'inizio</a>
+</div>
+</section>
+
+<!-- ==================== MATERIALI SCARICABILI ==================== -->
+<section class="section-block" id="downloads">
+<span class="section-tag-header">Materiali della lezione</span>
+<div class="download-grid">
+<a class="download-card" href="download/vocabolario-web-docenti.pdf" rel="noopener noreferrer" target="_blank">
+<span aria-hidden="true" class="download-icon icon-pdf"><svg viewBox="0 0 24 24"><use href="#icon-doc"></use></svg></span>
+<span class="download-info">
+<span class="download-title">Il vocabolario minimo del web per docenti</span>
+</span>
+<span class="file-badge badge-pdf">PDF</span>
+</a>
+<a class="download-card" href="download/checklist-debug-ia.pdf" rel="noopener noreferrer" target="_blank">
+<span aria-hidden="true" class="download-icon icon-pdf"><svg viewBox="0 0 24 24"><use href="#icon-doc"></use></svg></span>
+<span class="download-info">
+<span class="download-title">Checklist di debug assistito con l'IA</span>
+</span>
+<span class="file-badge badge-pdf">PDF</span>
+</a>
+<a class="download-card" href="download/confronto-piattaforme-nocode.pdf" rel="noopener noreferrer" target="_blank">
+<span aria-hidden="true" class="download-icon icon-pdf"><svg viewBox="0 0 24 24"><use href="#icon-doc"></use></svg></span>
+<span class="download-info">
+<span class="download-title">Confronto piattaforme No-Code (Gamma, Durable, Framer, Bolt, v0)</span>
+</span>
+<span class="file-badge badge-pdf">PDF</span>
+</a>
+<a class="download-card" href="download/modello-brief-progetto.pdf" rel="noopener noreferrer" target="_blank">
+<span aria-hidden="true" class="download-icon icon-pdf"><svg viewBox="0 0 24 24"><use href="#icon-doc"></use></svg></span>
+<span class="download-info">
+<span class="download-title">Modello da compilare: il Brief del progetto</span>
+</span>
+<span class="file-badge badge-pdf">PDF</span>
+</a>
+<a class="download-card" href="download/prompt-cookbook-siti-didattici.pdf" rel="noopener noreferrer" target="_blank">
+<span aria-hidden="true" class="download-icon icon-pdf"><svg viewBox="0 0 24 24"><use href="#icon-doc"></use></svg></span>
+<span class="download-info">
+<span class="download-title">Prompt Cookbook: i 10 modelli pronti all'uso</span>
+</span>
+<span class="file-badge badge-pdf">PDF</span>
+</a>
+<a class="download-card" href="download/slide-creazione-siti.pptx" rel="noopener noreferrer" target="_blank">
+<span aria-hidden="true" class="download-icon icon-ppt"><svg viewBox="0 0 24 24"><use href="#icon-doc"></use></svg></span>
+<span class="download-info">
+<span class="download-title">Slide della lezione: Creare siti con l'IA</span>
+</span>
+<span class="file-badge badge-ppt">PPT</span>
+</a>
+<a class="download-card" href="download/tipologie-ambienti-didattici.pptx" rel="noopener noreferrer" target="_blank">
+<span aria-hidden="true" class="download-icon icon-ppt"><svg viewBox="0 0 24 24"><use href="#icon-doc"></use></svg></span>
+<span class="download-info">
+<span class="download-title">I 7 modelli di ambiente didattico digitale</span>
+</span>
+<span class="file-badge badge-ppt">PPT</span>
+</a>
+<a class="download-card" href="download/scheda-laboratorio-finale.pptx" rel="noopener noreferrer" target="_blank">
+<span aria-hidden="true" class="download-icon icon-ppt"><svg viewBox="0 0 24 24"><use href="#icon-doc"></use></svg></span>
+<span class="download-info">
+<span class="download-title">Scheda esercizi del Laboratorio finale</span>
+</span>
+<span class="file-badge badge-ppt">PPT</span>
+</a>
+</div>
+<div class="back-to-top-wrap">
+<a class="back-to-top" href="#page-top">↑ Torna all'inizio</a>
+</div>
+</section>
+
+<!-- ==================== BOTTONI DI NAVIGAZIONE ==================== -->
+<div class="navigation-buttons">
+<a class="btn btn-secondary" href="video.html">← Lezione precedente: Personalizzare la didattica</a>
+<a class="btn btn-primary" href="index.html">Torna alla Home →</a>
+</div>
+</div>
+</div>
+
+  <footer id="footer-info">
+    <p><span class="footer-logo">LitterAI</span> - a cura del prof. Daniele Virgili - 2026</p>
+  </footer>
+
+  <script>
+    const navbar = document.getElementById('navbar');
+    const navToggle = document.getElementById('navToggle');
+    const navLinks = document.getElementById('navLinks');
+
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 20) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
+    });
+
+    navToggle.addEventListener('click', () => {
+      navToggle.classList.toggle('active');
+      navLinks.classList.toggle('active');
+    });
+
+    document.querySelectorAll('.nav-link-item').forEach(link => {
+      link.addEventListener('click', () => {
+        navToggle.classList.remove('active');
+        navLinks.classList.remove('active');
+      });
+    });
+  </script>
+
+</body>
+</html>
