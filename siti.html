@@ -339,6 +339,13 @@
     transform: translateY(-2px);
   }
 
+  .download-card.disabled {
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+.file-badge.badge-soon { background: var(--color-secondary); color: #ffffff; }
+
   .download-icon {
     width: 42px;
     height: 42px;
@@ -491,18 +498,18 @@
 <div class="container">
 <!-- ==================== NAV RAPIDA TRA LE PARTI ==================== -->
 <div class="part-nav">
-<a href="#parte1">1. Dall'idea al sito</a>
-<a href="#parte2">2. Il linguaggio del web</a>
-<a href="#parte3">3. Strumenti No-Code</a>
-<a href="#parte4">4. Progettare il sito</a>
-<a href="#parte5">5. L'ambiente didattico</a>
-<a href="#parte6">6. Prompt Cookbook</a>
-<a href="#parte7">7. Laboratorio pratico</a>
+<a href="#parte1">Dall'idea al sito</a>
+<a href="#parte2">Il linguaggio del web</a>
+<a href="#parte3">Tool per creare siti</a>
+<a href="#parte4">Progettare il sito</a>
+<a href="#parte5">L'ambiente didattico</a>
+<a href="#parte6">Prompt Cookbook</a>
+<a href="#parte7"> Esercizi e Laboratorio pratico</a>
 <a href="#downloads">Materiali</a>
 </div>
 <!-- ==================== PARTE 1 ==================== -->
 <section class="section-block" id="parte1">
-<span class="section-tag-header">Parte 1 · Fondamenti</span>
+<span class="section-tag-header">Parte 1 - Fondamenti</span>
 <h2 class="section-title">Dall'idea al sito: cosa può fare oggi l'IA</h2>
 <p>Fino a poco tempo fa, realizzare un sito web per la propria classe richiedeva due strade alternative: affidarsi a piattaforme rigide e preconfigurate, oppure possedere competenze tecniche verticali da sviluppatore. Oggi l'Intelligenza Artificiale ha cambiato questo scenario, e in questa lezione conclusiva vedremo come trasformare tutto ciò che avete imparato nel corso — testi, prompt, immagini, mappe, audio, video, verifiche, griglie — in un vero ambiente didattico digitale.</p>
 
@@ -583,7 +590,7 @@
 
 <!-- ==================== PARTE 2 ==================== -->
 <section class="section-block" id="parte2">
-<span class="section-tag-header">Parte 2 · Il codice</span>
+<span class="section-tag-header">Parte 2 - Il codice</span>
 <h2 class="section-title">Il minimo di HTML, CSS e JavaScript che serve al docente</h2>
 <p>Abbiamo visto che HTML, CSS e JavaScript svolgono funzioni diverse. Ora facciamo un passo avanti: l'obiettivo non è imparare a scrivere questo codice da zero, ma riconoscere alcune strutture ricorrenti nel codice restituito dal chatbot, per intervenire su di esse e richiedere modifiche consapevoli. Non dovete rispondere alla domanda "Come si programma?", ma a "Come faccio a manipolare il codice che l'IA mi ha generato?"</p>
 
@@ -683,7 +690,7 @@
 
 <!-- ==================== PARTE 3 ==================== -->
 <section class="section-block" id="parte3">
-<span class="section-tag-header lab">Parte 3 · Strumenti</span>
+<span class="section-tag-header lab">Parte 3 - Strumenti "No-Code"</span>
 <h2 class="section-title">Generazione Automatica No-Code & Low-Code e il Chatbot come Web Designer</h2>
 <p>Nel percorso di costruzione di un ambiente digitale, la prima strada percorribile è l'uso di piattaforme No-Code e Low-Code basate su IA: strumenti trasversali che consentono al docente di descrivere con un prompt l'argomento, la struttura o le finalità del sito, lasciando che sia la piattaforma a generare automaticamente l'intero impianto: grafica, layout responsive, testi di base e componenti visivi.</p>
 <div class="note-box">📅 <strong>Avviso di contesto (aggiornato ad agosto 2026):</strong> gli strumenti e i modelli di pricing descritti in questo modulo rispecchiano le funzionalità, le quote di utilizzo e le condizioni dei piani gratuiti attivi nell'agosto 2026. Il panorama degli strumenti IA evolve rapidamente: le metriche dei token, i crediti di avvio o le opzioni di pubblicazione potrebbero cambiare nel tempo.</div>
@@ -826,7 +833,7 @@
 
 <!-- ==================== PARTE 4 ==================== -->
 <section class="section-block" id="parte4">
-<span class="section-tag-header">Parte 4 · Progettazione</span>
+<span class="section-tag-header">Parte 4 - Progettazione</span>
 <h2 class="section-title">Progettare un sito didattico con l'IA</h2>
 <p>Ora che possediamo un vocabolario minimo per comprendere il codice, conosciamo i comandi di base e abbiamo una panoramica degli strumenti disponibili, possiamo concentrarci sul cuore dell'intero percorso: la progettazione didattica. Avventurarsi nella creazione di un ambiente web lanciando al chatbot un prompt generico ("Fammi un sito sulla Divina Commedia") porta quasi sempre a prodotti anonimi, disordinati o privi di valore pedagogico. L'IA è un esecutore tecnico straordinario, ma non possiede la visione del percorso di apprendimento.</p>
 <div class="note-box">🎯 <strong>Il messaggio fondamentale:</strong> prima si progetta l'esperienza didattica, poi si chiede all'IA di trasformarla in un ambiente digitale. Il metodo si articola in 7 passaggi chiave.</div>
@@ -936,7 +943,7 @@
 
 <!-- ==================== PARTE 5 ==================== -->
 <section class="section-block" id="parte5">
-<span class="section-tag-header lab">Parte 5 · Dal sito all'ambiente</span>
+<span class="section-tag-header lab">Parte 5 - Dal sito all'ambiente</span>
 <h2 class="section-title">Quando il sito diventa un ambiente didattico</h2>
 <p>Costruire un sito con l'Intelligenza Artificiale è un processo ormai accessibile. Tuttavia, la disponibilità di codice generato in pochi secondi porta con sé un rischio: trasformare la pagina web nell'ennesimo contenitore passivo di materiali, una sorta di "bacheca digitale" in cui accumulare link, slide e file PDF.</p>
 <div class="note-box">🔑 Un semplice <strong>sito informativo</strong> comunica: "Qui trovi dei contenuti da leggere o da scaricare." Un <strong>ambiente didattico</strong> guida lo studente in un percorso in cui può esplorare, svolgere attività pratiche, ricevere feedback immediati, analizzare fonti, verificare quanto appreso e riflettere sul proprio percorso di studio. Un sito diventa utile non quando contiene molti elementi, ma quando organizza contenuti, attività, strumenti e percorsi intorno a un'esperienza di apprendimento intenzionale.</div>
@@ -1045,7 +1052,7 @@
 
 <!-- ==================== PARTE 6 ==================== -->
 <section class="section-block" id="parte6">
-<span class="section-tag-header">Parte 6 · Cookbook</span>
+<span class="section-tag-header">Parte 6 - Prompt Cookbook</span>
 <h2 class="section-title">Prompt Cookbook: modelli pronti per ogni fase del progetto</h2>
 <p>Questo ricettario raccoglie modelli di prompt pronti all'uso, pensati per accompagnare ogni fase dello sviluppo di un sito web didattico: dalla progettazione alla pubblicazione.</p>
 <div class="note-box">📖 <strong>Come utilizzare questo ricettario:</strong> i prompt riportati di seguito sono modelli operativi flessibili e non formule rigide da copiare alla lettera. Gli elementi racchiusi tra parentesi quadre — come <code>[INSERISCI CODICE]</code> o <code>[ARGOMENTO]</code> — vanno sempre personalizzati con i dati specifici della vostra lezione. Ricordate inoltre che il primo risultato generato dall'IA è solo una bozza: l'efficacia del sito nasce dal lavoro di affinamento e iterazione successiva.</div>
@@ -1098,8 +1105,8 @@
 
 <!-- ==================== PARTE 7 ==================== -->
 <section class="section-block" id="parte7">
-<span class="section-tag-header lab">Parte 7 · Laboratorio</span>
-<h2 class="section-title">Esercizi e Laboratorio Pratico</h2>
+<span class="section-tag-header lab">Parte 7 - Esercizi e Laboratorio pratico</span>
+<h2 class="section-title">Schede applicative e Laboratorio</h2>
 <p>Il laboratorio che segue rappresenta la sintesi dell'intera lezione e la chiusura dell'intero percorso formativo. Attraverso una sequenza progressiva di sei attività, sarete guidati passo dopo passo nel passaggio dall'idea iniziale alla realizzazione di un ambiente digitale completo.</p>
 <div class="rcif-list">
 <p style="margin-bottom:0;"><strong>Es 1: Progetta</strong> ➔ <strong>Es 2: Genera</strong> ➔ <strong>Es 3: Comprendi</strong> ➔ <strong>Es 4: Itera</strong> ➔ <strong>Es 5: Pubblica (facoltativo)</strong> ➔ <strong>Es 6: Integra i contenuti</strong></p>
@@ -1217,62 +1224,79 @@
 <section class="section-block" id="downloads">
 <span class="section-tag-header">Materiali della lezione</span>
 <div class="download-grid">
-<a class="download-card" href="download/vocabolario-web-docenti.pdf" rel="noopener noreferrer" target="_blank">
+  
+<a class="download-card" href="download/siti.pdf" rel="noopener noreferrer" target="_blank">
 <span aria-hidden="true" class="download-icon icon-pdf"><svg viewBox="0 0 24 24"><use href="#icon-doc"></use></svg></span>
 <span class="download-info">
-<span class="download-title">Il vocabolario minimo del web per docenti</span>
+<span class="download-title">Foglio di riepilogo - Siti tra codice e istruzioni</span>
 </span>
 <span class="file-badge badge-pdf">PDF</span>
 </a>
-<a class="download-card" href="download/checklist-debug-ia.pdf" rel="noopener noreferrer" target="_blank">
+  
+<a class="download-card" href="download/siti-tool.pdf" rel="noopener noreferrer" target="_blank">
 <span aria-hidden="true" class="download-icon icon-pdf"><svg viewBox="0 0 24 24"><use href="#icon-doc"></use></svg></span>
 <span class="download-info">
-<span class="download-title">Checklist di debug assistito con l'IA</span>
+<span class="download-title">Foglio di riepilogo - Tool per creare siti</span>
 </span>
 <span class="file-badge badge-pdf">PDF</span>
 </a>
-<a class="download-card" href="download/confronto-piattaforme-nocode.pdf" rel="noopener noreferrer" target="_blank">
+  
+<a class="download-card" href="download/siti-creazione.pdf" rel="noopener noreferrer" target="_blank">
 <span aria-hidden="true" class="download-icon icon-pdf"><svg viewBox="0 0 24 24"><use href="#icon-doc"></use></svg></span>
 <span class="download-info">
-<span class="download-title">Confronto piattaforme No-Code (Gamma, Durable, Framer, Bolt, v0)</span>
+<span class="download-title">Foglio di riepilogo - Progettazione e creazione di siti</span>
 </span>
 <span class="file-badge badge-pdf">PDF</span>
 </a>
-<a class="download-card" href="download/modello-brief-progetto.pdf" rel="noopener noreferrer" target="_blank">
+  
+<a class="download-card" href="download/siti-cookbook.pdf" rel="noopener noreferrer" target="_blank">
 <span aria-hidden="true" class="download-icon icon-pdf"><svg viewBox="0 0 24 24"><use href="#icon-doc"></use></svg></span>
 <span class="download-info">
-<span class="download-title">Modello da compilare: il Brief del progetto</span>
+<span class="download-title">Foglio di riepilogo - Prompt cookbook</span>
 </span>
 <span class="file-badge badge-pdf">PDF</span>
 </a>
-<a class="download-card" href="download/prompt-cookbook-siti-didattici.pdf" rel="noopener noreferrer" target="_blank">
+  
+<a class="download-card" href="download/siti-esercizi.pdf" rel="noopener noreferrer" target="_blank">
 <span aria-hidden="true" class="download-icon icon-pdf"><svg viewBox="0 0 24 24"><use href="#icon-doc"></use></svg></span>
 <span class="download-info">
-<span class="download-title">Prompt Cookbook: i 10 modelli pronti all'uso</span>
+<span class="download-title">Foglio di riepilogo - Esercizi</span>
 </span>
 <span class="file-badge badge-pdf">PDF</span>
 </a>
-<a class="download-card" href="download/slide-creazione-siti.pptx" rel="noopener noreferrer" target="_blank">
+  
+<a class="download-card" href="download/siti-presentazione.pdf" rel="noopener noreferrer" target="_blank">
 <span aria-hidden="true" class="download-icon icon-ppt"><svg viewBox="0 0 24 24"><use href="#icon-doc"></use></svg></span>
 <span class="download-info">
-<span class="download-title">Slide della lezione: Creare siti con l'IA</span>
+<span class="download-title">Presentazione - Siti tra codice e istruzioni</span>
 </span>
 <span class="file-badge badge-ppt">PPT</span>
 </a>
-<a class="download-card" href="download/tipologie-ambienti-didattici.pptx" rel="noopener noreferrer" target="_blank">
+  
+<a class="download-card" href="download/siti-presentazione-tool.pdf" rel="noopener noreferrer" target="_blank">
 <span aria-hidden="true" class="download-icon icon-ppt"><svg viewBox="0 0 24 24"><use href="#icon-doc"></use></svg></span>
 <span class="download-info">
-<span class="download-title">I 7 modelli di ambiente didattico digitale</span>
+<span class="download-title">Presentazione - Tool per creare siti</span>
 </span>
 <span class="file-badge badge-ppt">PPT</span>
 </a>
-<a class="download-card" href="download/scheda-laboratorio-finale.pptx" rel="noopener noreferrer" target="_blank">
+  
+<a class="download-card" href="download/siti-presentazione-creazione" rel="noopener noreferrer" target="_blank">
 <span aria-hidden="true" class="download-icon icon-ppt"><svg viewBox="0 0 24 24"><use href="#icon-doc"></use></svg></span>
 <span class="download-info">
-<span class="download-title">Scheda esercizi del Laboratorio finale</span>
+<span class="download-title">Presentazione - Progettazione e creazione di siti</span>
 </span>
 <span class="file-badge badge-ppt">PPT</span>
 </a>
+
+<a class="download-card disabled" href="#" aria-disabled="true">
+<span aria-hidden="true" class="download-icon icon-ppt"><svg viewBox="0 0 24 24"><use href="#icon-doc"></use></svg></span>
+<span class="download-info">
+<span class="download-title">Presentazione — Esercizi</span>
+</span>
+<span class="file-badge badge-soon">A BREVE</span>
+</a>
+  
 </div>
 <div class="back-to-top-wrap">
 <a class="back-to-top" href="#page-top">↑ Torna all'inizio</a>
