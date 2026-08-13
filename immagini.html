@@ -560,7 +560,7 @@
       <section class="section-block" id="parte1">
         <span class="section-tag-header">Parte 1 — Comprendere la Generazione di Immagini</span>
         <h2 class="section-title">Come Funziona il Text-to-Image</h2>
-        <p>Prima di iniziare a creare immagini per le nostre lezioni o per le attività con gli studenti, è fondamentale comprenderne i meccanismi di fondo. Sapere "cosa c'è sotto il cofano" aiuta a formulare richieste migliori, a non frustrarsi di fronte a risultati imprevisti e a scegliere lo strumento più adatto per ogni esigenza didattica.</p>
+        <p>Prima di iniziare a creare immagini per le nostre lezioni o per le attività con gli studenti, è fondamentale comprenderne i meccanismi di fondo. Sapere "cosa c'è sotto il cofano" aiuta a formulare richieste migliori, a non demoralizzarsi di fronte a risultati imprevisti e a scegliere lo strumento più adatto per ogni esigenza didattica.</p>
 
         <h3 class="phase-title">Modulo 1.1: Come nasce un'immagine con l'IA</h3>
 
@@ -568,10 +568,10 @@
         <p>Prima di analizzare i dettagli tecnici, è utile chiarire quattro principi fondamentali:</p>
         <div class="rcif-list">
           <ol>
-            <li><strong>L'IA non "disegna":</strong> Non possiede una matita né un'intenzione artistica; genera pixel calcolando probabilità matematiche.</li>
-            <li><strong>Interpreta una descrizione:</strong> Il suo unico punto di riferimento sono le parole che le forniamo.</li>
-            <li><strong>Ogni singola parola influenza il risultato:</strong> Aggiungere, togliere o cambiare un aggettivo modifica radicalmente la scena visualizzata.</li>
-            <li><strong>Non sempre produce ciò che abbiamo immaginato:</strong> L'IA lavora per associazioni concettuali e può interpretare la nostra descrizione in modo diverso da come l'avevamo figurata nella nostra mente.</li>
+            <li><strong>L'IA non "disegna":</strong> non possiede una matita né un'intenzione artistica; genera pixel calcolando probabilità matematiche.</li>
+            <li><strong>Interpreta una descrizione:</strong> il suo unico punto di riferimento sono le parole che le forniamo.</li>
+            <li><strong>Ogni singola parola influenza il risultato:</strong> aggiungere, togliere o cambiare un aggettivo modifica radicalmente la scena visualizzata.</li>
+            <li><strong>Non sempre produce ciò che abbiamo immaginato:</strong> l'IA lavora per associazioni concettuali e può interpretare la nostra descrizione in modo diverso da come l'avevamo figurata nella nostra mente.</li>
           </ol>
         </div>
 
@@ -579,9 +579,9 @@
         <p>Il modo più semplice per capire come l'IA "ragiona" è osservare cosa succede quando manteniamo la struttura base di un prompt e modifichiamo un solo elemento:</p>
         <div class="rcif-list">
           <ul>
-            <li><strong>Prompt 1:</strong> "Un'aula scolastica italiana"<br><em>Risultato:</em> L'IA genererà un'aula generica contemporanea, basandosi sull'immagine "media" presente nei suoi dati di addestramento (banchi, cattedra, lavagna).</li>
-            <li><strong>Prompt 2:</strong> "Un'aula scolastica italiana degli anni '50"<br><em>Risultato:</em> La singola specifica temporale trasforma l'intera scena: banchi in legno con calamaio, mappa geografica d'epoca, lavagna di ardesia, tonalità e stile fotografico desaturato o seppia.</li>
-            <li><strong>Prompt 3:</strong> "Un'aula scolastica italiana futuristica"<br><em>Risultato:</em> L'aggettivo cambia completamente l'estetica: schermi olografici, banchi dal design aerodinamico, illuminazione a LED, assenza di carta e gesso.</li>
+            <li><strong>Prompt 1:</strong> "Un'aula scolastica italiana"<br><em>Risultato:</em> l'IA genererà un'aula generica contemporanea, basandosi sull'immagine "media" presente nei suoi dati di addestramento (banchi, cattedra, lavagna).</li>
+            <li><strong>Prompt 2:</strong> "Un'aula scolastica italiana degli anni '50"<br><em>Risultato:</em> la singola specifica temporale trasforma l'intera scena: banchi in legno con calamaio, mappa geografica d'epoca, lavagna di ardesia, tonalità e stile fotografico desaturato o seppia.</li>
+            <li><strong>Prompt 3:</strong> "Un'aula scolastica italiana futuristica"<br><em>Risultato:</em> l'aggettivo cambia completamente l'estetica: schermi olografici, banchi dal design aerodinamico, illuminazione a LED, assenza di carta e gesso.</li>
           </ul>
         </div>
         <p><strong>Cosa ci insegna questo esercizio?</strong> Che l'IA non possiede contesto implicito: siamo noi, con la scelta precisa delle parole, a dover guidare il modello verso il risultato desiderato.</p>
@@ -594,9 +594,9 @@
         <p>I generatori di immagini si basano su modelli matematici detti di diffusione. Il loro addestramento è avvenuto analizzando centinaia di milioni di coppie formate da immagine e didascalia. Quando scriviamo un prompt, il processo si sviluppa in tre fasi:</p>
         <div class="rcif-list">
           <ol>
-            <li><strong>Traduzione concettuale:</strong> Il modello analizza il testo e ne estrae i concetti visivi (soggetti, colori, stili, ambienti, relazioni spaziali).</li>
-            <li><strong>Partenza dal "rumore":</strong> L'IA inizia da una tela digitale ricoperta da una griglia casuale di pixel indistinti (simile all'effetto "neve" dei vecchi televisori).</li>
-            <li><strong>Sgranatura progressiva (Denoiser):</strong> In una serie di passaggi matematici, il modello "pulisce" il rumore e ricompone i pixel finché non fanno emergere la scena descritta nel prompt.</li>
+            <li><strong>Traduzione concettuale:</strong> il modello analizza il testo e ne estrae i concetti visivi (soggetti, colori, stili, ambienti, relazioni spaziali).</li>
+            <li><strong>Partenza dal "rumore":</strong> l'IA inizia da una tela digitale ricoperta da una griglia casuale di pixel indistinti (simile all'effetto "neve" dei vecchi televisori).</li>
+            <li><strong>Sgranatura progressiva (Denoiser):</strong> in una serie di passaggi matematici, il modello "pulisce" il rumore e ricompone i pixel finché non fanno emergere la scena descritta nel prompt.</li>
           </ol>
         </div>
 
@@ -604,7 +604,7 @@
         <p>Se inseriamo due volte lo stesso identico prompt nello stesso strumento, otterremo due immagini differenti. Questo accade perché:</p>
         <div class="rcif-list">
           <ul>
-            <li>Il punto di partenza (la matrice di rumore iniziale) cambia ogni volta ed è regolato da un valore numerico casuale chiamato seed (seme).</li>
+            <li>Il punto di partenza (la matrice di rumore iniziale) cambia ogni volta ed è regolato da un valore numerico casuale chiamato <i>seed</i> (seme).</li>
             <li>L'IA lavora su base probabilistica: non esiste un'unica risposta "giusta" a una descrizione testuale, ma infinite interpretazioni visive compatibili.</li>
           </ul>
         </div>
