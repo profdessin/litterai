@@ -285,6 +285,54 @@
     border: 1px solid var(--color-border);
   }
 
+  /* ---------- TOOLTIP PER TERMINI TECNICI ---------- */
+.info-term {
+  position: relative;
+  display: inline-block;
+  color: var(--color-secondary);
+  border-bottom: 1px dashed var(--color-secondary);
+  font-weight: 600;
+  cursor: help;
+}
+
+.info-term .info-tooltip {
+  position: absolute;
+  bottom: 130%;
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+  width: 230px;
+  background: var(--color-primary);
+  color: #ffffff;
+  font-weight: 400;
+  font-size: 0.8rem;
+  line-height: 1.45;
+  padding: 10px 12px;
+  border-radius: 8px;
+  box-shadow: var(--shadow-soft);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  z-index: 20;
+}
+
+.info-term .info-tooltip::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-top-color: var(--color-primary);
+}
+
+.info-term:hover .info-tooltip,
+.info-term:focus .info-tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+
   /* ---------- NAV RAPIDA TRA LE PARTI ---------- */
   .part-nav {
     display: flex;
@@ -669,7 +717,7 @@
                 <td><ul><li>Eccellente fotorealismo</li><li>Molto veloce</li><li>Integrazione nativa con l'ecosistema Google (Docs, Slides)</li></ul></td>
                 <td><ul><li>Molto severo nei filtri di sicurezza</li><li>Minore resa sugli stili artistici complessi</li></ul></td>
                 <td>Buona quota di generazioni gratuite</td>
-                <td><ul><li>Modifica in chat</li><li>Filtri antidisinformazione molto rigidi (marcatura SynthID)</li></ul></td>
+                <td><ul><li>Modifica in chat</li><li>Filtri antidisinformazione molto rigidi (<span class="info-term" tabindex="0">marcatura SynthID<span class="info-tooltip">SynthID è una tecnologia di Google DeepMind che inserisce nei pixel dell'immagine una filigrana digitale invisibile all'occhio umano, per permettere di riconoscerla come generata dall'IA anche dopo modifiche o compressioni.</span></span>)</li></ul></td>
               </tr>
               <tr>
                 <td>
@@ -1275,13 +1323,14 @@
             <span class="file-badge badge-ppt">PPT</span>
           </a>
 
-        <a class="download-card disabled" href="#" aria-disabled="true">
-<span aria-hidden="true" class="download-icon icon-ppt"><svg viewBox="0 0 24 24"><use href="#icon-doc"></use></svg></span>
-<span class="download-info">
-<span class="download-title">Presentazione - Esercizi</span>
-</span>
-<span class="file-badge badge-soon">A BREVE</span>
-</a>
+<a href="download/immagini-presentazione-esercizi.pdf" class="download-card" target="_blank" rel="noopener noreferrer">
+            <span class="download-icon icon-ppt" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#icon-doc"></use></svg></span>
+            <span class="download-info">
+              <span class="download-title">Presentazione - Esercizi</span>
+            </span>
+            <span class="file-badge badge-ppt">PPT</span>
+          </a>
+          
         <div class="back-to-top-wrap">
           <a href="#page-top" class="back-to-top">↑ Torna all'inizio</a>
         </div>
