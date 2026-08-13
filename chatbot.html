@@ -1527,6 +1527,17 @@
         navLinks.classList.remove('active');
       });
     });
+
+    function toggleResult(button) {
+      const resultContent = button.nextElementSibling;
+      const isOpened = resultContent.classList.toggle('open');
+      
+      if (isOpened) {
+        button.innerHTML = '<span>Nascondi dettaglio tecnico</span> ▴';
+      } else {
+        button.innerHTML = '<span>Mostra dettaglio tecnico</span> ▾';
+      }
+    }
   </script>
 
 </body>
