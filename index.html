@@ -464,7 +464,8 @@
       width: 78%;
       max-width: 340px;
       height: 100vh;
-      background: var(--color-header);
+      box-sizing: border-box;
+      background: var(--color-primary);
       flex-direction: column;
       justify-content: flex-start;
       align-items: stretch;
@@ -505,7 +506,11 @@
       max-height: 1000px;
       padding: 4px 0 10px;
     }
-    .dropdown-menu a.nav-link-item { padding: 8px 10px; }
+   .dropdown-menu a.nav-link-item {
+  padding: 8px 10px;
+  box-sizing: border-box;
+  overflow-wrap: break-word;
+}
 
     .hero { padding: 110px 20px 60px; min-height: auto; }
     .section { padding: 65px 0; }
