@@ -47,7 +47,7 @@
     padding: 0 24px; 
   }
 
-  /* ---------- NAVBAR (Stesso colore del footer) ---------- */
+ /* ---------- NAVBAR ---------- */
   .navbar {
     position: fixed;
     top: 0;
@@ -55,51 +55,162 @@
     width: 100%;
     z-index: 1000;
     background: var(--color-primary);
-    border-bottom: 1px solid var(--color-secondary);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     transition: box-shadow 0.3s ease;
   }
-  .navbar.scrolled { box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); }
-  
-  .nav-inner { 
-    display: flex; 
-    align-items: center; 
-    justify-content: space-between; 
-    padding: 12px 24px; 
-    max-width: 1150px; 
-    margin: 0 auto; 
+ 
+  .navbar.scrolled {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
   }
-  
-  .nav-brand img { 
-    height: 40px; 
-    width: auto; 
-    display: block; 
-    filter: brightness(0) invert(1); 
+ 
+  .nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 24px;
+    max-width: 1150px;
+    margin: 0 auto;
   }
-  
-  .nav-links { display: flex; gap: 2.2rem; }
-  .nav-links a { 
-    font-size: 0.95rem; 
-    font-weight: 500; 
-    color: #E8F3F8; 
-    position: relative; 
-    padding: 4px 0; 
-    transition: color 0.25s ease; 
+ 
+  .nav-brand {
+    display: flex;
+    align-items: center;
   }
-  .nav-links a::after { 
-    content: ""; 
-    position: absolute; 
-    bottom: -2px; 
-    left: 0; 
-    width: 0; 
-    height: 2px; 
-    background: var(--color-accent); 
-    transition: width 0.3s ease; 
+ 
+  .nav-brand img {
+    height: 40px;
+    width: auto;
+    display: block;
+    filter: brightness(0) invert(1);
   }
+ 
+  .nav-links { display: flex; align-items: center; gap: 2.2rem; }
+ 
+  .nav-links a {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #E8F3F8;
+    position: relative;
+    padding: 4px 0;
+    transition: color 0.25s ease;
+  }
+ 
+  .nav-links a::after {
+    content: "";
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--color-accent);
+    transition: width 0.3s ease;
+  }
+ 
   .nav-links a:hover { color: var(--color-accent); }
   .nav-links a:hover::after { width: 100%; }
-  
-  .nav-toggle { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; z-index: 1001; }
-  .nav-toggle span { width: 26px; height: 2.5px; background: #E8F3F8; border-radius: 2px; transition: all 0.3s ease; }
+ 
+  .nav-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    z-index: 1001;
+  }
+ 
+  .nav-toggle span {
+    width: 26px;
+    height: 2.5px;
+    background: #E8F3F8;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+  }
+ 
+  .nav-toggle.active span:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
+  .nav-toggle.active span:nth-child(2) { opacity: 0; }
+  .nav-toggle.active span:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
+ 
+  /* ---------- DROPDOWN NAVBAR (Lezioni / Tool) ---------- */
+  .nav-item { position: relative; }
+ 
+  .nav-link-row {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+  }
+ 
+  .dropdown-toggle {
+    display: none;
+    background: none;
+    border: none;
+    color: #E8F3F8;
+    font-size: 0.7rem;
+    cursor: pointer;
+    padding: 4px;
+    line-height: 1;
+    transition: transform 0.25s ease;
+  }
+ 
+  .dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(0);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    box-shadow: var(--shadow-hover);
+    padding: 22px 10px 10px;
+    margin-top: 0;
+    min-width: 260px;
+    max-height: 62vh;
+    overflow-y: auto;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.25s ease, visibility 0.25s;
+    z-index: 1100;
+  }
+ 
+  /* Ponte invisibile che copre lo spazio tra la voce di menu e il dropdown,
+     così il cursore non perde mai l'hover durante lo spostamento */
+  .nav-item::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: max(100%, 260px);
+    height: 14px;
+  }
+ 
+  .nav-item:hover .dropdown-menu,
+  .nav-item:focus-within .dropdown-menu,
+  .nav-item.open .dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateX(-50%) translateY(0);
+  }
+ 
+  .dropdown-menu a.nav-link-item {
+    display: block;
+    padding: 8px 12px;
+    border-radius: 7px;
+    font-size: 0.86rem;
+    font-weight: 500;
+    white-space: normal;
+    line-height: 1.35;
+    color: var(--color-text, #222222); /* <--- RIGA AGGIUNTA */
+  }
+ 
+  .dropdown-menu a.nav-link-item::after { display: none; }
+ 
+  .dropdown-menu a.nav-link-item:hover {
+    background: var(--color-bg);
+    color: var(--color-accent);
+  }
 
   /* ---------- PAGE HEADER ---------- */
   .page-header { 
