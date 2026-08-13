@@ -962,6 +962,25 @@
         navLinks.classList.remove('active');
       });
     });
+
+    document.querySelectorAll('.dropdown-toggle').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const item = btn.closest('.nav-item');
+        const isOpen = item.classList.contains('open');
+        document.querySelectorAll('.nav-item.open').forEach(other => {
+          if (other !== item) other.classList.remove('open');
+        });
+        item.classList.toggle('open', !isOpen);
+      });
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.nav-item')) {
+        document.querySelectorAll('.nav-item.open').forEach(item => item.classList.remove('open'));
+      }
+    });
   </script>
 
 </body>
