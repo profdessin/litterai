@@ -970,11 +970,15 @@
 <p>Quando lavoriamo con <strong>griglie ministeriali o di Dipartimento</strong>, i criteri, i livelli e i punteggi sono già stabiliti dagli organi competenti e non devono essere alterati arbitrariamente. L'IA non conosce le delibere del vostro istituto né le scelte didattiche del vostro Dipartimento. Di conseguenza, non dobbiamo mai chiedere al chatbot di "riscrivere" o "reinventare" una griglia ufficiale, perché rischieremmo di produrre uno strumento difforme dai criteri condivisi della scuola.</p>
 
 <h3 class="phase-title">Modulo 3.2: L'IA come "declinatore" della griglia</h3>
-<p>Un conto è creare una nuova griglia (operazione utile per un'attività inedita, come visto nel Modulo 2.1), un altro conto è rendere operativa una griglia esistente. Nella routine scolastica, la seconda opzione è di gran lunga la più frequente e preziosa. Una griglia generale di Dipartimento per l'analisi del testo (Tipologia A) deve rimanere necessariamente generica per potersi adattare a qualsiasi autore. Tuttavia, quando somministriamo un testo specifico — ad esempio un canto di Leopardi — lo studente ha bisogno di capire che cosa significhi, nei fatti, "analizzare bene" quel testo specifico.</p>
-<p>L'IA eccelle proprio in questo: prendere i criteri e le fasce di punteggio ufficiali della scuola e declinare i descrittori sulla singola prova, senza toccare i voti o le regole approvate dal Dipartimento.</p>
+<p>Un conto è creare una nuova griglia (operazione utile per un'attività inedita, come visto nel Modulo 2.1), un altro conto è <strong>rendere operativa una griglia esistente</strong>. Nella routine scolastica, 
+  la seconda opzione è di gran lunga la più frequente e preziosa. Una griglia generale di Dipartimento per l'analisi del testo (Tipologia A) deve rimanere necessariamente generica per potersi adattare a 
+  qualsiasi autore. Tuttavia, se vogliamo elaborare una prova diversa, magari legata ad un testo specifico — ad esempio un canto di Leopardi — lo studente ha bisogno di capire che cosa significhi, 
+  nei fatti, "analizzare bene" quel testo specifico e potremmo quindi partire da una griglia già data.</p>
+<p>L'IA eccelle proprio in questo: prendere i criteri e le fasce di punteggio ufficiali della scuola e declinare i descrittori sulla singola prova, senza toccare i voti o i criteri che vogliamo mantenere.</p>
 
 <h4 class="sub-phase-title">Un esempio pratico: Analisi del testo su Leopardi</h4>
-<p>Ipotizziamo di utilizzare la griglia di Dipartimento per la Tipologia A, che prevede già criteri e fasce di punteggio fisse per il criterio "Analisi e interpretazione del testo":</p>
+<p>Ipotizziamo di utilizzare la griglia di Dipartimento per la Tipologia A per elaborare una griglia personalizzata per una mia verifica di letteratura con analisi del testo.
+  La griglia di partenza prevede già criteri e fasce di punteggio fisse per il criterio "Analisi e interpretazione del testo":</p>
 <div class="rcif-list">
 <ul>
 <li><strong>Eccellente:</strong> 27 - 30 punti</li>
@@ -986,7 +990,12 @@
 
 <h4 class="sub-phase-title">Il prompt di declinazione (con vincoli precisi)</h4>
 <p>Per evitare che l'IA inventi punteggi o aggiunga richieste non previste dalla traccia, formuliamo il prompt fornendo sia la griglia ufficiale sia la traccia preparata:</p>
-<blockquote class="prompt-box"><strong>Prompt:</strong> "Sono un docente di Italiano. Sto somministrando un'analisi del testo su 'Canto notturno di un pastore errante dell'Asia' di Leopardi. Ecco la traccia con le domande che ho preparato: [incolla traccia]. Ecco il criterio ufficiale di Dipartimento con le sue fasce di punteggio originali: Criterio: Analisi e interpretazione del testo (Punti totali: 30); Fasce fisse: Eccellente (27-30), Buono (22-26), Sufficiente (18-21), Non sufficiente (0-17). Mantenendo RIGIDAMENTE le fasce di punteggio indicate e SENZA modificare i criteri generali, declina i descrittori per ciascun livello basandoti ESCLUSIVAMENTE sulle richieste presenti nella traccia. Non introdurre nuovi requisiti o argomenti non espressamente richiesti dal testo della verifica."</blockquote>
+<blockquote class="prompt-box"><strong>Prompt:</strong> "Sono un docente di italiano. Sto somministrando una verifica di analisi del testo su <em>Canto notturno di un pastore errante dell'Asia</em> di Leopardi. 
+  Ecco la traccia con le domande che ho preparato: [incolla traccia]. Ecco il criterio ufficiale di Dipartimento con le sue fasce di punteggio originali: 
+  Criterio: Analisi e interpretazione del testo (Punti totali: 30); 
+  Fasce fisse: Eccellente (27-30), Buono (22-26), Sufficiente (18-21), Non sufficiente (0-17). 
+  Mantenendo RIGIDAMENTE le fasce di punteggio indicate e SENZA modificare i criteri generali, declina i descrittori per ciascun livello basandoti ESCLUSIVAMENTE sulle richieste presenti nella traccia. 
+  Non introdurre nuovi requisiti o argomenti non espressamente richiesti dal testo della verifica."</blockquote>
 
 <h4 class="sub-phase-title">L'output ottenuto (griglia resa operativa per la prova)</h4>
 <div class="table-responsive">
@@ -1021,15 +1030,15 @@
 <h4 class="sub-phase-title">Perché questo approccio funziona</h4>
 <div class="rcif-list">
 <ol>
-<li><strong>Rispetta il Dipartimento:</strong> non abbiamo toccato una sola virgola della struttura e dei punteggi deliberati dalla scuola.</li>
+<li><strong>Rispetta gli standard previsti dal Dipartimento:</strong> non abbiamo alterato la struttura prevista e abbiamo ottenuto una griglia personalizzata che si mantiene vicina allo standard deliberato.</li>
 <li><strong>Evita le sovrainvenzioni dell'IA:</strong> avendo vincolato il prompt alla sola traccia, l'IA non ha inserito richieste arbitrarie.</li>
 <li><strong>Offre massima trasparenza:</strong> gli studenti vedono chiaramente come la griglia generale della scuola si applica alla verifica che hanno svolto.</li>
 </ol>
-
+</div>
 
 <div class="back-to-top-wrap">
 <a class="back-to-top" href="#page-top">↑ Torna all'inizio</a>
-</div>
+
 </section>
 
 <!-- ==================== PARTE 4 ==================== -->
