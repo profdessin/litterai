@@ -389,6 +389,54 @@
     border: 1px solid var(--color-border);
   }
 
+  /* ---------- TOOLTIP PER TERMINI TECNICI ---------- */
+.info-term {
+  position: relative;
+  display: inline-block;
+  color: var(--color-secondary);
+  border-bottom: 1px dashed var(--color-secondary);
+  font-weight: 600;
+  cursor: help;
+}
+
+.info-term .info-tooltip {
+  position: absolute;
+  bottom: 130%;
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+  width: 230px;
+  background: var(--color-primary);
+  color: #ffffff;
+  font-weight: 400;
+  font-size: 0.8rem;
+  line-height: 1.45;
+  padding: 10px 12px;
+  border-radius: 8px;
+  box-shadow: var(--shadow-soft);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  z-index: 20;
+}
+
+.info-term .info-tooltip::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-top-color: var(--color-primary);
+}
+
+.info-term:hover .info-tooltip,
+.info-term:focus .info-tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+
   /* ---------- NAV RAPIDA TRA LE PARTI ---------- */
   .part-nav {
     display: flex;
