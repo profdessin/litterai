@@ -1298,7 +1298,8 @@ Genera un breve testo di feedback (4-5 righe) da consegnare a Marco che:<br>
 <section class="section-block" id="parte7">
 <span class="section-tag-header lab">Parte 7 - Prompt cookbook</span>
 <h2 class="section-title">Prompt Cookbook - ricette per creare verifiche</h2>
-<p>Prompt pronti e a riempimento per progettare e gestire le verifiche. Questo ricettario raccoglie una selezione di prompt ottimizzati per le diverse fasi del lavoro docimologico. Per ogni obiettivo troverete sia modelli a riempimento (flessibili, da personalizzare inserendo i propri parametri tra parentesi quadre) sia prompt già pronti (subito eseguibili in classe o nella preparazione delle prove).</p>
+<p>Prompt pronti e a riempimento per progettare e gestire le verifiche. Questo ricettario raccoglie una selezione di prompt ottimizzati per le diverse fasi del lavoro docimologico. Per ogni obiettivo troverete
+  sia modelli <strong>a riempimento</strong> (flessibili, da personalizzare inserendo i propri parametri tra parentesi quadre) sia prompt <strong>già pront</strong>i (subito eseguibili in classe o nella preparazione delle prove).</p>
 
 <h3 class="phase-title">🧩 1. Progettare la verifica</h3>
 <p>Definire la struttura, bilanciare i quesiti e calibrare la difficoltà della prova.</p>
@@ -1311,9 +1312,9 @@ Genera un breve testo di feedback (4-5 righe) da consegnare a Marco che:<br>
 - Sezione C (Sintesi e Rielaborazione critica): [NUMERO] domanda aperta a risposta articolata (max [N] righe).<br>
 <strong>Vincolo:</strong> per ogni quesito indica l'obiettivo didattico associato (Tassonomia di Bloom) e il tempo stimato di risoluzione per uno studente medio. Non generare griglie di valutazione o punteggi.</blockquote>
 <h4 class="sub-phase-title">Prompt già pronto: varianti di verifica per file parallele</h4>
-<blockquote class="prompt-box">Agisci come un docente di Italiano. Ho bisogno di creare due versioni equivalenti (Fila A e Fila B) per una verifica di controllo sulla prosa del Seicento e del Settecento (Galilei e Beccaria).<br><br>
-Prendi questo quesito di Fila A: "Analizza la struttura argomentativa del brano del 'Saggiatore' fornito, evidenziando l'uso dell'analogia e del registro ironico."<br><br>
-Genera un quesito equivalente per la Fila B basato su un brano estratto da 'Dei delitti e delle pene', mantenendo identici il livello di difficoltà, il tempo di svolgimento e il tipo di competenze analitiche richieste (analisi dell'argomentazione e delle scelte stilistiche).</blockquote>
+<blockquote class="prompt-box">Agisci come un docente di italiano. Ho bisogno di creare due versioni equivalenti (Fila A e Fila B) per una verifica di controllo sulla prosa del Seicento e del Settecento (Galilei e Beccaria).<br><br>
+Prendi questo quesito di Fila A: "Analizza la struttura argomentativa del brano del <em>Saggiatore</em> fornito, evidenziando l'uso dell'analogia e del registro ironico."<br><br>
+Genera un quesito equivalente per la Fila B basato su un brano estratto da <em><Dei delitti e delle pene/em>, mantenendo identici il livello di difficoltà, il tempo di svolgimento e il tipo di competenze analitiche richieste (analisi dell'argomentazione e delle scelte stilistiche).</blockquote>
 
 <h3 class="phase-title">✏️ 2. Generare i quesiti</h3>
 <p>Creare tracce, domande a risposta aperta o chiusa e prove complesse.</p>
@@ -1345,20 +1346,20 @@ Struttura la scheda della prova esattamente secondo lo standard ministeriale:<br
 - Sostituisci i termini specialistici meno noti con sinonimi ad alta frequenza o aggiungi una breve glossa tra parentesi.<br>
 - Riorganizza il testo in punti elenco per facilitare la scansione visiva, senza ridurne il rigore concettuale.</blockquote>
 <h4 class="sub-phase-title">🌟 Prompt già pronto: riadattamento e didattizzazione di una versione di Latino</h4>
-<blockquote class="prompt-box">Agisci come un docente di Lingua e Cultura Latina del Liceo Scientifico.<br>
-<strong>Contesto:</strong> ho selezionato il seguente passo originale di [AUTORE, es. Seneca, Epistulae ad Lucilium] destinato a una verifica di traduzione in una classe [es. 2ª o 3ª Liceo]: "[INSERIRE IL BRANO IN LATINO]"<br><br>
-<strong>Richiesta:</strong> riadatta e didattizza questo passo per renderlo idoneo a una prova di traduzione di 60 minuti, seguendo questi criteri:<br>
+<blockquote class="prompt-box">Agisci come un docente di Lingua e cultura latina del Liceo Scientifico.<br>
+<strong>Contesto:</strong> ho selezionato il seguente passo originale di [AUTORE, es. Seneca, <em>Epistulae ad Lucilium</em>] destinato a una verifica di traduzione in una classe [es. 2ª o 3ª Liceo]: "[INSERIRE IL BRANO IN LATINO]"<br><br>
+<strong>Richiesta:</strong> riadatta didatticamente questo passo per renderlo idoneo a una prova di traduzione di 60 minuti, seguendo questi criteri:<br>
 1. Semplifica le strutture sintattiche eccessivamente contorte, mantenendo però inalterato lo stile dell'autore e il lessico fondamentale.<br>
 2. Calibra il testo finale affinché sia lungo circa [es. 100-120] parole.<br>
 3. Fornisci un titolo in italiano, un breve pretesto introduttivo (2-3 righe) e un glossario a piè di pagina per i termini rari o i costrutti particolari.<br>
 4. Mostra, in una sezione finale riservata al docente, l'elenco dei tagli o delle modifiche sintattiche apportate rispetto al testo originale.</blockquote>
 
 <h3 class="phase-title">🔍 4. Controllare e collaudare</h3>
-<p>Effettuare lo stress test della prova, individuare ambiguità e prevedere le risposte.</p>
-<h4 class="sub-phase-title">Modello a riempimento: simulation &amp; stress test del quesito</h4>
+<p>Effettuare lo stress-test della prova, individuare ambiguità e prevedere le risposte.</p>
+<h4 class="sub-phase-title">Modello a riempimento: simulation &amp; stress-test del quesito</h4>
 <blockquote class="prompt-box"><strong>Ruolo:</strong> agisci come uno studente di liceo di livello [MEDIO / ECCELLENTE / IN DIFFICOLTÀ].<br>
 <strong>Task:</strong> leggi ed esegui la seguente verifica che ho preparato: "[INSERIRE IL TESTO DELLA VERIFICA]"<br>
-<strong>Obiettivo:</strong> rispondi a ciascun quesito esplicitando il tuo ragionamento (think-aloud).<br><br>
+<strong>Obiettivo:</strong> rispondi a ciascun quesito esplicitando il tuo ragionamento (<em>think-aloud</em>).<br><br>
 <strong>Analisi critica finale:</strong> al termine dello svolgimento, esci dal ruolo di studente e segnalami eventuali domande ambigue, quesiti la cui lunghezza o complessità supera il tempo stimato, e passaggi in cui le istruzioni della consegna non risultano chiare.</blockquote>
 <h4 class="sub-phase-title">Prompt già pronto: verifica di neutralità e assenza di indizi (cues)</h4>
 <blockquote class="prompt-box">Analizza questo test a risposta multipla di sintassi latina e italiana che intendo somministrare.<br><br>
@@ -1376,7 +1377,7 @@ Se trovi difetti di questo tipo, segnalali e riscrivi l'opzione difettosa per re
 3. Domanda guida / azione di recupero: poni una domanda stimolo o suggerisci un'azione concreta sui testi da rileggere per guidarlo nell'autocorrezione del passo errato.</blockquote>
 <h4 class="sub-phase-title">Prompt già pronto: sintesi dei quadri di errore della classe per la restituzione</h4>
 <blockquote class="prompt-box">Ho raccolto gli errori più frequenti commessi dalla classe durante l'ultima verifica di analisi del testo su Dante (Inferno). Ecco la lista delle principali inesattezze riscontrate: [INSERIRE ELENCO APPUNTI/ERRORI RICORRENTI]<br><br>
-Prepara una scaletta sintetizzata per la lezione di restituzione della verifica in classe (durata 15-20 minuti). La scaletta deve evidenziare i 3 "falsi amici" concettuali o strutturali che hanno tratto in inganno la maggior parte degli studenti, fornendo per ciascuno un esempio pratico e un contro-esempio chiarificatore da mostrare alla LIM.</blockquote>
+Prepara una scaletta sintetizzata per la lezione di restituzione della verifica in classe (durata 15-20 minuti). La scaletta deve evidenziare i tre errori concettuali o strutturali che hanno tratto in inganno la maggior parte degli studenti, fornendo per ciascuno un esempio pratico e un contro-esempio chiarificatore da mostrare alla LIM.</blockquote>
 
 <div class="back-to-top-wrap">
 <a class="back-to-top" href="#page-top">↑ Torna all'inizio</a>
