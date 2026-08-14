@@ -676,29 +676,30 @@
         <span class="section-tag-header">Parte 1 — Teoria e Architettura</span>
         
         <h2 class="section-title">Introduzione</h2>
-        <p>L'Intelligenza Artificiale Generativa sta entrando con forza nel mondo della scuola. Per utilizzare i chatbot in modo consapevole, efficace e critico, è fondamentale smontare l'illusione che questi strumenti siano "menti umane" o "oracoli che sanno tutto". Un chatbot non pensa, non comprende e non ha una coscienza: è un raffinato software statistico. Comprenderne la struttura interna permette ai docenti di sfruttarne il potenziale ed evitarne le insidie.</p>
+        <p>L'Intelligenza Artificiale Generativa sta entrando con forza nel mondo della scuola. Per utilizzare i chatbot in modo consapevole, efficace e critico, è fondamentale smontare l'illusione che questi strumenti siano "menti umane" o 
+          "oracoli che sanno tutto". Un chatbot non pensa, non comprende e non ha una coscienza: è un <strong>raffinato software statistico</strong>. Comprenderne la struttura interna permette ai docenti di sfruttarne il potenziale ed evitarne le insidie.</p>
 
         <!-- MODULO 1 -->
         <h3 class="phase-title">Modulo 1: Cos'è e come "pensa" un Chatbot</h3>
         
         <h4 class="sub-phase-title">1.1 La Super-Tastiera Predittiva (Il completamento probabilistico)</h4>
-        <p>Quando scriviamo un messaggio sullo smartphone, il correttore automatico ci suggerisce la parola successiva in base alle nostre abitudini. Un chatbot di IA (basato su un LLM - Large Language Model) funziona su un principio analogo, ma enormemente più avanzato.</p>
+        <p>Quando scriviamo un messaggio sullo smartphone, il correttore automatico ci suggerisce la parola successiva in base alle nostre abitudini. Un chatbot di IA (basato su un <strong>LLM - Large Language Model</strong>) funziona su un principio analogo, ma enormemente più avanzato.</p>
         
         <div class="rcif-list">
           <ul>
-            <li><strong>Non "sa", ma "calcola":</strong> L'IA non attinge a una conoscenza consapevole. Quando le poniamo una domanda, analizza il testo ricevuto e calcola matematicamente quale sequenza di parole ha la maggiore probabilità di seguire al nostro input.</li>
+            <li><strong>Non "sa", ma "calcola":</strong> L'IA non attinge a una conoscenza consapevole. Quando le poniamo una domanda, analizza il testo ricevuto e calcola matematicamente quale sequenza di parole ha la <strong>maggiore probabilità</strong> di seguire al nostro <strong>input</strong>.</li>
             <li><strong>La metafora del completamento:</strong> Se scriviamo <em>«Il rosso e il...»</em>, l'IA non "pensa" al colore o al libro, ma sa che statisticamente dopo questa sequenza la parola più probabile è "nero" o "blu". Allo stesso modo, se le chiediamo di scrivere una lezione su Dante, costruisce la risposta parola per parola in base a cosa solitamente segue quelle premesse nei testi su cui è stata addestrata.</li>
           </ul>
         </div>
 
         <h4 class="sub-phase-title">1.2 Oltre il testo: La Multimodalità</h4>
-        <p>I chatbot moderni non lavorano più soltanto con il testo scritto. Sono diventati multimodali, cioè capaci di elaborare e mettere in relazione diverse tipologie di media:</p>
+        <p>I chatbot moderni non lavorano più soltanto con il testo scritto. Sono diventati <strong>multimodali</strong>, cioè capaci di elaborare e mettere in relazione <strong>diverse tipologie di media</strong>:</p>
 
         <div class="rcif-list">
           <ul>
-            <li><strong>Immagini:</strong> È possibile caricare la foto di uno schema concettuale fatto alla lavagna, la foto di una pagina di un libro o persino la scansione di un compito svolto a mano da uno studente per chiederne un'analisi o una trascrizione.</li>
-            <li><strong>Tabelle e Dati:</strong> Possono analizzare file Excel o tabelle per estrarne sintesi o grafici.</li>
-            <li><strong>Voce e Audio:</strong> Consentono la dettatura diretta e l'ascolto delle risposte pronunciate a voce.</li>
+            <li><strong>Immagini:</strong> è possibile caricare la foto di uno schema concettuale fatto alla lavagna, la foto di una pagina di un libro o persino la scansione di un compito svolto a mano da uno studente per chiederne un'analisi o una trascrizione.</li>
+            <li><strong>Tabelle e Dati:</strong> possono analizzare file Excel o tabelle per estrarne sintesi o grafici.</li>
+            <li><strong>Voce e Audio:</strong> consentono la dettatura diretta e l'ascolto delle risposte pronunciate a voce.</li>
           </ul>
         </div>
 
@@ -746,20 +747,20 @@
         <h3 class="phase-title">Modulo 2: Token e Memoria di Lavoro (Finestra di Contesto)</h3>
         
         <h4 class="sub-phase-title">2.1 Cosa sono i Token?</h4>
-        <p>Per elaborare il linguaggio umano, il chatbot divide il testo in unità minime chiamate Token.</p>
+        <p>Per elaborare il linguaggio umano, il chatbot divide il testo in <strong>unità minime</strong> chiamate <strong>Token</strong>.</p>
         <div class="rcif-list">
           <ul>
-            <li>Un token non corrisponde sempre a una parola intera: approssimativamente, 1 token equivale a circa 3/4 di parola (in italiano, lingua più complessa dell'inglese, 100 parole possono corrispondere a circa 130-140 token).</li>
-            <li>Ogni testo che inviamo (input) e ogni risposta che riceviamo (output) viene conteggiato e convertito in token.</li>
+            <li>Un <strong>token</strong> non corrisponde sempre a una parola intera: approssimativamente, 1 token equivale a circa <strong>3/4 di parola</strong> (in italiano, lingua più complessa dell'inglese, 100 parole possono corrispondere a circa 130-140 token).</li>
+            <li>Ogni <strong>testo</strong> che inviamo (input) e ogni risposta che riceviamo (output) viene conteggiato e <strong>convertito in token</strong>.</li>
           </ul>
         </div>
 
         <h4 class="sub-phase-title">2.2 La Finestra di Contesto (La memoria della chat)</h4>
-        <p>Il chatbot non ha una memoria illimitata. La Finestra di Contesto è la quantità massima di token che l'IA può gestire contemporaneamente in una singola conversazione.</p>
+        <p>Il chatbot non ha una memoria illimitata. La <strong>Finestra di Contesto</strong> è la quantità massima di token che l'IA può gestire contemporaneamente in una singola conversazione.</p>
         <div class="rcif-list">
           <ul>
-            <li>È l'equivalente della "memoria di lavoro" di una persona o dello spazio su una lavagna: se la lavagna si riempie, per scrivere cose nuove l'IA deve cancellare le informazioni più vecchie.</li>
-            <li><strong>L'indipendenza delle chat:</strong> Ogni volta che si apre una "Nuova Chat", l'IA resetta completamente la propria memoria. Non ricorda nulla di quanto ci si è detti in un'altra scheda o il giorno prima, a meno che non si usino impostazioni di memoria personalizzata del profilo.</li>
+            <li>È l'equivalente della <strong>"memoria di lavoro"</strong> di una persona o dello spazio su una lavagna: se la lavagna si riempie, per scrivere cose nuove l'IA deve cancellare le informazioni più vecchie.</li>
+            <li><strong>L'indipendenza delle chat:</strong> Ogni volta che si apre una <strong>"Nuova Chat"</strong>, l'IA resetta completamente la propria memoria. Non ricorda nulla di quanto ci si è detti in un'altra scheda o il giorno prima, a meno che non si usino impostazioni di memoria personalizzata del profilo.</li>
           </ul>
         </div>
 
@@ -783,10 +784,11 @@
         <p>L'IA usa il documento come se fosse un libro aperto appoggiato sul banco: consulta quelle pagine temporaneamente per rispondere alle nostre domande all'interno di quella specifica sessione. Una volta chiusa la chat, quel documento non fa più parte della sua conoscenza.</p>
 
         <h4 class="sub-phase-title">3.2 L'effetto "Lost in the Middle" (Perso nel mezzo)</h4>
-        <p>Uno dei limiti tecnici più importanti da conoscere quando si lavora con documenti lunghi è il fenomeno del Lost in the Middle:</p>
+        <p>Uno dei limiti tecnici più importanti da conoscere quando si lavora con documenti lunghi è il fenomeno del <strong>Lost in the Middle</strong>:</p>
         <div class="rcif-list">
           <ul>
-            <li><strong>L'attenzione dell'IA non è uniforme:</strong> Quando si carica un file di molte pagine (es. un saggio, un PTOF, una programmazione disciplinare), l'IA tende a prestare la massima attenzione alle informazioni collocate all'inizio (dove ci sono i titoli e le introduzioni) e alla fine del testo (dove si trova la domanda dell'utente).</li>
+            <li><strong>L'attenzione dell'IA non è uniforme:</strong> Quando si carica un file di molte pagine (es. un saggio, un PTOF, una programmazione disciplinare), l'IA tende a prestare la massima attenzione alle informazioni collocate all'<strong>inizio</strong> (dove ci sono i titoli 
+              e le introduzioni) e alla <strong>fine</strong> del testo (dove si trova la domanda dell'utente).</li>
             <li><strong>La sfocatura centrale:</strong> Le informazioni nascoste nel mezzo del documento rischiano di essere trascurate, dimenticate o lette in modo superficiale.</li>
           </ul>
         </div>
@@ -798,7 +800,7 @@
         <h3 class="phase-title">Modulo 4: Tipi di Modelli, Fonti e Allucinazioni</h3>
         
         <h4 class="sub-phase-title">4.1 La differenza tra i Modelli di IA</h4>
-        <p>Non tutti i chatbot sono uguali, e all'interno dello stesso servizio esistono modelli differenti:</p>
+        <p>Non tutti i chatbot sono uguali, e all'interno dello stesso servizio esistono <strong>modelli differenti</strong>:</p>
         <div class="rcif-list">
           <ul>
             <li><strong>Modelli Veloci/Leggeri (es. Flash, Mini, Turbo):</strong> Sono ottimizzati per essere rapidi ed economici. Vanno benissimo per compiti semplici, come correggere un breve testo, formattare una griglia o generare un elenco di idee.</li>
@@ -816,22 +818,23 @@
         </div>
 
         <h4 class="sub-phase-title">4.3 Le Allucinazioni</h4>
-        <p>L'allucinazione è il fenomeno per cui l'IA genera informazioni del tutto false, inventate o inesistenti, esponendole però con un tono di assoluta sicurezza e autorevolezza.</p>
-        <p><strong>Perché accadono?</strong> Collegandosi al Modulo 1, l'IA lavora per completamento probabilistico. Se non trova un dato reale nei suoi dati, genererà la parola che "suona meglio" e che appare grammaticalmente e sintatticamente più verosimile. Può inventare citazioni latine, norme di legge, saggi mai scritti o date storiche errate.</p>
-        <p>Anche per questo motivo se dobbiamo chiedere al chatbot un aspetto totalmente diverso a qualcosa di appena chiesto ci conviene aprire una nuova chat. Altrimenti è più facile che lui si sbagli o che cerchi collegamenti forzati. Ad esempio se in una conversazione noi gli abbiamo chiesto un pensiero positivo motivazionale e poi gli chiediamo consiglio per un brano di Pirandello da leggere in aula, il chatbot sarà portato a scegliere brani dal tono positivo.</p>
+        <p>L'<strong>allucinazione</strong> è il fenomeno per cui l'IA genera <strong>informazioni del tutto false, inventate o inesistenti</strong>, esponendole però con un tono di assoluta sicurezza e autorevolezza.</p>
+        <p><strong>Perché accadono?</strong> Collegandosi al Modulo 1, l'IA lavora per <strong>completamento probabilistico</strong>. Se non trova un dato reale nei suoi dati, genererà la parola che "suona meglio" e che appare grammaticalmente e sintatticamente più verosimile. 
+          Può inventare citazioni latine, norme di legge, saggi mai scritti o date storiche errate.</p>
+        <p>Anche per questo motivo se dobbiamo chiedere al chatbot un aspetto totalmente diverso a qualcosa di appena chiesto ci conviene aprire una <strong>nuova chat</strong>. Altrimenti è più facile che lui si sbagli o che cerchi collegamenti forzati. Ad esempio se in una conversazione noi gli abbiamo chiesto un pensiero positivo motivazionale e poi gli chiediamo consiglio per un brano di Pirandello da leggere in aula, il chatbot sarà portato a scegliere brani dal tono positivo.</p>
         <blockquote class="prompt-box">
-          <strong>Regola d'oro per i docenti:</strong> L'IA non va mai usata come motore di ricerca primario per verificare fatti senza un controllo umano (<em>Human in the loop</em>). La responsabilità del contenuto finale è sempre del docente.
+          <strong>Regola d'oro per i docenti:</strong> L'IA non va mai usata come motore di ricerca primario per verificare fatti senza un controllo umano (<strong><em>Human in the loop</em></strong>). La responsabilità del contenuto finale è sempre del docente.
         </blockquote>
 
         <!-- MODULO 5 -->
         <h3 class="phase-title">Modulo 5: Uso Consapevole e Buone Pratiche nella Scuola</h3>
         
         <h4 class="sub-phase-title">5.1 L'effetto "Snowball" (L'accumulo degli errori)</h4>
-        <p>Nelle conversazioni lunghe, se l'IA commette un errore o fraintende un'istruzione e il docente non la corregge subito, l'IA utilizzerà quell'errore come parte del "contesto corretto" per le risposte successive. L'errore si ingrandirà come una palla di neve.</p>
+        <p>Nelle conversazioni lunghe, se l'IA commette un errore o fraintende un'istruzione e il docente non la corregge subito, l'IA utilizzerà quell'errore come parte del "contesto corretto" per le risposte successive. L'errore si ingrandirà come una <strong>palla di neve</strong>.</p>
         <p><strong>Soluzione:</strong> Se la chat inizia a produrre risposte errate o confuse, è quasi sempre meglio chiudere la chat e aprirne una nuova, modificando il prompt iniziale.</p>
 
         <h4 class="sub-phase-title">5.2 Privacy e Protezione dei Dati degli Studenti</h4>
-        <p>Una delle regole più rigide nell'uso dell'IA a scuola riguarda il Trattamento dei Dati Personali (GDPR):</p>
+        <p>Una delle regole più rigide nell'uso dell'IA a scuola riguarda il <strong>Trattamento dei Dati Personali (GDPR)</strong>:</p>
         <div class="rcif-list">
           <ul>
             <li><strong>Mai inserire dati identificativi:</strong> Non si devono mai caricare all'interno dei chatbot nomi e cognomi degli studenti, verbali di consiglio di classe non anonimizzati, diagnosi o piani didattici personalizzati (PDP/PEI) contenenti dati sensibili.</li>
@@ -852,7 +855,7 @@
       <section class="section-block" id="parte2">
         <span class="section-tag-header lab">Parte 2 — Esercizi e Laboratorio Pratico</span>
         <h2 class="section-title">Schede Applicative e Laboratorio</h2>
-        <p>Metti alla prova quanto appreso nei moduli teorici. Attraverso questi esercizi di analisi e simulazione potrai prendere dimestichezza con la gestione dei token, la finestra di contesto, la verifica delle allucinazioni e la tutela della privacy.</p>
+        <p>Metti alla prova quanto appreso nei moduli teorici. Attraverso questi <strong>esercizi di analisi e simulazione</strong> potrai prendere dimestichezza con la gestione dei token, la finestra di contesto, la verifica delle allucinazioni e la tutela della privacy.</p>
 
         <!-- ESERCIZIO 1 -->
         <div class="exercise-card">
