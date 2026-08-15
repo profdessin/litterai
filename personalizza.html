@@ -780,7 +780,8 @@
 <section class="section-block" id="parte2">
 <span class="section-tag-header">Parte 2 - Conoscere le difficoltà</span>
 <h2 class="section-title">Conoscere meglio le difficoltà degli studenti</h2>
-<p>Quando correggiamo una verifica o osserviamo un'attività in classe, notiamo spesso errori che si ripetono. Tuttavia, un errore è quasi sempre soltanto un sintomo: la vera sfida didattica consiste nell'individuare il nodo concettuale, la lacuna nei prerequisiti o il passaggio di ragionamento che lo ha generato.</p>
+<p>Quando correggiamo una verifica o osserviamo un'attività in classe, notiamo spesso <strong>errori che si ripetono</strong>. Tuttavia, un errore è quasi sempre soltanto un sintomo: la vera sfida didattica consiste nell'individuare il nodo concettuale, 
+  la lacuna nei prerequisiti o il passaggio di ragionamento che lo ha generato.</p>
 
 <h3 class="phase-title">Modulo 2.1: Dall'errore alla comprensione della difficoltà</h3>
 <p>L'intelligenza artificiale può affiancare il docente come uno strumento di analisi preventiva, aiutando a ipotizzare le possibili cause alla base di un blocco o di uno sbaglio sistematico, per progettare interventi di recupero mirati.</p>
@@ -791,26 +792,37 @@
 <div class="flow-box"><pre>"Errore osservato" ⟶ "Possibile causa" ⟶ "Ipotesi di lavoro" ⟶ "Attività di recupero"</pre></div>
 
 <h4 class="sub-phase-title">Un esempio pratico: la sintassi latina</h4>
-<p>In una verifica di Latino, diversi studenti traducono la frase seguente commettendo lo stesso errore sistematico:</p>
+<p>In una verifica di latino, diversi studenti traducono la frase seguente commettendo lo stesso errore sistematico:</p>
 <p><strong>Frase:</strong> "Milites quos dux miserat in castris manebant"<br>
 <strong>Traduzione errata ricorrente:</strong> "I soldati inviarono il comandante che rimaneva nell'accampamento".</p>
-<p>Questo tipo di errore indica che la difficoltà non riguarda solo un singolo vocabolo, ma coinvolge più livelli dell'analisi sintattica: il riconoscimento dei casi, l'individuazione dell'antecedente del relativo, la separazione tra proposizione principale e relativa, e la corretta attribuzione delle funzioni logiche.</p>
+<p>Questo tipo di errore indica che la difficoltà non riguarda solo un singolo vocabolo, ma coinvolge più livelli dell'analisi sintattica: il riconoscimento dei casi, l'individuazione dell'antecedente del relativo, 
+  la separazione tra proposizione principale e relativa e la corretta attribuzione delle funzioni logiche.</p>
 
 <p><strong>Il Prompt per l'analisi dell'errore</strong></p>
-<blockquote class="prompt-box">Agisci come un docente ed esperto di didattica del Latino per la scuola secondaria di secondo grado.<br><br>Un gruppo di studenti del secondo anno ha tradotto la frase:<br>"Milites quos dux miserat in castris manebant"<br>con:<br>"I soldati inviarono il comandante che rimaneva nell'accampamento".<br><br>Analizza questo errore e forniscimi:<br>1. Le possibili cause linguistiche e morfosintattiche che possono aver condotto a questo scambio tra soggetto e oggetto e alla scorretta attribuzione della relativa (es. riconoscimento dei casi, antecedente di "quos", distinzione tra principale e subordinata).<br>2. Un'ipotesi sul processo di pensiero o sulla strategia errata seguita dagli studenti.<br>3. Tre brevi esercizi di recupero mirati a smontare questo specifico meccanismo di errore, focalizzati sul riconoscimento visivo dei casi e delle funzioni logiche prima della traduzione.</blockquote>
+<blockquote class="prompt-box">Agisci come un docente ed esperto di didattica del latino per la scuola secondaria di secondo grado.<br><br>Un gruppo di studenti del secondo anno ha tradotto la frase:<br>"Milites quos dux miserat in castris manebant"<br>con:<br>"I soldati inviarono il comandante che rimaneva nell'accampamento".<br><br>Analizza questo errore e forniscimi:<br>1. Le possibili cause linguistiche e morfosintattiche che possono aver condotto a questo scambio tra soggetto e oggetto e alla scorretta attribuzione della relativa (es. riconoscimento dei casi, antecedente di "quos", distinzione tra principale e subordinata).<br>2. Un'ipotesi sul processo di pensiero o sulla strategia errata seguita dagli studenti.<br>3. Tre brevi esercizi di recupero mirati a smontare questo specifico meccanismo di errore, focalizzati sul riconoscimento visivo dei casi e delle funzioni logiche prima della traduzione.</blockquote>
 
 <h4 class="sub-phase-title">Come interpretare e applicare l'output</h4>
-<p>Tra le possibili interpretazioni, l'IA potrebbe suggerire che gli studenti abbiano applicato una lettura sequenziale "all'italiana" (Soggetto + Verbo + Oggetto), interpretando <em>dux</em> (nominativo) come complemento oggetto solo perché segue il verbo <em>miserat</em>, e scambiando <em>quos</em> (accusativo) per il soggetto della relativa.</p>
-<p>Il docente, verificata la plausibilità di questa ipotesi rispetto alla classe, non proporrà semplicemente "più frasi da tradurre", ma potrà progettare un'attività mirata: ad esempio, schede in cui gli studenti isolano con codici cromatici differenti la reggente e la relativa, oppure indicano i casi dei pronomi prima di cercare il verbo.</p>
+<p>Tra le possibili interpretazioni, l'IA potrebbe suggerire che gli studenti abbiano applicato una lettura un po' pigra fatta senza prima individuare i verbi, dividere in frasi e fare l'analisi del periodo.
+  Questo ha portato gli studenti a riconoscere una possibile sequenza SOV (Soggetto + Oggetto +  Verbo, tipica del latino) e forzando la lettura del nominativo <em>dux</em> come accusativo complemento oggetto solo perché precede il verbo <em>miserat</em>,
+  tralasciando <em>quos</em> e l'individuazione del corretto antecedente.</p>
+<p>Il docente, verificata la plausibilità di questa ipotesi rispetto alla classe, non proporrà semplicemente "più frasi da tradurre", ma potrà progettare un'attività mirata: 
+  ad esempio, schede in cui gli studenti isolano con codici cromatici differenti la reggente e la relativa, oppure indicano i casi dei pronomi prima di cercare il verbo.</p>
 
 <h3 class="phase-title">Modulo 2.2: Simulare il punto di vista dello studente</h3>
-<p>Prima di proporre un testo, un'analisi o una verifica, è utile prevedere quali passaggi cognitivi e operativi potrebbero risultare più impegnativi. Usare l'IA come simulatore di difficoltà permette di sottoporre un'attività a un test preventivo, osservandola con gli occhi di studenti che affrontano il compito con risorse e competenze diverse.</p>
+<p>Prima di proporre un testo, un'analisi o una verifica, è utile prevedere quali <strong>passaggi cognitivi e operativi</strong> potrebbero risultare più impegnativi. 
+  Usare l'<strong>IA</strong> come <strong>simulatore di difficoltà</strong> permette di sottoporre un'attività a un <strong>test preventivo</strong>, osservandola con gli occhi di studenti che affrontano il compito con risorse e competenze diverse.</p>
 <p>Anziché chiedere al chatbot di svolgere l'esercizio, gli chiediamo di individuare dove potrebbero verificarsi blocchi, smarrimenti o cali di attenzione.</p>
 
-<h4 class="sub-phase-title">Esempio operativo: analisi di un testo argomentativo (Italiano)</h4>
+<h4 class="sub-phase-title">Esempio operativo: analisi di un testo argomentativo (italiano)</h4>
 <p>Vogliamo proporre alla classe la lettura e l'analisi di un testo argomentativo complesso o di un brano di saggistica letteraria.</p>
 <p><strong>Il Prompt per la simulazione preventiva</strong></p>
-<blockquote class="prompt-box">Agisci come un consulente per la didattica dell'Italiano nella scuola secondaria di secondo grado.<br>Ti fornisco il testo seguente: [inserire il testo].<br><br>Analizza questa attività di comprensione simulando il punto di vista di tre scenari ipotetici di studenti:<br><br>1. SCENARIO A (Prerequisiti e lessico fragili): Quali termini, strutture sintattiche o passaggi logici impliciti potrebbero causare un blocco della comprensione o una perdita di motivazione?<br>2. SCENARIO B (Preparazione consolidata): Quali domande risulteranno chiare e dove potrebbe servire uno stimolo in più per evitare risposte superficiali?<br>3. SCENARIO C (Elevata autonomia): Quali aspetti dell'attività rischiano di risultare ripetitivi e quali consegne potrebbero stimolare una rielaborazione critica più profonda?<br><br>Per ciascuno scenario, suggerisci un piccolo aggiustamento o un elemento di supporto da integrare nel materiale prima di distribuirlo in classe.</blockquote>
+<blockquote class="prompt-box">Agisci come un consulente per la didattica dell'italiano nella scuola secondaria di secondo grado.
+  <br>Ti fornisco il testo seguente: [inserire il testo].
+  <br>
+  <br>Analizza questa attività di comprensione simulando il punto di vista di tre scenari ipotetici di studenti:<br>
+  <br>1. SCENARIO A (prerequisiti e lessico fragili): quali termini, strutture sintattiche o passaggi logici impliciti potrebbero causare un blocco della comprensione o una perdita di motivazione?
+  <br>2. SCENARIO B (preparazione consolidata): quali domande risulteranno chiare e dove potrebbe servire uno stimolo in più per evitare risposte superficiali?
+  <br>3. SCENARIO C (elevata autonomia): quali aspetti dell'attività rischiano di risultare ripetitivi e quali consegne potrebbero stimolare una rielaborazione critica più profonda?<br><br>Per ciascuno scenario, suggerisci un piccolo aggiustamento o un elemento di supporto da integrare nel materiale prima di distribuirlo in classe.</blockquote>
 
 <h4 class="sub-phase-title">Perché questo approccio è efficace</h4>
 <div class="rcif-list">
@@ -822,7 +834,8 @@
 </div>
 
 <h4 class="sub-phase-title">Dalla simulazione alla progettazione</h4>
-<p>Utilizzare l'IA per simulare le reazioni della classe non significa prevedere con certezza matematica cosa accadrà in aula. Si tratta piuttosto di condurre uno <em>stress test</em> didattico sull'attività che abbiamo progettato. L'analisi dell'IA ci aiuta a porci domande decisive prima di entrare in classe:</p>
+<p>Utilizzare l'IA per simulare le reazioni della classe non significa prevedere con certezza matematica cosa accadrà in aula. Si tratta piuttosto di condurre uno <strong><em>stress test</em> didattico</strong> sull'attività che abbiamo progettato. 
+  L'analisi dell'IA ci aiuta a porci domande decisive prima di entrare in classe:</p>
 <div class="rcif-list">
 <ul>
 <li>Quali prerequisiti dà per scontati questa consegna?</li>
@@ -833,7 +846,8 @@
 </ul>
 </div>
 <p>Spetta sempre al docente, con la sua conoscenza della classe reale, decidere quali di queste ipotesi siano fondate e quali modifiche sia opportuno apportare ai materiali.</p>
-<div class="note-box">🧭 <strong>Verso la pratica:</strong> una volta individuate le possibili difficoltà e stimati i bisogni della classe, il passaggio successivo consiste nel tradurre queste riflessioni in materiali concreti. Nella Parte 3 vedremo come costruire diversi livelli di supporto attraverso lo scaffolding e come utilizzare strumenti dedicati per la differenziazione dei testi.</div>
+<div class="note-box">🧭 <strong>Verso la pratica:</strong> una volta individuate le possibili difficoltà e stimati i bisogni della classe, il passaggio successivo consiste nel tradurre queste riflessioni in materiali concreti. 
+  Nella parte 3 vedremo come costruire diversi livelli di supporto attraverso lo <em>scaffolding</em> e come utilizzare strumenti dedicati per la differenziazione dei testi.</div>
 
 <div class="back-to-top-wrap">
 <a class="back-to-top" href="#page-top">↑ Torna all'inizio</a>
