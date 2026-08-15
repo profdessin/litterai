@@ -979,8 +979,8 @@ Attività 3: Consegna sintetica d'analisi da svolgere in autonomia.</pre></div>
 <table class="summary-table">
 <thead>
 <tr>
-<th>Approccio Esecutivo (Consultivo)</th>
-<th>Approccio Socratico (Formativo)</th>
+<th>Approccio esecutivo (consultivo)</th>
+<th>Approccio socratico (formativo)</th>
 </tr>
 </thead>
 <tbody>
@@ -1001,20 +1001,20 @@ Attività 3: Consegna sintetica d'analisi da svolgere in autonomia.</pre></div>
 </div>
 
 <h4 class="sub-phase-title">Che cosa rende "Socratico" un Tutor basato sull'IA?</h4>
-<p>Un tutor socratico non si limita a formulare domande a raggio libero. Riprendendo il concetto di scaffolding e fading introdotto nella Parte 3, l'IA applica un sostegno interattivo e adattivo:</p>
+<p>Un tutor socratico non si limita a formulare domande a raggio libero. Riprendendo il concetto di <em>scaffolding</em> e <em>fading</em> introdotto nella Parte 3, l'IA applica un sostegno interattivo e adattivo:</p>
 <div class="rcif-list">
 <ol>
 <li><strong>Individua il punto di blocco:</strong> chiede allo studente di spiegare cosa ha già svolto e dove incontra difficoltà.</li>
 <li><strong>Fornisce un supporto minimo:</strong> offre indizi o richiami alla regola proporzionati all'ostacolo, senza risolvere l'esercizio.</li>
-<li><strong>Gestisce l'errore in modo diagnostico:</strong> di fronte a un'inesattezza, non si limita a correggere, ma pone una domanda di richiamo sui prerequisiti (collegandosi al metodo dell'analisi dell'errore della Parte 2).</li>
-<li><strong>Adatta il supporto in tempo reale:</strong> aumenta temporaneamente la guida se lo studente è smarrito (scaffolding); riduce progressivamente gli aiuti non appena lo studente mostra maggiore sicurezza (fading).</li>
+<li><strong>Gestisce l'errore in modo diagnostico:</strong> di fronte a un'inesattezza, non si limita a correggere, ma pone una domanda di richiamo sui prerequisiti (collegandosi al metodo dell'analisi dell'errore della parte 2).</li>
+<li><strong>Adatta il supporto in tempo reale:</strong> aumenta temporaneamente la guida se lo studente è smarrito (<em>scaffolding</em>); riduce progressivamente gli aiuti non appena lo studente mostra maggiore sicurezza (<em>fading</em>).</li>
 </ol>
 </div>
 
 <h4 class="sub-phase-title">Applicazioni nelle discipline umanistiche</h4>
 <div class="rcif-list">
 <ul>
-<li><strong>Traduzione Latina:</strong> invece di tradurre il testo, il tutor pone domande mirate alla sintassi: "Qual è il verbo della proposizione principale? Quale elemento della frase ti aiuta a riconoscerne il soggetto?".</li>
+<li><strong>Traduzione latina:</strong> invece di tradurre il testo, il tutor pone domande mirate alla sintassi: "Qual è il verbo della proposizione principale? Quale elemento della frase ti aiuta a riconoscerne il soggetto?".</li>
 <li><strong>Analisi del testo poetico:</strong> per accompagnare la comprensione di una lirica, il tutor guida lo studente sui passaggi chiave: "Nota la posizione degli aggettivi nel secondo verso: come cambia il ritmo rispetto al primo?".</li>
 <li><strong>Costruzione dell'argomentazione:</strong> durante la preparazione di un testo argomentativo, l'IA interroga lo studente sulle tesi e sulle evidenze: "Hai enunciato la tua tesi; quali argomenti puoi citare per sostenerla di fronte a una possibile obiezione?".</li>
 <li><strong>Preparazione dell'esposizione orale:</strong> il tutor simula un colloquio guidato, chiedendo di precisare i concetti quando la risposta risulta generica: "Hai definito questo autore 'innovativo': quali aspetti formali della sua poetica giustificano questa definizione?".</li>
@@ -1022,11 +1022,33 @@ Attività 3: Consegna sintetica d'analisi da svolgere in autonomia.</pre></div>
 </div>
 
 <h3 class="phase-title">Modulo 4.2: Costruire il proprio Tutor</h3>
-<p>Per fare in modo che l'IA agisca come tutor e non fornisca immediatamente la soluzione, occorre impostare un'istruzione iniziale (prompt di configurazione o istruzioni personalizzate) che definisca il ruolo, le regole di comportamento e la progressione degli aiuti.</p>
+<p>Per fare in modo che l'IA agisca come <strong><tutor/strong> e non fornisca immediatamente la soluzione, occorre impostare un'istruzione iniziale (<strong>prompt di configurazione</strong> o istruzioni personalizzate) che definisca il ruolo, le regole di comportamento e la progressione degli aiuti.</p>
 <p>Il prompt può essere incollato direttamente all'inizio di una conversazione oppure inserito negli spazi dedicati alla configurazione degli assistenti presenti nelle varie piattaforme.</p>
 
 <p><strong>Il Prompt completo per il Tutor Socratico</strong></p>
-<blockquote class="prompt-box">Sei un Tutor Socratico esperto nell'insegnamento dell'Italiano e del Latino per la scuola secondaria di secondo grado. Il tuo obiettivo è guidare lo studente a comprendere i testi, analizzare le strutture linguistiche e costruire argomentazioni, fornendo il minimo supporto necessario per permettergli di proseguire in autonomia.<br><br>Segui rigorosamente queste regole di comportamento:<br><br>1. PROGRESSIONE DEGLI AIUTI: Non fornire subito la soluzione finale o la traduzione completa. Segui invece questo percorso graduale:<br>Domanda di analisi ──&gt; Indizio ──&gt; Richiamo della regola/prerequisito ──&gt; Esempio analogo.<br>Se lo studente rimane del tutto bloccato dopo più tentativi, fornisci una spiegazione breve o risolvi solo un piccolo passaggio di esempio, chiedendo subito dopo di applicare la stessa logica al resto dell'esercizio.<br><br>2. UNA DOMANDA O INDIZIO ALLA VOLTA: Mantieni gli interventi brevi per non sovraccaricare lo studente. Ogni tuo messaggio deve contenere una breve spiegazione o indizio seguito da UNA sola domanda chiara, attendendo la risposta prima di proseguire.<br><br>3. GESTIONE DEGLI ERRORI: Se lo studente sbaglia, non dire semplicemente "errato". Aiutalo a capire dove si è verificata l'interruzione ponendo una domanda diagnostica sui prerequisiti o mostrandogli dove il suo ragionamento porta a una contraddizione.<br><br>4. ADATTAMENTO DEL SUPPORTO (Scaffolding e Fading):<br>- Se lo studente risponde in modo corretto e sicuro: riduci le spiegazioni e proponi il passaggio successivo.<br>- Se risponde in modo corretto ma incerto: chiedigli brevemente di motivare la risposta.<br>- Se mostra forte difficoltà: aumenta temporaneamente gli aiuti fornendo una scelta tra due opzioni o un rimando teorico.<br><br>Inizia chiedendo allo studente quale argomento, frase di Latino o testo di Italiano desidera analizzare oggi.</blockquote>
+<blockquote class="prompt-box">Sei un Tutor Socratico esperto nell'insegnamento dell'italiano e del latino per la scuola secondaria di secondo grado. Il tuo obiettivo è guidare lo studente a comprendere i testi, analizzare le strutture 
+  linguistiche e costruire argomentazioni, fornendo il minimo supporto necessario per permettergli di proseguire in autonomia.
+  <br>
+  <br>Segui rigorosamente queste regole di comportamento:<br>
+  <br>1. PROGRESSIONE DEGLI AIUTI: 
+  <br>Non fornire subito la soluzione finale o la traduzione completa. Segui invece questo percorso graduale:
+  <br>Domanda di analisi ──&gt; Indizio ──&gt; Richiamo della regola/prerequisito ──&gt; Esempio analogo.<br>Se lo studente rimane del tutto bloccato dopo più tentativi, fornisci una spiegazione breve o risolvi solo un piccolo passaggio di esempio, 
+  chiedendo subito dopo di applicare la stessa logica al resto dell'esercizio.
+  <br>
+  <br>2. UNA DOMANDA O INDIZIO ALLA VOLTA: 
+  <br>Mantieni gli interventi brevi per non sovraccaricare lo studente. 
+  Ogni tuo messaggio deve contenere una breve spiegazione o indizio seguito da UNA sola domanda chiara, attendendo la risposta prima di proseguire.
+  <br>
+  <br>3. GESTIONE DEGLI ERRORI: 
+  <br>Se lo studente sbaglia, non dire semplicemente "errato". Aiutalo a capire dove si è verificata l'interruzione ponendo una domanda diagnostica sui prerequisiti o mostrandogli dove il suo ragionamento 
+  porta a una contraddizione.
+  <br>
+  <br>4. ADATTAMENTO DEL SUPPORTO (<em>scaffolding</em> e <em>fading</em>):
+  <br>- Se lo studente risponde in modo corretto e sicuro: riduci le spiegazioni e proponi il passaggio successivo.
+  <br>- Se risponde in modo corretto ma incerto: chiedigli brevemente di motivare la risposta.
+  <br>- Se mostra forte difficoltà: aumenta temporaneamente gli aiuti fornendo una scelta tra due opzioni o un rimando teorico.
+  <br>
+  <br>Inizia chiedendo allo studente quale argomento desidera analizzare oggi.</blockquote>
 
 <h4 class="sub-phase-title">Impostare l'istruzione nelle diverse piattaforme</h4>
 <div class="flow-box"><pre>┌─────────────────────────────────────────────────────────────────────────┐
@@ -1042,21 +1064,21 @@ Attività 3: Consegna sintetica d'analisi da svolgere in autonomia.</pre></div>
 │                          │ derlo tramite link.      │ caricate.         │
 └──────────────────────────┴──────────────────────────┴───────────────────┘</pre></div>
 
-<h4 class="sub-phase-title">Verificare e tarare il Tutor (Stress Test)</h4>
+<h4 class="sub-phase-title">Verificare e tarare il Tutor (stress-test)</h4>
 <p>Prima di proporre il tutor alla classe o di condividere il link di una chat configurata, il docente deve sempre svolgere un collaudo preventivo per assicurarsi che l'assistente mantenga la condotta desiderata:</p>
 <div class="rcif-list">
 <ul>
 <li><strong>Provocare il bot:</strong> inviare messaggi come "Non ho tempo, dammi direttamente la traduzione" o "Dimmi subito la risposta giusta". Verificare che l'IA non ceda immediatamente, ma rilanci con un piccolo indizio o una domanda di guida.</li>
 <li><strong>Verificare la gestione degli errori:</strong> fornire volutamente una risposta errata per osservare se il tutor individua il nodo concettuale o se si limita a correggere la frase.</li>
 <li><strong>Calibrare il linguaggio e la complessità:</strong> accertarsi che il registro e la difficoltà delle domande siano adeguati alla fascia d'età e al livello di preparazione della propria classe.</li>
-<li><strong>Verificare la dinamica di supporto (Fading):</strong> controllare che l'IA sappia diradare gli aiuti e lasciare maggiore iniziativa allo studente man mano che le risposte diventano corrette e sicure.</li>
+<li><strong>Verificare la dinamica di supporto (<em>fading</em>):</strong> controllare che l'IA sappia diradare gli aiuti e lasciare maggiore iniziativa allo studente man mano che le risposte diventano corrette e sicure.</li>
 </ul>
 </div>
 
 <div class="note-box">⚠️ <strong>Una nota essenziale sull'affidabilità dei contenuti:</strong> anche quando è accuratamente configurato con un'impostazione socratica, un modello di intelligenza artificiale può commettere errori: può richiamare una regola grammaticale in modo impreciso, interpretare male la risposta dello studente o confermare per errore un ragionamento errato. È fondamentale spiegare agli studenti che il tutor è uno strumento di supporto al ripasso e all'esercitazione, non un'autorità infallibile: devono mantenere un atteggiamento critico e fare sempre riferimento al manuale e al docente per qualsiasi dubbio sui contenuti.</div>
 
 <h4 class="sub-phase-title">Il ruolo centrale del docente</h4>
-<p>Il Tutor Socratico rappresenta una forma di scaffolding interattivo in tempo reale che aiuta a personalizzare i ritmi di lavoro della classe. Tuttavia, l'IA non agisce come un insegnante autonomo:</p>
+<p>Il Tutor Socratico rappresenta una forma di <em>scaffolding</em> interattivo in tempo reale che aiuta a personalizzare i ritmi di lavoro della classe. Tuttavia, l'IA non agisce come un insegnante autonomo:</p>
 <div class="rcif-list">
 <ul>
 <li>È il docente che definisce gli obiettivi di apprendimento e la struttura della lezione.</li>
