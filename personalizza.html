@@ -335,60 +335,101 @@
   }
 
   /* ---------- TABELLE COMPARATIVE ---------- */
-  .table-responsive {
-    overflow-x: auto;
-    margin: 20px 0 25px;
-  }
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  margin: 20px 0 25px;
+  -webkit-overflow-scrolling: touch;
+}
 
-  .summary-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 0.88rem;
-    text-align: left;
-  }
+.summary-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.84rem;
+  text-align: left;
+  table-layout: fixed;
+}
 
-  .summary-table th {
-    background-color: var(--color-primary);
-    color: #ffffff;
-    padding: 12px 14px;
-    font-weight: 600;
-    white-space: nowrap;
-  }
+.summary-table th {
+  background-color: var(--color-primary);
+  color: #ffffff;
+  padding: 10px 10px;
+  font-weight: 600;
+  line-height: 1.25;
+  white-space: normal;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}
 
-  .summary-table td {
-    padding: 12px 14px;
-    border-bottom: 1px solid var(--color-border);
-    vertical-align: top;
-  }
+.summary-table td {
+  padding: 10px 10px;
+  border-bottom: 1px solid var(--color-border);
+  vertical-align: top;
+  line-height: 1.4;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}
 
-  .summary-table tr:nth-child(even) {
-    background-color: var(--color-surface);
-  }
+.summary-table tr:nth-child(even) {
+  background-color: var(--color-surface);
+}
 
-  .summary-table td ul {
-    margin: 0;
-    padding-left: 16px;
-    font-size: 0.86rem;
-  }
-  .summary-table td ul li { margin-bottom: 4px; }
-  .summary-table td ul li:last-child { margin-bottom: 0; }
+/* Distribuzione delle colonne */
+.summary-table th:nth-child(1),
+.summary-table td:nth-child(1) {
+  width: 13%;
+}
 
-  .summary-table strong.tool-name {
-    color: var(--color-primary);
-  }
+.summary-table th:nth-child(2),
+.summary-table td:nth-child(2) {
+  width: 14%;
+}
 
-  .tag-category {
-    display: inline-block;
-    font-size: 0.72rem;
-    font-weight: 700;
-    letter-spacing: 0.4px;
-    text-transform: uppercase;
-    padding: 3px 9px;
-    border-radius: 20px;
-    background: var(--color-bg);
-    color: var(--color-secondary);
-    border: 1px solid var(--color-border);
-  }
+.summary-table th:nth-child(3),
+.summary-table td:nth-child(3) {
+  width: 21%;
+}
+
+.summary-table th:nth-child(4),
+.summary-table td:nth-child(4) {
+  width: 26%;
+}
+
+.summary-table th:nth-child(5),
+.summary-table td:nth-child(5) {
+  width: 26%;
+}
+
+.summary-table td ul {
+  margin: 0;
+  padding-left: 16px;
+  font-size: 0.84rem;
+}
+
+.summary-table td ul li {
+  margin-bottom: 4px;
+}
+
+.summary-table td ul li:last-child {
+  margin-bottom: 0;
+}
+
+.summary-table strong.tool-name {
+  color: var(--color-primary);
+}
+
+.tag-category {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  padding: 3px 9px;
+  border-radius: 20px;
+  background: var(--color-bg);
+  color: var(--color-secondary);
+  border: 1px solid var(--color-border);
+}
 
   /* ---------- TOOLTIP PER TERMINI TECNICI ---------- */
 .info-term {
