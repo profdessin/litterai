@@ -1101,7 +1101,7 @@ Attività 3: Consegna sintetica d'analisi da svolgere in autonomia.</pre></div>
   Quando si lavora con assistenti conversazionali generici, tuttavia, si incontra un limite strutturale significativo: il modello attinge dall'intero corpus di addestramento raccolto sul web, con il rischio di introdurre nozioni non previste dal programma o vere e proprie inesattezze concettuali.</p>
 
 <h3 class="phase-title">Modulo 5.1: Perché NotebookLM per la personalizzazione?</h3>
-<p><strong>NotebookLM</strong> risponde a questa esigenza introducendo un approccio basato sulle fonti (<em>source-grounded AI</em>).</p>
+<p><strong>NotebookLM</strong> risponde a questa esigenza introducendo un <strong>approccio basato sulle fonti</strong> (<em>source-grounded AI</em>).</p>
 
 <div class="table-responsive">
 <table class="summary-table">
@@ -1132,10 +1132,11 @@ Attività 3: Consegna sintetica d'analisi da svolgere in autonomia.</pre></div>
 <li><strong>Ambiente di lavoro focalizzato:</strong> limitare il campo d'azione dei materiali aiuta gli studenti a concentrarsi sui nuclei concettuali del percorso senza perdersi in ricerche indistinte sul web.</li>
 </ul>
 </div>
-<div class="note-box">⚠️ <strong>Avvertenza sull'affidabilità:</strong> l'ancoraggio alle fonti riduce sensibilmente il rischio di risposte estranee, ma non rende lo strumento infallibile. Un modello linguistico può comunque sintetizzare un passaggio in modo impreciso o interpretare male una frase complessa. Il perimetro delle fonti rende tuttavia la verifica e la correzione molto più semplici sia per il docente sia per lo studente.</div>
+<div class="note-box">⚠️ <strong>Avvertenza sull'affidabilità:</strong> l'ancoraggio alle fonti riduce sensibilmente il rischio di risposte estranee, ma non rende lo strumento infallibile. 
+  Un modello linguistico può comunque sintetizzare un passaggio in modo impreciso o interpretare male una frase complessa. Il perimetro delle fonti rende tuttavia la verifica e la correzione molto più semplici sia per il docente sia per lo studente.</div>
 
 <h3 class="phase-title">Modulo 5.2: Creare e configurare un "Taccuino di Studio"</h3>
-<p>Un Taccuino (Notebook) su NotebookLM è un ambiente digitale organizzato attorno a un tema circoscritto: un autore, un'unità didattica di Latino o Italiano, un modulo storiografico o una selezione di testi per il recupero.</p>
+<p>Un Taccuino (Notebook) su NotebookLM è un ambiente digitale organizzato attorno a un tema circoscritto: un autore, un'unità didattica di latino o italiano, un modulo storiografico o una selezione di testi per il recupero.</p>
 <p>Per evitare risposte generiche, la regola fondamentale è la chiarezza del perimetro: caricare un numero selezionato e coerente di documenti di alta qualità produce risultati didattici nettamente superiori rispetto all'inserimento indistinto di grandi quantità di file.</p>
 
 <h4 class="sub-phase-title">Il flusso di lavoro per il docente in 3 passaggi</h4>
@@ -1144,62 +1145,70 @@ Attività 3: Consegna sintetica d'analisi da svolgere in autonomia.</pre></div>
     Link, file Audio)          impostazione del ruolo)        esercitazioni)</pre></div>
 
 <p><strong>1. Selezione e caricamento dei materiali</strong></p>
-<p>Il docente crea un nuovo taccuino e inserisce i documenti di lavoro. NotebookLM supporta diversi formati: documenti PDF e file di testo (es. un'antologia di brani latini con glossario, schede di analisi del testo), file provenienti da Google Drive (Documenti, Presentazioni), testi incollati direttamente, indirizzi web e file audio.</p>
+<p>Il docente crea un <strong>nuovo taccuin</strong>o e inserisce i <strong>documenti di lavoro</strong>. NotebookLM supporta diversi formati: documenti PDF e file di testo (es. un'antologia di brani latini con glossario, schede di analisi del testo), file provenienti da Google Drive (Documenti, Presentazioni), testi incollati direttamente, indirizzi web e file audio.</p>
 
 <p><strong>2. Configurazione delle istruzioni di guida</strong></p>
-<p>Nell'interfaccia della chat e nelle impostazioni del taccuino è possibile inserire un'istruzione iniziale per orientare la modalità di risposta del sistema, raccordando così l'ambiente basato su fonti con la logica del Tutor Socratico vista nella Parte 4.</p>
-<blockquote class="prompt-box"><strong>Prompt di configurazione da inserire nella chat del Taccuino:</strong> "Sei un tutor di supporto allo studio per gli studenti di questo corso. Rispondi alle domande basandoti rigorosamente sui documenti presenti in questo taccuino. Quando spieghi un concetto o guidi l'analisi di un testo:<br>- Non fornire subito la risposta completa o la parafrasi finale, ma poni una domanda alla volta per guidare il ragionamento dello studente.<br>- Quando fornisci un indizio, indica espressamente a quale documento o sezione del taccuino far riferimento per ritrovare l'informazione.<br>- Se lo studente mostra difficoltà, fornisci un piccolo aiuto o un richiamo alla regola, poi chiedigli di applicarlo.<br>- Se lo studente pone una domanda su un argomento che NON è presente nei documenti caricati, dichiara chiaramente che le fonti disponibili non contengono tale informazione."</blockquote>
+<p>Nell'interfaccia della chat e nelle impostazioni del taccuino è possibile inserire un'<strong>istruzione iniziale</strong> per orientare la modalità di risposta del sistema, raccordando così l'ambiente basato su fonti con la logica del <strong>Tutor Socratico</strong> vista nella parte 4.</p>
+<blockquote class="prompt-box"><strong>Prompt di configurazione da inserire nella chat del Taccuino:</strong> 
+  <br>"Sei un tutor di supporto allo studio per gli studenti di questo corso. Rispondi alle domande basandoti rigorosamente sui documenti presenti in questo taccuino. Quando spieghi un concetto o guidi l'analisi di un testo:<br>- Non fornire subito la risposta completa o la parafrasi finale, ma poni una domanda alla volta per guidare il ragionamento dello studente.<br>- Quando fornisci un indizio, indica espressamente a quale documento o sezione del taccuino far riferimento per ritrovare l'informazione.<br>- Se lo studente mostra difficoltà, fornisci un piccolo aiuto o un richiamo alla regola, poi chiedigli di applicarlo.<br>- Se lo studente pone una domanda su un argomento che NON è presente nei documenti caricati, dichiara chiaramente che le fonti disponibili non contengono tale informazione."</blockquote>
 
 <p><strong>3. Personalizzazione dei percorsi di studio</strong></p>
-<p>Una volta predisposto il taccuino, il docente può utilizzarlo per accompagnare diverse modalità di lavoro in classe e a casa, variando non la natura degli obiettivi ma il livello di supporto e la profondità dell'analisi:</p>
+<p>Una volta predisposto il taccuino, il docente può utilizzarlo per accompagnare <strong>diverse modalità di lavoro</strong> in classe e a casa, variando non la natura degli obiettivi ma il <strong> s</strong>livello diupporto e la <strong>profondità dell'analisi</strong>:</p>
 <div class="rcif-list">
 <ul>
 <li><strong>Supporto allo studio autonomo:</strong> gli studenti interrogano il taccuino per ripassare, chiarire passaggi linguistici o verificare la comprensione dei testi del manuale.</li>
-<li><strong>Scaffolding e supporto guidato:</strong> per gli studenti che incontrano maggiori difficoltà, il taccuino agisce come una guida passo-passo che rimanda continuamente alle note grammaticali o al glossario integrato nelle fonti.</li>
+<li><strong><em>Scaffolding</em> e supporto guidato:</strong> per gli studenti che incontrano maggiori difficoltà, il taccuino agisce come una guida passo-passo che rimanda continuamente alle note grammaticali o al glossario integrato nelle fonti.</li>
 <li><strong>Estensione e approfondimento:</strong> gli studenti con competenze più avanzate possono porre quesiti complessi di confronto tra documenti diversi (ad esempio mettendo in relazione due testi storiografici o due brani poetici caricati nel medesimo ambiente).</li>
 </ul>
 </div>
 
 <h3 class="phase-title">Modulo 5.3: Generazione di materiali e supporti per lo studio</h3>
-<p>Oltre al dialogo in chat, NotebookLM integra strumenti di sintesi automatica che rielaborano le fonti caricate trasformandole in diversi formati didattici.</p>
+<p>Oltre al dialogo in chat, NotebookLM integra strumenti di <strong>sintesi automatica</strong> che rielaborano le <strong>fonti</strong> caricate trasformandole in diversi formati didattici.</p>
 
 <h4 class="sub-phase-title">Strumenti integrati di rielaborazione</h4>
 <div class="rcif-list">
 <ul>
 <li><strong>Guida allo studio e FAQ:</strong> genera automaticamente schede di sintesi, domande frequenti e glossari a partire dai documenti di lavoro, offrendo uno schema d'avvio per la strutturazione dei ripassi.</li>
 <li><strong>Piani di lavoro e Cronologie:</strong> estrae dai materiali sequenze temporali, schemi di concetti o tabelle di sintesi.</li>
+<li><strong>Mappe Mentali e Infografiche</strong>: ricava mappe concettuali (non sempre di buona qualità) e infografiche di buon livello.</li>
 <li><strong>Audio Overview (Panoramica Audio):</strong> elabora i testi caricati generando una discussione parlata tra due voci sintetiche che riassumono e commentano i temi principali presenti nel taccuino.</li>
+<li><strong>Flashcard e Quiz</strong>: ulteriori strumenti di ripasso delle fonti.</li>
+<li><strong>Presentazioni:</strong> elabora una presentazione di slide (anche a partire da un prompt) con buona qualità grafica e con possibilità di editing</li>
 </ul>
 </div>
 
+<div class="note-box">📌 <strong>Selezione delle fonti:</strong> uno degli aspetti più interessanti di NotebookLM è che si può chiedere al sistema di lavorare anche su una selezione delle fonti caricate (quindi ad es. anche fare 
+  un'infografica solo su una o due fonti).</div>
+
 <h4 class="sub-phase-title">L'Audio Overview nella progettazione didattica</h4>
-<p>L'utilizzo della panoramica audio non deve essere inteso come un semplice sostituto della lettura o un automatismo per specifiche categorie di studenti. Si tratta invece di una modalità alternativa e complementare di accesso ai contenuti, particolarmente utile per chi trae beneficio dall'ascolto o incontra affaticamento nella lettura prolungata di testi complessi.</p>
+<p>L'utilizzo della panoramica audio non deve essere inteso come un semplice sostituto della lettura o un automatismo per specifiche categorie di studenti. Si tratta invece di una <strong>modalità alternativa</strong> e complementare di <strong>accesso ai contenuti</strong>, particolarmente 
+  utile per chi trae beneficio dall'ascolto o incontra affaticamento nella lettura prolungata di testi complessi.</p>
 <p>Per evitare un ascolto passivo, la risorsa audio va integrata all'interno di una sequenza di ascolto attivo:</p>
 <div class="flow-box"><pre>┌─────────────────────────────────────────────────────────────────────────┐
 │                   SEQUENZA DI ASCOLTO ATTIVO                            │
 ├─────────────────────────────────────────────────────────────────────────┤
 │ 1. Ascolto guidato della panoramica audio (anche in Flipped Classroom). │
 │ 2. Annotazione individuale di 2-3 concetti chiave o dubbi emersi.       │
-│ 3. Riscontro sul testo: ricerca delle conferme all'interno delle fonti.│
-│ 4. Discussione e rielaborazione in classe guidata dal docente.         │
+│ 3. Riscontro sul testo: ricerca delle conferme all'interno delle fonti. │
+│ 4. Discussione e rielaborazione in classe guidata dal docente.          │
 └─────────────────────────────────────────────────────────────────────────┘</pre></div>
 
-<h4 class="sub-phase-title">La verifica del Taccuino (Stress Test)</h4>
-<p>Prima di condividere i materiali o utilizzare il taccuino con gli studenti, il docente deve svolgere una verifica di qualità operando cinque controlli fondamentali:</p>
-<div class="flow-box"><pre>[ ] 1. PERTINENZA: Le risposte rimangono ancorate al corpus di fonti caricato?
-[ ] 2. ACCURATEZZA: La sintesi dell'IA rispetta il significato originale del testo?
-[ ] 3. CITAZIONI: Le note numerate rimandano ai passaggi corretti dei documenti?
-[ ] 4. TENUTA SOCRATICA: La chat guida il ragionamento senza regalare la soluzione?
-[ ] 5. TEST DEL LIMITE: Ponendo una domanda ESTRANEA alle fonti, il sistema 
+<h4 class="sub-phase-title">La verifica del Taccuino (stress-test)</h4>
+<p>Prima di condividere i materiali o utilizzare il taccuino con gli studenti, il docente deve svolgere una verifica di qualità operando cinque <strong>controlli</strong> fondamentali:</p>
+<div class="flow-box"><pre>[ ] 1. PERTINENZA: le risposte rimangono ancorate al corpus di fonti caricato?
+[ ] 2. ACCURATEZZA: la sintesi dell'IA rispetta il significato originale del testo?
+[ ] 3. CITAZIONI: le note numerate rimandano ai passaggi corretti dei documenti?
+[ ] 4. TENUTA SOCRATICA: la chat guida il ragionamento senza regalare la soluzione?
+[ ] 5. TEST DEL LIMITE: ponendo una domanda ESTRANEA alle fonti, il sistema 
        dichiara correttamente di non possedere l'informazione?</pre></div>
-<div class="note-box">🎯 Particolarmente rivelatore è il <strong>Test del limite</strong> (punto 5): accertarsi che il taccuino sappia dire "Questa informazione non è presente nei materiali messi a disposizione dal docente" è il miglior modo per mostrare agli studenti come funziona il perimetro di un'IA basata sulle fonti.</div>
+<div class="note-box">🎯 Particolarmente rivelatore è il <strong>test del limite</strong> (punto 5): accertarsi che il taccuino sappia dire "Questa informazione non è presente nei materiali messi a disposizione dal docente" è il miglior modo per mostrare agli studenti come funziona il perimetro di un'IA basata sulle fonti.</div>
 
 <h4 class="sub-phase-title">Il ruolo centrale del docente nel percorso di personalizzazione</h4>
 <p>L'adozione di NotebookLM dimostra che la tecnologia non sostituisce la progettazione didattica, ma ne richiede una ancora più consapevole. Il sistema non sceglie le fonti, non definisce gli obiettivi d'apprendimento e non valuta i progressi:</p>
 <div class="rcif-list">
 <ul>
 <li>Il docente seleziona i testi e stabilisce i confini scientifici del lavoro.</li>
-<li>Il docente definisce la progressione degli aiuti (scaffolding) e ne pianifica il graduale azzeramento (fading).</li>
+<li>Il docente definisce la progressione degli aiuti (<em>scaffolding</em>) e ne pianifica il graduale azzeramento (<em>fading</em>).</li>
 <li>Il docente valida le sintesi e media la relazione educativa in aula.</li>
 </ul>
 </div>
