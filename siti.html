@@ -882,10 +882,12 @@
 <section class="section-block" id="parte2">
 <span class="section-tag-header">Parte 2 - Il codice</span>
 <h2 class="section-title">Il minimo di HTML, CSS e JavaScript che serve al docente</h2>
-<p>Abbiamo visto che HTML, CSS e JavaScript svolgono funzioni diverse. Ora facciamo un passo avanti: l'obiettivo non è imparare a scrivere questo codice da zero, ma riconoscere alcune strutture ricorrenti nel codice restituito dal chatbot, per intervenire su di esse e richiedere modifiche consapevoli. Non dovete rispondere alla domanda "Come si programma?", ma a "Come faccio a manipolare il codice che l'IA mi ha generato?"</p>
+<p>Abbiamo visto che <strong>HTML</strong>, <strong>CSS</strong> e <strong>JavaScript</strong> svolgono funzioni diverse. Ora facciamo un passo avanti: l'obiettivo non è imparare a scrivere questo codice da zero, ma <strong>riconoscere alcune strutture 
+  ricorrenti nel codice</strong> restituito dal chatbot, per intervenire su di esse e richiedere modifiche consapevoli. Non dovete rispondere alla domanda "Come si programma?", ma a "Come faccio a manipolare il codice che l'IA mi ha generato?"</p>
 
 <h3 class="phase-title">Modulo 2.1: HTML: riconoscere l'ossatura</h3>
-<p>Non dovete comprendere il codice generato dall'IA in ogni dettaglio, ma abituare l'occhio a riconoscere le forme che ricorrono più spesso. L'HTML utilizza dei marcatori (i <strong>tag</strong>) per ingabbiare i contenuti. I mattoni che incontrerete continuamente sono questi:</p>
+<p>Non dovete comprendere il codice generato dall'IA in ogni dettaglio, ma abituare l'occhio a riconoscere le forme che ricorrono più spesso. L'HTML utilizza dei marcatori (i <strong>tag</strong>) per ingabbiare i contenuti. 
+  I mattoni che incontrerete continuamente sono questi:</p>
 <div class="rcif-list">
 <ul>
 <li><code>&lt;h1&gt;Titolo principale&lt;/h1&gt;</code>: definisce un titolo.</li>
@@ -898,16 +900,18 @@
 </div>
 
 <h4 class="sub-phase-title">Tag di apertura e di chiusura</h4>
-<p>Quasi tutti gli elementi funzionano "a scatola": hanno un tag di apertura (<code>&lt;a&gt;</code>) e uno di chiusura con la barra obliqua (<code>&lt;/a&gt;</code>). Non serve conoscere tutte le regole dell'HTML, ma riconoscere questa dinamica per capire se un codice è monco. Se manca il tag di chiusura, ad esempio in <code>&lt;a href="lezione.html"&gt;Vai alla lezione</code>, la struttura risulta incompleta: il browser potrebbe interpretare tutto il testo successivo come un enorme link cliccabile.</p>
+<p>Quasi tutti gli elementi funzionano <strong><"a scatola"/strong>: hanno<strong> un tag di apertura</strong> (<code>&lt;a&gt;</code>) e <strong>uno di chiusura</strong> con la barra obliqua (<code>&lt;/a&gt;</code>). Non serve conoscere 
+  tutte le regole dell'HTML, ma riconoscere questa dinamica per capire se un <strong>codice</strong> è <strong>monco</strong>. Se manca il tag di chiusura, ad esempio in <code>&lt;a href="lezione.html"&gt;Vai alla lezione</code>, la struttura risulta incompleta: 
+  il browser potrebbe interpretare tutto il testo successivo come un enorme link cliccabile.</p>
 
 <h4 class="sub-phase-title">Identificare gli elementi: Classi e ID</h4>
 <p>Spesso, dentro i tag di apertura, troverete due parole chiave importanti: <code>class</code> e <code>id</code>. Servono a dare un "nome" a uno specifico elemento, per distinguerlo dagli altri:</p>
 <blockquote class="prompt-box"><code>&lt;div class="scheda" id="introduzione"&gt;<br>&nbsp;&nbsp;&lt;h2&gt;Giacomo Leopardi&lt;/h2&gt;<br>&lt;/div&gt;</code></blockquote>
-<p>Questa competenza è fondamentale quando dialogate con l'IA. Se conoscete l'etichetta di un elemento, potete essere precisi:</p>
+<p>Questa competenza è fondamentale quando dialogate con l'IA. Se conoscete l'<strong>etichetta di un elemento</strong>, potete essere precisi:</p>
 <div class="note-box">🎯 "Modifica solo la classe <code>.scheda</code> rendendo lo sfondo leggermente grigio e lasciando invariato tutto il resto del codice."</div>
 
 <h3 class="phase-title">Modulo 2.2: CSS: riconoscere l'abito</h3>
-<p>Nel codice CSS, le regole hanno un aspetto riconoscibile: indicano l'elemento da modificare e, tra parentesi graffe, l'elenco delle proprietà visive:</p>
+<p>Nel <strong>codice CSS</strong>, le <strong>regole</strong> hanno un aspetto riconoscibile: indicano l'elemento da modificare e, tra parentesi graffe, l'<strong>elenco delle proprietà visive</strong>:</p>
 <blockquote class="prompt-box"><code>h1 {<br>&nbsp;&nbsp;color: darkblue;<br>&nbsp;&nbsp;font-size: 32px;<br>}</code></blockquote>
 <p>Il docente non deve saper scrivere a memoria <code>font-size</code>, ma usare questa struttura per descrivere al chatbot cosa cambiare:</p>
 <div class="rcif-list">
